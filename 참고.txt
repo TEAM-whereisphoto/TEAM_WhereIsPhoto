@@ -1,0 +1,20 @@
+TEAM_WHEREISPHOTO
+    > Config
+        > brand
+        > LnF
+        > map
+        > user
+        
+        > static
+            > css
+                > app 
+                    > style.css
+                ...
+
+                > reset.css -> css 기본 스타일 모두 제거
+
+            > js
+            > fonts
+
+
+바깥에 빠져 있는 base.html 이용해서 각 app별로 templates 폴더 생성 후 만드시면 됩니다
