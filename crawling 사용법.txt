@@ -1,0 +1,5 @@
+1. 가상환경에 pip install을 통해 selenium, webdriver-manager, pandas 다운로드
+
+2. python crawling.py 를 통해 실행
+
+-> 
