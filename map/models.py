@@ -12,8 +12,7 @@ class Booth(models.Model):
     type = models.IntegerField()
     location = models.TextField()
     operationHour = models.TimeField()
-    brand = models.OneToOneField(Brand, on_delete=models.CASCADE)
-    
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
     
     def __str__(self):
