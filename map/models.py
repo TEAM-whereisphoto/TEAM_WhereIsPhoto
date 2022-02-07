@@ -9,11 +9,9 @@ from django.contrib.auth.models import User
 # 부스 이름, 부스 종류, 부스 주소, 부스 운영시간, 부스 브랜드
 class Booth(models.Model):
     name = models.CharField(max_length=100)
-    type = models.IntegerField()
     location = models.TextField()
-    operationHour = models.TimeField()
+    operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
     
     def __str__(self):
