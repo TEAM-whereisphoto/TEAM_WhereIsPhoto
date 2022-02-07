@@ -82,7 +82,7 @@ function showLocation(position) {
 // error발생 시 에러의 종류를 알려주는 함수.
 function errorHandler(error) {
     if(error.code == 1) {
-        alert("위치 엑세스가 거부되었습니다.");
+        alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
     } else if( err.code == 2) {
         alert("위치를 반환할 수 없습니다.");
     }
@@ -120,13 +120,13 @@ var callback = function(result, status) {
 };
 
 // 주소로 좌표를 검색합니다
-var boothList = document.getElementById('booth_list');
+var boothList = document.getElementById('accordionList');
 let total = boothList.childElementCount; // count todos    
 
     for (let i=0; i<total; i++) {
         
-        const element = boothList.children[i];
-        const address = element.children[1].innerHTML
+        const element = document.getElementById(`collapse-${i}`);
+        const address = element.children[0].children[0].children[0].innerHTML
         // console.log(typeof address)
         geocoder.addressSearch(address, callback);
 

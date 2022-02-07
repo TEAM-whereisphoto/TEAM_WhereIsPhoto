@@ -1,7 +1,24 @@
-#booth_list {
-    list-style-image: url("../../icons/pin_blue.png");
+/* div {
+    font-family: GmarketSansBold;
+} */
+/* css 적용되는지 확인용 */
+
+
+.accordion-button::after {
+    background-image: none !important;
 }
 
-#booth_list li::marker {
-    /* 아주 조금만 위치 내리고 싶은데 ㅠ*/
+.accordion-button:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: inherit !important;
+    background-color: inherit !important;
+    box-shadow: none !important;
+}
+
+.accordion-item {
+    border: 0 !important;
 }

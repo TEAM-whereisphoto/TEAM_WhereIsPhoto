@@ -8,7 +8,7 @@ from django.templatetags.static import static
 
 def mymap(request):
     booths = Booth.objects.all() 
-    ctx = {'booths':booths}
+    ctx = {'booths':booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
     return render(request, 'map/mymap.html', context=ctx)
 
 def review_list(request):
