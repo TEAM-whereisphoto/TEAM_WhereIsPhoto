@@ -4,7 +4,8 @@
     <div> TEST </div>
     <a href="{% url 'user:signup' %}">회원가입</a>
     {% if user.is_authenticated %}
-    <p>{{ user }}</p>  
+    <p>{{ user }}</p>
+    <a href="{% url 'user:change_password' %}">비밀번호 변경</a>
     <a href="{% url 'user:log_out' %}">로그아웃</a>
     {% else %}
     <a href="{% url 'user:login' %}">로그인</a>

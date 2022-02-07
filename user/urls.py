@@ -8,5 +8,6 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.log_out, name="log_out"),
     path("signup/", views.signup, name="signup"),
-    path('activate/<str:uidb64>/<str:token>/', views.activate, name="activate"),
+    path("change_password/", views.change_password, name='change_password'),
+
 ]
