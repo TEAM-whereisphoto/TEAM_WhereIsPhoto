@@ -155,6 +155,7 @@ MEDIA_URL = 'media/'
 
 AUTH_USER_MODEL = "user.User"
 
+#SMTP 부분입니다.
 EMAIL_HOST = 'smtp.gmail.com'
 # 메일을 호스트하는 서버
 EMAIL_PORT = '587'

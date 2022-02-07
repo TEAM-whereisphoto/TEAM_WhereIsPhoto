@@ -58,6 +58,7 @@ def signup(request):
         ctx = {'form':form}
         return render(request, template_name='user/signup.html', context=ctx)
 
+# 패스워드 변경
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages, auth
 
@@ -80,6 +81,16 @@ def change_password(request):
     return render(request, 'user/change_password.html')
   else:
     return render(request, 'user/change_password.html')
+
+def member_modify(request):
+    if request.method == "POST":
+        #id = request.user.id
+        #user = User.objects.get(pk=id)
+        user = request.user
+        user.username = request.POST["username"]
+        user.save()
+        return redirect('user:main')
+    return render(request, 'user/member_modify.html')
 
 # 장고 기본 로그인(조건 까다로움)
 # from django.contrib import messages
