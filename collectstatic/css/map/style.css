@@ -1,7 +1,0 @@
-#booth_list {
-    list-style-image: url("../../icons/pin_blue.png");
-}
-
-#booth_list li::marker {
-    /* 아주 조금만 위치 내리고 싶은데 ㅠ*/
-}

@@ -5,10 +5,10 @@ from django.templatetags.static import static
 
 
 # Create your views here.
+
 def mymap(request):
-    booths = Booth.objects.all()
-    src = static('icon/pin_yellow.png')
-    ctx = {'booths':booths, 'src':src}
+    booths = Booth.objects.all() 
+    ctx = {'booths':booths}
     return render(request, 'map/mymap.html', context=ctx)
 
 def review_list(request):
