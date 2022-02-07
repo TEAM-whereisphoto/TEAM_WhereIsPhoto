@@ -1,0 +1,26 @@
+crawling.py로 booth들 등록 먼저 해주세요!
+참고로 crawling.py 실행하기 전에 brand들 등록해줘야 합니다!
+brand 등록이 귀찮다면 crawling.py 92번째줄에 아래 코드 추가해서 같이 실행 ㄱㄱ
+```
+brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix"}
+
+# brand_dict에 있는거 등록, 나머지는 임의 값
+for key in brand_dict:
+    new = Brand(name = key, retake = 0, time = 0, remote = 0, price = 0, QR = 0)
+    new.save()
+```
+
+brand랑 booth들 다 잘 등록되었다는 전제 하에
+
+1. python manage.py runserver
+2. localhost:8000/map 접속
+    - 그냥 localhost:8000/은 main page로 쓸 예정
+    - 127.0.0.1:8000/은 안됩니다!
+    - 근데 이게 내 ip가 카카오dev측에 등록되어있어서 잘 뜨는건지,
+      아님 다른 사람들도 뜨는건지를 몰라서 혹시 안뜨면 알려주세요!
+3. 위치 차단 되어있으면 경고 문구 뜨고, 기본 위치(홍대쪽)으로 지도가 뜨고
+4. 위치 차단이 안되어있다면 본인 위치를 중심으로 지도가 뜹니다
+5. 등록된 booth 6xx개가 전부 맵에 표시가 될거라 pin들이 조금 늦게 뜰 수도 있어요
+6. 왼쪽 booth list도 일단 모든 부스가 출력됩니다... 아직 주변으로만 뜨게 필터링 못했어요ㅠ
+
+* 호옥시 크롤링에 문제가 생긴다면 booth_to_DB.py 참고해서 실행해주세요
