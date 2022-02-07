@@ -11,12 +11,11 @@
 </head>
 <body>
     <!-- 로그인 유무에 따른 nav 차이 -->
-    {% header content %}
-    {% endheader %}
+
 
     <!-- main block -->
-    {% block content %}
-    {% endblock %}
 
+<a href="{% url 'user:main' %}"><span>왜안보여</span></a>
+<a href="{% url 'user:login' %}"><p>로그인가라고</p></a>
 </body>
 </html>

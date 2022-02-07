@@ -2,7 +2,7 @@ from hashlib import blake2b
 from tkinter import CASCADE
 from django.db import models
 from brand.models import Brand
-from django.contrib.auth.models import User
+from user.models import User
 
 # Create your models here.
 

@@ -9,6 +9,7 @@ class LoginForm(forms.Form):
     def clean(self):
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
+        email = self.cleaned_data.get("email")
 
         try:
             user = User.objects.get(username=username)
@@ -22,4 +23,4 @@ class LoginForm(forms.Form):
 class SignupForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['username', 'password', 'email']

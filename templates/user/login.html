@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
 
 {% block content %}
 <form method="POST" action="">
@@ -6,5 +7,9 @@
     {{form.as_table}}
     <button>Login</button>
 </form>
-<!-- 소설 로그인 -->
+
+<a href="{% provider_login_url "google" %}">Google 로그인</a>
+<a href="{% provider_login_url "naver" %}">NAVER 로그인</a>
 {% endblock content %}
+
+
