@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=divice-width" />
-    <title>글 리스트</title>
-  </head>
-  <body>
+
+  {% extends 'base.html' %}
+
+{% block content %}
+
     {%for post in posts%}
     {%if post%}
     <a href="/map/{{review.id}}" target="'_self"><h1>{{ review.booth }}</h1></a> <br />
@@ -16,5 +13,4 @@
 
     <a href="review">리뷰 작성 </a> <br />
 
-  </body>
-</html>
+{% endblock %}

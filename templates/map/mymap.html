@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- kakao api 사용을 위해 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e596b509c521df7eafd1be72b54054&libraries=services,clusterer,drawing"></script>
+
+<br />
+<div class="container">
+
+    <div class="row" id="filter-container">
+        <!-- 검색란 & 필터 부분 넣는 공간 -->
+        <br />
+    </div>
+
+    <div class="row">
+        <!-- 리스트 & 지도 -->
+        <div id="list-container" class="col-4">
+            <div class="accordion" id="accordionList">
+
+                {% for booth in booths %}
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-{{ forloop.counter0 }}">
+                        <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter0 }}" aria-expanded="true" aria-controls="collapse-{{ forloop.counter0 }}">
+                            <svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z"/>
+                                <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(31,82,255,1)"/>
+                            </svg>{{ booth.name }}
+                        </button>
+                    </h2>
+
+                    <div id="collapse-{{ forloop.counter0 }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ forloop.counter0 }}" data-bs-parent="#accordionList">
+                        <div class="accordion-body">
+                            <div class="ps-2">
+                                <p style="margin:0">{{ booth.location }}</p>
+                                {% if booth.operationHour != 'nan' %}
+                                <p style="margin: 16px 0 0 0">운영시간: {{ booth.operationHour }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% endfor %}
+
+            </div>
+        </div>
+        
+        
+        <div id="map-container"  class="col-8">
+            <div id="map" style="width:800px; height: 600px;"></div>
+            <p id="result"></p>
+        </div>
+        
+    </div>
+</div>
+    
+{% endblock %}

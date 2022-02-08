@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Review
 from .forms import ReviewForm
+from .models import *
+from django.templatetags.static import static
 
+
+# Create your views here.
+
+def mymap(request):
+    booths = Booth.objects.all() 
+    ctx = {'booths':booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
+    return render(request, 'map/mymap.html', context=ctx)
 
 def review_list(request):
     reviews = Review.objects.all()
