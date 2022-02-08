@@ -9,7 +9,7 @@ class Brand(models.Model):
     retake = models.IntegerField()
     time = models.CharField(max_length=50)
     remote = models.IntegerField()
-    price = models.IntegerField()
+    price = models.TextField()
     QR = models.IntegerField()
 
     def __str__(self):
