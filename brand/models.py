@@ -10,6 +10,8 @@ class Brand(models.Model):
     remote = models.IntegerField()
     QR = models.IntegerField()
     etc = models.TextField(null=True)
+    # 촬영 시간
+    time = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -26,8 +28,9 @@ class Frame(models.Model):
     take = models.IntegerField()
     # 2장 기준
     price = models.IntegerField()
-    # 촬영 시간
-    time = models.CharField(max_length=50)
+    # 기타 특징
+    etc = models.CharField(max_length=200, null=True)
+
 
     def __str__(self):
         return self.name

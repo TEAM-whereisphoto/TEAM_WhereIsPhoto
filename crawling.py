@@ -10,7 +10,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 from map.models import Booth
-from brand.models import Brand
+from brand.models import Brand, Frame
 # 드라이버 세팅
 def set_chrome_driver():
     chrome_options = webdriver.ChromeOptions()
@@ -124,40 +124,136 @@ def brand():
             "retake": 1,
             "remote": 1,
             "QR": 1,
+            "time": 10
         },
         "포토이즘박스": {
             "retake": 0,
             "remote": 1,
             "QR": 1,
+            "time": 10
         },
         "하루필름": {
             "retake": 0,
             "remote": 1,
             "QR": 1,
+            "time": 15
         },
         "포토시그니처": {
             "retake": 1,
             "remote": 1,
             "QR": 1,
+            "time": 10
         },
         "셀픽스":{
             "retake": 1,
             "remote": 1,
             "QR": 1,
+            "time": 20
         }
     }
 
     for key in brand_dict.keys():
         name = brand_dict[key]
-        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"])
+        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"], time = name["time"])
         new.save()
+
+# frame 등록
+def frame():
+    frame_dict = {
+        "frame1" : {
+            "frame": 4,
+            "take": 4,
+            "price": 4000,
+            "etc": "",
+            "brand": ["인생네컷", "포토시그니처"]
+        },
+        "frame2": {
+            "frame": 4,
+            "take": 6,
+            "price": 4000,
+            "etc": "",
+            "brand": ["하루필름", "셀픽스"]
+        },
+        "frame3": {
+            "frame": 4,
+            "take": 8,
+            "price": 4000,
+            "etc": "",
+            "brand": ["포토이즘박스"]
+        },
+        "frame4": {
+            "frame": 4,
+            "take": 4,
+            "price": 5000,
+            "etc": "디즈니(인생네컷), 특수프레임(포토시그니처)",
+            "brand": ["인생네컷", "포토시그니처"]
+        },
+        "frame5": {
+            "frame": 6,
+            "take": 10,
+            "price": 4000,
+            "etc": "",
+            "brand": ["포토시그니처"]
+        },
+        "frame6": {
+            "frame": 6,
+            "take": 10,
+            "price": 5000,
+            "etc": "특수프레임(포토시그니처)",
+            "brand": ["포토이즘박스", "하루필름", "포토시그니처"]
+        },
+        "frame7": {
+            "frame": 4,
+            "take": 10,
+            "price": 5000,
+            "etc": "4cut profile(하루필름)",
+            "brand": ["하루필름"]
+
+        },
+        "frame8": {
+            "frame": 8,
+            "take": 6,
+            "price": 6000,
+            "etc": "증명사진(하루필름)",
+            "brand": ["하루필름"]
+        },
+        "frame9": {
+            "frame": 6,
+            "take": 6,
+            "price": 4000,
+            "etc": "6장 중 3장 선택(셀픽스)",
+            "brand": ["셀픽스"]
+        },
+        "frame10": {
+            "frame": 1,
+            "take": 6,
+            "price": 5000,
+            "etc": "전신",
+            "brand": ["셀픽스"]
+        },
+        "frame11": {
+            "frame": 4,
+            "take": 6,
+            "price": 5000,
+            "etc": "전신",
+            "brand": ["셀픽스"]
+        },
+    }
+
+    for key in frame_dict.keys():
+        name = frame_dict[key]
+        
+        for brandName in name["brand"]:
+            brand = Brand.objects.get(name = brandName)  
+            new = Frame(name = key, frame = name["frame"], take = name["take"], price = name["price"], etc = name["etc"], brand = brand)
+            new.save()
 
 
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
-
 brand()
+frame()
 main()
 
 driver.close()
