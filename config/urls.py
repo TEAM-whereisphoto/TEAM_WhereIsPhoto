@@ -23,5 +23,7 @@ urlpatterns = [
     path('', include('map.urls')),
     path('brand/', include('brand.urls')),
     path('user/', include('user.urls')),
-    path('LnF/', include('LnF.urls'))
+    path('LnF/', include('LnF.urls')),
+    path('accounts/', include('allauth.urls')),
+    
 ]

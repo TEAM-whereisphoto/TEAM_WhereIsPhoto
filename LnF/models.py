@@ -1,6 +1,6 @@
 from django.db import models
 from map.models import Booth
-from django.contrib.auth.models import User
+from user.models import User
 
 # Create your models here.
 
@@ -11,7 +11,7 @@ TAG_CHOICE = (
 )
 
 class LnF_Post(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     
     title = models.CharField(max_length=100)
@@ -21,7 +21,7 @@ class LnF_Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(LnF_Post, on_delete=models.CASCADE)
     parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     content = models.TextField()
