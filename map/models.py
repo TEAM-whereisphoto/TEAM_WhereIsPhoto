@@ -15,7 +15,7 @@ class Booth(models.Model):
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
     
     def __str__(self):
-        return self.name
+        return self.name + "("+str(self.brand)+")"
 
 # user - liked - booth 다 대 다 연결
 class Liked(models.Model):

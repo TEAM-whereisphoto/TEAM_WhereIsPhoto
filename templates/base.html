@@ -6,13 +6,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/map/style.css' %}"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="{% static 'js/map/map.js' %}"></script>
+
+    {% block head %}
+    {% endblock %}
+
     <title>example</title>
 </head>
 <body>
     <!-- 로그인 유무에 따른 nav 차이 -->
-    {% header content %}
-    {% endheader %}
+    
+    {% block header %}
+    {% endblock %}
 
     <!-- main block -->
     {% block content %}
