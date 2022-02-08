@@ -98,7 +98,7 @@ function errorHandler(error) {
 var geocoder = new kakao.maps.services.Geocoder();
 
 var callback = function(result, status) {
-
+    console.log(status)
     // 정상적으로 검색이 완료됐으면 
     if (status === kakao.maps.services.Status.OK) {
 
@@ -126,8 +126,12 @@ let total = boothList.childElementCount; // count todos
     for (let i=0; i<total; i++) {
         
         const element = document.getElementById(`mapdetail-${i}`);
-        const address = element.children[1].innerHTML
+        let address = element.children[1].innerHTML
         // console.log(typeof address)
+        if (address == "인천 미추홀구 숙골로87번길 5 5블럭 1층 40호") {
+            console.log("yes")
+            address = "인천 미추홀구 숙골로87번길 5";
+        }
         geocoder.addressSearch(address, callback);
 
     }
