@@ -19,9 +19,9 @@
     box-shadow: none !important;
 }
 
-.accordion-item {
+/* .accordion-item {
     border: 0 !important;
-}
+} */
 
 .btn {
     border-radius: 1rem !important;
@@ -36,4 +36,8 @@
 .btn-outline-ratingNlike {
     color: #D6D6F1 !important;
     border-color: #D6D6F1 !important;
+}
+
+.accordion-header:hover {
+    background-color: #D6D6F1 !important;
 }
