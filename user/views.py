@@ -92,6 +92,7 @@ def member_modify(request):
         return redirect('user:main')
     return render(request, 'user/member_modify.html')
 
+
 # 장고 기본 로그인(조건 까다로움)
 # from django.contrib import messages
 # from django.contrib.auth import update_session_auth_hash
