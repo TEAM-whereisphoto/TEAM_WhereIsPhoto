@@ -97,41 +97,111 @@ function errorHandler(error) {
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
 
-var callback = function(result, status) {
-    console.log(status)
-    // 정상적으로 검색이 완료됐으면 
-    if (status === kakao.maps.services.Status.OK) {
-
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords,
-            image: markerImage
-        });
-        marker.setMap(map);
-
-    }
-    else {
-        console.log("안돼?")
-        console.log(result)
-    }
-};
 
 // 주소로 좌표를 검색합니다
 var boothList = document.getElementById('accordionList');
 let total = boothList.childElementCount; // count todos    
+// var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
+
+async function for_pin(total){
     for (let i=0; i<total; i++) {
-        
-        const element = document.getElementById(`mapdetail-${i}`);
-        let address = element.children[1].innerHTML
-        // console.log(typeof address)
-        if (address == "인천 미추홀구 숙골로87번길 5 5블럭 1층 40호") {
-            console.log("yes")
-            address = "인천 미추홀구 숙골로87번길 5";
-        }
-        geocoder.addressSearch(address, callback);
-
+        var pin = await pinnn(i);
     }
+}
+
+for_pin(total);
+
+function pinnn(i) {
+  
+    const element = document.getElementById(`mapdetail-${i}`);
+
+    let address = element.children[1].innerHTML
+    // console.log(typeof address)
+    if (address == "인천 미추홀구 숙골로87번길 5 5블럭 1층 40호") {
+        // console.log("yes")
+        address = "인천 미추홀구 숙골로87번길 5";
+    }
+
+    const name_ele = document.getElementById(`heading-${i}`);
+    const name = name_ele.children[0].dataset.name
+    // console.log(name)
+    // console.log(typeof name)
+    
+    var content = '<div style="padding:2px;z-index:1;font-size:8px; width:auto;">' + name + '</div>';
+
+    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+    infowindow.setContent(content);
+
+    geocoder.addressSearch(address, function(result, status) {
+        console.log(status)
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+    
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+    
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords,
+                image: markerImage
+            });
+            marker.setMap(map);
+            
+            infowindow.setPosition(coords);
+
+            (function(marker, infowindow) {
+                // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                    infowindow.open(map, marker);
+                });
+        
+                // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infowindow.close();
+                });
+            })(marker, infowindow);
+
+            // infowindow.open(map, marker);
+            
+            // (function(marker, name) { // 파라미터
+            //     kakao.maps.event.addListener(marker, 'mouseover', function() {
+            //         displayInfowindow(marker, name);
+            //     });
+        
+            //     kakao.maps.event.addListener(marker, 'mouseout', function() {
+            //         infowindow.close();
+            //     });
+        
+            //     // itemEl.onmouseover =  function () {
+            //     //     displayInfowindow(marker, name);
+            //     // };
+        
+            //     // itemEl.onmouseout =  function () {
+            //     //     infowindow.close();
+            //     // };
+            // })(marker, name); // 실제 넘기는거
+    
+    
+        }
+        else {
+            console.log("안돼?")
+            console.log(result)
+        }
+    });
+
+     // marker 위에 infowindow 표시하기
+    return i;
+
+}
+
+// 인포윈도우에 장소명을 표시합니다
+function displayInfowindow(marker, name) {
+    var content = '<div style="padding:5px;z-index:1;">' + name + '</div>';
+
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+// mouse hover event
+
