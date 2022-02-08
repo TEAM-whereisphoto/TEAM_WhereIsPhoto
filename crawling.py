@@ -91,6 +91,12 @@ def main():
     brand_list = ["인생네컷", "포토이즘", "포토시그니처", "셀픽스"]
 
     brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix"}
+
+    # brand_dict에 있는거 등록, 나머지는 임의 값
+    for key in brand_dict:
+        new = Brand(name=key, retake=0, time=0, remote=0, price=0, QR=0)
+        new.save()
+
     logic_search = "search(brand)"
     logic_crawling = "globals()['{}_dict'.format(eng)] = crawling(brand)"
 

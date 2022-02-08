@@ -15,6 +15,7 @@ class Booth(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
 
+
     def __str__(self):
         return self.name + "("+str(self.brand)+")"
 
