@@ -1,0 +1,16 @@
+
+  {% extends 'base.html' %}
+
+{% block content %}
+
+    {%for post in posts%}
+    {%if post%}
+    <a href="/map/{{review.id}}" target="'_self"><h1>{{ review.booth }}</h1></a> <br />
+    {% endif %}
+    <br />
+    <h4>별점 : {{review.rate}}</h4>
+    {%endfor%}
+
+    <a href="review">리뷰 작성 </a> <br />
+
+{% endblock %}

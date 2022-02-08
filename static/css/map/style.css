@@ -1,0 +1,24 @@
+/* div {
+    font-family: GmarketSansBold;
+} */
+/* css 적용되는지 확인용 */
+
+
+.accordion-button::after {
+    background-image: none !important;
+}
+
+.accordion-button:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: inherit !important;
+    background-color: inherit !important;
+    box-shadow: none !important;
+}
+
+.accordion-item {
+    border: 0 !important;
+}

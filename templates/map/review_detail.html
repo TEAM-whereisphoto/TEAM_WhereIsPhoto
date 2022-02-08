@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>리뷰 상세</title>
+  </head>
+
+  <body>
+    <h1>{{ review.booth }}</h1>
+
+    <div>
+      <h4>{{ review.booth }}</h4>
+      <h4>{{ review.user }}</h4>
+      <h4>{{ review.title }}</h4>
+      <h4>{{ review.date }}</h4>
+      <h4>{{ review.img }}</h4>
+      <h4> {{ review.rate }}</h4>
+    </div>
+
+    <a href="{% url 'reivews:list' %}">reviews</a> <br />
+    <a href="{% url 'reviews:update' reviews.id %}"> 수정 </a> <br/>
+    <a href="{% url 'reviews:delete' reviews.id %}"> 삭제 </a> <br/>
+  </body>
+</html>
