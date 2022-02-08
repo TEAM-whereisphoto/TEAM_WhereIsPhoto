@@ -14,7 +14,7 @@ class Booth(models.Model):
     operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
-
+    iron =models.IntegerField(default=0)
 
     def __str__(self):
         return self.name + "("+str(self.brand)+")"

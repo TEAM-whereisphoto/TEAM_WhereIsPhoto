@@ -88,9 +88,7 @@ def crawling(brand):
 
 
 def main():
-    brand_list = ["인생네컷", "포토이즘", "포토시그니처", "셀픽스"]
-
-    brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix"}
+    brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
 
     # brand_dict에 있는거 등록, 나머지는 임의 값
     for key in brand_dict:
@@ -106,7 +104,7 @@ def main():
 
 # {eng_name} = {boothname: {location: , operation_hour: , brand: }}
 
-    brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict]
+    brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict, harufilm_dict]
     for dict in brand_dict_list:
         for key, value in dict.items():
             brand = Brand.objects.get(name = value['brand'])  
