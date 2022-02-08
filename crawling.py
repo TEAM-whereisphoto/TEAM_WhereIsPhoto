@@ -63,18 +63,23 @@ def crawling(brand):
                 driver.find_element(By.ID, "info.search.place.more").click()
                 idx += 1
 
-        # next btn
-        elif idx % 5 == 0:
-            booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-            store_booth(booths_list, brand, brand_dict)
-            driver.find_element(By.ID, "info.search.page.next").click()
-            idx += 1
-
         # 종료 조건 -> 다음 번호에 hidden이라는 class 있으면 종료
         elif "HIDDEN" in driver.find_element(By.ID, "info.search.page.no" + str(idx % 5 + 1)).get_attribute("class"):
             booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
             store_booth(booths_list, brand, brand_dict)
             Flag = False
+
+        # next btn
+        elif idx % 5 == 0:
+            if "disabled" in driver.find_element(By.ID, "info.search.page.next").get_attribute("class"):
+                booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
+                store_booth(booths_list, brand, brand_dict)
+                Flag = False
+            else:
+                booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
+                store_booth(booths_list, brand, brand_dict)
+                driver.find_element(By.ID, "info.search.page.next").click()
+                idx += 1
 
         else:
             booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
@@ -88,13 +93,8 @@ def crawling(brand):
 
 
 def main():
-    brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
-
-    # brand_dict에 있는거 등록, 나머지는 임의 값
-    for key in brand_dict:
-        new = Brand(name=key, retake=0, time=0, remote=0, price=0, QR=0)
-        new.save()
-
+    brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
+    
     logic_search = "search(brand)"
     logic_crawling = "globals()['{}_dict'.format(eng)] = crawling(brand)"
 
@@ -117,10 +117,49 @@ def main():
 
 
 
+# brand 등록
+def brand():
+    brand_dict = {
+        "인생네컷": {
+            "retake": 1,
+            "remote": 1,
+            "QR": 1,
+        },
+        "포토이즘박스": {
+            "retake": 0,
+            "remote": 1,
+            "QR": 1,
+        },
+        "하루필름": {
+            "retake": 0,
+            "remote": 1,
+            "QR": 1,
+        },
+        "포토시그니처": {
+            "retake": 1,
+            "remote": 1,
+            "QR": 1,
+        },
+        "셀픽스":{
+            "retake": 1,
+            "remote": 1,
+            "QR": 1,
+        }
+    }
+
+    for key in brand_dict.keys():
+        name = brand_dict[key]
+        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"])
+        new.save()
+
+
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
+
+brand()
 main()
+
 driver.close()
 
 
