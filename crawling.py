@@ -88,7 +88,6 @@ def crawling(brand):
 
 
 def main():
-    brand_list = ["인생네컷", "포토이즘", "포토시그니처", "셀픽스"]
 
     brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix"}
 

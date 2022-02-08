@@ -125,8 +125,8 @@ let total = boothList.childElementCount; // count todos
 
     for (let i=0; i<total; i++) {
         
-        const element = document.getElementById(`collapse-${i}`);
-        const address = element.children[0].children[0].children[0].innerHTML
+        const element = document.getElementById(`mapdetail-${i}`);
+        const address = element.children[1].innerHTML
         // console.log(typeof address)
         geocoder.addressSearch(address, callback);
 
