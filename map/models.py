@@ -15,6 +15,10 @@ class Booth(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
 
+    # street = models.IntegerField(default=0) # 길거리인지(0), 매장인지(1)
+    deco = models.IntegerField(default=0) # 소품 (없 0 있 1)
+    iron = models.IntegerField(default=0) # 고데기 (없 0 있 1)
+    boxnum = models.IntegerField(default=0) # 부스 갯수 (갯수마다)
 
     def __str__(self):
         return self.name + "("+str(self.brand)+")"
