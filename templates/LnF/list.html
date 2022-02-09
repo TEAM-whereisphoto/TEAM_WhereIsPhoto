@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 <h1>LNF List</h1>
     
@@ -15,17 +16,31 @@
 
 
     <!-- filter -->
-    <div>
-
-    </div>
-    <!-- post list -->
+    <section>
+        <form action="" method="get">
+            {% for brand in brands %}
+            <input type="checkbox" name="query" value="{{brand.name}}">{{brand.name}}
+            {% endfor%}
+            <br>
+            <input type="checkbox" name="tag" type="button" value="분실">분실
+            <input type="checkbox" name="tag" type="button" value="보관">보관
+            <input type="checkbox" name="tag" type="button" value="기타">기타
+            <input type="submit" value="필터">
+        </form>
+    </section>
+    <br>
     <section>
         {% for post in posts %}
             <div>
                 부스명: {{post.booth.name}} <br>
                 작성자: {{post.user.username}}<br>
     
-                작성시간: {{post.time}}
+                {% if post.timeString == False %}
+                작성시간: {{post.time|date:'m월 d일'}}
+                {% else %}
+                작성시간: {{post.time}} <br>
+                작성시간: {{post.timeString}}
+                {% endif %}
                 <br>
                 태그: {{post.tag}}
                 <br>
