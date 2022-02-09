@@ -14,6 +14,7 @@ class Booth(models.Model):
     operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
+    iron =models.IntegerField(default=0)
 
     # street = models.IntegerField(default=0) # 길거리인지(0), 매장인지(1)
     deco = models.IntegerField(default=0) # 소품 (없 0 있 1)
