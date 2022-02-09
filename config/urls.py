@@ -27,3 +27,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     
 ]
+#set image urls
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

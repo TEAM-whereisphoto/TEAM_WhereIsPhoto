@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>LNF List</h1>
+
+    <!-- post list -->
+    <section>
+        {% for post in posts %}
+            <div>
+                부스명: {{post.booth.name}} <br>
+                작성자: {{post.user.username}}<br>
+    
+                작성시간: {{post.time}}
+                <br>
+                태그: {{post.tag}}
+                <br>
+                내용: {{post.content}}
+                <br>
+                {% if post.img %}
+                    <img src="{{ post.img.url }}" alt="" width="auto"> 
+                {% endif %}
+
+                <br> <br>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}
