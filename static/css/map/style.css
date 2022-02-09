@@ -41,3 +41,8 @@
 .accordion-header:hover {
     background-color: #D6D6F1 !important;
 }
+
+.accordion-button {
+    background-color: inherit !important;
+    transition: none !important;
+}

@@ -128,7 +128,7 @@ function pinnn(i) {
     // console.log(name)
     // console.log(typeof name)
     
-    var content = '<div style="padding:2px;z-index:1;font-size:8px; width:auto;">' + name + '</div>';
+    var content = '<div style="padding:2px;z-index:1;font-size:8px; text-align: center!important;">' + name + '</div>';
 
     var infowindow = new kakao.maps.InfoWindow({zIndex:1});
     infowindow.setContent(content);
@@ -160,6 +160,15 @@ function pinnn(i) {
                 kakao.maps.event.addListener(marker, 'mouseout', function() {
                     infowindow.close();
                 });
+
+                name_ele.onmouseover =  function () {
+                    infowindow.open(map, marker);
+                };
+
+                name_ele.onmouseout =  function () {
+                    infowindow.close();
+                };
+                console.log("set hover func");
             })(marker, infowindow);
 
             // infowindow.open(map, marker);
@@ -173,11 +182,11 @@ function pinnn(i) {
             //         infowindow.close();
             //     });
         
-            //     // itemEl.onmouseover =  function () {
+            //     // name_ele.onmouseover =  function () {
             //     //     displayInfowindow(marker, name);
             //     // };
         
-            //     // itemEl.onmouseout =  function () {
+            //     // name_ele.onmouseout =  function () {
             //     //     infowindow.close();
             //     // };
             // })(marker, name); // 실제 넘기는거
