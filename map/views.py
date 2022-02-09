@@ -1,8 +1,9 @@
+from calendar import c
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import *
 from django.templatetags.static import static
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -52,3 +53,9 @@ def review_delete(request, pk):
     review = get_object_or_404(Review, id=pk)
     review.delete()
     return redirect('reviews:list')
+
+def search(request):
+    search = request.GET.get('search','')
+    boothlist = Booth.objects.filter(name__contains=search)
+    ctx = {'booths':boothlist}
+    return render(request, 'map/mymap.html', context=ctx)
