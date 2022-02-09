@@ -2,7 +2,22 @@
 
 {% block content %}
 <h1>LNF List</h1>
+    
+    <!-- search -->
+    <section>
+        search:
+        <form action="" method="get">
+            <input type="text" name="query" value="{{query}}">
+            <input type="submit" value="검색">
+        </form>
+        <a href="{% url 'LnF:list' %}">리셋</a>
+    </section>
 
+
+    <!-- filter -->
+    <div>
+
+    </div>
     <!-- post list -->
     <section>
         {% for post in posts %}
