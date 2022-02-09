@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
 
+from random import randint
+
 # Create your views here.
 def main(request):
     return render(request, "user/main.html")
@@ -92,6 +94,19 @@ def member_modify(request):
         return redirect('user:main')
     return render(request, 'user/member_modify.html')
 
+def member_del(request):
+    if request.method == "POST":
+        user = request.user
+        pw_del = request.POST["pw_del"]
+        if check_password(pw_del, user.password):
+            random_number = randint(1000, 10000)
+            user.username = "탈퇴한 사용자"+str(random_number)
+            user.password = randint(1000000000, 10000000000)
+            user.save()
+            logout(request)
+            # user.delete()
+            return redirect('/')
+    return render(request, 'user/member_del.html')
 # 장고 기본 로그인(조건 까다로움)
 # from django.contrib import messages
 # from django.contrib.auth import update_session_auth_hash
