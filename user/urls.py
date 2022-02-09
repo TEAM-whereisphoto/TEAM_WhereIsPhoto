@@ -1,6 +1,10 @@
 from django.urls import path
 from . import views
 
+# 비번 초기화
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
+
 app_name = "user"
 
 urlpatterns = [
@@ -10,4 +14,6 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("change_password/", views.change_password, name='change_password'),
     path('member_modify/', views.member_modify, name='member_modify'),
+
+    path('member_del/', views.member_del, name='member_del'),
 ]
