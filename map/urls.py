@@ -14,6 +14,6 @@ urlpatterns = [
 
     # path('', view.mainpage) # 메인페이지 view
     path('map/', views.mymap, name="mymap"),
-
+    path('search/', views.search, name="search"),
     path('', view=views.review_list, name='list'),  # 리뷰 리스트 페이지
 ]

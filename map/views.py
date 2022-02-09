@@ -1,11 +1,12 @@
+from calendar import c
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import *
 from django.templatetags.static import static
+from django.db.models import Q
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
 
 # Create your views here.
 
@@ -98,3 +99,9 @@ def like_ajax(request):
     return JsonResponse({'id': post_id, 'k': k, 'status':status})
     
 '''
+
+def search(request):
+    search = request.GET.get('search','')
+    boothlist = Booth.objects.filter(name__contains=search)
+    ctx = {'booths':boothlist}
+    return render(request, 'map/mymap.html', context=ctx)

@@ -15,10 +15,16 @@ class Booth(models.Model):
     operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
-    rate = models.FloatField(default= 0, null=True)
     img = models.ImageField(blank=True, null=True, upload_to="")
-    #user = models.OneToOneField(User, through='Liked', through_fields=('booth', 'user'), on_delete=models.SET_DEFAULT, default=None)
 
+    ## 리뷰로 받는 것들
+    street = models.IntegerField(default=0) # 길거리인지(0), 매장인지(1)
+    deco = models.IntegerField(default=0) # 소품 (없 0 있 1)
+    iron = models.IntegerField(default=0) # 고데기 (없 0 있 1)
+    boxnum = models.IntegerField(default=0) # 부스 갯수 (갯수마다)
+
+    rating = models.IntegerField(default=0) # 별점, 기본값은 0, 별점은 0.5 부터 0.5 단위로?
+    likenum = models.IntegerField(default=0) # 이 매장의 좋아요 수
 
     def __str__(self):
         return self.name + "("+str(self.brand)+")"
