@@ -11,6 +11,7 @@
     <h4>별점 : {{review.rate}}</h4>
     {%endfor%}
 
-    <a href="review">리뷰 작성 </a> <br />
+    <a href="{% url 'map:review_create' %}">리뷰 작성 </a>
+
 
 {% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <div>
+        {% if article.image %}
+        <p>
+            <img src ="{{ booth.image.url }}">
+        </p>>
+        {% endif %}
+        <h6>{{ booth.name }}</h6>
+        <h6>{{ booth.loaction }}</h6>
+         <div class="heart" onclick="onClickLike({{ booth.id }} )" >🤍</div>
+    </div>
+
+    <div>
+        <h3>Customer reviews</h3>
+        <h6>{{ booth.rate }}</h6>
+        <h6>{{n}} Reviews</h6>
+        <a href="{% url 'map:review_list' %}"><button class="btn btn_custom mt-3">view all reviews</button></a>
+    </div>
+    <div>
+        <h3>Lost and Found</h3>
+        {% for lnf in lnfs %}
+
+            {% if(lnf.tag == 0) %}
+            <h6>분실</h6>
+            {{lnf.title}}
+
+            {% elif lnf.tag == 1 %}
+            <h6>보관</h6>
+            {{lnf.title}}
+
+            {% else %}
+            <h6>기타</h6>
+            {{lnf.title}}
+
+            {% endif %}
+        {% endfor %}
+
+        <a href='#'>more></a> <!--분실물 리스트 -->
+        <a href='#'><button class="btn btn_custom mt-3">Write</button></a> <!-- 분실물 작성 연결 -->
+    </div>
+    <div>
+
+        <h3>참고사항</h3>
+
+        {% if review.new is True%}
+
+        <h6>{{ review.iron }}</h6>
+        <h6>{{ review.street }}</h6>
+        <h6>{{ review.deco}}</h6>
+        <h6>{{ review.boxnum }}</h6>
+
+        {% endif %}
+
+    </div>
+    <div>
+
+    </div>
+</div>
+<!--
+<script>
+    const requestLike = new XMLHttpRequest();
+
+    const onClickLike = (id) => {
+        const url = '/like_ajax/';
+        requestLike.open("POST", url, true);
+        requestLike.setRequestHeader(
+            "Content-Type",
+            "application/x-ww-form-urlencoded"
+        );
+        requestLike.send(JSON.stringify({id: id}))
+    }
+
+    const likeHandleResponse = () => {
+        if(requestLike.status < 400){
+            const {id, k, status} = JSON.parse(requestLike.response);
+            const element = document.querySelector(`.booth-id-${id} .heart`);
+            if(k==0)
+                element.innerHTML = '❤️'
+            else
+                element.innerHTML = '🤍'
+        }
+    }
+
+    requestLike.onreadystatechange = () => {
+        if(requestLike.readyState === XMLHttpRequest.DONE){
+            likeHandleResponse();
+        }
+    }
+</script>
+
+-->
+
+{% endblock %}
+
