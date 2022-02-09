@@ -57,6 +57,8 @@ urlpatterns = [
     )
 
 ]
+#set image urls
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # path(
 #         'password_reset/',
