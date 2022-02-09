@@ -64,17 +64,19 @@ function showLocation(position) {
     gps_lat = position.coords.latitude;
     gps_lng = position.coords.longitude;
     console.log("Showlocation도 햇지?")
+    console.log(gps_lat)
+    console.log(gps_lng)
 
-    var markerPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); 
+    var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); 
             
     var marker = new kakao.maps.Marker({  
         map: map, 
-        position: markerPosition, 
+        position: currentPosition, 
         image: new kakao.maps.MarkerImage('../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
     }); 
 
     marker.setMap(map);
-    map.setCenter(markerPosition);      
+    map.setCenter(currentPosition);      
     map.setLevel(7)
 }
 
@@ -99,10 +101,15 @@ var geocoder = new kakao.maps.services.Geocoder();
 
 
 // 주소로 좌표를 검색합니다
-var boothList = document.getElementById('accordionList');
-let total = boothList.childElementCount; // count todos    
+var boothList = document.getElementById('boothList');
+let total = boothList.childElementCount; // count booths    
 // var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
+
+var bounds = map.getBounds();
+var accList = document.getElementById('accordionList')
+// console.log(bounds.getSouthWest().toString())
+// console.log(bounds.getNorthEast().toString())
 
 async function for_pin(total){
     for (let i=0; i<total; i++) {
@@ -113,18 +120,16 @@ async function for_pin(total){
 for_pin(total);
 
 function pinnn(i) {
-  
-    const element = document.getElementById(`mapdetail-${i}`);
-
-    let address = element.children[1].innerHTML
-    // console.log(typeof address)
+    // const element = document.getElementById(`mapdetail-${i}`);
+    let booth = boothList.children[i]
+    let address = booth.firstElementChild.dataset.loc
+    // console.log(address)
     if (address == "인천 미추홀구 숙골로87번길 5 5블럭 1층 40호") {
         // console.log("yes")
         address = "인천 미추홀구 숙골로87번길 5";
     }
 
-    const name_ele = document.getElementById(`heading-${i}`);
-    const name = name_ele.children[0].dataset.name
+    const name = booth.firstElementChild.dataset.name
     // console.log(name)
     // console.log(typeof name)
     
@@ -134,12 +139,17 @@ function pinnn(i) {
     infowindow.setContent(content);
 
     geocoder.addressSearch(address, function(result, status) {
-        console.log(status)
+        // console.log(status)
         // 정상적으로 검색이 완료됐으면 
         if (status === kakao.maps.services.Status.OK) {
     
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-    
+
+            // 경도 위도 값도 저장
+            booth.firstElementChild.setAttribute('data-lat', coords.getLat())
+            booth.firstElementChild.setAttribute('data-lng', coords.getLng())
+
+            
             // 결과값으로 받은 위치를 마커로 표시합니다
             var marker = new kakao.maps.Marker({
                 map: map,
@@ -147,10 +157,12 @@ function pinnn(i) {
                 image: markerImage
             });
             marker.setMap(map);
+            // 지도에 핀은 일단 다 찍어놓기 
+
             
             infowindow.setPosition(coords);
 
-            (function(marker, infowindow) {
+            (function(marker, infowindow) { // 파라미터
                 // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
                 kakao.maps.event.addListener(marker, 'mouseover', function() {
                     infowindow.open(map, marker);
@@ -161,36 +173,25 @@ function pinnn(i) {
                     infowindow.close();
                 });
 
-                name_ele.onmouseover =  function () {
-                    infowindow.open(map, marker);
-                };
+                // name_ele.onmouseover =  function () {
+                //     infowindow.open(map, marker);
+                // };
 
-                name_ele.onmouseout =  function () {
-                    infowindow.close();
-                };
-                console.log("set hover func");
-            })(marker, infowindow);
+                // name_ele.onmouseout =  function () {
+                //     infowindow.close();
+                // };
+                // console.log("set hover func");
+            })(marker, infowindow); // 실제 넘기는거
 
-            // infowindow.open(map, marker);
             
-            // (function(marker, name) { // 파라미터
-            //     kakao.maps.event.addListener(marker, 'mouseover', function() {
-            //         displayInfowindow(marker, name);
-            //     });
-        
-            //     kakao.maps.event.addListener(marker, 'mouseout', function() {
-            //         infowindow.close();
-            //     });
-        
-            //     // name_ele.onmouseover =  function () {
-            //     //     displayInfowindow(marker, name);
-            //     // };
-        
-            //     // name_ele.onmouseout =  function () {
-            //     //     infowindow.close();
-            //     // };
-            // })(marker, name); // 실제 넘기는거
-    
+            // 지도 boundary 안에 있는거만 list
+            if (bounds.contain( coords )) {
+                printList(booth, accList); // list 표시하기                
+            }
+
+            else {
+                // console.log("not in map")
+            }  
     
         }
         else {
@@ -202,6 +203,115 @@ function pinnn(i) {
      // marker 위에 infowindow 표시하기
     return i;
 
+}
+
+// 중심 좌표 움직였을 때
+kakao.maps.event.addListener(map, 'center_changed', findList);
+// 확대 축소 했을 때
+kakao.maps.event.addListener(map, 'zoom_changed', findList)
+
+
+function findList() {
+    accList.innerHTML = '';
+    // acc 리스트 초기화
+
+    var bounds = map.getBounds();
+
+    for (let i=0; i<total; i++) {
+    
+        let booth = boothList.children[i]
+        let lat = booth.firstElementChild.dataset.lat
+        let lng = booth.firstElementChild.dataset.lng
+        boothcoord = new kakao.maps.LatLng(lat, lng)
+        
+        if (bounds.contain( boothcoord )) {
+            printList(booth, accList); // list 표시하기                
+        }
+    
+        else {
+            // console.log("not in map")
+        }  
+    }
+}
+
+function printList(boothElement, AccElement) {
+    
+
+    let name = boothElement.firstElementChild.dataset.name;
+    let address = boothElement.firstElementChild.dataset.loc;
+    const boothId = boothElement.id;
+    const hour = boothElement.firstElementChild.dataset.hour;
+    const brand = boothElement.firstElementChild.dataset.brand;
+
+    const street = parseInt(boothElement.firstElementChild.dataset.street);
+    const deco = parseInt(boothElement.firstElementChild.dataset.deco);
+    const boxnum = parseInt(boothElement.firstElementChild.dataset.boxnum);
+    const rating = parseFloat(boothElement.firstElementChild.dataset.rating);
+    const likenum = boothElement.firstElementChild.dataset.likenum;
+
+    // console.log(typeof street) // str
+    // console.log(typeof likenum) // num
+    // console.log(typeof hour) // str
+    
+    let streetContent = ''
+    let decoContent = ''
+    let hourContent = ''
+
+    if (street) { streetContent = "매장점" }
+    else { streetContent = "부스점" }
+
+    if (deco) { decoContent = "○" }
+    else { decoContent = "X" }
+
+    if (hour) { hourContent = hour }
+
+
+
+    const newdiv = document.createElement('div');
+    newdiv.setAttribute('class', 'accordion-item');
+    newdiv.innerHTML = 
+    `<div class="accordion-item">
+        <h2 class="accordion-header">
+            <button id="accordion-name" data-name="${ name }" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${ boothId }" aria-expanded="true" aria-controls="collapse-${ boothId }">
+                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+                    <path fill="none" d="M0 0h24v24H0z"/>
+                    <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(31,82,255,1)"/>
+                </svg>${ name }
+
+                <button class="btn btn-gray btn-sm ms-5 mb-3">${ brand }</button>
+            </button>
+        </h2>
+
+        <div id="collapse-${ boothId }" class="accordion-collapse collapse" aria-labelledby="heading-${ boothId }" data-bs-parent="#accordionList">
+            <div class="accordion-body">
+                <div id="mapdetail-${ boothId }" class="ps-4">
+                    
+                    <p style="margin: 0; color: #8B8B8B; font-size: 0.75rem;">
+                        부스 ${ boxnum }개 | ${ streetContent } | 소품 ${ decoContent }
+                    </p>
+                    
+                    <p style="margin: 16px 0 0 0">${ address }</p>
+
+                    <p style="margin: 16px 0 0 0"></p>
+                    ${ hourContent }
+                    </p>
+
+                    <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
+                        <div class="row">
+
+                            <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                            | 
+                            <div class = "col" style="color: #484848"> ${ likenum } users </div>
+                        </div>
+                    </button>
+
+                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' pk=${ boothId } %}">디테일페이지</a>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    AccElement.append(newdiv);
 }
 
 // 인포윈도우에 장소명을 표시합니다

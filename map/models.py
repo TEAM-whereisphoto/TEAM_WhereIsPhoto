@@ -1,5 +1,3 @@
-from hashlib import blake2b
-from tkinter import CASCADE
 from django.db import models
 from brand.models import Brand
 from user.models import User
@@ -14,7 +12,6 @@ class Booth(models.Model):
     operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
-    iron =models.IntegerField(default=0)
 
     ## 리뷰로 받는 것들
     street = models.IntegerField(default=0) # 길거리인지(0), 매장인지(1)

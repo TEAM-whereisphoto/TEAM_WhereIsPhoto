@@ -24,13 +24,48 @@
         <br />
     </div>
 
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              전체 매장 hidden list
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <ul id="boothList">
+
+                <!-- 나중에 이 아래것들 중 접근 필요 없는건 빼기-> 속도 높이기 -->
+                {% for booth in booths %}
+                    <li id="boothId-{{ booth.id }}"> {{ booth.id }}
+                        <div data-name="{{ booth.name }}" 
+                        data-loc="{{ booth.location }}" 
+                        data-hour="{{ booth.operationHour }}"
+                        data-brand="{{ booth.brand }}"
+                        data-user="{{ booth.user }}"
+
+                        data-street="{{ booth.street }}"
+                        data-deco="{{ booth.deco }}"
+                        data-iron="{{ booth.iron }}"
+                        data-boxnum="{{ booth.boxnum }}"
+                        data-rating="{{ booth.rating }}"
+                        data-likenum="{{ booth.likenum }}"></div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+
 <!-- 리스트 & 지도 -->
     <div class="row pt-3">
         
         <div id="list-container" class="col-4">
             <!-- 매장 리스트 -->
             <div class="accordion" id="accordionList" style="height: 600px; overflow: auto;">
-
+{% comment %}
                 {% for booth in booths %}
 
                 <div class="accordion-item">
@@ -78,7 +113,7 @@
                 </div>
                 
                 {% endfor %}
-
+{% endcomment %}
             </div>
         </div>
         
