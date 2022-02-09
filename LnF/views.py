@@ -1,10 +1,12 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
 from pytz import timezone
 from .models import *
+from .forms import *
+
 from map.models import Booth
 from brand.models import Brand
-
+from user.models import User
 
 
 def list(request):
@@ -25,3 +27,18 @@ def list(request):
     ctx = {'posts': posts, 'brands':brands}
     return render(request, 'LnF/list.html', context=ctx)
 
+def new(request):
+    user = request.user
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            new_post = form.save(commit=False)
+            new_post.user = user
+            new_post.save()
+            return redirect('LnF:list')
+    
+    else:
+        form = PostForm()
+    
+    ctx = {'form': form}
+    return render(request, 'LnF/new.html', ctx)
