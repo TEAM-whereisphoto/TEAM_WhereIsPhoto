@@ -8,22 +8,23 @@
             <img src ="{{ booth.image.url }}">
         </p>>
         {% endif %}
-        <h6>{{ booth.name }}</h6>
+        <h3>{{ booth.name }}</h3>
         <h6>{{ booth.loaction }}</h6>
          <div class="heart" onclick="onClickLike({{ booth.id }} )" >🤍</div>
+        <br>
     </div>
 
     <div>
-        <h3>Customer reviews</h3>
-        <h6>{{ booth.rate }}</h6>
-        <h6>{{n}} Reviews</h6>
-        <a href="{% url 'map:review_list' %}"><button class="btn btn_custom mt-3">view all reviews</button></a>
+        <h4>Customer reviews</h4>
+        <h6>{{booth.rating}}</h6>
+        <h6>{{booth.review_number}} Reviews</h6>
+        <a href="{% url 'map:review_list' %}">view all reviews</a> <!-- 여기서 부스 리뷰들만 나와야하는데 다 나옴 -->
     </div>
     <div>
-        <h3>Lost and Found</h3>
+        <br>
+        <h4>Lost and Found</h4>
         {% for lnf in lnfs %}
-
-            {% if(lnf.tag == 0) %}
+            {% if lnf.tag == 0 %}
             <h6>분실</h6>
             {{lnf.title}}
 
@@ -38,14 +39,15 @@
             {% endif %}
         {% endfor %}
 
-        <a href='#'>more></a> <!--분실물 리스트 -->
-        <a href='#'><button class="btn btn_custom mt-3">Write</button></a> <!-- 분실물 작성 연결 -->
+        <a href="{% url 'LnF:list' %}">more</a> <!--분실물 리스트 -->
+        <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
+        <br>
     </div>
+
     <div>
+        <h4>참고사항</h4>
 
-        <h3>참고사항</h3>
-
-        {% if review.new is True%}
+        {% if review.new == True %} <!--왜안뜨지 -->
 
         <h6>{{ review.iron }}</h6>
         <h6>{{ review.street }}</h6>

@@ -2,6 +2,11 @@ from calendar import c
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import *
+
+from LnF.models import LnF_Post
+from brand.models import Brand
+from user.models import User
+
 from django.templatetags.static import static
 from django.db.models import Q
 from pytz import timezone
@@ -25,17 +30,16 @@ def avg(pk): # 평균 별점 계산 함수
     for review in reviews:
         n += 1
         sum += review.rate
-    booth.rate = sum/n
+    booth.rating = sum/n
+    booth.review_number = n
     booth.save()
-    return n
 
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-    #review = Review.objects.get(booth = booth.name)
     reviews = Review.objects.filter(booth = booth.pk)
-    #lnfs = LnF_Post.objects.filter(booth= booth.pk)
-    #n = avg(pk)
-    ctx = {'booth': booth, 'reviews': reviews}
+    lnfs = LnF_Post.objects.filter(booth= booth.pk)
+    avg(pk) # 왜 새로고침해야 뜨는거지
+    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
 def review_list(request):
