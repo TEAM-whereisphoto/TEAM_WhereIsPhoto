@@ -19,6 +19,30 @@
     box-shadow: none !important;
 }
 
-.accordion-item {
+/* .accordion-item {
     border: 0 !important;
+} */
+
+.btn {
+    border-radius: 1rem !important;
+}
+
+.btn-gray {
+    color: #fff !important;
+    background-color: #B5B5CD !important;
+    border-color: #B5B5CD !important;
+}
+
+.btn-outline-ratingNlike {
+    color: #D6D6F1 !important;
+    border-color: #D6D6F1 !important;
+}
+
+.accordion-header:hover {
+    background-color: #D6D6F1 !important;
+}
+
+.accordion-button {
+    background-color: inherit !important;
+    transition: none !important;
 }
