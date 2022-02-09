@@ -16,11 +16,6 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('LnF/', include('LnF.urls')),
     path('accounts/', include('allauth.urls')),
-<<<<<<< HEAD
-]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-=======
 
     path('', include('django.contrib.auth.urls')),
     
@@ -50,4 +45,4 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]
 #set image urls
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> develop
+

@@ -3,7 +3,8 @@ from tkinter import CASCADE
 from django.db import models
 from brand.models import Brand
 from user.models import User
-
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 # Create your models here.
 
@@ -47,10 +48,11 @@ class Review(models.Model):
     BOXNUM_CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),('5_more', '5_more'))
 
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT, default=None)
     #title = models.CharField(max_length=100)
-    date = models.DateField()
+    date = models.DateTimeField(default=datetime.now, blank=True)
+
     img = models.ImageField(blank=True, null=True, upload_to="")
     rate = models.IntegerField()
     iron = models.CharField(choices=IRON_CHOICES, max_length=50)
