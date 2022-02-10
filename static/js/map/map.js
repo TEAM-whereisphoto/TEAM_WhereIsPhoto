@@ -92,6 +92,8 @@ let total = boothList.childElementCount; // count booths
 
 // booth list하는 아코디언 dom
 var accList = document.getElementById('accordionList')
+// 범위 내의 booth list 저장해두는 array
+let mapboundbooth = []
 
 async function for_pin(total){
     for (let i=0; i<total; i++) {
@@ -167,7 +169,9 @@ function setbooth(i) {
 
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
             if (bounds.contain( coords )) {
-                printList(booth, accList); // list에 표시하기                
+                printList(booth, accList); // list에 표시하기             
+            mapboundbooth.push(booth)           
+
             }
     
         }
@@ -190,6 +194,7 @@ kakao.maps.event.addListener(map, 'zoom_changed', findList)
 function findList() {
     accList.innerHTML = '';
     // 이미 되어있던 acc 리스트 초기화
+    mapboundbooth = []
 
     bounds = map.getBounds(); // 화면 변경되었으니 범위 다시 가져오고
 
@@ -202,7 +207,8 @@ function findList() {
         
         // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
         if (bounds.contain( boothcoord )) {
-            printList(booth, accList); // list에 표시하기                
+            printList(booth, accList); // list에 표시하기
+            mapboundbooth.push(booth)           
         }
     
         else {
@@ -217,9 +223,9 @@ function findList() {
 function printList(boothElement, AccElement) {
     
     // 지도 내에 있는 booth의 정보 가져오기
-    let name = boothElement.firstElementChild.dataset.name;
+    let name = boothElement.firstElementChild.dataset.name; // ???????????
     let address = boothElement.firstElementChild.dataset.loc;
-    const boothId = boothElement.dataset.id;
+    const boothId = boothElement.firstElementChild.dataset.id;
     const hour = boothElement.firstElementChild.dataset.hour;
     const brand = boothElement.firstElementChild.dataset.brand;
 
@@ -288,3 +294,33 @@ function printList(boothElement, AccElement) {
 
     AccElement.append(newdiv); // list추가
 }
+
+// 4. 정렬 필터
+// alphabet
+var alphacheck = document.getElementById('flexCheckAlpha');
+alphacheck.addEventListener('click', function() {
+    
+    if (this.checked) {
+        console.log("checked!")
+
+        mapboundbooth.sort(function(a, b) {
+            var nameA = a.firstElementChild.dataset.name; // ignore upper and lowercase
+            var nameB = b.firstElementChild.dataset.name; // ignore upper and lowercase
+            if (nameA < nameB) {
+            return -1;
+            }
+            if (nameA > nameB) {
+            return 1;
+            }
+        
+            // 이름이 같을 경우
+            return 0;
+        });
+        accList.innerHTML = '';
+
+        for (var index in mapboundbooth) {
+            printList(mapboundbooth[index], accList);
+        }
+    }
+});
+
