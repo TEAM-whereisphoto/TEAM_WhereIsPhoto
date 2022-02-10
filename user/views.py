@@ -4,11 +4,30 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
 
+# 탈퇴시 랜덤숫자를 위해
 from random import randint
 
-# Create your views here.
+# 리뷰 가져오기
+from LnF.models import LnF_Post
+
 def main(request):
-    return render(request, "user/main.html")
+    users = request.user
+    print(users)
+    # posts = LnF_Post.objects.all()
+    posts = LnF_Post.objects.filter(user = users)
+    # posts = LnF_Post.objects.filter(user__contains = users).order_by('-time')
+
+    try:
+        exist = LnF_Post.objects.get(user = users)
+    except LnF_Post.DoesNotExist:
+        exist = 0
+    except LnF_Post.MultipleObjectsReturned:
+        exist = 1
+    print(exist)
+
+    ctx = {'posts': posts, 'exist': exist}
+    return render(request, 'user/main.html', context=ctx)
+    # return render(request, "user/main.html")
 
 class LoginView(View):
     def get(self, request):
@@ -33,7 +52,7 @@ class LoginView(View):
 
 def log_out(request):
     logout(request)
-    return redirect("user:main")
+    return redirect("/")
 
 def signup(request):
     form = SignupForm()
@@ -107,6 +126,7 @@ def member_del(request):
             # user.delete()
             return redirect('/')
     return render(request, 'user/member_del.html')
+
 # 장고 기본 로그인(조건 까다로움)
 # from django.contrib import messages
 # from django.contrib.auth import update_session_auth_hash
