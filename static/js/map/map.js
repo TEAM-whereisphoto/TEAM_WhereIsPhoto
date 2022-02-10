@@ -5,7 +5,10 @@ var options = {
     level: 4 // 확대 축소 정도
 };
 
+
 var map = new kakao.maps.Map(container, options); // 지도 생성
+// console.log("왜 얘가 나중에되지?")
+var bounds = map.getBounds();
 
 
 // 지도 가장자리 꾸미기 관련 ------------------------------------------------------
@@ -76,8 +79,10 @@ function showLocation(position) {
     }); 
 
     marker.setMap(map);
-    map.setCenter(currentPosition);      
-    map.setLevel(7)
+    map.setCenter(currentPosition);
+    console.log("위치 좌표 잡는게 나중에 아님?");
+    map.setLevel(7);
+    bounds = map.getBounds();
 }
 
 
@@ -106,7 +111,8 @@ let total = boothList.childElementCount; // count booths
 // var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 
-var bounds = map.getBounds();
+// var bounds = map.getBounds();
+// console.log("이게 젤 나중에여야 하는데.. 실행을 먼저 하나부다")
 var accList = document.getElementById('accordionList')
 // console.log(bounds.getSouthWest().toString())
 // console.log(bounds.getNorthEast().toString())
@@ -192,6 +198,7 @@ function pinnn(i) {
             else {
                 // console.log("not in map")
             }  
+            
     
         }
         else {
@@ -215,7 +222,7 @@ function findList() {
     accList.innerHTML = '';
     // acc 리스트 초기화
 
-    var bounds = map.getBounds();
+    bounds = map.getBounds();
 
     for (let i=0; i<total; i++) {
     
@@ -232,6 +239,7 @@ function findList() {
             // console.log("not in map")
         }  
     }
+
 }
 
 function printList(boothElement, AccElement) {
@@ -239,7 +247,7 @@ function printList(boothElement, AccElement) {
 
     let name = boothElement.firstElementChild.dataset.name;
     let address = boothElement.firstElementChild.dataset.loc;
-    const boothId = boothElement.id;
+    const boothId = boothElement.dataset.id;
     const hour = boothElement.firstElementChild.dataset.hour;
     const brand = boothElement.firstElementChild.dataset.brand;
 
@@ -305,7 +313,7 @@ function printList(boothElement, AccElement) {
                         </div>
                     </button>
 
-                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' pk=${ boothId } %}">디테일페이지</a>
+                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' id=${ boothId } %}">디테일페이지</a>
                 </div>
             </div>
         </div>

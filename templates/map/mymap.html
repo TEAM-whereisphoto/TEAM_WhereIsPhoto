@@ -38,7 +38,7 @@
 
                 <!-- 나중에 이 아래것들 중 접근 필요 없는건 빼기-> 속도 높이기 -->
                 {% for booth in booths %}
-                    <li id="boothId-{{ booth.id }}"> {{ booth.id }}
+                    <li id="boothId-{{ booth.id }}" data-id="{{ booth.id }}"> {{ booth.id }}
                         <div data-name="{{ booth.name }}" 
                         data-loc="{{ booth.location }}" 
                         data-hour="{{ booth.operationHour }}"
@@ -51,6 +51,7 @@
                         data-boxnum="{{ booth.boxnum }}"
                         data-rating="{{ booth.rating }}"
                         data-likenum="{{ booth.likenum }}"></div>
+                        <a style="display: block;" class="mt-3" href="{% url 'map:detail' pk=booth.pk %}">디테일페이지</a>
                     </li>
                 {% endfor %}
                 </ul>
