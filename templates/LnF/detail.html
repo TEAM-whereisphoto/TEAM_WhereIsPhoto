@@ -37,7 +37,9 @@
                         {% endif %}
                     </td>
                     <td>
+                        {% if comment.user == request.user %}
                         <button class="del-btn" onclick="onClickDel({{comment.id}})">삭제</button>
+                        {% endif %}                    
                     </td>
                 </tr>
                 {% endfor %}
