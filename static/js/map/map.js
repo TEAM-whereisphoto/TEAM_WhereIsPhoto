@@ -8,6 +8,9 @@ var options = {
 var map = new kakao.maps.Map(container, options); // 지도 생성
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
 
+// 표시할 매장 이름. 나중에 brand model에서 가져오도록 수정 예정.
+var filterSet = new Set(['인생네컷', '포토이즘박스', '포토시그니처', '셀픽스', '하루필름']);
+
 // 지도 확대 축소 컨트롤 생성
 var zoomControl = new kakao.maps.ZoomControl();
 map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
@@ -207,6 +210,7 @@ function findList() {
         
         // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
         if (bounds.contain( boothcoord )) {
+
             printList(booth, accList); // list에 표시하기
             mapboundbooth.push(booth)           
         }
@@ -222,12 +226,18 @@ function findList() {
 // 근데 넘 느려ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
 function printList(boothElement, AccElement) {
     
+    const brand = boothElement.firstElementChild.dataset.brand;
+
+    if (!filterSet.has(brand)) {
+        return 0;
+    }
+
     // 지도 내에 있는 booth의 정보 가져오기
     let name = boothElement.firstElementChild.dataset.name; // ???????????
     let address = boothElement.firstElementChild.dataset.loc;
     const boothId = boothElement.firstElementChild.dataset.id;
     const hour = boothElement.firstElementChild.dataset.hour;
-    const brand = boothElement.firstElementChild.dataset.brand;
+    
 
     const street = parseInt(boothElement.firstElementChild.dataset.street);
     const deco = parseInt(boothElement.firstElementChild.dataset.deco);
@@ -286,7 +296,7 @@ function printList(boothElement, AccElement) {
                         </div>
                     </button>
 
-                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' id=${ boothId } %}">디테일페이지</a>
+                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' pk=${ boothId } %}">디테일페이지</a>
                 </div>
             </div>
         </div>
@@ -297,11 +307,15 @@ function printList(boothElement, AccElement) {
 
 // 4. 정렬 필터
 // alphabet
-var alphacheck = document.getElementById('flexCheckAlpha');
-alphacheck.addEventListener('click', function() {
+var sortAlpha = document.getElementById('sortAlpha');
+var sortAlphaDesc = document.getElementById('sortAlphaDesc');
+var sortDist = document.getElementById('sortDist');
+
+sortAlpha.addEventListener('click', function() {
     
     if (this.checked) {
         console.log("checked!")
+
 
         mapboundbooth.sort(function(a, b) {
             var nameA = a.firstElementChild.dataset.name; // ignore upper and lowercase
@@ -324,3 +338,60 @@ alphacheck.addEventListener('click', function() {
     }
 });
 
+sortAlphaDesc.addEventListener('click', function() {
+    
+    if (this.checked) {
+        console.log("desc checked!")
+    
+
+        mapboundbooth.sort(function(a, b) {
+            var nameA = a.firstElementChild.dataset.name; // ignore upper and lowercase
+            var nameB = b.firstElementChild.dataset.name; // ignore upper and lowercase
+            if (nameA > nameB) {
+            return -1;
+            }
+            if (nameA < nameB) {
+            return 1;
+            }
+        
+            // 이름이 같을 경우
+            return 0;
+        });
+        accList.innerHTML = '';
+
+        for (var index in mapboundbooth) {
+            printList(mapboundbooth[index], accList);
+        }
+    }
+});
+
+// 거리순 정렬 아직 미구현. default로 할까 생각중.
+
+
+// 5. 브랜드 필터
+const filterLifefour = document.getElementById('filter-lifefour');
+const filterPhotoism = document.getElementById('filter-photoism');
+const filterSignature = document.getElementById('filter-signature');
+const filterSelfix = document.getElementById('filter-selfix');
+const filterHaru = document.getElementById('filter-haru');
+
+const filterGroup = document.getElementById('filterGroup');
+
+filterGroup.addEventListener('click', function() {
+    for (let i=1; i<this.childElementCount; i=i+2) {
+        brandname = this.children[i].innerHTML;
+        if (this.children[i-1].checked) { filterSet.add(brandname) }
+        else { filterSet.delete(brandname) }
+    }
+
+    console.log(filterSet)
+    accList.innerHTML = '';
+
+    for (var index in mapboundbooth) {
+        printList(mapboundbooth[index], accList);
+    }
+    // for (brand in brands) {
+    //     if (brand.checked) { filterSet.add(brand.firstElementChild.dataset.name) }
+    //     else { filterSet.delete(brand.innerHTML) }
+    // }
+});

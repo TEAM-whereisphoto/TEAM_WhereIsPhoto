@@ -22,8 +22,8 @@
           </form> -->
 
           <form method="GET" action="{% url 'map:search' %}">
-            <div id="search">
-                <input name="search" type="text">
+            <div id="search" class="pb-3">
+                <input class="w-50" name="search" type="text" placeholder="매장 이름 or 지역을 검색해보세요 ex) 홍대">
                 <button class="btn btn-primary" type="submit">검색</button>
               <!-- </div> -->
           </form>
@@ -70,23 +70,45 @@
     </div>
 
 <!-- 리스트 & 지도 -->
-    <div class="row pt-3">
+    <div class="row py-3">
         
         <div id="list-container" class="col-4">
             
             <!-- 정렬 선택 -->
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckAlpha">
-                <label class="form-check-label" for="flexCheckAlpha">가나다순</label>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="sortDist" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="sortDist">거리순</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="sortAlpha" autocomplete="off">
+                <label class="btn btn-outline-primary" for="sortAlpha">가나다순</label>
+              
+                <input type="radio" class="btn-check" name="btnradio" id="sortAlphaDesc" autocomplete="off">
+                <label class="btn btn-outline-primary" for="sortAlphaDesc">가나다순(거꾸로)</label>
             </div>
 
-            <div>
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckLen">
-                <label class="form-check-label" for="flexCheckLen">거리순(가까운)</label>
+            <!-- 브랜드 필터 -->
+            <div class="btn-group my-4" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup">
+                <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="filter-lifefour">인생네컷</label>
+              
+                <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="filter-photoism">포토이즘박스</label>
+              
+                <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="filter-signature">포토시그니처</label>
+
+                <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="filter-selfix">셀픽스</label>
+
+                <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="filter-haru">하루필름</label>
+                
             </div>
+
+
 
             <!-- 매장 리스트 -->
-            <div class="accordion" id="accordionList" style="height: 600px; overflow: auto;">
+            <div class="accordion" id="accordionList" style="height: 500px; overflow: auto;">
 {% comment %}
                 {% for booth in booths %}
 
