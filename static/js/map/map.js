@@ -20,9 +20,15 @@ map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 // 브랜드별 색깔 바꿀 때 이 부분 src 수정, 혹은 실제 pin 박을 때 수정도 가능
 // 참고 -> 이 api에서는 href 링크나 실제 이미지로만 pin 이미지 설정 가능. <i> rexicon꺼 </i> 등 형태 불가. 
 var imageSrc = '../static/icons/pin_blue.png'
-var imageSize = new kakao.maps.Size(32, 32);
+var imageSize = new kakao.maps.Size(28, 28);
 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
 
+// const lifepin = new kakao.maps.MarkerImage('../static/icons/lifefourcuts.svg', imageSize)
+// const selfixpin = new kakao.maps.MarkerImage('../static/icons/selfix.svg', imageSize)
+// const photoismpin = new kakao.maps.MarkerImage('../static/icons/photoism.svg', imageSize)
+// const harupin = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', imageSize)
+// const signaturepin = new kakao.maps.MarkerImage('../static/icons/signature.svg', imageSize)
+var brandpin = null;
 
 // 1 현재 위치 찍기 -----------------------------------------------------------------------------
 
@@ -98,9 +104,9 @@ var accList = document.getElementById('accordionList')
 // 범위 내의 booth list 저장해두는 array
 let mapboundbooth = []
 
-async function for_pin(total){
+function for_pin(total){
     for (let i=0; i<total; i++) {
-        var pin = await setbooth(i);
+        setbooth(i);
         // pin은 다 찍고, list는 현재 중심좌표(내 위치든 기본값이든) 주변으로만 표시
     }
 }
@@ -109,9 +115,12 @@ for_pin(total);
 
 function setbooth(i) {
     let booth = boothList.children[i] // 특정 booth 정보 담은 객체
+    // let booth = boothparent.firstElementChild.dataset
     let address = booth.firstElementChild.dataset.loc // data-loc 형태로 넣어주었음
     const name = booth.firstElementChild.dataset.name
-
+    const brandname = booth.firstElementChild.dataset.brand
+    // console.log(brandname)
+    
     // 등록 안되는거 예외처리
     if (address == "인천 미추홀구 숙골로87번길 5 5블럭 1층 40호") {
         address = "인천 미추홀구 숙골로87번길 5";
@@ -121,7 +130,57 @@ function setbooth(i) {
     var content = '<div style="padding:2px;z-index:1;font-size:8px; text-align: center!important;">' + name + '</div>';
     var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // 새 info object
     infowindow.setContent(content); // infowindow 내용
+    
+    switch( brandname ) {
+        case '인생네컷':
+            var brandpin = new kakao.maps.MarkerImage('../static/icons/lifefourcuts.svg', imageSize)
+            break;
+        case '셀픽스':
+            var brandpin = new kakao.maps.MarkerImage('../static/icons/selfix.svg', imageSize)
+            break;
+        case '포토이즘박스':
+            var brandpin = new kakao.maps.MarkerImage('../static/icons/photoism.svg', imageSize)
+            break;
+        case '하루필름':
+            var brandpin = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', imageSize)
+            break;
+        case '포토시그니처':
+            var brandpin = new kakao.maps.MarkerImage('../static/icons/signature.svg', imageSize)
+            break;
+        default:
+            console.log("안돼")
+            var brandpin = new kakao.maps.MarkerImage(imageSrc, imageSize)
+    }
+    
+    // 왜 이 밑에는 안됨???????????!!!!!!!!!!!!
+    
+    // switch (brandname) {
+    //     case '하루필름':
+    //         console.log("하루")
+    //         brandpin = harupin;
+    //         break;
+    //     case '인생네컷':
+    //         console.log("인생")
+    //         brandpin = lifepin;
+    //         break;
+    //     case '포토이즘박스':
+    //         console.log("포토")
+    //         brandpin = photoismpin;
+    //         break;
+    //     case '셀픽스':
+    //         console.log("셀")
+    //         brandpin = selfixpin;
+    //         break;
+    //     case '포토시그니처':
+    //         console.log("시그")
+    //         brandpin = signaturepin;
+    //         break;
+    //     default:
+    //         brandpin = markerImage;
+    //         console.log("이거 표시되면 안된다 뭔가 잘못되고 있는거다?")
+    // }
 
+    
     // 주소 -> 좌표 변환 검색
     geocoder.addressSearch(address, function(result, status) {
         // 정상적으로 검색이 완료됐으면 
@@ -138,7 +197,7 @@ function setbooth(i) {
             var marker = new kakao.maps.Marker({
                 map: map,
                 position: coords,
-                image: markerImage
+                image: brandpin
             });
             marker.setMap(map);
             // 지도에 핀은 일단 다 찍어놓기 
@@ -173,8 +232,7 @@ function setbooth(i) {
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
             if (bounds.contain( coords )) {
                 printList(booth, accList); // list에 표시하기             
-            mapboundbooth.push(booth)           
-
+                mapboundbooth.push(booth);           
             }
     
         }
@@ -183,6 +241,8 @@ function setbooth(i) {
             console.log("검색 실패. 주소가 잘 들어갔는지 확인해줄 것")
         }
     });
+
+    return i;
 
 }
 
@@ -296,7 +356,7 @@ function printList(boothElement, AccElement) {
                         </div>
                     </button>
 
-                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' pk=${ boothId } %}">디테일페이지</a>
+                    <a style="display: block;" class="mt-3" href="/booth/detail/${ boothId }">디테일페이지</a>
                 </div>
             </div>
         </div>
@@ -378,6 +438,7 @@ const filterHaru = document.getElementById('filter-haru');
 const filterGroup = document.getElementById('filterGroup');
 
 filterGroup.addEventListener('click', function() {
+
     for (let i=1; i<this.childElementCount; i=i+2) {
         brandname = this.children[i].innerHTML;
         if (this.children[i-1].checked) { filterSet.add(brandname) }

@@ -1,4 +1,3 @@
-from calendar import c
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import *
@@ -8,12 +7,6 @@ from brand.models import Brand
 from brand.models import Frame
 from user.models import User
 
-from django.templatetags.static import static
-from django.db.models import Q
-from pytz import timezone
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -39,7 +32,7 @@ def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
     lnfs = LnF_Post.objects.filter(booth= booth.pk)
-    avg(pk) # 왜 새로고침해야 뜨는거지
+    # avg(pk) # 왜 새로고침해야 뜨는거지
 
     brand = Brand.objects.all()
     brand_list = []
