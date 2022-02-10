@@ -51,6 +51,20 @@ class Comment(models.Model):
     
     content = models.TextField()
     time = models.DateTimeField(default=datetime.now, blank=True)
-
+    
+    @property
+    def timeString(self):
+        now = timezone.now() - self.time
+        if now < timedelta(minutes=1):
+            return '방금 전'
+        elif now < timedelta(hours=1):
+            return str(int(now.seconds / 60)) + '분 전'
+        elif now < timedelta(days=1):
+            return str(int(now.seconds / 3600)) + '시간 전'
+        elif now < timedelta(days=7):
+            now = timezone.now().date() - self.time.date()
+            return str(now.days) + '일 전'
+        else:
+            return False
 
 
