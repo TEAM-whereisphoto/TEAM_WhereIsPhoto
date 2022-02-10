@@ -30,19 +30,19 @@
     </section>
 
     <section>
-        <a href="{% url 'LnF:new'%}">작성</a>
+        <a href="{% url 'LnF:new' %}">작성</a>
     </section>
     <br>
     <section>
         {% for post in posts %}
             <div>
-                부스명: {{post.booth.name}} <br>
+                <a href="{% url 'LnF:detail' post.booth.id %}">부스명: {{post.booth.name}}</a>
+                 <br>
                 작성자: {{post.user.username}}<br>
     
                 {% if post.timeString == False %}
                 작성시간: {{post.time|date:'m월 d일'}}
                 {% else %}
-                작성시간: {{post.time}} <br>
                 작성시간: {{post.timeString}}
                 {% endif %}
                 <br>
