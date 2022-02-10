@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from pytz import timezone
+# from pytz import timezone
 from .models import *
 from .forms import *
 
@@ -42,3 +42,6 @@ def new(request):
     
     ctx = {'form': form}
     return render(request, 'LnF/new.html', ctx)
+
+
+# def detail(request):
