@@ -24,7 +24,7 @@ class Booth(models.Model):
     iron = models.IntegerField(default=0) # 고데기 (없 0 있 1)
     boxnum = models.IntegerField(default=0) # 부스 갯수 (갯수마다)
 
-    rating = models.IntegerField(default=0) # 별점, 기본값은 0, 별점은 0.5 부터 0.5 단위로?
+    rating = models.FloatField(default=0) # 별점, 기본값은 0, 별점은 0.5 부터 0.5 단위로?
     likenum = models.IntegerField(default=0) # 이 매장의 좋아요 
     review_number = models.IntegerField(default=0)
 

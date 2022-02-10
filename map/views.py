@@ -72,6 +72,25 @@ def booth_review_list(request,pk):
     ctx = {'reviews': reviews}
     return render(request, template_name='map/review_list.html', context=ctx)
 
+
+def booth_review_create(request):
+    booth = Booth.objects.get(id=pk)
+    user = request.user
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.booth = booth
+            post.user = user
+            avg(pk)  # 왜 새로고침해야 뜨는거지
+            post.save()
+            return redirect('map:review_list')
+    else:
+        form = ReviewForm()
+    ctx = {'form': form}
+    return render(request, template_name='map/review_create.html', context=ctx)
+
+
 def review_list(request):
     reviews = Review.objects.all()
     ctx = {'reviews': reviews}
