@@ -11,6 +11,7 @@ urlpatterns = [
     path('<int:pk>/delete', view=views.review_delete, name='review_delete'),
 
     path('booth/detail/<int:pk>', view=views.booth_detail, name='booth_detail'),
+    path('booth/detail/<int:pk>/review', view=views.booth_review_list, name='booth_review_list'), 
 
     # path('', view.mainpage) # 메인페이지 view
     path('map/', views.mymap, name="mymap"),

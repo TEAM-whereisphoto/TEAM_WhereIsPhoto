@@ -10,7 +10,7 @@
         {% endif %}
         <h3>{{ booth.name }}</h3>
         <h6>{{ booth.loaction }}</h6>
-         <div class="heart" onclick="onClickLike({{ booth.id }} )" >🤍</div>
+        <div class="heart" onclick="onClickLike({{ booth.id }} )" >🤍</div>
         <br>
     </div>
 
@@ -18,17 +18,17 @@
         <h4>Customer reviews</h4>
         <h6>{{booth.rating}}</h6>
         <h6>{{booth.review_number}} Reviews</h6>
-        <a href="{% url 'map:review_list' %}">view all reviews</a> <!-- 여기서 부스 리뷰들만 나와야하는데 다 나옴 -->
+        <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
     </div>
     <div>
         <br>
         <h4>Lost and Found</h4>
         {% for lnf in lnfs %}
-            {% if lnf.tag == 0 %}
+            {% if lnf.tag == '분실' %}
             <h6>분실</h6>
             {{lnf.title}}
 
-            {% elif lnf.tag == 1 %}
+            {% elif lnf.tag == '보관' %}
             <h6>보관</h6>
             {{lnf.title}}
 
@@ -38,6 +38,7 @@
 
             {% endif %}
         {% endfor %}
+        <br>
 
         <a href="{% url 'LnF:list' %}">more</a> <!--분실물 리스트 -->
         <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
@@ -45,6 +46,7 @@
     </div>
 
     <div>
+        <br>
         <h4>참고사항</h4>
 
         {% if review.new == True %} <!--왜안뜨지 -->
@@ -57,8 +59,20 @@
         {% endif %}
 
     </div>
-    <div>
 
+    <div>
+        이름: {{ brand_list.0.0 }} <br>
+        재촬영: {{ brand_list.1.1 }} <br>
+        리모컨: {{ brand_list.2.2 }} <br>
+        촬영시간: {{ brand_list.3.3 }}<br>
+        가격정보<br>
+        {% for frame in brand.4 %}
+        가격: {{frame.0}}
+        프레임 컷 수: {{frame.1}}
+        총 촬영 수: {{frame.2}}
+        <br>
+        {% endfor %}
+        <br>
     </div>
 </div>
 <!--
