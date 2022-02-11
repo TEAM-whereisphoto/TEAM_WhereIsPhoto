@@ -10,7 +10,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 from map.models import Booth
-from brand.models import Brand
+from brand.models import Brand, Frame
 # 드라이버 세팅
 def set_chrome_driver():
     chrome_options = webdriver.ChromeOptions()
@@ -63,18 +63,23 @@ def crawling(brand):
                 driver.find_element(By.ID, "info.search.place.more").click()
                 idx += 1
 
-        # next btn
-        elif idx % 5 == 0:
-            booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-            store_booth(booths_list, brand, brand_dict)
-            driver.find_element(By.ID, "info.search.page.next").click()
-            idx += 1
-
         # 종료 조건 -> 다음 번호에 hidden이라는 class 있으면 종료
         elif "HIDDEN" in driver.find_element(By.ID, "info.search.page.no" + str(idx % 5 + 1)).get_attribute("class"):
             booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
             store_booth(booths_list, brand, brand_dict)
             Flag = False
+
+        # next btn
+        elif idx % 5 == 0:
+            if "disabled" in driver.find_element(By.ID, "info.search.page.next").get_attribute("class"):
+                booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
+                store_booth(booths_list, brand, brand_dict)
+                Flag = False
+            else:
+                booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
+                store_booth(booths_list, brand, brand_dict)
+                driver.find_element(By.ID, "info.search.page.next").click()
+                idx += 1
 
         else:
             booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
@@ -88,9 +93,8 @@ def crawling(brand):
 
 
 def main():
-    brand_list = ["인생네컷", "포토이즘", "포토시그니처", "셀픽스"]
-
-    brand_dict = {"인생네컷": "lifefourcut", "포토이즘": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix"}
+    brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
+    
     logic_search = "search(brand)"
     logic_crawling = "globals()['{}_dict'.format(eng)] = crawling(brand)"
 
@@ -98,9 +102,9 @@ def main():
         exec(logic_search)
         exec(logic_crawling)
 
-# {eng_name} = {boothname: {location: , operation_hour: , brand: }}
+    # {eng_name} = {boothname: {location: , operation_hour: , brand: }}
 
-    brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict]
+    brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict, harufilm_dict]
     for dict in brand_dict_list:
         for key, value in dict.items():
             brand = Brand.objects.get(name = value['brand'])  
@@ -112,11 +116,145 @@ def main():
                 key.save()
 
 
+# brand 등록
+def brand():
+    brand_dict = {
+        "인생네컷": {
+            "retake": 1,
+            "remote": 1,
+            "QR": 1,
+            "time": 10
+        },
+        "포토이즘박스": {
+            "retake": 0,
+            "remote": 1,
+            "QR": 1,
+            "time": 10
+        },
+        "하루필름": {
+            "retake": 0,
+            "remote": 1,
+            "QR": 1,
+            "time": 15
+        },
+        "포토시그니처": {
+            "retake": 1,
+            "remote": 1,
+            "QR": 1,
+            "time": 10
+        },
+        "셀픽스":{
+            "retake": 1,
+            "remote": 1,
+            "QR": 1,
+            "time": 20
+        }
+    }
+
+    for key in brand_dict.keys():
+        name = brand_dict[key]
+        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"], time = name["time"])
+        new.save()
+
+# frame 등록
+def frame():
+    frame_dict = {
+        "frame1" : {
+            "frame": 4,
+            "take": 4,
+            "price": 4000,
+            "etc": "",
+            "brand": ["인생네컷", "포토시그니처"]
+        },
+        "frame2": {
+            "frame": 4,
+            "take": 6,
+            "price": 4000,
+            "etc": "",
+            "brand": ["하루필름", "셀픽스"]
+        },
+        "frame3": {
+            "frame": 4,
+            "take": 8,
+            "price": 4000,
+            "etc": "",
+            "brand": ["포토이즘박스"]
+        },
+        "frame4": {
+            "frame": 4,
+            "take": 4,
+            "price": 5000,
+            "etc": "디즈니(인생네컷), 특수프레임(포토시그니처)",
+            "brand": ["인생네컷", "포토시그니처"]
+        },
+        "frame5": {
+            "frame": 6,
+            "take": 10,
+            "price": 4000,
+            "etc": "",
+            "brand": ["포토시그니처"]
+        },
+        "frame6": {
+            "frame": 6,
+            "take": 10,
+            "price": 5000,
+            "etc": "특수프레임(포토시그니처)",
+            "brand": ["포토이즘박스", "하루필름", "포토시그니처"]
+        },
+        "frame7": {
+            "frame": 4,
+            "take": 10,
+            "price": 5000,
+            "etc": "4cut profile(하루필름)",
+            "brand": ["하루필름"]
+
+        },
+        "frame8": {
+            "frame": 8,
+            "take": 6,
+            "price": 6000,
+            "etc": "증명사진(하루필름)",
+            "brand": ["하루필름"]
+        },
+        "frame9": {
+            "frame": 6,
+            "take": 6,
+            "price": 4000,
+            "etc": "6장 중 3장 선택(셀픽스)",
+            "brand": ["셀픽스"]
+        },
+        "frame10": {
+            "frame": 1,
+            "take": 6,
+            "price": 5000,
+            "etc": "전신",
+            "brand": ["셀픽스"]
+        },
+        "frame11": {
+            "frame": 4,
+            "take": 6,
+            "price": 5000,
+            "etc": "전신",
+            "brand": ["셀픽스"]
+        },
+    }
+
+    for key in frame_dict.keys():
+        name = frame_dict[key]
+        
+        for brandName in name["brand"]:
+            brand = Brand.objects.get(name = brandName)  
+            new = Frame(name = key, frame = name["frame"], take = name["take"], price = name["price"], etc = name["etc"], brand = brand)
+            new.save()
+
 
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
+brand()
+frame()
 main()
+
 driver.close()
 
 

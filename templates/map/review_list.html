@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    {% for review in reviews %}
+    <a href="{% url 'map:review_detail' review.id %}"><h3>{{ review.booth }}</h3></a>
+    {% endfor %}
+
+    <a href="{% url 'map:review_create' %}">리뷰 작성 </a>
+
+
+{% endblock %}

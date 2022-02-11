@@ -1,0 +1,15 @@
+{% load socialaccount %}
+{% providers_media_js %}
+
+{% block content %}
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form.as_table}}
+    <button>Login</button>
+</form>
+<a href="{% url 'password_reset' %}">비밀번호를 잊으셨나요?</a>
+<a href="{% provider_login_url "google" %}">Google 로그인</a>
+<a href="{% provider_login_url "naver" %}">NAVER 로그인</a>
+{% endblock content %}
+
+

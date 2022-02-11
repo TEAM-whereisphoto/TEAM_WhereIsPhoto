@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>{{ review.booth }}</h1>
+
+    <div>
+      <h5>유저 : {{ review.user }}</h5>
+      <h5>날짜 : {{ review.date }}</h5>
+      <h5>별점 : {{ review.rate }}</h5>
+        <h5> 고데기 :
+        {% if review.iron == 'YES' %} 있음
+        {% else %} 없음
+        {% endif %}
+        </h5>
+
+        <h5> 부스 타입 :
+        {% if review.street == 'STORE' %} 매장점
+        {% else %} 부스점
+        {% endif %}
+        </h5>
+
+        <h5> Feature :
+        {% if review.deco == 'GLASS' %} 안경
+        {% elif review.deco == 'BAND' %} 머리띠
+        {% else %} 모자
+        {% endif %}
+        </h5>
+
+        <h5>부스 개수 :
+        {% if review.boxnum == '1' %} 1개
+        {% elif review.boxnum == '2' %} 2개
+        {% elif review.boxnum == '3'%} 3개
+        {% elif review.boxnum == '4'%} 4개
+        {% else %} 5개 이상
+        {% endif %}
+        </h5>
+    </div>
+
+    <a href="{% url 'map:review_list' %}">lists</a> <br />
+    <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
+    <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
+
+{% endblock %}
