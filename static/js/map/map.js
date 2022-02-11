@@ -296,7 +296,7 @@ function printList(boothElement, AccElement) {
                         </div>
                     </button>
 
-                    <a style="display: block;" class="mt-3" href="{% url 'map:detail' pk=${ boothId } %}">디테일페이지</a>
+                    <a style="display: block;" class="mt-3" href="/booth/detail/${boothId}" %}">디테일페이지</a>
                 </div>
             </div>
         </div>

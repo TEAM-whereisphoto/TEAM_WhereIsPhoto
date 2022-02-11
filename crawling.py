@@ -102,7 +102,7 @@ def main():
         exec(logic_search)
         exec(logic_crawling)
 
-# {eng_name} = {boothname: {location: , operation_hour: , brand: }}
+    # {eng_name} = {boothname: {location: , operation_hour: , brand: }}
 
     brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict, harufilm_dict]
     for dict in brand_dict_list:
@@ -114,7 +114,6 @@ def main():
             else:
                 key = Booth(name = key, location = value['location'], brand = brand)
                 key.save()
-
 
 
 # brand 등록
@@ -252,8 +251,8 @@ def frame():
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
-# brand()
-# frame()
+brand()
+frame()
 main()
 
 driver.close()
