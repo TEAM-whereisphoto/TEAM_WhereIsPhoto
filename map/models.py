@@ -17,7 +17,7 @@ class Booth(models.Model):
 
     ## 리뷰로 받는 것들
     street = models.IntegerField(default=0) # 길거리인지(0), 매장인지(1)
-    deco = models.IntegerField(default=0) # 소품 (없 0 있 1)
+    deco = models.CharField(max_length=50) # 소품 (없 0 있 1)
     iron = models.IntegerField(default=0) # 고데기 (없 0 있 1)
     boxnum = models.IntegerField(default=0) # 부스 갯수 (갯수마다)
 
@@ -36,14 +36,13 @@ class Liked(models.Model):
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     date = models.DateField()
 
-
 # 리뷰 작성할 부스, 리뷰 작성하는 user, title, 리뷰 작성한 시간, 사진, 별점
 # tag 추가해야 됨
 class Review(models.Model):
     IRON_CHOICES = (('YES', 'yes'), ('No', 'no'))
     STREET_CHOICES = (('STORE', 'store'), ('ROAD', 'road'))
     DECO_CHOICES = (('GLASS', 'glass'), ('BAND', 'band'), ('HAT', 'hat'))
-    BOXNUM_CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'),('5_more', '5_more'))
+    BOXNUM_CHOICES = (('one', 'one'), ('two', 'two'), ('three', 'three'), ('four', 'four'),('five_more', 'five_more'))
 
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

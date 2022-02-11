@@ -35,6 +35,85 @@ def avg(pk): # 평균 별점 계산 함수
     booth.review_number = n
     booth.save()
 
+def booth_statistic(request, pk):
+    booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
+    reviews = Review.objects.filter(booth = booth.pk)
+    iron_yes = 0
+    iron_no = 0
+
+    street = 0
+    road = 0
+
+    deco_glass = 0
+    deco_band = 0
+    deco_hat = 0
+
+    boxnum_one = 0
+    boxnum_two = 0
+    boxnum_thr = 0
+    boxnum_fou = 0
+    boxnum_fim = 0
+    boxnum_max = 0
+    boxnum_index=0
+
+    for review in reviews:
+        if review.iron == 'YES':
+            iron_yes += 1
+        else:
+            iron_no += 1
+
+        if review.street == 'STORE':
+            street += 1
+        else:
+            road += 1
+
+        if review.deco == 'GLASS':
+            deco_glass += 1
+        elif review.deco == 'BAND':
+            deco_band += 1
+        else:
+            dceo_hat += 1
+
+        if review.boxnum == 'one':
+            boxnum_one += 1
+            if boxnum_one > boxnum_max:
+                boxnum_max = boxnum_one
+                boxnum_index = 1
+        elif review.boxnum == 'two':
+            boxnum_two += 1
+            if boxnum_two > boxnum_max:
+                boxnum_max = boxnum_two
+                boxnum_index = 2
+        elif review.boxnum == 'three':
+            boxnum_thr += 1
+            if boxnum_thr > boxnum_max:
+                boxnum_max = boxnum_thr
+                boxnum_index = 3
+        elif review.boxnum == 'four':
+            boxnum_fou += 1
+            if boxnum_fou > boxnum_max:
+                boxnum_max = boxnum_fou
+                boxnum_index = 4
+        else:
+            boxnum_fim += 1
+            if boxnum_fim > boxnum_max:
+                boxnum_max = boxnum_fim
+                boxnum_index = 5
+
+        booth.boxnum = boxnum_index
+        if(iron_yes > iron_no):
+            booth.iron = 1
+        if(street > road):
+            booth.street = 1
+        if(deco_glass >= 2):
+            booth.deco = 'GLASS'
+        if(deco_band >= 2):
+            booth.deco = 'BAND'
+        if(deco_hat >= 2):
+            booth.deco = 'HAT'
+        booth.save()
+
+
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
@@ -62,6 +141,8 @@ def booth_detail(request,pk):
 
         brand_detail.append(etcList)
         brand_list.append(brand_detail)
+
+    booth_statistic(request, pk)
 
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list}
     return render(request, template_name='map/booth_detail.html', context=ctx)

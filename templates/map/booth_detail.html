@@ -19,7 +19,39 @@
         <h6>{{booth.rating}}</h6>
         <h6>{{booth.review_number}} Reviews</h6>
         <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
+        <br>
     </div>
+
+    <div>
+        <br>
+        <h4>부스 디테일 </h4>
+
+        {% if booth.iron == 1%}
+        <h6> 고데기 : 있음 </h6>
+        {% else %}
+        <h6> 고데기 : 없음 </h6>
+        {% endif %}
+
+        {% if booth.street == 1%}
+        <h6> 매장점  </h6>
+        {% else %}
+        <h6> 부스점 </h6>
+        {% endif %}
+
+        {% if booth.deco == 'GLASS'%}
+        <h6> 소품 : 안경</h6>
+        {% elif booth.deco == 'BAND' %}
+        <h6> 소품 : 머리띠 </h6>
+        {% else %}
+        <h6> 소품 : 모자 </h6>
+        {% endif %}
+
+        <h6> 부스 개수 : {{booth.boxnum}} </h6>
+
+
+    </div>
+
+
     <div>
         <br>
         <h4>Lost and Found</h4>
@@ -44,10 +76,42 @@
         <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
         <br>
     </div>
-
     <div>
         <br>
         <h4>참고사항</h4>
+        {% for review in reviews %}
+        {% if review.new == True %}
+
+        <h6> 고데기 :
+        {% if review.iron == 'YES' %} 있음
+        {% else %} 없음
+        {% endif %}
+
+        / 부스 타입 :
+        {% if review.street == 'STORE' %} 매장점
+        {% else %} 부스점
+        {% endif %}
+        / Feature :
+        {% if review.deco == 'GLASS' %} 안경
+        {% elif review.deco == 'BAND' %} 머리띠
+        {% else %} 모자
+        {% endif %}
+        / 부스 개수 :
+        {% if review.boxnum == '1' %} 1개
+        {% elif review.boxnum == '2' %} 2개
+        {% elif review.boxnum == '3'%} 3개
+        {% elif review.boxnum == '4'%} 4개
+        {% else %} 5개 이상
+        {% endif %}
+        </h6>
+
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div>
+        <br>
+        <h4>브랜드 정보</h4>
 
         {% if review.new == True %} <!--왜안뜨지 -->
 
