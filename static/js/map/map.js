@@ -1,4 +1,5 @@
 // 지도 자체 초기 설정
+console.log("연결 확인")
 var container = document.getElementById('map');
 var options = {
     center: new kakao.maps.LatLng(37.557074, 126.929276), // 임의의 중심 좌표
@@ -8,11 +9,10 @@ var options = {
 var map = new kakao.maps.Map(container, options); // 지도 생성
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
 
-// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
-var markers = [];
-
-// 표시할 매장 이름. 나중에 brand model에서 가져오도록 수정 예정.
+// 표시할 매장 이름. 나중에 brand model에서 가져오도록 수정해두면 더 좋긴 할듯.
 var filterSet = new Set(['인생네컷', '포토이즘박스', '포토시그니처', '셀픽스', '하루필름']);
+var brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
+
 
 // 지도 확대 축소 컨트롤 생성
 var zoomControl = new kakao.maps.ZoomControl();
@@ -32,6 +32,22 @@ const photoismpin = new kakao.maps.MarkerImage('../static/icons/photoism.svg', i
 const harupin = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', imageSize)
 const signaturepin = new kakao.maps.MarkerImage('../static/icons/signature.svg', imageSize)
 var brandpin = null;
+
+// for (let value in brand_dict){
+//     eval("var "+brand_dict[value]+"Clust"+" = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLevel: 15});") // minLevel: 15 // 클러스터 할 최소 지도 레벨 
+// };
+
+// 지도에 표시된 마커 객체를 가지고 있을 배열입니다.
+// 브랜드 별로 따로 생성해주었습니다.
+for (let value in brand_dict){
+    eval("var "+brand_dict[value]+"Markers"+" = []") // minLevel: 15 // 클러스터 할 최소 지도 레벨 
+};
+
+
+// const map1 = new Map();
+
+var clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLevel: 15});
+
 
 // 1 현재 위치 찍기 -----------------------------------------------------------------------------
 
@@ -93,12 +109,7 @@ function errorHandler(error) {
 
 // 2 부스 표시하기 -----------------------------
 
-// 주소 정보 가져오기
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-
 // 일단 render로 넘어온 모든 booth들 안보이게 boothList에 등록
-// 이 부분은 추후 상의해봐야할듯 함.. 다 갖고오고 for문 돌려서 새로 표시만 하니까 로딩 너무 느려 ㅠ
 var boothList = document.getElementById('boothList');
 let total = boothList.childElementCount; // count booths    
 
@@ -121,10 +132,8 @@ function setbooth(i) {
     // let booth = boothparent.firstElementChild.dataset
     const name = booth.firstElementChild.dataset.name
     const brandname = booth.firstElementChild.dataset.brand
-    // console.log(brandname)
     const mapLat = booth.firstElementChild.dataset.x
     const mapLng = booth.firstElementChild.dataset.y
-
 
     // 특정 pin's infowindow 설정
     var content = '<div style="padding:2px;z-index:1;font-size:8px; text-align: center!important;">' + name + '</div>';
@@ -134,60 +143,62 @@ function setbooth(i) {
     
     switch (brandname) {
         case '하루필름':
-            console.log("하루")
             brandpin = harupin;
             break;
         case '인생네컷':
-            console.log("인생")
             brandpin = lifepin;
             break;
         case '포토이즘박스':
-            console.log("포토")
             brandpin = photoismpin;
             break;
         case '셀픽스':
-            console.log("셀")
             brandpin = selfixpin;
             break;
         case '포토시그니처':
-            console.log("시그")
             brandpin = signaturepin;
             break;
         default:
             brandpin = markerImage;
-            console.log("이거 표시되면 안된다 뭔가 잘못되고 있는거다?")
     }
 
-    var coords = new kakao.maps.LatLng(mapLat, mapLng) 
-    addMarker(coords, brandpin, infowindow);
+    var coords = new kakao.maps.LatLng(mapLat, mapLng)
+    addMarker(coords, brandpin, infowindow, brandname);
     // 초기 607개 pin 배열 생성
 
     infowindow.setPosition(coords); // 인포윈도우 달릴 위치 설정 (=해당 핀 좌표)
 
 
-    
     // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
     if (bounds.contain( coords )) {
         printList(booth); // list에 표시하기             
         mapboundbooth.push(booth);           
-        console.log("위치 안")
+        // console.log("위치 안")
     }
 
 }
 
-function addMarker(pos, img, infowindow) {
+
+function addMarker(pos, img, infowindow, brandname) {
     var marker = new kakao.maps.Marker({
-        map:map,
+        // map:map,
         position: pos,
         image: img,
     });
+    // console.log(marker);
     marker.setMap(map);
-    markers.push(marker);
+
+    eval(brand_dict[brandname]+"Markers.push(marker);")
     
     setClickEvents(marker, infowindow);
 
-
 }
+
+for (let value in brand_dict){
+    // let engbrand = brand_dict[value]
+    clu.addMarkers(eval(brand_dict[value]+"Markers"))
+    // ex) harufilmClust.addMarkers(harumfilmMarkers)
+};
+
 
 function setClickEvents (marker, infowindow) { // 파라미터
     // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
@@ -249,7 +260,6 @@ function findList() {
 }
 
 // 리스트에 매장 추가
-// 근데 넘 느려ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
 function printList(boothElement) {
     
     const brand = boothElement.firstElementChild.dataset.brand;
@@ -340,7 +350,7 @@ var sortDist = document.getElementById('sortDist'); // 구현 전
 sortAlpha.addEventListener('click', function() {
     
     if (this.checked) {
-        console.log("checked!")
+        // console.log("checked!")
 
 
         mapboundbooth.sort(function(a, b) {
@@ -367,7 +377,7 @@ sortAlpha.addEventListener('click', function() {
 sortAlphaDesc.addEventListener('click', function() {
     
     if (this.checked) {
-        console.log("desc checked!")
+        // console.log("desc checked!")
     
 
         mapboundbooth.sort(function(a, b) {
@@ -403,20 +413,33 @@ const filterHaru = document.getElementById('filter-haru');
 
 const filterGroup = document.getElementById('filterGroup');
 
+// var showstyle = [{
+//     visibility: 'visible'
+// }]
+
+// var hidestyle = [{
+//     visibility: 'hidden'
+// }]
+
 filterGroup.addEventListener('click', function() {
+    
+    clu.clear()
 
     for (let i=1; i<this.childElementCount; i=i+2) {
         brandname = this.children[i].innerHTML;
-        if (this.children[i-1].checked) { filterSet.add(brandname) }
-        else { filterSet.delete(brandname) }
+        if (this.children[i-1].checked) { 
+            filterSet.add(brandname);
+            clu.addMarkers(eval(brand_dict[brandname]+"Markers"))
+        }
+        else { 
+            filterSet.delete(brandname)            
+        }
     }
 
-    console.log(filterSet)
-
+    // 아래는 list 관련
     accList.innerHTML = '';
-
-    for (var index in mapboundbooth) {
-        printList(mapboundbooth[index]);    
+    for (var booth of mapboundbooth) {
+        printList(booth);    
     }
-
+    
 });
