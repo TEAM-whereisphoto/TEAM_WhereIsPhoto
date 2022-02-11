@@ -254,9 +254,9 @@ function printList(boothElement) {
     
     const brand = boothElement.firstElementChild.dataset.brand;
 
-    // if (!filterSet.has(brand)) {
-    //     return 0;
-    // }
+    if (!filterSet.has(brand)) {
+        return 0;
+    }
 
     // 지도 내에 있는 booth의 정보 가져오기
     let name = boothElement.firstElementChild.dataset.name; // ???????????
@@ -403,11 +403,7 @@ const filterHaru = document.getElementById('filter-haru');
 
 const filterGroup = document.getElementById('filterGroup');
 
-const requestFilter = new XMLHttpRequest();
-
 filterGroup.addEventListener('click', function() {
-
-    hideMarkers();
 
     for (let i=1; i<this.childElementCount; i=i+2) {
         brandname = this.children[i].innerHTML;
@@ -415,146 +411,12 @@ filterGroup.addEventListener('click', function() {
         else { filterSet.delete(brandname) }
     }
 
-    const url = "/filter/";
-    requestFilter.open("POST", url, true);
-    requestFilter.setRequestHeader(
-        "Content-Type",
-        "application/x-www-form-urlencoded"
-    );
-    // set 자료구조는 json안에 못들어가나?
-    console.log("before sending to view");
-    console.log(filterSet);
-    let array = Array.from(filterSet);
-    // const jsoned = JSON.stringify({brands: String(array)});
-    const jsoned = JSON.stringify({brands: array});
-    console.log(jsoned)
-    requestFilter.send(jsoned);
+    console.log(filterSet)
 
+    accList.innerHTML = '';
 
-
-    // for (let i=1; i<this.childElementCount; i=i+2) {
-    //     brandname = this.children[i].innerHTML;
-    //     if (this.children[i-1].checked) { filterSet.add(brandname) }
-    //     else { filterSet.delete(brandname) }
-    // }
-
-    // console.log(filterSet)
-    // accList.innerHTML = '';
-
-    // for (var index in mapboundbooth) {
-    //     printList(mapboundbooth[index], accList);
-    // }
-    
-});
-
-const filterHandleResponse = () => {
-    if(requestFilter.status < 400 ) { // 응답이 왔고, 거기에 오류가 있나 (서버 에러, 다른 에러 505 등)
-        const filteredbooths = JSON.parse(requestFilter.response);
-        
-        accList.innerHTML = '';
-        console.log(filteredbooths)
-
-        for (let booth of filteredbooths) {
-        // refreshpin(filteredbooths);
-            // addMarker()
-
-        // listup(filteredbooths);
-        // 구현해야함. 일단 밑에 적어두겠음
-
-            const brand = booth.brand;
-
-            // 지도 내에 있는 booth의 정보 가져오기
-            let name = booth.name; // ???????????
-            let address = booth.loc;
-            const boothId = booth.id;
-            const hour = booth.hour;
-            
-
-            const street = parseInt(booth.street);
-            const deco = parseInt(booth.deco);
-            const boxnum = parseInt(booth.boxnum);
-            const rating = parseFloat(booth.rating);
-            const likenum = booth.likenum;
-
-            let streetContent = ''
-            let decoContent = ''
-            let hourContent = ''
-
-            // detail 어떻게 표시될지 if문
-            if (street) { streetContent = "매장점" }
-            else { streetContent = "부스점" }
-
-            if (deco) { decoContent = "○" } // 소품 ㅇ
-            else { decoContent = "X" } // 소품 x
-
-            if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
-
-            const newdiv = document.createElement('div');
-            newdiv.setAttribute('class', 'accordion-item');
-            newdiv.innerHTML = 
-            `<div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button id="accordion-name" data-name="${ name }" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${ boothId }" aria-expanded="true" aria-controls="collapse-${ boothId }">
-                        <svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-                            <path fill="none" d="M0 0h24v24H0z"/>
-                            <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(31,82,255,1)"/>
-                        </svg>${ name }
-
-                        <button class="btn btn-gray btn-sm ms-5 mb-3">${ brand }</button>
-                    </button>
-                </h2>
-
-                <div id="collapse-${ boothId }" class="accordion-collapse collapse" aria-labelledby="heading-${ boothId }" data-bs-parent="#accordionList">
-                    <div class="accordion-body">
-                        <div id="mapdetail-${ boothId }" class="ps-4">
-                            
-                            <p style="margin: 0; color: #8B8B8B; font-size: 0.75rem;">
-                                부스 ${ boxnum }개 | ${ streetContent } | 소품 ${ decoContent }
-                            </p>
-                            
-                            <p style="margin: 16px 0 0 0">${ address }</p>
-
-                            <p style="margin: 16px 0 0 0"></p>
-                            ${ hourContent }
-                            </p>
-
-                            <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
-                                <div class="row">
-
-                                    <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
-                                    | 
-                                    <div class = "col" style="color: #484848"> ${ likenum } users </div>
-                                </div>
-                            </button>
-
-                            <a style="display: block;" class="mt-3" href="/booth/detail/${ boothId }">디테일페이지</a>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-
-            accList.append(newdiv); // list추가
-
-            }
-        }
-};
-
-requestFilter.onreadystatechange = () => {
-    if(requestFilter.readyState === XMLHttpRequest.DONE) {
-        filterHandleResponse();
+    for (var index in mapboundbooth) {
+        printList(mapboundbooth[index]);    
     }
-}
 
-function setMarkers(map) {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-    }            
-}
-
-function showMarkers() {
-    setMarkers(map);    
-}
-
-function hideMarkers() {
-    setMarkers(null);    
-}
+});
