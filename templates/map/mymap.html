@@ -58,7 +58,11 @@
                         data-iron="{{ booth.iron }}"
                         data-boxnum="{{ booth.boxnum }}"
                         data-rating="{{ booth.rating }}"
-                        data-likenum="{{ booth.likenum }}"></div>
+                        data-likenum="{{ booth.likenum }}"
+                        data-x="{{ booth.x }}"
+                        data-y="{{ booth.y }}"
+
+                        ></div>
                         {{ booth.id }}
                         <a style="display: block;" class="mt-3" href="{% url 'map:booth_detail' pk=booth.pk %}">디테일페이지</a>
                     </li>
