@@ -8,6 +8,9 @@ var options = {
 var map = new kakao.maps.Map(container, options); // 지도 생성
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
 
+// 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+var markers = [];
+
 // 표시할 매장 이름. 나중에 brand model에서 가져오도록 수정 예정.
 var filterSet = new Set(['인생네컷', '포토이즘박스', '포토시그니처', '셀픽스', '하루필름']);
 
@@ -194,6 +197,10 @@ function setbooth(i) {
 
             // 결과값으로 받은 위치를 마커로 표시합니다
             // 마커 == pin
+
+            addMarker(coords, brandpin);
+        
+
             var marker = new kakao.maps.Marker({
                 map: map,
                 position: coords,
@@ -201,34 +208,13 @@ function setbooth(i) {
             });
             marker.setMap(map);
             // 지도에 핀은 일단 다 찍어놓기 
+            markers.push(marker);
 
             infowindow.setPosition(coords); // 인포윈도우 달릴 위치 설정 (=해당 핀 좌표)
 
-            (function(marker, infowindow) { // 파라미터
-                // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
-                kakao.maps.event.addListener(marker, 'mouseover', function() {
-                    infowindow.open(map, marker);
-                });
-        
-                // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
-                kakao.maps.event.addListener(marker, 'mouseout', function() {
-                    infowindow.close();
-                });
+            setClickEvents(marker, infowindow);
 
-                // 이 아래는 list에 mouseover시 하려고 했던 것
-                // 추후 디자인 logic 따라 수정 예정
-
-                // name_ele.onmouseover =  function () {
-                //     infowindow.open(map, marker);
-                // };
-
-                // name_ele.onmouseout =  function () {
-                //     infowindow.close();
-                // };
-                // console.log("set hover func");
-            })(marker, infowindow); // 실제 넘기는거
             
-
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
             if (bounds.contain( coords )) {
                 printList(booth, accList); // list에 표시하기             
@@ -246,6 +232,39 @@ function setbooth(i) {
 
 }
 
+function addMarker(pos, img) {
+    var marker = new kakao.maps.Marker({
+        map:map,
+        position: pos,
+        image: img,
+    });
+    marker.setMap(map);
+    markers.push(marker);
+}
+
+function setClickEvents (marker, infowindow) { // 파라미터
+    // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+    kakao.maps.event.addListener(marker, 'mouseover', function() {
+        infowindow.open(map, marker);
+    });
+
+    // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+    kakao.maps.event.addListener(marker, 'mouseout', function() {
+        infowindow.close();
+    });
+
+    // 이 아래는 list에 mouseover시 하려고 했던 것
+    // 추후 디자인 logic 따라 수정 예정
+
+    // name_ele.onmouseover =  function () {
+    //     infowindow.open(map, marker);
+    // };
+
+    // name_ele.onmouseout =  function () {
+    //     infowindow.close();
+    // };
+    // console.log("set hover func");
+};
 
 // 3 초기 세팅 이후, 화면 변경에 따라 list 표시 다르게
 // 중심 좌표 움직였을 때
@@ -369,7 +388,7 @@ function printList(boothElement, AccElement) {
 // alphabet
 var sortAlpha = document.getElementById('sortAlpha');
 var sortAlphaDesc = document.getElementById('sortAlphaDesc');
-var sortDist = document.getElementById('sortDist');
+var sortDist = document.getElementById('sortDist'); // 구현 전
 
 sortAlpha.addEventListener('click', function() {
     
@@ -437,7 +456,11 @@ const filterHaru = document.getElementById('filter-haru');
 
 const filterGroup = document.getElementById('filterGroup');
 
+const requestFilter = new XMLHttpRequest();
+
 filterGroup.addEventListener('click', function() {
+
+    hideMarkers();
 
     for (let i=1; i<this.childElementCount; i=i+2) {
         brandname = this.children[i].innerHTML;
@@ -445,14 +468,146 @@ filterGroup.addEventListener('click', function() {
         else { filterSet.delete(brandname) }
     }
 
-    console.log(filterSet)
-    accList.innerHTML = '';
+    const url = "/filter/";
+    requestFilter.open("POST", url, true);
+    requestFilter.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+    );
+    // set 자료구조는 json안에 못들어가나?
+    console.log("before sending to view");
+    console.log(filterSet);
+    let array = Array.from(filterSet);
+    // const jsoned = JSON.stringify({brands: String(array)});
+    const jsoned = JSON.stringify({brands: array});
+    console.log(jsoned)
+    requestFilter.send(jsoned);
 
-    for (var index in mapboundbooth) {
-        printList(mapboundbooth[index], accList);
-    }
-    // for (brand in brands) {
-    //     if (brand.checked) { filterSet.add(brand.firstElementChild.dataset.name) }
-    //     else { filterSet.delete(brand.innerHTML) }
+
+
+    // for (let i=1; i<this.childElementCount; i=i+2) {
+    //     brandname = this.children[i].innerHTML;
+    //     if (this.children[i-1].checked) { filterSet.add(brandname) }
+    //     else { filterSet.delete(brandname) }
     // }
+
+    // console.log(filterSet)
+    // accList.innerHTML = '';
+
+    // for (var index in mapboundbooth) {
+    //     printList(mapboundbooth[index], accList);
+    // }
+    
 });
+
+const filterHandleResponse = () => {
+    if(requestFilter.status < 400 ) { // 응답이 왔고, 거기에 오류가 있나 (서버 에러, 다른 에러 505 등)
+        const filteredbooths = JSON.parse(requestFilter.response);
+        
+        accList.innerHTML = '';
+        console.log(filteredbooths)
+
+        for (let booth of filteredbooths) {
+        // refreshpin(filteredbooths);
+            // addMarker()
+
+        // listup(filteredbooths);
+        // 구현해야함. 일단 밑에 적어두겠음
+
+            const brand = booth.brand;
+
+            // 지도 내에 있는 booth의 정보 가져오기
+            let name = booth.name; // ???????????
+            let address = booth.loc;
+            const boothId = booth.id;
+            const hour = booth.hour;
+            
+
+            const street = parseInt(booth.street);
+            const deco = parseInt(booth.deco);
+            const boxnum = parseInt(booth.boxnum);
+            const rating = parseFloat(booth.rating);
+            const likenum = booth.likenum;
+
+            let streetContent = ''
+            let decoContent = ''
+            let hourContent = ''
+
+            // detail 어떻게 표시될지 if문
+            if (street) { streetContent = "매장점" }
+            else { streetContent = "부스점" }
+
+            if (deco) { decoContent = "○" } // 소품 ㅇ
+            else { decoContent = "X" } // 소품 x
+
+            if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
+
+            const newdiv = document.createElement('div');
+            newdiv.setAttribute('class', 'accordion-item');
+            newdiv.innerHTML = 
+            `<div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button id="accordion-name" data-name="${ name }" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${ boothId }" aria-expanded="true" aria-controls="collapse-${ boothId }">
+                        <svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(31,82,255,1)"/>
+                        </svg>${ name }
+
+                        <button class="btn btn-gray btn-sm ms-5 mb-3">${ brand }</button>
+                    </button>
+                </h2>
+
+                <div id="collapse-${ boothId }" class="accordion-collapse collapse" aria-labelledby="heading-${ boothId }" data-bs-parent="#accordionList">
+                    <div class="accordion-body">
+                        <div id="mapdetail-${ boothId }" class="ps-4">
+                            
+                            <p style="margin: 0; color: #8B8B8B; font-size: 0.75rem;">
+                                부스 ${ boxnum }개 | ${ streetContent } | 소품 ${ decoContent }
+                            </p>
+                            
+                            <p style="margin: 16px 0 0 0">${ address }</p>
+
+                            <p style="margin: 16px 0 0 0"></p>
+                            ${ hourContent }
+                            </p>
+
+                            <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
+                                <div class="row">
+
+                                    <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                                    | 
+                                    <div class = "col" style="color: #484848"> ${ likenum } users </div>
+                                </div>
+                            </button>
+
+                            <a style="display: block;" class="mt-3" href="/booth/detail/${ boothId }">디테일페이지</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            accList.append(newdiv); // list추가
+
+            }
+        }
+};
+
+requestFilter.onreadystatechange = () => {
+    if(requestFilter.readyState === XMLHttpRequest.DONE) {
+        filterHandleResponse();
+    }
+}
+
+function setMarkers(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }            
+}
+
+function showMarkers() {
+    setMarkers(map);    
+}
+
+function hideMarkers() {
+    setMarkers(null);    
+}

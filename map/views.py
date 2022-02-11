@@ -8,6 +8,7 @@ from brand.models import Frame
 from user.models import User
 
 
+
 # Create your views here.
 
 def mymap(request):
@@ -155,3 +156,20 @@ def search(request):
     boothlist = Booth.objects.filter(name__contains=search)
     ctx = {'booths':boothlist}
     return render(request, 'map/mymap.html', context=ctx)
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def filter(request):
+    req = json.loads(request.body)
+    showbrands = req['brands']
+    print("before")
+    boothlist = list(Booth.objects.filter(brand__in=showbrands).values())\
+    # 이게 지금 foriegn키라 접근이 뭔가 어렵나봄..
+    # boothlist = list(Booth.objects.all().values())
+    print(boothlist)
+
+
+    return JsonResponse({'booths':boothlist})
