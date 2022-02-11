@@ -14,7 +14,6 @@ map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
 
-
 // 2. 전역 변수들 생성 -----------------------------------------------------------------------------
 
 // 표시할 brand 이름. 나중에 brand model에서 가져오도록 수정해두면 더 좋긴 할듯.
@@ -47,6 +46,16 @@ for (let value in brand_dict){
 const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLevel: 15});
 
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
+
+
+var boothList = document.getElementById('boothList');
+let total = boothList.childElementCount; // count booths    
+
+// booth list하는 아코디언 dom
+var accList = document.getElementById('accordionList')
+
+// 범위 내의 booth list 저장해두는 array
+let mapboundbooth = []
 
 // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
@@ -112,25 +121,30 @@ function errorHandler(error) {
 
 // 4 초기 부스 정보 다루기 -----------------------------------------------------------------------------
 
+// 초반에 이 변수들 다 생성
 // 일단 render로 넘어온 모든 booth들 안보이게 boothList에 등록
-var boothList = document.getElementById('boothList');
-let total = boothList.childElementCount; // count booths    
+// var boothList = document.getElementById('boothList');
+// let total = boothList.childElementCount; // count booths    
 
-// booth list하는 아코디언 dom
-var accList = document.getElementById('accordionList')
+// // booth list하는 아코디언 dom
+// var accList = document.getElementById('accordionList')
 
-// 범위 내의 booth list 저장해두는 array
-let mapboundbooth = []
+// // 범위 내의 booth list 저장해두는 array
+// let mapboundbooth = []
 
-for (let i=0; i<total; i++) {
-    setbooth(i);
+handleData();
+
+function handleData() {
+    for (let i=0; i<total; i++) {
+        setbooth(i);
+    }
     // 클러스터에 브랜드별 marker 배열 넣기
     for (let value in brand_dict){
         // let engbrand = brand_dict[value]
         clu.addMarkers(eval(brand_dict[value]+"Markers"))
         // ex) harufilmClust.addMarkers(harumfilmMarkers)
     };
-}
+} 
 
 function setbooth(i) {
     let booth = boothList.children[i] // 특정 booth 정보 담은 객체
@@ -145,8 +159,6 @@ function setbooth(i) {
 
     // 각자 브랜드에 맞는 pin icon 할당
     brandpin = eval(brand_dict[brandname]+"pin;")
-    addMarker(coords, brandpin, infowindow, brandname);
-    // 초기 607개 pin 배열 생성
 
     // 특정 pin's infowindow 설정
     var content = '<div style="padding:2px;z-index:1;font-size:8px; text-align: center!important;">' + name + '</div>';
@@ -154,11 +166,13 @@ function setbooth(i) {
     infowindow.setContent(content); // infowindow 내용
     infowindow.setPosition(coords); // 인포윈도우 달릴 위치 설정 (=해당 핀 좌표)
 
+    addMarker(coords, brandpin, infowindow, brandname);
+    // 초기 607개 pin 배열 생성
 
     // booth의 좌표가 현재 지도 boundary 안에 있는거면 list up
     if (bounds.contain( coords )) {
-        printList(booth); // list에 표시하기             
         mapboundbooth.push(booth);           
+        printList(booth); // list에 표시하기             
         // console.log("위치 안")
     }
 
@@ -177,7 +191,6 @@ function addMarker(pos, img, infowindow, brandname) {
     // brand별로 marker 배열에 marker push
     
     setClickEvents(marker, infowindow);
-
 }
 
 // 리스트에 매장 추가
@@ -313,8 +326,8 @@ function findList() {
         
         // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
         if (bounds.contain( boothcoord )) {
-            printList(booth); // list에 표시하기
             mapboundbooth.push(booth)           
+            printList(booth); // list에 표시하기
         }
     
         else {
@@ -379,7 +392,7 @@ sortAlphaDesc.addEventListener('click', function() {
 // 정렬 필터 끝 -----------------------------------------------------------------------------
 
 
-// 5. 브랜드 필터 -----------------------------------------------------------------------------
+// 7. 브랜드 필터 -----------------------------------------------------------------------------
 const filterLifefour = document.getElementById('filter-lifefour');
 const filterPhotoism = document.getElementById('filter-photoism');
 const filterSignature = document.getElementById('filter-signature');
@@ -435,3 +448,34 @@ filterGroup.addEventListener('click', function() {
 });
 
 // 브랜드 필터 끝 -----------------------------------------------------------------------------
+
+
+// 8. 검색했을 때 해당 지역으로 지도 이동 -----------------------------------------------------------------------------
+
+// 장소 검색 객체를 생성합니다
+var ps = new kakao.maps.services.Places(); 
+
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+
+searchBtn.addEventListener('click', function() {
+    var keyword = searchInput.value
+
+    // 키워드로 장소를 검색합니다
+    ps.keywordSearch(keyword, placesSearchCB); 
+
+    // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+    function placesSearchCB (data, status) {
+        if (status === kakao.maps.services.Status.OK) {
+
+            var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
+
+            // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
+            map.setCenter(newcenter);
+        }
+        else {
+            alert("입력된 장소가 없습니다 ㅠㅠ 다시 입력해주세요!")
+        } 
+    }
+});
+// 검색 끝 -----------------------------------------------------------------------------
