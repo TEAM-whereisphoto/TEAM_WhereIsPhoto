@@ -4,11 +4,7 @@ document.addEventListener('DOMContentLoaded', function(){
         return response.json()
     })
     .then(data => {
-        data_js = eval(data['booth_json'])
-        return data_js
-    })
-    .then(data => {
-        main(data)
+        main(data['boothList'])
     })
     .catch(error => {
         console.log("err", error)
@@ -16,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
 })
 
 function main(boothList){
+    console.log(boothList)
     // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
     var container = document.getElementById('map');
     var options = {

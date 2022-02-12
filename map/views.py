@@ -167,14 +167,14 @@ def search(request):
 @csrf_exempt
 def load(request):
     booths = Booth.objects.all()
-    booth_list = list(booths.values())
-    booth_json = json.dumps(booth_list, ensure_ascii=False)
-
+    boothList = []
     for booth in booths:
-        
+        boothDict = {}
+        boothDict = {"id": booth.id, "name": booth.name, "location": booth.location, "x": booth.x, "y": booth.y, "rating":booth.rating, 
+        "likenum": booth.likenum, "operationHour": booth.operationHour, "brand": booth.brand.name}
+        boothList.append(boothDict)
 
-
-    return JsonResponse({'booth_json': booth_json})
+    return JsonResponse({'boothList': boothList})
 
 
     # [{id, name, location, x, y, rating, likenum, operationHour, brand}, {}]
