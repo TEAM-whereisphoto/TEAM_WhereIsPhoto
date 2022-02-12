@@ -65,5 +65,3 @@ class Review(models.Model):
             self.hexcolor,
         )
 
-    new = models.BooleanField(default=False)
-

@@ -79,38 +79,6 @@
         <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
         <br>
     </div>
-    <div>
-        <br>
-        <h4>참고사항</h4>
-        {% for review in reviews %}
-        {% if review.new == True %}
-
-        <h6> 고데기 :
-        {% if review.iron == 'YES' %} 있음
-        {% else %} 없음
-        {% endif %}
-
-        / 부스 타입 :
-        {% if review.street == 'STORE' %} 매장점
-        {% else %} 부스점
-        {% endif %}
-        / Feature :
-        {% if review.deco == 'GLASS' %} 안경
-        {% elif review.deco == 'BAND' %} 머리띠
-        {% else %} 모자
-        {% endif %}
-        / 부스 개수 :
-        {% if review.boxnum == 'one' %} 1개
-        {% elif review.boxnum == 'two' %} 2개
-        {% elif review.boxnum == 'three'%} 3개
-        {% elif review.boxnum == 'four'%} 4개
-        {% else %} 5개 이상
-        {% endif %}
-        </h6>
-
-        {% endif %}
-        {% endfor %}
-    </div>
 
     <div>
         <br>
