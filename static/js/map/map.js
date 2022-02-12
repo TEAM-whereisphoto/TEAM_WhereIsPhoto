@@ -569,9 +569,13 @@ searchBtn.addEventListener('click', function() {
             // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
             map.setCenter(newcenter);
         }
-        else {
-            alert("입력된 장소가 없습니다 ㅠㅠ 다시 입력해주세요!")
+        else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+            alert("입력된 장소가 없습니다. 다시 입력해주세요!")
         } 
+
+        else {
+            alert("검색 api에서 오류가 발생했습니다. 다시 검색해주세요!")
+        }
     }
 });
 // 검색 끝 -----------------------------------------------------------------------------
