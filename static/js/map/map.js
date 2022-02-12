@@ -169,8 +169,8 @@ function main(boothList){
         const brandname = booth["brand"]
         
         
-        const mapLat = booth.firstElementChild.dataset.x
-        const mapLng = booth.firstElementChild.dataset.y
+        const mapLat = booth["x"]
+        const mapLng = booth["y"]
         var coords = new kakao.maps.LatLng(mapLat, mapLng)
     
         // 각자 브랜드에 맞는 pin icon 할당
@@ -212,38 +212,25 @@ function main(boothList){
     // 리스트에 매장 추가
     function printList(boothElement) {
         
-        const brand = boothElement.firstElementChild.dataset.brand;
+        const brand = boothElement["brand"];
     
         if (!filterSet.has(brand)) {
             return 0;
         }
     
         // 지도 내에 있는 booth의 정보 가져오기
-        let name = boothElement.firstElementChild.dataset.name;
-        let address = boothElement.firstElementChild.dataset.loc;
-        const boothId = boothElement.firstElementChild.dataset.id;
-        const hour = boothElement.firstElementChild.dataset.hour;
+        let name = boothElement["name"];
+        let address = boothElement["location"];
+        const boothId = boothElement["id"];
+        const hour = boothElement["operationHour"];
+            
+        const rating = boothElement["rating"];
+        const reviewnum = boothElement["review_num"];
         
-    
-        const street = parseInt(boothElement.firstElementChild.dataset.street);
-        const deco = parseInt(boothElement.firstElementChild.dataset.deco);
-        const boxnum = parseInt(boothElement.firstElementChild.dataset.boxnum);
-        const rating = parseFloat(boothElement.firstElementChild.dataset.rating);
-        const likenum = boothElement.firstElementChild.dataset.likenum;
-        
-        let streetContent = ''
-        let decoContent = ''
         let hourContent = ''
-    
-        // detail 어떻게 표시될지 if문
-        if (street) { streetContent = "매장점" }
-        else { streetContent = "부스점" }
-    
-        if (deco) { decoContent = "○" } // 소품 ㅇ
-        else { decoContent = "X" } // 소품 x
-    
         if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
-    
+
+
         const newdiv = document.createElement('div');
         newdiv.setAttribute('class', 'accordion-item');
         newdiv.innerHTML = 
@@ -262,10 +249,7 @@ function main(boothList){
             <div id="collapse-${ boothId }" class="accordion-collapse collapse" aria-labelledby="heading-${ boothId }" data-bs-parent="#accordionList">
                 <div class="accordion-body">
                     <div id="mapdetail-${ boothId }" class="ps-4">
-                        
-                        <p style="margin: 0; color: #8B8B8B; font-size: 0.75rem;">
-                            부스 ${ boxnum }개 | ${ streetContent } | 소품 ${ decoContent }
-                        </p>
+            
                         
                         <p style="margin: 16px 0 0 0">${ address }</p>
     
@@ -278,7 +262,7 @@ function main(boothList){
     
                                 <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
                                 | 
-                                <div class = "col" style="color: #484848"> ${ likenum } users </div>
+                                <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>
                             </div>
                         </button>
     
@@ -340,9 +324,9 @@ function main(boothList){
     
         for (let i=0; i<total; i++) { // 모든 booth들 다시 탐색...
         
-            let booth = boothList.children[i]
-            let lat = booth.firstElementChild.dataset.x
-            let lng = booth.firstElementChild.dataset.y
+            let booth = boothList[i]
+            let lat = booth["x"]
+            let lng = booth["y"]
             let boothcoord = new kakao.maps.LatLng(lat, lng)
             
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
@@ -373,8 +357,8 @@ function main(boothList){
             // console.log("checked!")
     
             mapboundbooth.sort(function(a, b) {
-                var nameA = a.firstElementChild.dataset.name; // ignore upper and lowercase
-                var nameB = b.firstElementChild.dataset.name; // ignore upper and lowercase
+                var nameA = a["name"]; // ignore upper and lowercase
+                var nameB = b["name"]; // ignore upper and lowercase
                 if (nameA < nameB) { return -1; }
                 if (nameA > nameB) { return 1; }
                 return 0; // 이름이 같을 경우
@@ -394,8 +378,8 @@ function main(boothList){
             // console.log("desc checked!")
     
             mapboundbooth.sort(function(a, b) {
-                var nameA = a.firstElementChild.dataset.name; // ignore upper and lowercase
-                var nameB = b.firstElementChild.dataset.name; // ignore upper and lowercase
+                var nameA = a["name"]; // ignore upper and lowercase
+                var nameB = b["name"]; // ignore upper and lowercase
                 if (nameA > nameB) { return -1; }
                 if (nameA < nameB) { return 1; }
                 return 0; // 이름이 같을 경우
@@ -418,10 +402,10 @@ function main(boothList){
             var curCenter = map.getCenter();
     
             mapboundbooth.sort(function(a, b) {
-                const nameAx = a.firstElementChild.dataset.x; 
-                const nameAy = a.firstElementChild.dataset.y; 
-                const nameBx = b.firstElementChild.dataset.x; 
-                const nameBy = b.firstElementChild.dataset.y; 
+                const nameAx = a["x"]; 
+                const nameAy = a["y"]; 
+                const nameBx = b["x"]; 
+                const nameBy = b["y"]; 
     
                 const coordA = new kakao.maps.LatLng(nameAx, nameAy);
                 const coordB = new kakao.maps.LatLng(nameBx, nameBy);
@@ -501,13 +485,6 @@ function main(boothList){
     
     
     // 7. 브랜드 필터 -----------------------------------------------------------------------------
-    const filterLifefour = document.getElementById('filter-lifefour');
-    const filterPhotoism = document.getElementById('filter-photoism');
-    const filterSignature = document.getElementById('filter-signature');
-    const filterSelfix = document.getElementById('filter-selfix');
-    const filterHaru = document.getElementById('filter-haru');
-    
-    
     const filterGroup = document.getElementById('filterGroup');
     
     // 어떤 거든 필터 설정이 클릭되었을 때
