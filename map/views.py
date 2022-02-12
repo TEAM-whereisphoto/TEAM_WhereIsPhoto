@@ -1,4 +1,3 @@
-from calendar import c
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import *
@@ -14,6 +13,7 @@ from django.db.models import Q
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -39,7 +39,7 @@ def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
     lnfs = LnF_Post.objects.filter(booth= booth.pk)
-    avg(pk) # 왜 새로고침해야 뜨는거지
+    # avg(pk) # 왜 새로고침해야 뜨는거지
 
     brand = Brand.objects.all()
     brand_list = []
@@ -162,3 +162,27 @@ def search(request):
     boothlist = Booth.objects.filter(name__contains=search)
     ctx = {'booths':boothlist}
     return render(request, 'map/mymap.html', context=ctx)
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+# @csrf_exempt
+# def filter(request):
+#     req = json.loads(request.body)
+#     showbrands = req['brands']
+#     print("before")
+#     boothlist = list(Booth.objects.filter(brand__in=showbrands).values())
+#     # 이게 지금 foriegn키라 접근이 뭔가 어렵나봄..
+#     # boothlist = list(Booth.objects.all().values())
+#     print(boothlist)
+
+
+#     return JsonResponse({'booths':boothlist})
+
+# from django.core import serializers
+# @csrf_exempt
+# def dbtojs(request):
+#     boothobjs = Booth.objects.all()
+#     boothjsons = serializers.serialize("json", boothobjs)
+
