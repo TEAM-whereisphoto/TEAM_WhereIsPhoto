@@ -22,7 +22,7 @@ class Booth(models.Model):
     boxnum = models.IntegerField(default=0) # 부스 갯수 (갯수마다)
 
     rating = models.FloatField(default=0) # 별점, 기본값은 0, 별점은 0.5 부터 0.5 단위로?
-    likenum = models.IntegerField(default=0) # 이 매장의 좋아요 
+    likenum = models.IntegerField(default=0) # 이 매장의 좋아요
     review_number = models.IntegerField(default=0)
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Booth(models.Model):
 class Liked(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT, default=None)
-
+    dolike = models.BooleanField(default = False)
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     date = models.DateField()
 
@@ -56,6 +56,14 @@ class Review(models.Model):
     street = models.CharField(choices=STREET_CHOICES, max_length=50)
     deco = models.CharField(choices=DECO_CHOICES, max_length=50)
     boxnum = models.CharField(choices=BOXNUM_CHOICES, max_length=50)
+
+    hexcolor = models.CharField(max_length=7, default="#ffffff")
+
+    def colored_name(self):
+        return format_html(
+            '<span style="color: #{};">{}</span>',
+            self.hexcolor,
+        )
 
     new = models.BooleanField(default=False)
 

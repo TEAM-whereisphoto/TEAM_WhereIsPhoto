@@ -10,7 +10,7 @@
         {% endif %}
         <h3>{{ booth.name }}</h3>
         <h6>{{ booth.loaction }}</h6>
-        <div class="heart" onclick="onClickLike({{ booth.id }} )" >🤍</div>
+        <div class="heart" onclick="onClickLike({{pk}} )" >🤍</div>
         <br>
     </div>
 
@@ -19,6 +19,9 @@
         <h6>{{booth.rating}}</h6>
         <h6>{{booth.review_number}} Reviews</h6>
         <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
+        <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
+
+
         <br>
     </div>
 
@@ -97,10 +100,10 @@
         {% else %} 모자
         {% endif %}
         / 부스 개수 :
-        {% if review.boxnum == '1' %} 1개
-        {% elif review.boxnum == '2' %} 2개
-        {% elif review.boxnum == '3'%} 3개
-        {% elif review.boxnum == '4'%} 4개
+        {% if review.boxnum == 'one' %} 1개
+        {% elif review.boxnum == 'two' %} 2개
+        {% elif review.boxnum == 'three'%} 3개
+        {% elif review.boxnum == 'four'%} 4개
         {% else %} 5개 이상
         {% endif %}
         </h6>
@@ -112,23 +115,10 @@
     <div>
         <br>
         <h4>브랜드 정보</h4>
-
-        {% if review.new == True %} <!--왜안뜨지 -->
-
-        <h6>{{ review.iron }}</h6>
-        <h6>{{ review.street }}</h6>
-        <h6>{{ review.deco}}</h6>
-        <h6>{{ review.boxnum }}</h6>
-
-        {% endif %}
-
-    </div>
-
-    <div>
         이름: {{ brand_list.0.0 }} <br>
-        재촬영: {{ brand_list.1.1 }} <br>
-        리모컨: {{ brand_list.2.2 }} <br>
-        촬영시간: {{ brand_list.3.3 }}<br>
+        재촬영: {{ brand_list.0.1 }} <br>
+        리모컨: {{ brand_list.0.2 }} <br>
+        촬영시간: {{ brand_list.0.3 }}<br>
         가격정보<br>
         {% for frame in brand.4 %}
         가격: {{frame.0}}
@@ -139,7 +129,8 @@
         <br>
     </div>
 </div>
-<!--
+
+
 <script>
     const requestLike = new XMLHttpRequest();
 
@@ -171,7 +162,7 @@
     }
 </script>
 
--->
+
 
 {% endblock %}
 

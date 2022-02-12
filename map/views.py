@@ -16,7 +16,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-
+def mainpage(request):
+    return render(request, 'base.html')
 def mymap(request):
     booths = Booth.objects.all() 
     ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
@@ -31,7 +32,7 @@ def avg(pk): # 평균 별점 계산 함수
     for review in reviews:
         n += 1
         sum += review.rate
-    booth.rating = float(sum/n) #소수점 출력이 안나옴
+    booth.rating = round(sum/n, 1) #소수점 출력이 안나옴
     booth.review_number = n
     booth.save()
 
@@ -72,7 +73,7 @@ def booth_statistic(request, pk):
         elif review.deco == 'BAND':
             deco_band += 1
         else:
-            dceo_hat += 1
+            deco_hat += 1
 
         if review.boxnum == 'one':
             boxnum_one += 1
@@ -94,7 +95,7 @@ def booth_statistic(request, pk):
             if boxnum_fou > boxnum_max:
                 boxnum_max = boxnum_fou
                 boxnum_index = 4
-        else:
+        elif review.boxnum == 'five_more':
             boxnum_fim += 1
             if boxnum_fim > boxnum_max:
                 boxnum_max = boxnum_fim
@@ -113,17 +114,15 @@ def booth_statistic(request, pk):
             booth.deco = 'HAT'
         booth.save()
 
-
-def booth_detail(request,pk):
+def booth_brand(request, pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-    reviews = Review.objects.filter(booth = booth.pk)
-    lnfs = LnF_Post.objects.filter(booth= booth.pk)
-    avg(pk) # 왜 새로고침해야 뜨는거지
-
     brand = Brand.objects.all()
+    like =  Liked.objects.all()
+    avg(pk)  # 왜 새로고침해야 뜨는거지
+
     brand_list = []
     for br in brand:
-        if(br == booth.brand):
+        if (br == booth.brand):
             if br.retake == 1:
                 retake = "possible"
             else:
@@ -141,22 +140,34 @@ def booth_detail(request,pk):
 
         brand_detail.append(etcList)
         brand_list.append(brand_detail)
+        
+        return brand_list
 
+
+def booth_detail(request,pk):
+    booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
+    reviews = Review.objects.filter(booth = booth.pk)
+    lnfs = LnF_Post.objects.filter(booth= booth.pk)
+    
+    brand = Brand.objects.all()
+    brand_list = []
+    brand_list = booth_brand(request, pk)
     booth_statistic(request, pk)
+    
 
-    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list}
+    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
-    ctx = {'reviews': reviews}
+    ctx = {'reviews': reviews,'pk':pk}
     return render(request, template_name='map/review_list.html', context=ctx)
 
 
-def booth_review_create(request):
-    booth = Booth.objects.get(id=pk)
+def booth_review_create(request, pk):
     user = request.user
+    booth = Booth.objects.get(id=pk)
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
@@ -165,36 +176,23 @@ def booth_review_create(request):
             post.user = user
             avg(pk)  # 왜 새로고침해야 뜨는거지
             post.save()
-            return redirect('map:review_list')
+            return redirect('map:booth_review_list', pk)
     else:
         form = ReviewForm()
     ctx = {'form': form}
     return render(request, template_name='map/review_create.html', context=ctx)
 
-
+'''
 def review_list(request):
     reviews = Review.objects.all()
-    ctx = {'reviews': reviews}
+    ctx = {'reviews': reviews, 'pk':pk}
     return render(request, template_name='map/review_list.html', context=ctx)
-
+'''
 def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk를 받는다. 게시물 상세조
     review = Review.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다
-    ctx = {'review': review}  # template로 보내기 위해선 context를 만들어야한다.
+    ctx = {'review': review, 'pk':pk}  # template로 보내기 위해선 context를 만들어야한다.
     return render(request, template_name='map/review_detail.html', context=ctx)
 
-def review_create(request):
-    user = request.user
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = user
-            post.save()
-            return redirect('map:review_list')
-    else:
-        form = ReviewForm()
-    ctx = {'form': form}
-    return render(request, template_name='map/review_create.html', context=ctx)
 
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
@@ -203,43 +201,42 @@ def review_update(request, pk):
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
             review = form.save(commit=False)
-            return redirect('reviews:review_detail', pk)
+            return redirect('map:booth_review_list', booth_pk)
     else:
         form = ReviewForm(instance=review)
-        ctx = {'form': form}
+        ctx = {'form': form,'pk':pk}
 
         return render(request, template_name='map/review_create.html', context=ctx)
 
 def review_delete(request, pk):
     review = get_object_or_404(Review, id=pk)
     review.delete()
-    return redirect('reviews:review_list')
-
-
-
-'''
-@csrf_exempt
-def like_ajax(request):
-    req = json.loads(request.body)
-    booth_id = req['id']
-    booth = Booth.objects.get(id =booth_id)
-
-    if booth.dolike == True:
-        post.dolike = False
-        status = post.dolike
-        k=1
-    else:
-        post.dolike = True
-        status = post.dolike
-        k=0
-    post.save()
-
-    return JsonResponse({'id': post_id, 'k': k, 'status':status})
-    
-'''
+    return redirect('map:booth_review_list')
 
 def search(request):
     search = request.GET.get('search','')
     boothlist = Booth.objects.filter(name__contains=search)
-    ctx = {'booths':boothlist}
+    ctx = {'booths': boothlist}
     return render(request, 'map/mymap.html', context=ctx)
+
+
+@csrf_exempt
+def like_ajax(request):
+    req = json.loads(request.body)
+    pk = req['id']
+    booth = Booth.objects.get(id=pk)
+    user = request.user
+    liked = Liked.objects.get(booth=booth.pk, user=user)
+
+
+    if liked.dolike == True:
+        liked.dolike = False
+        status = liked.dolike
+        k = 1
+    else:
+        liked.dolike = True
+        status = liked.dolike
+        k = 0
+    liked.save()
+
+    return JsonResponse({'id': pk, 'k': k, 'status': status})

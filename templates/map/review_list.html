@@ -5,7 +5,7 @@
     <a href="{% url 'map:review_detail' review.id %}"><h3>{{ review.booth }}</h3></a>
     {% endfor %}
 
-    <a href="{% url 'map:review_create' %}">리뷰 작성 </a>
+    <a href="{% url 'map:booth_review_create' pk %}">리뷰 작성 </a>
 
 
 {% endblock %}

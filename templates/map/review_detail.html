@@ -27,16 +27,16 @@
         </h5>
 
         <h5>부스 개수 :
-        {% if review.boxnum == '1' %} 1개
-        {% elif review.boxnum == '2' %} 2개
-        {% elif review.boxnum == '3'%} 3개
-        {% elif review.boxnum == '4'%} 4개
+        {% if review.boxnum == 'one' %} 1개
+        {% elif review.boxnum == 'two' %} 2개
+        {% elif review.boxnum == 'three'%} 3개
+        {% elif review.boxnum == 'four'%} 4개
         {% else %} 5개 이상
         {% endif %}
         </h5>
     </div>
 
-    <a href="{% url 'map:review_list' %}">lists</a> <br />
+    <a href="{% url 'map:booth_review_list' pk %}">lists</a> <br />
     <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
     <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
 
