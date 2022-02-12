@@ -57,6 +57,10 @@ var accList = document.getElementById('accordionList')
 // 범위 내의 booth list 저장해두는 array
 let mapboundbooth = []
 
+var sortAlpha = document.getElementById('sortAlpha');
+var sortAlphaDesc = document.getElementById('sortAlphaDesc');
+var sortDist = document.getElementById('sortDist');
+
 // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
 
@@ -305,11 +309,16 @@ function setClickEvents (marker, infowindow) { // 파라미터
 // 5 map 범위 달라졌을 때 -----------------------------------------------------------------------------
 // 초기 세팅 이후, 화면 변경에 따라 list 표시 다르게
 
-kakao.maps.event.addListener(map, 'center_changed', findList); // 중심 좌표 움직였을 때
-kakao.maps.event.addListener(map, 'zoom_changed', findList); // 확대 축소 했을 때
+// kakao.maps.event.addListener(map, 'center_changed', findList); // 중심 좌표 움직였을 때
+// kakao.maps.event.addListener(map, 'zoom_changed', findList); // 확대 축소 했을 때
+kakao.maps.event.addListener(map, 'bounds_changed', findList);
 
 // 바뀐 범위의 booth들 찾는 함수
 function findList() {
+    sortAlpha.checked = false;
+    sortAlphaDesc.checked = false;
+    sortDist.checked = false;
+
     accList.innerHTML = '';
     // 이미 되어있던 acc 리스트 초기화
     mapboundbooth = []
@@ -342,9 +351,9 @@ function findList() {
 // 6. 정렬 필터 -----------------------------------------------------------------------------
 // 가나다순은 빼기로 했고, 거리순은 디폴트로 해둘 예정인데 아직 구현 전
 // alphabet
-var sortAlpha = document.getElementById('sortAlpha');
-var sortAlphaDesc = document.getElementById('sortAlphaDesc');
-var sortDist = document.getElementById('sortDist'); // 아직 구현 전
+// var sortAlpha = document.getElementById('sortAlpha');
+// var sortAlphaDesc = document.getElementById('sortAlphaDesc');
+// var sortDist = document.getElementById('sortDist'); // 아직 구현 전
 
 sortAlpha.addEventListener('click', function() {
     
@@ -387,6 +396,93 @@ sortAlphaDesc.addEventListener('click', function() {
         }
     }
 });
+
+sortDist.addEventListener('click', function() {
+
+    
+    if (this.checked) {
+        accList.innerHTML = '';
+        console.log("dist checked!")
+        var curCenter = map.getCenter();
+
+        mapboundbooth.sort(function(a, b) {
+            const nameAx = a.firstElementChild.dataset.x; 
+            const nameAy = a.firstElementChild.dataset.y; 
+            const nameBx = b.firstElementChild.dataset.x; 
+            const nameBy = b.firstElementChild.dataset.y; 
+
+            const coordA = new kakao.maps.LatLng(nameAx, nameAy);
+            const coordB = new kakao.maps.LatLng(nameBx, nameBy);
+            
+
+            var polylineA = new kakao.maps.Polyline({
+                map: map,
+                path: [ coordA, curCenter ],
+                strokeWeight: 0,
+            });
+            
+            var polylineB = new kakao.maps.Polyline({
+                map: map,
+                path: [ coordB, curCenter ],
+                strokeWeight: 0,
+            });
+
+            if (polylineA.getLength() < polylineB.getLength()) { return -1; }
+            if (polylineA.getLength() > polylineB.getLength()) { return 1; }
+            return 0; // 이름이 같을 경우
+        });
+
+        for (var index of mapboundbooth) {
+            printList(index, accList);
+        }
+
+
+    //     var currentBound = map.getBounds();
+    //     var currentCenter = map.getCenter();
+        
+    //     var sw = currentBound.getSouthWest().toString().slice(1, -1).split(',');
+    //     var ne = currentBound.getNorthEast().toString().slice(1, -1).split(',');
+    //     var currentCenterArray = currentCenter.toString().slice(1, -1).split(',');
+    //     // '37.xxxx', '23.xxxx' 배열 형태
+
+    //     var WidHei = []
+    //     WidHei[0] = parseFloat(ne[0]) - parseFloat(sw[0]) // 가로 길이
+    //     WidHei[1] = parseFloat(ne[1]) - parseFloat(sw[1]) // 세로 길이
+
+    //     var newBound = new kakao.maps.LatLngBounds(currentCenter, currentCenter)
+    //     var tempBound = [] // bound 안의 booth들 담는 임시 배열
+
+    //     for (i of [1, 2, 3, 4]) {
+    //         var newEast = parseFloat(currentCenterArray[0]) + (WidHei[0] * i) / 4
+    //         var newWest = parseFloat(currentCenterArray[0]) - (WidHei[0] * i) / 4
+    //         var newNorth = parseFloat(currentCenterArray[1]) + (WidHei[1] * i) / 4
+    //         var newSouth = parseFloat(currentCenterArray[1]) - (WidHei[1] * i) / 4
+    //         console.log(newEast, newWest, newNorth, newSouth)
+    //         newBound.extend(new kakao.maps.LatLng(newEast, newNorth), new kakao.maps.LatLng(newWest, newSouth))
+    //         console.log(newBound.toString())
+
+    //         for (boothele of mapboundbooth) {
+
+    //             let lat = boothele.firstElementChild.dataset.x
+    //             let lng = boothele.firstElementChild.dataset.y
+    //             let boothcoord = new kakao.maps.LatLng(lat, lng)
+
+    //             if (newBound.contain( boothcoord )) {
+    //                 // printList(boothele); // list에 표시하기
+    //                 console.log("print 왜 안해?")
+    //                 tempBound.push(boothele)       
+    //             }
+    //         }
+    //     }
+
+    //     mapboundbooth = tempBound;
+    //     for (var booth of mapboundbooth) {
+    //         // 이 printList할때 filterSet의 브랜드들 걸러서 listup 해줌!
+    //         printList(booth);    
+    //     }
+    }
+});
+
 
 // 거리순 정렬 아직 미구현. default로 할까 생각중.
 // 정렬 필터 끝 -----------------------------------------------------------------------------
