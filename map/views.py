@@ -41,28 +41,28 @@ def booth_detail(request,pk):
     reviews = Review.objects.filter(booth = booth.pk)
     lnfs = LnF_Post.objects.filter(booth= booth.pk)
     # avg(pk) # 왜 새로고침해야 뜨는거지
+    brandname = booth.brand
 
-    brand = Brand.objects.all()
+    brand = Brand.objects.get(name=brandname)
     brand_list = []
-    for br in brand:
-        if(br == booth.brand):
-            if br.retake == 1:
-                retake = "possible"
-            else:
-                retake = "impossible"
-            if br.remote == 1:
-                remote = "possible"
-            else:
-                remote = "impossible"
-            brand_detail = [br.name, retake, remote, br.time]
 
-            etcs = br.frame_set.all()
-            etcList = []
-            for etc in etcs:
-                etcList.append([etc.price, etc.frame, etc.take])
+    if brand.retake == 1:
+        retake = "possible"
+    else:
+        retake = "impossible"
+    if brand.remote == 1:
+        remote = "possible"
+    else:
+        remote = "impossible"
+    brand_detail = [brand.name, retake, remote, brand.time]
 
-        brand_detail.append(etcList)
-        brand_list.append(brand_detail)
+    etcs = brand.frame_set.all()
+    etcList = []
+    for etc in etcs:
+        etcList.append([etc.price, etc.frame, etc.take])
+
+    brand_detail.append(etcList)
+    brand_list.append(brand_detail)
 
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list}
     return render(request, template_name='map/booth_detail.html', context=ctx)
@@ -170,8 +170,8 @@ def load(request):
     boothList = []
     for booth in booths:
         boothDict = {}
-        boothDict = {"id": booth.id, "name": booth.name, "location": booth.location, "x": booth.x, "y": booth.y, "rating":booth.rating, 
-        "likenum": booth.likenum, "operationHour": booth.operationHour, "brand": booth.brand.name}
+        boothDict = {"id": booth.id, "name": booth.name, "location": booth.location, "x": booth.x, "y": booth.y, "rating":booth.rating,
+        "likenum": booth.likenum, "operationHour": booth.operationHour, "review_num": len(booth.review_set.all()), "brand": booth.brand.name}
         boothList.append(boothDict)
 
     return JsonResponse({'boothList': boothList})
