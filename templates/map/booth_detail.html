@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+    <div>
+        {% if article.image %}
+        <p>
+            <img src ="{{ booth.image.url }}">
+        </p>>
+        {% endif %}
+        <h3>{{ booth.name }}</h3>
+        <h6>{{ booth.loaction }}</h6>
+        <div class="heart" onclick="onClickLike({{ booth.id }} )" >🤍</div>
+        <br>
+    </div>
+
+    <div>
+        <h4>Customer reviews</h4>
+        <h6>{{booth.rating}}</h6>
+        <h6>{{booth.review_number}} Reviews</h6>
+        <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
+    </div>
+    <div>
+        <br>
+        <h4>Lost and Found</h4>
+        {% for lnf in lnfs %}
+            {% if lnf.tag == '분실' %}
+            <h6>분실</h6>
+            {{lnf.title}}
+
+            {% elif lnf.tag == '보관' %}
+            <h6>보관</h6>
+            {{lnf.title}}
+
+            {% else %}
+            <h6>기타</h6>
+            {{lnf.title}}
+
+            {% endif %}
+        {% endfor %}
+        <br>
+
+        <a href="{% url 'LnF:list' %}">more</a> <!--분실물 리스트 -->
+        <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
+        <br>
+    </div>
+
+    <div>
+        <br>
+        <h4>참고사항</h4>
+
+        {% if review.new == True %} <!--왜안뜨지 -->
+
+        <h6>{{ review.iron }}</h6>
+        <h6>{{ review.street }}</h6>
+        <h6>{{ review.deco}}</h6>
+        <h6>{{ review.boxnum }}</h6>
+
+        {% endif %}
+
+    </div>
+
+    <div>
+        이름: {{ brand_list.0.0 }} <br>
+        재촬영: {{ brand_list.1.1 }} <br>
+        리모컨: {{ brand_list.2.2 }} <br>
+        촬영시간: {{ brand_list.3.3 }}<br>
+        가격정보<br>
+        {% for frame in brand.4 %}
+        가격: {{frame.0}}
+        프레임 컷 수: {{frame.1}}
+        총 촬영 수: {{frame.2}}
+        <br>
+        {% endfor %}
+        <br>
+    </div>
+</div>
+<!--
+<script>
+    const requestLike = new XMLHttpRequest();
+
+    const onClickLike = (id) => {
+        const url = '/like_ajax/';
+        requestLike.open("POST", url, true);
+        requestLike.setRequestHeader(
+            "Content-Type",
+            "application/x-ww-form-urlencoded"
+        );
+        requestLike.send(JSON.stringify({id: id}))
+    }
+
+    const likeHandleResponse = () => {
+        if(requestLike.status < 400){
+            const {id, k, status} = JSON.parse(requestLike.response);
+            const element = document.querySelector(`.booth-id-${id} .heart`);
+            if(k==0)
+                element.innerHTML = '❤️'
+            else
+                element.innerHTML = '🤍'
+        }
+    }
+
+    requestLike.onreadystatechange = () => {
+        if(requestLike.readyState === XMLHttpRequest.DONE){
+            likeHandleResponse();
+        }
+    }
+</script>
+
+-->
+
+{% endblock %}
+
