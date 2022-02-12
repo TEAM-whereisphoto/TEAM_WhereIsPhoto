@@ -167,15 +167,22 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
-def filter(request):
-    req = json.loads(request.body)
-    showbrands = req['brands']
-    print("before")
-    boothlist = list(Booth.objects.filter(brand__in=showbrands).values())\
-    # 이게 지금 foriegn키라 접근이 뭔가 어렵나봄..
-    # boothlist = list(Booth.objects.all().values())
-    print(boothlist)
+# @csrf_exempt
+# def filter(request):
+#     req = json.loads(request.body)
+#     showbrands = req['brands']
+#     print("before")
+#     boothlist = list(Booth.objects.filter(brand__in=showbrands).values())
+#     # 이게 지금 foriegn키라 접근이 뭔가 어렵나봄..
+#     # boothlist = list(Booth.objects.all().values())
+#     print(boothlist)
 
 
-    return JsonResponse({'booths':boothlist})
+#     return JsonResponse({'booths':boothlist})
+
+# from django.core import serializers
+# @csrf_exempt
+# def dbtojs(request):
+#     boothobjs = Booth.objects.all()
+#     boothjsons = serializers.serialize("json", boothobjs)
+

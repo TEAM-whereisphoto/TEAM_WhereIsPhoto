@@ -18,5 +18,5 @@ urlpatterns = [
     path('search/', views.search, name="search"),
     path('', view=views.review_list, name='list'),  # 리뷰 리스트 페이지
 
-    path('filter/', views.filter, name="filter")
+    # path('filter/', views.filter, name="filter")
 ]
