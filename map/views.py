@@ -171,7 +171,7 @@ def load(request):
     for booth in booths:
         boothDict = {}
         boothDict = {"id": booth.id, "name": booth.name, "location": booth.location, "x": booth.x, "y": booth.y, "rating":booth.rating, 
-        "likenum": booth.likenum, "operationHour": booth.operationHour, "brand": booth.brand.name}
+        "likenum": booth.likenum, "operationHour": booth.operationHour, "review_num": len(booth.review_set.all()), "brand": booth.brand.name}
         boothList.append(boothDict)
 
     return JsonResponse({'boothList': boothList})

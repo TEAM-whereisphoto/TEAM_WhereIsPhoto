@@ -1,3 +1,16 @@
+
+// 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
+var container = document.getElementById('map');
+var options = {
+    center: new kakao.maps.LatLng(37.557074, 126.929276), // 임의의 중심 좌표
+    level: 4 // 확대 축소 정도
+};
+var map = new kakao.maps.Map(container, options); // 지도 생성
+// 지도 확대 축소 컨트롤 생성
+var zoomControl = new kakao.maps.ZoomControl();
+map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
+// 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', function(){
     fetch('load/')
     .then( response => {
