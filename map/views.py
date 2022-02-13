@@ -14,6 +14,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+import operator
 
 # Create your views here.
 def mainpage(request):
@@ -39,6 +40,29 @@ def avg(pk): # 평균 별점 계산 함수
     booth.review_number = n
     booth.save()
 
+'''
+def tag_count(request, pk):
+    booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
+    reviews = Review.objects.filter(booth = booth.pk)
+    tag_dic = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
+
+    for review in reviews:
+        tags = []
+        tags = review.title
+        for tag in tags:
+            if tag == '시설이 깨끗해요':
+                tag_dic[0][1] += 1
+            elif tag == '소품이 다양해요':
+                tag_dic[1][1] += 1
+            elif tag == '부스가 많아요':
+                tag_dic[2][1] += 1
+            elif tag == '고데기가 있어요':
+                tag_dic[3][1] += 1
+            elif tag == '로드점이에요':
+                tag_dic[4][1] += 1
+    print(tag_dic)
+    return tag_dic
+'''
 
 def booth_brand(request, pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
@@ -74,6 +98,8 @@ def booth_detail(request,pk):
     brand = Brand.objects.all()
     brand_list = []
     brand_list = booth_brand(request, pk)
+    #tag_dic = tag_count(request, pk)
+    #tag_dic = sorted(key= lambda x: (x[0],-x[1]), reverse = True)
 
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk}
     return render(request, template_name='map/booth_detail.html', context=ctx)
@@ -84,33 +110,32 @@ def booth_review_list(request,pk):
     ctx = {'reviews': reviews,'pk':pk}
     return render(request, template_name='map/review_list.html', context=ctx)
 
-
 def booth_review_create(request, pk):
     user = request.user
     booth = Booth.objects.get(id=pk)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.booth = booth
-            post.user = user
-            avg(pk)  # 왜 새로고침해야 뜨는거지
-            post.save()
-            return redirect('map:booth_review_list', pk)
+    if user.is_authenticated:
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.booth = booth
+                post.user = user
+                avg(pk)  # 왜 새로고침해야 뜨는거지
+                post.save()
+                return redirect('map:booth_review_list', pk)
+        else:
+            form = ReviewForm()
+        ctx = {'form': form}
+        return render(request, template_name='map/review_create.html', context=ctx)
     else:
-        form = ReviewForm()
-    ctx = {'form': form}
-    return render(request, template_name='map/review_create.html', context=ctx)
+        return redirect('user:login')
 
-'''
-def review_list(request):
-    reviews = Review.objects.all()
-    ctx = {'reviews': reviews, 'pk':pk}
-    return render(request, template_name='map/review_list.html', context=ctx)
-'''
 def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk를 받는다. 게시물 상세조
     review = Review.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다
-    ctx = {'review': review, 'pk':pk}  # template로 보내기 위해선 context를 만들어야한다.
+    tags = []
+    tags = review.title
+
+    ctx = {'review': review, 'pk':pk, 'tags':tags}  # template로 보내기 위해선 context를 만들어야한다.
     return render(request, template_name='map/review_detail.html', context=ctx)
 
 
@@ -121,7 +146,7 @@ def review_update(request, pk):
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
             review = form.save(commit=False)
-            return redirect('map:booth_review_list', booth_pk)
+            return redirect('map:booth_review_list', pk)
     else:
         form = ReviewForm(instance=review)
         ctx = {'form': form,'pk':pk}

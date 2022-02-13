@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
         <table >
         {{form.as_table}}
         </table>
-      <button type="submit">save</button>
+      <br>
+        <button type="submit">save</button>
     </form>
 {% endblock %}

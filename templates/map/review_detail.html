@@ -7,9 +7,15 @@
       <h5>유저 : {{ review.user }}</h5>
       <h5>날짜 : {{ review.date }}</h5>
       <h5>별점 : {{ review.rate }}</h5>
-
     </div>
 
+    <div>
+        <h5> 태그 :
+        {% for tag in tags %}
+            {{tag}} /
+        {% endfor%}
+        </h5>
+    </div>
     <a href="{% url 'map:booth_review_list' pk %}">lists</a> <br />
     <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
     <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>

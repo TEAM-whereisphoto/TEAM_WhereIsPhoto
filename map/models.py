@@ -4,6 +4,8 @@ from user.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
 from multiselectfield import MultiSelectField
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 # Create your models here.
 
 # 부스 이름, 부스 종류, 부스 주소, 부스 운영시간, 부스 브랜드
@@ -57,8 +59,12 @@ class Review(models.Model):
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
-
-
+    rate = models.IntegerField(default=0,
+                               validators=[
+                                   MaxValueValidator(5),
+                                   MinValueValidator(0),
+                               ]
+                               )
     title = MultiSelectField(choices = TAG_CHOICES)
 
     hexcolor = models.CharField(max_length=7, default="#ffffff")
