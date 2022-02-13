@@ -51,12 +51,15 @@ class Review(models.Model):
         ('고데기가 있어요','고데기가 있어요'),
         ('로드점이에요','로드점이에요'),
     )
+    COLOR_CHOICES =(
+        
+    )
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
 
 
-    title = models.CharField(max_length=100, choices = TAG_CHOICES)
+    title = MultiSelectField(choices = TAG_CHOICES)
 
     hexcolor = models.CharField(max_length=7, default="#ffffff")
 
