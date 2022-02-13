@@ -1,14 +1,18 @@
 
 // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
 var container = document.getElementById('map');
+var defaultLoc = new kakao.maps.LatLng(37.557074, 126.929276)
 var options = {
-    center: new kakao.maps.LatLng(37.557074, 126.929276), // 임의의 중심 좌표
+    center: defaultLoc, // 임의의 중심 좌표
     level: 4 // 확대 축소 정도
 };
 var map = new kakao.maps.Map(container, options); // 지도 생성
 // 지도 확대 축소 컨트롤 생성
 var zoomControl = new kakao.maps.ZoomControl();
 map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
+
+container.children[2].remove()
+
 // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
 // 2 현재 위치 찍기 -----------------------------------------------------------------------------
@@ -40,6 +44,7 @@ function showLocation(position) {
     gps_lng = position.coords.longitude;
 
     var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성
+    map.panTo(currentPosition); // 내 위치를 중심 좌표로 이동
             
     var marker = new kakao.maps.Marker({  
         map: map, 
@@ -49,7 +54,6 @@ function showLocation(position) {
     }); 
 
     marker.setMap(map); // 내 위치 pin 박기
-    map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
     map.setLevel(7);
     bounds = map.getBounds(); // 새로 bound 가져오기.
     console.log("현재", currentPosition.toString())
@@ -60,6 +64,8 @@ function showLocation(position) {
 function errorHandler(error) {
     if(error.code == 1) {
         alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
+        map.setLevel(4);
+        map.panTo(defaultLoc);
     } else if( err.code == 2) {
         alert("위치를 반환할 수 없습니다.");
     }
@@ -120,14 +126,16 @@ function main(boothList){
     let total = boothList.length; // count booths    
     
     // booth list하는 아코디언 dom
-    var accList = document.getElementById('accordionList')
+    const accList = document.getElementById('accordionList')
     
     // 범위 내의 booth list 저장해두는 array
     let mapboundbooth = []
     
-    var sortAlpha = document.getElementById('sortAlpha');
-    var sortAlphaDesc = document.getElementById('sortAlphaDesc');
-    var sortDist = document.getElementById('sortDist');
+    const sortAlpha = document.getElementById('sortAlpha');
+    const sortAlphaDesc = document.getElementById('sortAlphaDesc');
+    const sortDist = document.getElementById('sortDist');
+
+    const refresh = document.getElementById('refresh')
     
     // 전역 변수 생성 끝 -----------------------------------------------------------------------------
     
@@ -550,7 +558,7 @@ function main(boothList){
                 var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
     
                 // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
-                map.setCenter(newcenter);
+                map.panTo(newcenter);
                 map.setLevel(6);
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -563,4 +571,16 @@ function main(boothList){
         }
     });
     // 검색 끝 -----------------------------------------------------------------------------
+
+    // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
+
+    refresh.addEventListener('click', function() {
+        gps_check();
+    });
+
+
+    // -----------------------------------------------------------------------------
+
+
 }
+
