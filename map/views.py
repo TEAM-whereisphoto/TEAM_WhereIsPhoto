@@ -42,32 +42,28 @@ def avg(pk): # 평균 별점 계산 함수
 
 def booth_brand(request, pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-    brand = Brand.objects.all()
-    like =  Liked.objects.all()
+    like = Liked.objects.all()
     avg(pk)  # 왜 새로고침해야 뜨는거지
-
+    brandname = booth.brand
+    brand = Brand.objects.get(name=brandname)
     brand_list = []
-    for br in brand:
-        if (br == booth.brand):
-            if br.retake == 1:
-                retake = "possible"
-            else:
-                retake = "impossible"
-            if br.remote == 1:
-                remote = "possible"
-            else:
-                remote = "impossible"
-            brand_detail = [br.name, retake, remote, br.time]
+    if brand.retake == 1:
+        retake = "possible"
+    else:
+        retake = "impossible"
+    if brand.remote == 1:
+        remote = "possible"
+    else:
+        remote = "impossible"
+    brand_detail = [brand.name, retake, remote, brand.time]
+    etcs = brand.frame_set.all()
+    etcList = []
+    for etc in etcs:
+        etcList.append([etc.price, etc.frame, etc.take])
+    brand_detail.append(etcList)
+    brand_list.append(brand_detail)
 
-            etcs = br.frame_set.all()
-            etcList = []
-            for etc in etcs:
-                etcList.append([etc.price, etc.frame, etc.take])
-
-        brand_detail.append(etcList)
-        brand_list.append(brand_detail)
-        
-        return brand_list
+    return brand_list
 
 
 def booth_detail(request,pk):
