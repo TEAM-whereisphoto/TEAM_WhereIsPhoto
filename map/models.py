@@ -3,7 +3,7 @@ from brand.models import Brand
 from user.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+from multiselectfield import MultiSelectField
 # Create your models here.
 
 # 부스 이름, 부스 종류, 부스 주소, 부스 운영시간, 부스 브랜드
@@ -37,25 +37,23 @@ class Liked(models.Model):
     date = models.DateField()
 
 # 리뷰 작성할 부스, 리뷰 작성하는 user, title, 리뷰 작성한 시간, 사진, 별점
-# tag 추가해야 됨
-class Review(models.Model):
-    IRON_CHOICES = (('YES', 'yes'), ('No', 'no'))
-    STREET_CHOICES = (('STORE', 'store'), ('ROAD', 'road'))
-    DECO_CHOICES = (('GLASS', 'glass'), ('BAND', 'band'), ('HAT', 'hat'))
-    BOXNUM_CHOICES = (('one', 'one'), ('two', 'two'), ('three', 'three'), ('four', 'four'),('five_more', 'five_more'))
+# tag 추가해야
 
+class Review(models.Model):
+
+    TAG_CHOICES = (
+        ('시설이 깨끗해요','시설이 깨끗해요'),
+        ('소품이 다양해요','소품이 다양해요'),
+        ('부스가 많아요','부스가 많아요'),
+        ('고데기가 있어요','고데기가 있어요'),
+        ('로드점이에요','로드점이에요'),
+    )
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT, default=None)
-    #title = models.CharField(max_length=100)
     date = models.DateTimeField(default=datetime.now, blank=True)
 
-    img = models.ImageField(blank=True, null=True, upload_to="")
-    rate = models.IntegerField()
-    iron = models.CharField(choices=IRON_CHOICES, max_length=50)
-    street = models.CharField(choices=STREET_CHOICES, max_length=50)
-    deco = models.CharField(choices=DECO_CHOICES, max_length=50)
-    boxnum = models.CharField(choices=BOXNUM_CHOICES, max_length=50)
+
+    title = models.CharField(max_length=100, choices = TAG_CHOICES)
 
     hexcolor = models.CharField(max_length=7, default="#ffffff")
 
