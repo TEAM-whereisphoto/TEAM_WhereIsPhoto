@@ -14,6 +14,9 @@ class Booth(models.Model):
     operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
+    # 좌표
+    x = models.CharField(max_length=50)
+    y = models.CharField(max_length=50)
 
     ## 리뷰로 받는 것들
     street = models.IntegerField(default=0) # 길거리인지(0), 매장인지(1)

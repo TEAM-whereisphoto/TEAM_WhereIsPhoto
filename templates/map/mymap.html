@@ -16,22 +16,23 @@
 
     <div class="row" id="filter-container">
         <!-- 검색란 & 필터 부분 넣는 공간 -->
-        <!-- <form action="" method="get">
-            <input type="text" name="q" value="{{ q }}">
-            <input type="submit" value="검색">
-          </form> -->
-
-          <form method="GET" action="{% url 'map:search' %}">
+        {% comment %}
+        <form method="GET" action="{% url 'map:search' %}">
             <div id="search" class="pb-3">
                 <input class="w-50" name="search" type="text" placeholder="매장 이름 or 지역을 검색해보세요 ex) 홍대">
                 <button class="btn btn-primary" type="submit">검색</button>
-              <!-- </div> -->
-          </form>
-          
+            <!-- </div> -->
+        </form>
+        {% endcomment %}
+        <div id="searchLoc" class="pb-3">
+            <input id="searchInput" class="w-25 px-2" name="search" type="text" placeholder="어디 지역을 찾아볼까요?">
+            <button id="searchBtn" class="btn btn-primary" type="submit">검색</button>
+        </div>
         <br />
-    </div>
 
+        </div>
 
+    
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
@@ -58,9 +59,13 @@
                         data-iron="{{ booth.iron }}"
                         data-boxnum="{{ booth.boxnum }}"
                         data-rating="{{ booth.rating }}"
-                        data-likenum="{{ booth.likenum }}"></div>
+                        data-likenum="{{ booth.likenum }}"
+                        data-x="{{ booth.x }}"
+                        data-y="{{ booth.y }}"
+
+                        ></div>
                         {{ booth.id }}
-                        <a style="display: block;" class="mt-3" href="{% url 'map:booth_detail' booth.id %}">디테일페이지</a>
+                        <a style="display: block;" class="mt-3" href="{% url 'map:booth_detail' pk=booth.pk %}">디테일페이지</a>
                     </li>
                 {% endfor %}
                 </ul>
@@ -75,7 +80,7 @@
             
             <!-- 정렬 선택 -->
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="sortDist" autocomplete="off" checked>
+                <input type="radio" class="btn-check" name="btnradio" id="sortDist" autocomplete="off">
                 <label class="btn btn-outline-primary" for="sortDist">거리순</label>
 
                 <input type="radio" class="btn-check" name="btnradio" id="sortAlpha" autocomplete="off">
