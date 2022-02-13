@@ -34,7 +34,12 @@ def avg(pk): # 평균 별점 계산 함수
         for review in reviews:
             n += 1
             sum += review.rate
-            booth.rating = round(sum/n, 1)
+            rate = round(sum/n, 1)
+            k = int(rate)
+            if (rate-k) < 0.5:
+                booth.ranting = k
+            else:
+                booth.rating = k + 0.5
     except:
         print("등록된 리뷰가 없습니다.")
     booth.review_number = n

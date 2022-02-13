@@ -5,4 +5,4 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ('title', 'hexcolor', 'rate')
+        fields = ('title', 'color', 'rate')

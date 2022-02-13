@@ -5,8 +5,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from multiselectfield import MultiSelectField
 from django.core.validators import MaxValueValidator, MinValueValidator
-
-# Create your models here.
+ # Create your models here.
 
 # 부스 이름, 부스 종류, 부스 주소, 부스 운영시간, 부스 브랜드
 class Booth(models.Model):
@@ -53,9 +52,19 @@ class Review(models.Model):
         ('고데기가 있어요','고데기가 있어요'),
         ('로드점이에요','로드점이에요'),
     )
-    COLOR_CHOICES =(
-        
-    )
+    COLOR_CHOICES = (
+        ('핑크','핑크'),
+        ('하늘','하늘'),
+        ('노랑','노랑'),
+        ('회색','회색'),
+        ('남색','남색'),
+        ('연두','연두'),
+        ('보라', '보라'),
+        ('빨강', '빨강'),
+        ('주황', '주황'),
+
+   )
+
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
@@ -66,12 +75,7 @@ class Review(models.Model):
                                ]
                                )
     title = MultiSelectField(choices = TAG_CHOICES)
+    color = MultiSelectField(choices = COLOR_CHOICES)
 
-    hexcolor = models.CharField(max_length=7, default="#ffffff")
 
-    def colored_name(self):
-        return format_html(
-            '<span style="color: #{};">{}</span>',
-            self.hexcolor,
-        )
 
