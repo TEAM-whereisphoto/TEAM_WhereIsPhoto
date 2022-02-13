@@ -29,10 +29,13 @@ def avg(pk): # 평균 별점 계산 함수
 
     n=0
     sum =0
-    for review in reviews:
-        n += 1
-        sum += review.rate
-    booth.rating = round(sum/n, 1)
+    try:
+        for review in reviews:
+            n += 1
+            sum += review.rate
+            booth.rating = round(sum/n, 1)
+    except:
+        print("등록된 리뷰가 없습니다.")
     booth.review_number = n
     booth.save()
 
@@ -75,8 +78,6 @@ def booth_detail(request,pk):
     brand = Brand.objects.all()
     brand_list = []
     brand_list = booth_brand(request, pk)
-    booth_statistic(request, pk)
-    
 
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk}
     return render(request, template_name='map/booth_detail.html', context=ctx)
