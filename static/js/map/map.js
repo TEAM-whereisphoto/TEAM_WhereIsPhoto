@@ -11,6 +11,64 @@ var zoomControl = new kakao.maps.ZoomControl();
 map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
+// 2 현재 위치 찍기 -----------------------------------------------------------------------------
+    
+var gps_use = null; //gps의 사용가능 여부
+var gps_lat = null; // 위도
+var gps_lng = null; // 경도
+var gps_position; // gps 위치 객체
+
+gps_check();
+// gps가 이용가능한지 체크하는 함수이며, 이용가능하다면 show location 함수를 불러온다.
+// 만약 작동되지 않는다면 경고창을 띄우고, 에러가 있다면 errorHandler 함수를 불러온다.
+// timeout을 통해 시간제한을 둔다.
+function gps_check(){
+
+    if (navigator.geolocation) {
+        var options = {timeout:60000};
+        navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+    } else {
+        alert("GPS_추적이 불가합니다.");
+        gps_use = false;
+    }
+}
+
+// gps 이용 가능 시, 위도와 경도를 반환하는 showlocation함수.
+function showLocation(position) {
+    gps_use = true;
+    gps_lat = position.coords.latitude;
+    gps_lng = position.coords.longitude;
+
+    var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성
+            
+    var marker = new kakao.maps.Marker({  
+        map: map, 
+        position: currentPosition, 
+        image: new kakao.maps.MarkerImage('../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
+        // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
+    }); 
+
+    marker.setMap(map); // 내 위치 pin 박기
+    map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
+    map.setLevel(7);
+    bounds = map.getBounds(); // 새로 bound 가져오기.
+    console.log("현재", currentPosition.toString())
+}
+
+
+// error발생 시 에러의 종류를 알려주는 함수.
+function errorHandler(error) {
+    if(error.code == 1) {
+        alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
+    } else if( err.code == 2) {
+        alert("위치를 반환할 수 없습니다.");
+    }
+    gps_use = false;
+    // 이 경우 bound는 처음에 설정한 값으로 유지됨 (변경 x)
+}
+
+// 현재 위치 찍기 끝 -----------------------------------------------------------------------------
+    
 document.addEventListener('DOMContentLoaded', function(){
     fetch('load/')
     .then( response => {
@@ -24,24 +82,9 @@ document.addEventListener('DOMContentLoaded', function(){
     })
 })
 
-function main(boothList){
-    console.log(boothList)
-    // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
-    var container = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(37.557074, 126.929276), // 임의의 중심 좌표
-        level: 4 // 확대 축소 정도
-    };
+function main(boothList){    
     
-    var map = new kakao.maps.Map(container, options); // 지도 생성
-    
-    // 지도 확대 축소 컨트롤 생성
-    var zoomControl = new kakao.maps.ZoomControl();
-    map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
-    // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
-    
-    
-    // 2. 전역 변수들 생성 -----------------------------------------------------------------------------
+    // 3. 전역 변수들 생성 -----------------------------------------------------------------------------
     
     // 표시할 brand 이름. 나중에 brand model에서 가져오도록 수정해두면 더 좋긴 할듯.
     const filterSet = new Set(['인생네컷', '포토이즘박스', '포토시그니처', '셀픽스', '하루필름']);
@@ -89,65 +132,6 @@ function main(boothList){
     // 전역 변수 생성 끝 -----------------------------------------------------------------------------
     
     
-    // 3 현재 위치 찍기 -----------------------------------------------------------------------------
-    
-    // 현재 위치 차단 확인하는 코드  https://kjwan4435.tistory.com/66
-    var gps_use = null; //gps의 사용가능 여부
-    var gps_lat = null; // 위도
-    var gps_lng = null; // 경도
-    var gps_position; // gps 위치 객체
-    
-    gps_check();
-    // gps가 이용가능한지 체크하는 함수이며, 이용가능하다면 show location 함수를 불러온다.
-    // 만약 작동되지 않는다면 경고창을 띄우고, 에러가 있다면 errorHandler 함수를 불러온다.
-    // timeout을 통해 시간제한을 둔다.
-    function gps_check(){
-    
-        if (navigator.geolocation) {
-            var options = {timeout:60000};
-            navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-        } else {
-            alert("GPS_추적이 불가합니다.");
-            gps_use = false;
-        }
-    }
-    
-    // gps 이용 가능 시, 위도와 경도를 반환하는 showlocation함수.
-    function showLocation(position) {
-        gps_use = true;
-        gps_lat = position.coords.latitude;
-        gps_lng = position.coords.longitude;
-    
-        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성
-                
-        var marker = new kakao.maps.Marker({  
-            map: map, 
-            position: currentPosition, 
-            image: new kakao.maps.MarkerImage('../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
-            // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
-        }); 
-    
-        marker.setMap(map); // 내 위치 pin 박기
-        map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
-        map.setLevel(7);
-        bounds = map.getBounds(); // 새로 bound 가져오기.
-    }
-    
-    
-    // error발생 시 에러의 종류를 알려주는 함수.
-    function errorHandler(error) {
-        if(error.code == 1) {
-            alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
-        } else if( err.code == 2) {
-            alert("위치를 반환할 수 없습니다.");
-        }
-        gps_use = false;
-        // 이 경우 bound는 처음에 설정한 값으로 유지됨 (변경 x)
-    }
-    
-    // 현재 위치 찍기 끝 -----------------------------------------------------------------------------
-    
-    
     // 4 초기 부스 정보 다루기 -----------------------------------------------------------------------------
     
     // 초반에 이 변수들 다 생성
@@ -160,6 +144,36 @@ function main(boothList){
     
     // // 범위 내의 booth list 저장해두는 array
     // let mapboundbooth = []
+    var curCenter = map.getCenter();
+
+    const sorting = function sortDist(a, b) {
+
+        const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
+        const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
+        
+
+        var polylineA = new kakao.maps.Polyline({
+            map: map,
+            path: [ coordA, curCenter ],
+            strokeWeight: 0,
+        });
+        
+        var polylineB = new kakao.maps.Polyline({
+            map: map,
+            path: [ coordB, curCenter ],
+            strokeWeight: 0,
+        });
+        
+        const lenA = polylineA.getLength();
+        const lenB = polylineB.getLength();
+
+        a['len'] = lenA
+        b['len'] = lenB
+
+        if (lenA < lenB) { return -1; }
+        if (lenA > lenB) { return 1; }
+        return 0; // 이름이 같을 경우
+    }
     
     handleData();
     
@@ -173,6 +187,11 @@ function main(boothList){
             clu.addMarkers(eval(brand_dict[value]+"Markers"))
             // ex) harufilmClust.addMarkers(harumfilmMarkers)
         };
+
+        curCenter = map.getCenter();
+        mapboundbooth.sort(sorting)
+
+        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기             
     } 
     
     function setbooth(i) {
@@ -194,18 +213,16 @@ function main(boothList){
         var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // 새 info object
         infowindow.setContent(content); // infowindow 내용
         infowindow.setPosition(coords); // 인포윈도우 달릴 위치 설정 (=해당 핀 좌표)
-    
+      
+
         addMarker(coords, brandpin, infowindow, brandname);
         // 초기 607개 pin 배열 생성
     
         // booth의 좌표가 현재 지도 boundary 안에 있는거면 list up
-        if (bounds.contain( coords )) {
-            mapboundbooth.push(booth);           
-            printList(booth); // list에 표시하기             
-            // console.log("위치 안")
+        if (bounds.contain( coords )) { mapboundbooth.push(booth); }// console.log("위치 안")
+
         }
-    
-    }
+
     
     function addMarker(pos, img, infowindow, brandname) {
         var marker = new kakao.maps.Marker({
@@ -312,6 +329,7 @@ function main(boothList){
         // console.log("set hover func");
     };
     
+    
     // 초기 부스 정보 다루기 끝 -----------------------------------------------------------------------------
     
     
@@ -343,26 +361,25 @@ function main(boothList){
             let boothcoord = new kakao.maps.LatLng(lat, lng)
             
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
-            if (bounds.contain( boothcoord )) {
-                mapboundbooth.push(booth)           
-                printList(booth); // list에 표시하기
-            }
-        
-            else {
-                // console.log("not in map")
-            }  
+            if (bounds.contain( boothcoord )) { mapboundbooth.push(booth) }
         }
+
+        curCenter = map.getCenter();
+        mapboundbooth.sort(sorting)
+
+        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기           
+
     }
     
     // map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
     
     
     // 6. 정렬 필터 -----------------------------------------------------------------------------
-    // 가나다순은 빼기로 했고, 거리순은 디폴트로 해둘 예정인데 아직 구현 전
+    // 가나다순은 빼기로 했고, 거리순은 디폴트
     // alphabet
     // var sortAlpha = document.getElementById('sortAlpha');
     // var sortAlphaDesc = document.getElementById('sortAlphaDesc');
-    // var sortDist = document.getElementById('sortDist'); // 아직 구현 전
+    // var sortDist = document.getElementById('sortDist');
     
     sortAlpha.addEventListener('click', function() {
         
@@ -380,7 +397,7 @@ function main(boothList){
             accList.innerHTML = '';
     
             for (var index of mapboundbooth) {
-                printList(index, accList);
+                printList(index);
             }
         }
     });
@@ -401,7 +418,7 @@ function main(boothList){
             accList.innerHTML = '';
     
             for (var index of mapboundbooth) {
-                printList(index, accList);
+                printList(index);
             }
         }
     });
@@ -412,16 +429,13 @@ function main(boothList){
         if (this.checked) {
             accList.innerHTML = '';
             console.log("dist checked!")
+
             var curCenter = map.getCenter();
     
             mapboundbooth.sort(function(a, b) {
-                const nameAx = a["x"]; 
-                const nameAy = a["y"]; 
-                const nameBx = b["x"]; 
-                const nameBy = b["y"]; 
     
-                const coordA = new kakao.maps.LatLng(nameAx, nameAy);
-                const coordB = new kakao.maps.LatLng(nameBx, nameBy);
+                const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
+                const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
                 
     
                 var polylineA = new kakao.maps.Polyline({
@@ -435,65 +449,24 @@ function main(boothList){
                     path: [ coordB, curCenter ],
                     strokeWeight: 0,
                 });
-    
-                if (polylineA.getLength() < polylineB.getLength()) { return -1; }
-                if (polylineA.getLength() > polylineB.getLength()) { return 1; }
-                return 0; // 이름이 같을 경우
+                
+                const lenA = polylineA.getLength();
+                const lenB = polylineB.getLength();
+
+                a['len'] = lenA
+                b['len'] = lenB
+
+                if (lenA < lenB) { return -1; }
+                if (lenA > lenB) { return 1; }
+                return 0; // 같을 경우
             });
     
             for (var index of mapboundbooth) {
-                printList(index, accList);
+                printList(index);
             }
-    
-    
-        //     var currentBound = map.getBounds();
-        //     var currentCenter = map.getCenter();
-            
-        //     var sw = currentBound.getSouthWest().toString().slice(1, -1).split(',');
-        //     var ne = currentBound.getNorthEast().toString().slice(1, -1).split(',');
-        //     var currentCenterArray = currentCenter.toString().slice(1, -1).split(',');
-        //     // '37.xxxx', '23.xxxx' 배열 형태
-    
-        //     var WidHei = []
-        //     WidHei[0] = parseFloat(ne[0]) - parseFloat(sw[0]) // 가로 길이
-        //     WidHei[1] = parseFloat(ne[1]) - parseFloat(sw[1]) // 세로 길이
-    
-        //     var newBound = new kakao.maps.LatLngBounds(currentCenter, currentCenter)
-        //     var tempBound = [] // bound 안의 booth들 담는 임시 배열
-    
-        //     for (i of [1, 2, 3, 4]) {
-        //         var newEast = parseFloat(currentCenterArray[0]) + (WidHei[0] * i) / 4
-        //         var newWest = parseFloat(currentCenterArray[0]) - (WidHei[0] * i) / 4
-        //         var newNorth = parseFloat(currentCenterArray[1]) + (WidHei[1] * i) / 4
-        //         var newSouth = parseFloat(currentCenterArray[1]) - (WidHei[1] * i) / 4
-        //         console.log(newEast, newWest, newNorth, newSouth)
-        //         newBound.extend(new kakao.maps.LatLng(newEast, newNorth), new kakao.maps.LatLng(newWest, newSouth))
-        //         console.log(newBound.toString())
-    
-        //         for (boothele of mapboundbooth) {
-    
-        //             let lat = boothele.firstElementChild.dataset.x
-        //             let lng = boothele.firstElementChild.dataset.y
-        //             let boothcoord = new kakao.maps.LatLng(lat, lng)
-    
-        //             if (newBound.contain( boothcoord )) {
-        //                 // printList(boothele); // list에 표시하기
-        //                 console.log("print 왜 안해?")
-        //                 tempBound.push(boothele)       
-        //             }
-        //         }
-        //     }
-    
-        //     mapboundbooth = tempBound;
-        //     for (var booth of mapboundbooth) {
-        //         // 이 printList할때 filterSet의 브랜드들 걸러서 listup 해줌!
-        //         printList(booth);    
-        //     }
         }
     });
     
-    
-    // 거리순 정렬 아직 미구현. default로 할까 생각중.
     // 정렬 필터 끝 -----------------------------------------------------------------------------
     
     
