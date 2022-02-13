@@ -256,6 +256,14 @@ function main(boothList){
             
         const rating = boothElement["rating"];
         const reviewnum = boothElement["review_num"];
+        var distance = Math.round(boothElement["len"])
+        if ( distance < 1000 ) {
+            distance = String(distance)+"m"
+        }
+        else {
+            distance = Math.round(distance / 100) // ex) 5432 -> 54
+            distance = String(distance / 10)+"km"
+        }
         
         let hourContent = ''
         if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
@@ -281,7 +289,7 @@ function main(boothList){
                     <div id="mapdetail-${ boothId }" class="ps-4">
             
                         
-                        <p style="margin: 16px 0 0 0">${ address }</p>
+                        <p style="margin: 16px 0 0 0">${distance} | ${ address }</p>
     
                         <p style="margin: 16px 0 0 0"></p>
                         ${ hourContent }
