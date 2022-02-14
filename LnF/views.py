@@ -33,6 +33,7 @@ def new(request):
             return redirect('LnF:list')
     
     else:
+    
         form = PostForm()
     
     ctx = {'form': form}
@@ -64,7 +65,8 @@ def add_comment(request, pk):
     comment.time = timezone.now()
     comment_id = comment.id
     comment.save()
-    return JsonResponse({'id': id, 'type': type, 'content': content, 'comment-id': comment_id})
+    print(request.user.username)
+    return JsonResponse({'id': id, 'type': type, 'content': content, 'comment-id': comment_id, 'user': request.user.username })
 
 @csrf_exempt
 def del_comment(request, pk):

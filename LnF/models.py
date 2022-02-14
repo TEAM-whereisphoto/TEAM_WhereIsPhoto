@@ -3,6 +3,7 @@ from map.models import Booth
 from user.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django import forms
 
 
 # Create your models here.
@@ -18,11 +19,12 @@ class LnF_Post(models.Model):
     
     img = models.ImageField(blank=True, null=True, upload_to="LnF")
     content = models.TextField()
-    tag = models.CharField(max_length=100, choices=TAG_CHOICE)
+    tag = models.CharField(max_length=50, choices=TAG_CHOICE)
+    
     time = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return self.title
+        return self.content
     
     @property
     def timeString(self):
