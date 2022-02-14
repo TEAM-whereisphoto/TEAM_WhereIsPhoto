@@ -20,6 +20,7 @@ def main(request):
     #리뷰
     reviews_posts = Review.objects.filter(user = users)
 
+    comments = getNew(request)
     try:
         my_review_exist = Review.objects.get(user = users)
     except Review.DoesNotExist:
@@ -27,7 +28,7 @@ def main(request):
     except Review.MultipleObjectsReturned:
         my_review_exist = 1
     
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
+    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments)}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
