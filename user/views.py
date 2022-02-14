@@ -160,8 +160,15 @@ def notice(request):
     # print(type(comments))
     ctx={'posts':posts, 'comments':comments, 'len':len(comments)}
 
-    for comment in comments:
-        comment.read = 1
-        comment.save()
+    # for comment in comments:
+    #     comment.read = 1
+    #     comment.save()
 
     return render(request, template_name='user/notice.html', context=ctx)
+
+def read_notice(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    comment.read = 1
+    comment.save()
+
+    return redirect('LnF:detail', comment.post.booth_id)

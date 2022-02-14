@@ -16,5 +16,6 @@ urlpatterns = [
     path('member_modify/', views.member_modify, name='member_modify'),
 
     path('member_del/', views.member_del, name='member_del'),
-    path('notice/', views.notice, name="notice")
+    path('notice/', views.notice, name="notice"),
+    path('readnotice/<int:pk>', views.read_notice, name="read_notice"),
 ]

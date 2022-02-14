@@ -14,6 +14,7 @@
         <div>작성자 {{ comment.user }}</div>
         <div>내용 {{ comment.content }}</div>
         <!-- <div>{{ comment.read }}</div> -->
+        <a href="{% url 'user:read_notice' comment.id %}">댓글 확인하기</a>
         <hr />
     {% endfor %}
 
