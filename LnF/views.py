@@ -21,7 +21,7 @@ def list(request):
         posts = LnF_Post.objects.filter(booth__in = booths).order_by('-time')
         if tag:
             posts = posts.filter(tag=tag)
-    
+
     else:
         posts=LnF_Post.objects.all().order_by('-time')
         if tag:
@@ -38,10 +38,10 @@ def new(request):
             new_post.user = user
             new_post.save()
             return redirect('LnF:list')
-    
+
     else:
         form = PostForm()
-    
+
     ctx = {'form': form}
     return render(request, 'LnF/new.html', ctx)
 
@@ -59,7 +59,7 @@ def add_comment(request, pk):
     id = req['id']
     type = req['type']
     content = req['content']
-    
+
     comment = Comment()
     comment.post = LnF_Post.objects.get(id = id)
     comment.content = content
@@ -71,9 +71,10 @@ def add_comment(request, pk):
 
 @csrf_exempt
 def del_comment(request, pk):
+    # TODO : 권한 체크 필요. 누구나 삭제 가능
     req = json.loads(request.body)
     comment_id = req['id']
-    
+
     comment = get_object_or_404(Comment, id = comment_id)
     comment.delete()
     return JsonResponse({'id': comment_id})
