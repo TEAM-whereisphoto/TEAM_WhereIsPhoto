@@ -1,5 +1,4 @@
-from ctypes.wintypes import tagPOINT
-from django.http import JsonResponse
+from django.http import  JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from .forms import *
@@ -8,40 +7,20 @@ from django.utils import timezone
 from map.models import Booth
 from brand.models import Brand
 from user.models import User
-from django.db.models import Q
-
 import json
 
 @csrf_exempt
 def list(request):
-    posts = LnF_Post.objects.all()
-    if request.method == "POST":
-        req = json.loads(request.body)
-        postList = []
-
-        if req["분실"] == True:
-            lostTag = LnF_Post.objects.filter(tag = '분실')
-            postList += lostTag
-        if req["보관"] == True:
-            keepTag = LnF_Post.objects.filter(tag = "보관")
-            postList += keepTag
-
-        posts= LnF_Post.objects.filter(title__in = postList)
-
-        return JsonResponse({"posts": posts})
-
-    else:
+    if request.method == 'GET':
         query = request.GET.get('query', '')
-
         if query:
             booths = Booth.objects.filter(name__icontains = query)
             posts = LnF_Post.objects.filter(booth__in = booths).order_by('-time')
-
         else:
             posts=LnF_Post.objects.all().order_by('-time')
+        ctx = {'posts': posts, 'query': query}
+        return render(request, 'LnF/list.html', context=ctx)
 
-    ctx = {'posts': posts}
-    return render(request, 'LnF/list.html', context=ctx)
 
 def new(request):
     user = request.user
@@ -96,4 +75,33 @@ def del_comment(request, pk):
     comment.delete()
     return JsonResponse({'id': comment_id})
 
+@csrf_exempt
+def tag(request):
+    req = json.loads(request.body)
+    query = req['query']
+    postList = []
 
+    if query:
+        booths = Booth.objects.filter(name__icontains = query)
+        posts = LnF_Post.objects.filter(booth__in = booths).order_by('-time')
+    else:
+        posts=LnF_Post.objects.all().order_by('-time')
+
+    if req["분실"] == True:
+        lostTag = posts.filter(tag = '분실')
+        postList += lostTag
+    if req["보관"] == True:
+        keepTag = posts.filter(tag = "보관")
+        postList += keepTag
+
+    resList = []
+    for post in postList:
+        if post.img:
+            img = post.img.url
+        else:
+            img = ""
+
+        resList.append({'booth_name': post.booth.name, 'booth_id': post.booth.id ,'user': post.user.username, 'timeString': post.timeString, 'time': post.time.strftime('%m월 %d일'), 'content': post.content, 'img': img, 'tag': post.tag})
+    return JsonResponse({'resList': resList})
+
+ 
