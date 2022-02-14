@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 <!-- main block -->
 {% block content %}
-    <h1>New POST</h1>
-    <form method="POST"  enctype="multipart/form-data">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <button type = 'submit'>Submit</button>
-    </form>
+
+{% if user.is_authenticated %}
+        <h1>New POST</h1>
+        <form method="POST"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <button type = 'submit'>Submit</button>
+        </form>
+    {% else %}
+        <script type="text/javascript">
+            alert('로그인을 먼저 해주세요.!')
+            window.location.href = '{% url "user:login" %}'
+        </script>
+    {% endif %}
 {% endblock %}

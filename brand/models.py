@@ -6,9 +6,9 @@ from django.db import models
 # 브랜드명, 재쵤영 여부, 리모컨, 가격, qr 여부
 class Brand(models.Model):
     name = models.CharField(max_length=50, unique= True)
-    retake = models.IntegerField()
-    remote = models.IntegerField()
-    QR = models.IntegerField()
+    retake = models.CharField(max_length=50)
+    remote = models.CharField(max_length=50)
+    QR = models.CharField(max_length=50)
     etc = models.TextField(null=True)
     # 촬영 시간
     time = models.CharField(max_length=50)
