@@ -16,3 +16,37 @@
 div {
     font-family: ROKAFSansMedium;
 }
+
+header {
+    background-color: white;
+}
+
+.header__title {
+    font-family: 'ROKAF Sans', 'SUIT', sans-serif;
+    font-size: 30pt;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.navbar__link {
+    display: block;
+    padding: .5rem 1rem;
+    color: black;
+    text-decoration: none;
+    font-family:'SUIT', sans-serif;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.main {
+    padding-top: 120pt;
+    padding-bottom: 50pt;
+}
+
+.main__text {
+    color: white;
+    font-family: 'ROKAF Sans', 'SUIT', sans-serif;;
+}
+
+.main__btn {
+    background-color : #C979D0
+}
