@@ -20,7 +20,8 @@ def main(request):
     #리뷰
     reviews_posts = Review.objects.filter(user = users)
 
-    comments = getNew(request)
+    comments = getNew(users)
+
     try:
         my_review_exist = Review.objects.get(user = users)
     except Review.DoesNotExist:
@@ -60,8 +61,7 @@ def my_lnf(request):
     except LnF_Post.MultipleObjectsReturned:
         my_lnf_exist = 1
 
-    comments = getNew(request)
-    ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist, 'len': len(comments)}
+    ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist}
     return render(request, 'user/my_lnf.html', context=ctx)
 
 class LoginView(View):
@@ -78,7 +78,7 @@ class LoginView(View):
             user = authenticate(request, username=username, password=password, email=email)
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend') #아래와 동일. 
-                return render(request, "user/main.html")
+                return redirect("user:main")
 
             return render(request, "user/login.html")
 
@@ -183,7 +183,7 @@ def member_del(request):
 #     })
 
 def notice(request):
-    comments = getNew(request)
+    comments = getNew(request.user)
     print(comments)
     # print(type(comments))
     ctx={'comments':comments, 'len':len(comments)}
@@ -194,8 +194,8 @@ def notice(request):
 
     return render(request, template_name='user/notice.html', context=ctx)
 
-def getNew(request):
-    posts = LnF_Post.objects.filter(user=request.user)
+def getNew(userss):
+    posts = LnF_Post.objects.filter(user=userss)
     comments =  Comment.objects.none()
     for post in posts:
         comments = comments | post.comment_set.filter(read=0)
