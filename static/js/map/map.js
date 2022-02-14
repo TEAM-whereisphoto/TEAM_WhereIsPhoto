@@ -56,7 +56,7 @@ function showLocation(position) {
     marker.setMap(map); // 내 위치 pin 박기
     map.setLevel(7);
     bounds = map.getBounds(); // 새로 bound 가져오기.
-    console.log("현재", currentPosition.toString())
+    // console.log("현재", currentPosition.toString())
 }
 
 
@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', function(){
     })
 })
 
-function main(boothList){    
-    
+function main(boothList){ 
+
     // 3. 전역 변수들 생성 -----------------------------------------------------------------------------
     
     // 표시할 brand 이름. 나중에 brand model에서 가져오도록 수정해두면 더 좋긴 할듯.
@@ -215,7 +215,7 @@ function main(boothList){
         let booth = boothList[i] // 특정 booth 정보 담은 객체
         // let booth = boothparent.firstElementChild.dataset
         const name = booth["name"]
-        const brandname = booth["brand"]
+        const brandname = booth["brand__name"]
         
         
         const mapLat = booth["x"]
@@ -260,7 +260,7 @@ function main(boothList){
     // 리스트에 매장 추가
     function printList(boothElement) {
         
-        const brand = boothElement["brand"];
+        const brand = boothElement["brand__name"];
     
         if (!filterSet.has(brand)) {
             return 0;
@@ -269,11 +269,11 @@ function main(boothList){
         // 지도 내에 있는 booth의 정보 가져오기
         let name = boothElement["name"];
         let address = boothElement["location"];
-        const boothId = boothElement["id"];
+        const boothId = boothElement["pk"];
         const hour = boothElement["operationHour"];
             
         const rating = boothElement["rating"];
-        const reviewnum = boothElement["review_num"];
+        const reviewnum = boothElement["review_number"];
         var distance = Math.round(boothElement["len"])
         if ( distance < 1000 ) {
             distance = String(distance)+"m"
