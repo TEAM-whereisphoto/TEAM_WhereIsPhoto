@@ -9,7 +9,10 @@ from user.models import User
 
 from django.templatetags.static import static
 from django.db.models import Q
+<<<<<<< HEAD
 # from pytz import timezone
+=======
+>>>>>>> user
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
