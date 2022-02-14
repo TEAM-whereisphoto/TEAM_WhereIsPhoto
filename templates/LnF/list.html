@@ -1,58 +1,61 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block head %}
+<script defer src="{% static 'js/LnF/filter.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <h1>LNF List</h1>
-    
     <!-- search -->
     <section>
         search:
         <form action="" method="get">
-            <input type="text" name="query" value="{{query}}">
+            <input id="query" type="text" name="query" value="{{query}}">
             <input type="submit" value="검색">
         </form>
-        <a href="{% url 'LnF:list' %}">리셋</a>
+
     </section>
 
 
     <!-- filter -->
     <section>
-        <form action="" method="get">
-            {% for brand in brands %}
-            <input type="checkbox" name="query" value="{{brand.name}}">{{brand.name}}
-            {% endfor%}
-            <br>
-            <input type="checkbox" name="tag" type="button" value="분실">분실
-            <input type="checkbox" name="tag" type="button" value="보관">보관
-            <input type="checkbox" name="tag" type="button" value="기타">기타
-            <input type="submit" value="필터">
-        </form>
+        <input type="checkbox" checked name="tag" value="분실">분실
+        <input type="checkbox" checked name="tag" value="보관">보관
     </section>
+
 
     <section>
         <a href="{% url 'LnF:new' %}">작성</a>
     </section>
     <br>
-    <section>
+    <serction id="postList">
         {% for post in posts %}
             <div>
                 <a href="{% url 'LnF:detail' post.booth.id %}">부스명: {{post.booth.name}}</a>
-                 <br>
-                작성자: {{post.user.username}}<br>
-    
-                {% if post.timeString == False %}
-                작성시간: {{post.time|date:'m월 d일'}}
-                {% else %}
-                작성시간: {{post.timeString}}
-                {% endif %}
-                <br>
-                태그: {{post.tag}}
-                <br>
-                내용: {{post.content}}
-                <br>
-                {% if post.img %}
-                    <img src="{{ post.img.url }}" alt="" width="auto"> 
-                {% endif %}
+                <div>
+                    태그: {{post.tag}}
+                </div>
+                <div>
+                    내용: {{post.content}}
+                </div>
+                <div>
+                    작성자: {{post.user.username}}<br>
+                </div>
+                <div>
+                    {% if post.timeString == False %}
+                    작성시간: {{post.time|date:'m월 d일'}}
+                    {% else %}
+                    작성시간: {{post.timeString}}
+                    {% endif %}
+                </div>
+                <div>
+                    {% if post.img %}
+                        <img src="{{ post.img.url }}" alt="" width="300"> 
+                    {% endif %}
+                </div>
+
 
                 <br> <br>
             </div>

@@ -4,6 +4,7 @@ from .models import *
 
 
 class PostForm(forms.ModelForm):
+    tag = forms.ChoiceField(widget=forms.RadioSelect, choices=TAG_CHOICE)
     class Meta:
         model = LnF_Post
-        fields = ('tag', 'booth', 'title', 'content', 'img')
+        fields = ('tag', 'booth', 'content', 'img')

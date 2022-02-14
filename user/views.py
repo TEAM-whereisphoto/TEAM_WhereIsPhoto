@@ -4,30 +4,64 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
 
+#에러 메세지를 위해
+from django.contrib import messages
+
 # 탈퇴시 랜덤숫자를 위해
 from random import randint
 
 # 리뷰 가져오기
-from LnF.models import LnF_Post
+from map.models import Review
+from LnF.models import *
 
 def main(request):
     users = request.user
-    print(users)
-    # posts = LnF_Post.objects.all()
-    posts = LnF_Post.objects.filter(user = users)
-    # posts = LnF_Post.objects.filter(user__contains = users).order_by('-time')
+
+    #리뷰
+    reviews_posts = Review.objects.filter(user = users)
 
     try:
-        exist = LnF_Post.objects.get(user = users)
-    except LnF_Post.DoesNotExist:
-        exist = 0
-    except LnF_Post.MultipleObjectsReturned:
-        exist = 1
-    print(exist)
-
-    ctx = {'posts': posts, 'exist': exist}
+        my_review_exist = Review.objects.get(user = users)
+    except Review.DoesNotExist:
+        my_review_exist = 0
+    except Review.MultipleObjectsReturned:
+        my_review_exist = 1
+    
+    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/main.html', context=ctx)
-    # return render(request, "user/main.html")
+    
+def my_review(request):
+    users = request.user
+
+    #리뷰
+    reviews_posts = Review.objects.filter(user = users)
+
+    try:
+        my_review_exist = Review.objects.get(user = users)
+    except Review.DoesNotExist:
+        my_review_exist = 0
+    except Review.MultipleObjectsReturned:
+        my_review_exist = 1
+    
+    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
+    return render(request, 'user/my_review.html', context=ctx)
+
+def my_lnf(request):
+    users = request.user
+
+    #분실물
+    lnf_posts = LnF_Post.objects.filter(user = users)
+
+    try:
+        my_lnf_exist = LnF_Post.objects.get(user = users)
+    except LnF_Post.DoesNotExist:
+        my_lnf_exist = 0
+    except LnF_Post.MultipleObjectsReturned:
+        my_lnf_exist = 1
+
+    comments = getNew(request)
+    ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist, 'len': len(comments)}
+    return render(request, 'user/my_lnf.html', context=ctx)
 
 class LoginView(View):
     def get(self, request):
@@ -86,7 +120,13 @@ from django.contrib import messages, auth
 def change_password(request):
   if request.method == "POST":
     user = request.user
+    # 아이디 변경
+    edit_username = request.GET.get('edit_username', user.username)
+    # edit_username = request.POST["username"]
+    print(edit_username)
+    # 패스워드 조건 설정
     origin_password = request.POST["origin_password"]
+
     if check_password(origin_password, user.password):
       new_password = request.POST["new_password"]
       confirm_password = request.POST["confirm_password"]
@@ -102,16 +142,6 @@ def change_password(request):
     return render(request, 'user/change_password.html')
   else:
     return render(request, 'user/change_password.html')
-
-def member_modify(request):
-    if request.method == "POST":
-        #id = request.user.id
-        #user = User.objects.get(pk=id)
-        user = request.user
-        user.username = request.POST["username"]
-        user.save()
-        return redirect('user:main')
-    return render(request, 'user/member_modify.html')
 
 def member_del(request):
     if request.method == "POST":
@@ -150,3 +180,29 @@ def member_del(request):
 #     return render(request, 'user/change_password.html', {
 #         'form': form
 #     })
+
+def notice(request):
+    comments = getNew(request)
+    print(comments)
+    # print(type(comments))
+    ctx={'comments':comments, 'len':len(comments)}
+
+    # for comment in comments:
+    #     comment.read = 1
+    #     comment.save()
+
+    return render(request, template_name='user/notice.html', context=ctx)
+
+def getNew(request):
+    posts = LnF_Post.objects.filter(user=request.user)
+    comments =  Comment.objects.none()
+    for post in posts:
+        comments = comments | post.comment_set.filter(read=0)
+    return comments
+
+def read_notice(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    comment.read = 1
+    comment.save()
+
+    return redirect('LnF:detail', comment.post.booth_id)
