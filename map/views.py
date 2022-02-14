@@ -24,7 +24,7 @@ def mymap(request):
     ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
     return render(request, 'map/mymap.html', context=ctx)
 
-def avg(pk): # 평균 별점 계산 함수
+def avg(request, pk): # 평균 별점 계산 함수
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
 
@@ -45,7 +45,7 @@ def avg(pk): # 평균 별점 계산 함수
     booth.review_number = n
     booth.save()
 
-'''
+
 def tag_count(request, pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
@@ -67,12 +67,11 @@ def tag_count(request, pk):
                 tag_dic[4][1] += 1
     print(tag_dic)
     return tag_dic
-'''
 
 def booth_brand(request, pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     like = Liked.objects.all()
-    avg(pk)  # 왜 새로고침해야 뜨는거지
+    avg(request, pk)  # 왜 새로고침해야 뜨는거지
     brandname = booth.brand
     brand = Brand.objects.get(name=brandname)
     brand_list = []
@@ -125,7 +124,8 @@ def booth_review_create(request, pk):
                 post = form.save(commit=False)
                 post.booth = booth
                 post.user = user
-                avg(pk)  # 왜 새로고침해야 뜨는거지
+                post.boothid = pk
+                avg(request, pk)  # 왜 새로고침해야 뜨는거지
                 post.save()
                 return redirect('map:booth_review_list', pk)
         else:
@@ -146,12 +146,12 @@ def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk
 
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
-
+    boothpk = review.boothid
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
-            review = form.save(commit=False)
-            return redirect('map:booth_review_list', pk)
+            review = form.save()
+            return redirect('map:booth_review_list', boothpk)
     else:
         form = ReviewForm(instance=review)
         ctx = {'form': form,'pk':pk}
@@ -160,8 +160,9 @@ def review_update(request, pk):
 
 def review_delete(request, pk):
     review = get_object_or_404(Review, id=pk)
+    booth_id = review.boothid
     review.delete()
-    return redirect('map:booth_review_list')
+    return redirect('map:booth_review_list', booth_id)
 
 def search(request):
     search = request.GET.get('search','')
