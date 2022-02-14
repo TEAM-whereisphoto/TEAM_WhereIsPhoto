@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # sites 는 사이트 정보를 설정하기 위해 필요
     'django.contrib.sites',
+    'multiselectfield',
+    'colorfield',
 
     'brand',
     'map', 
