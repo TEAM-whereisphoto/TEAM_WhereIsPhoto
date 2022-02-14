@@ -7,12 +7,12 @@ def list(request):
 
     brand_list = []
     for brand in brands:
-        if brand.retake == 1:
+        if brand.retake == "yes":
             retake =  "possible"
         else:
             retake = "impossible"
         
-        if brand.remote == 1:
+        if brand.remote == "yes":
             remote = "possible"
         else:
             remote = "impossible"
