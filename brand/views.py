@@ -30,6 +30,5 @@ def list(request):
         # brand_list = [brand_name, retake, remote, time, [frame]]
         # frame = [price, 프레임 컷 수, 총 촬영 수]
 
-    print(brand_list)
     ctx = {"brand_list": brand_list}
     return render(request, "brand/main.html", ctx)
