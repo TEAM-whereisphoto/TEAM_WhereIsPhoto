@@ -32,4 +32,4 @@ def list(request):
 
     print(brand_list)
     ctx = {"brand_list": brand_list}
-    return render(request, "brand/list.html", ctx)
+    return render(request, "brand/main.html", ctx)
