@@ -19,6 +19,7 @@ def list(request):
         else:
             posts=LnF_Post.objects.all().order_by('-time')
         ctx = {'posts': posts, 'query': query}
+        
         return render(request, 'LnF/list.html', context=ctx)
 
 
