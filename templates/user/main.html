@@ -2,41 +2,20 @@
 {% block content %}
 <div>
     <div> TEST </div>
-    <a href="{% url 'user:signup' %}">회원가입</a>
     {% if user.is_authenticated %}
-    <p>{{ user }}</p>
-    <a href="{% url 'user:change_password' %}">비밀번호 변경</a>
-    <a href="{% url 'user:member_modify' %}">회원수정</a>
-    <a href="{% url 'user:log_out' %}">로그아웃</a>
-    <section class = "my_LnF">
-    <h1>My Lost and Found</h1>
-    {% if exist == 0 %}
-        <p>게시물이 없습니다.</p>
-    {% else %}
-    {% for post in posts %}
+    <div>
+        <h3>{{ user }}</h3>
         <div>
-            {{post.booth.name}} <br>
-            {{post.user.username}}<br>
-        
-            {% if post.timeString == False %}
-            작성시간: {{post.time|date:'m월 d일'}}
-            {% else %}
-            작성시간: {{post.time}} <br>
-            작성시간: {{post.timeString}}
-            {% endif %}
-            <br>
-            태그: {{post.tag}}
-            <br>
-            내용: {{post.content}}
-            <br>
-            {% if post.img %}
-            <img src="{{ post.img.url }}" alt="" width="auto">
-            {% endif %}
-            <br> <br>
+            <p>{{ user }}님! 여기사진과 함께 다양한 부스를 방문해보세요😉   </p>
         </div>
-    {% endfor %}
-    {% endif %}
-    </section>
+        <p>Dashboard</p>
+        <p>Lost and Found       <a href="{% url 'user:my_lnf' %}">></a></p>
+        <p>Reviews         <a href="{% url 'user:my_review' %}">></a></p>
+        <p>Privacy</p>
+    </div>
+    <a href="{% url 'user:change_password' %}">비밀번호 변경</a>
+    <a href="{% url 'user:log_out' %}">로그아웃</a>
+    
     {% else %}
     <a href="{% url 'user:login' %}">로그인</a>
     {% endif %}
