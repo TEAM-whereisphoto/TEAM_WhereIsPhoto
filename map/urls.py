@@ -16,4 +16,5 @@ urlpatterns = [
     path('', view= views.mainpage, name = 'main'), # 메인페이지 view
     path('map/', views.mymap, name="mymap"),
     path('search/', views.search, name="search"),
+    path('map/load/', view=views.load, name='load')
 ]

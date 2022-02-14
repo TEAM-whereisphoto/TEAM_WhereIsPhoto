@@ -11,8 +11,8 @@ from django.contrib import messages
 from random import randint
 
 # 리뷰 가져오기
-from LnF.models import LnF_Post
 from map.models import Review
+from LnF.models import *
 
 def main(request):
     users = request.user
@@ -59,7 +59,8 @@ def my_lnf(request):
     except LnF_Post.MultipleObjectsReturned:
         my_lnf_exist = 1
 
-    ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist}
+    comments = getNew(request)
+    ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist, 'len': len(comments)}
     return render(request, 'user/my_lnf.html', context=ctx)
 
 class LoginView(View):
@@ -179,3 +180,29 @@ def member_del(request):
 #     return render(request, 'user/change_password.html', {
 #         'form': form
 #     })
+
+def notice(request):
+    comments = getNew(request)
+    print(comments)
+    # print(type(comments))
+    ctx={'comments':comments, 'len':len(comments)}
+
+    # for comment in comments:
+    #     comment.read = 1
+    #     comment.save()
+
+    return render(request, template_name='user/notice.html', context=ctx)
+
+def getNew(request):
+    posts = LnF_Post.objects.filter(user=request.user)
+    comments =  Comment.objects.none()
+    for post in posts:
+        comments = comments | post.comment_set.filter(read=0)
+    return comments
+
+def read_notice(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    comment.read = 1
+    comment.save()
+
+    return redirect('LnF:detail', comment.post.booth_id)

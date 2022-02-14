@@ -19,6 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import operator
 
+
 # Create your views here.
 def mainpage(request):
     return render(request, 'base.html')
@@ -201,26 +202,20 @@ def search(request):
     ctx = {'booths':boothlist}
     return render(request, 'map/mymap.html', context=ctx)
 
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def load(request):
+    booths = list(Booth.objects.values("pk", "name", "location", "x", "y", "rating", "likenum", "operationHour", "brand__name", "review_number"))
 
-# @csrf_exempt
-# def filter(request):
-#     req = json.loads(request.body)
-#     showbrands = req['brands']
-#     print("before")
-#     boothlist = list(Booth.objects.filter(brand__in=showbrands).values())
-#     # 이게 지금 foriegn키라 접근이 뭔가 어렵나봄..
-#     # boothlist = list(Booth.objects.all().values())
-#     print(boothlist)
+    # boothList = []
+    # for booth in booths:
+    #     booth['review_num'] = len(Booth.objects.get(pk=booth["pk"]).review_set.all())
+    #     boothDict = {}
+    #     boothDict = {"id": booth.id, "name": booth.name, "location": booth.location, "x": booth.x, "y": booth.y, "rating":booth.rating,
+    #     "likenum": booth.likenum, "operationHour": booth.operationHour, "review_num": len(booth.review_set.all()), "brand": booth.brand.name}
+    #     boothList.append(boothDict)
 
+    # print(booths)
 
-#     return JsonResponse({'booths':boothlist})
+    return JsonResponse({'boothList': booths})
 
-# from django.core import serializers
-# @csrf_exempt
-# def dbtojs(request):
-#     boothobjs = Booth.objects.all()
-#     boothjsons = serializers.serialize("json", boothobjs)
-
+    # [{id, name, location, x, y, rating, likenum, operationHour, brand}, {}]
