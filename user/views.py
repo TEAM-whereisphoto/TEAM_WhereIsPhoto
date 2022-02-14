@@ -12,6 +12,7 @@ from LnF.models import LnF_Post
 
 def main(request):
     users = request.user
+    # TODO : request.user가 리스트 형식인가요?
     print(users)
     # posts = LnF_Post.objects.all()
     posts = LnF_Post.objects.filter(user = users)
@@ -42,7 +43,7 @@ class LoginView(View):
             password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password, email=email)
             if user is not None:
-                login(request, user, backend='django.contrib.auth.backends.ModelBackend') #아래와 동일. 
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend') #아래와 동일.
                 return render(request, "user/main.html")
 
             return render(request, "user/login.html")

@@ -18,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def mymap(request):
-    booths = Booth.objects.all() 
+    booths = Booth.objects.all()
     ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
     return render(request, 'map/mymap.html', context=ctx)
 
@@ -60,6 +60,9 @@ def booth_detail(request,pk):
             for etc in etcs:
                 etcList.append([etc.price, etc.frame, etc.take])
 
+        # etcList -> etc_list
+        # TODO : 변수 네이밍 통일 필요
+        # TODO : 같은 리스트인데, 어떤건 reviews, brand_list 네이밍이 다름.
         brand_detail.append(etcList)
         brand_list.append(brand_detail)
 
@@ -74,6 +77,9 @@ def booth_review_list(request,pk):
 
 
 def booth_review_create(request):
+    # TODO : 해당 pk 없으면 에러 발생.
+    # TODO : 여기서 booth를 DB 콜해서 가져오는데, 아래 avg 함수에서 한 번 더 콜함.
+    # TODO : DB 요청횟수 오버헤드 발생. 함수 인자로 booth를 넘기는게 나음.
     booth = Booth.objects.get(id=pk)
     user = request.user
     if request.method == 'POST':
@@ -92,6 +98,8 @@ def booth_review_create(request):
 
 
 def review_list(request):
+    # TODO : 리뷰 너무 많으면, 요청이 오래걸림.
+    # TODO : pagination 세팅 필요함.
     reviews = Review.objects.all()
     ctx = {'reviews': reviews}
     return render(request, template_name='map/review_list.html', context=ctx)
@@ -154,7 +162,7 @@ def like_ajax(request):
     post.save()
 
     return JsonResponse({'id': post_id, 'k': k, 'status':status})
-    
+
 '''
 
 def search(request):
@@ -185,4 +193,3 @@ from django.views.decorators.csrf import csrf_exempt
 # def dbtojs(request):
 #     boothobjs = Booth.objects.all()
 #     boothjsons = serializers.serialize("json", boothobjs)
-
