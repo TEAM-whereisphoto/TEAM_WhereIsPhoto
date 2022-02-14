@@ -46,7 +46,7 @@ def avg(request, pk): # 평균 별점 계산 함수
     booth.save()
 
 
-def tag_count(request, pk):
+def tag_count(pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
     tag_dic = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
@@ -102,8 +102,8 @@ def booth_detail(request,pk):
     brand = Brand.objects.all()
     brand_list = []
     brand_list = booth_brand(request, pk)
-    #tag_dic = tag_count(request, pk)
-    #tag_dic = sorted(key= lambda x: (x[0],-x[1]), reverse = True)
+    tag_dic = tag_count(pk)
+    tag_dic = sorted(tag_dic, key= lambda x: (x[0],-x[1]), reverse = True)
 
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk}
     return render(request, template_name='map/booth_detail.html', context=ctx)
@@ -146,12 +146,12 @@ def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk
 
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
-    boothpk = review.boothid
+    boothid = review.boothid
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
-            review = form.save()
-            return redirect('map:booth_review_list', boothpk)
+            review = form.save(commit=False)
+            return redirect('map:booth_review_list', boothid)
     else:
         form = ReviewForm(instance=review)
         ctx = {'form': form,'pk':pk}

@@ -11,7 +11,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Booth(models.Model):
     name = models.CharField(max_length=100)
     location = models.TextField()
-    #operationHour = models.TimeField()
     operationHour = models.CharField(max_length=50)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     user = models.ManyToManyField(User, through='Liked', through_fields=('booth', 'user'))
@@ -35,10 +34,8 @@ class Booth(models.Model):
 # user - liked - booth 다 대 다 연결
 class Liked(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT, default=None)
     dolike = models.BooleanField(default = False)
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
-    date = models.DateField()
 
 # 리뷰 작성할 부스, 리뷰 작성하는 user, title, 리뷰 작성한 시간, 사진, 별점
 # tag 추가해야
@@ -62,8 +59,8 @@ class Review(models.Model):
         ('보라', '보라'),
         ('빨강', '빨강'),
         ('주황', '주황'),
-
-   )
+        ('기타', '기타'),
+    )
 
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
