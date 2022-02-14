@@ -586,7 +586,7 @@ function main(boothList){
                 var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
     
                 // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
-                map.panTo(newcenter);
+                map.setCenter(newcenter);
                 map.setLevel(6);
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -597,7 +597,18 @@ function main(boothList){
                 alert("검색 api에서 오류가 발생했습니다. 다시 검색해주세요!")
             }
         }
+        searchInput.value = ''
     });
+
+    searchInput.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 새로고침 방지
+            // Trigger the button element with a click
+            searchBtn.click();
+        }
+    });
+
     // 검색 끝 -----------------------------------------------------------------------------
 
     // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
