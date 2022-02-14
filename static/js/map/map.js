@@ -49,7 +49,7 @@ function showLocation(position) {
     var marker = new kakao.maps.Marker({  
         map: map, 
         position: currentPosition, 
-        image: new kakao.maps.MarkerImage('../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
+        image: new kakao.maps.MarkerImage('../../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
         // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
     }); 
 
@@ -99,33 +99,40 @@ function main(boothList){
     
     // 브랜드별 색깔 바꿀 때 이 부분 src 수정, 혹은 실제 pin 박을 때 수정도 가능
     // 참고 -> 이 api에서는 href 링크나 실제 이미지로만 pin 이미지 설정 가능. <i> rexicon꺼 </i> 등 형태 불가. 
-    const imageSrc = '../static/icons/pin_blue.png'
+    const imageSrc = '../../static/icons/pin_blue.png'
     const imageSize = new kakao.maps.Size(28, 28);
     const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 기본 파란 핀
     
     const clickSize = new kakao.maps.Size(36, 36);
     var selectedMarker = null; // 클릭한 마커를 담을 변수
 
+    for (let value in brand_dict){
+        var key = brand_dict[value]
+        
+        // 브랜드별 icon 위치 src입니다.
+        eval("var "+key+"Src"+"= '../../static/icons/"+key+".svg'") 
+        
+        // 지도에 표시된 마커 객체를 가지고 있을 배열입니다.
+        // 브랜드 별로 따로 생성해주었습니다.
+        // ex) var selfixMarkers = [];
+        eval("var "+key+"Markers"+" = []")
+    }; 
 
-    const lifefourcutpin = new kakao.maps.MarkerImage('../static/icons/lifefourcut.svg', imageSize)
-    const selfixpin = new kakao.maps.MarkerImage('../static/icons/selfix.svg', imageSize)
-    const photoismpin = new kakao.maps.MarkerImage('../static/icons/photoism.svg', imageSize)
-    const harufilmpin = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', imageSize)
-    const photosignaturepin = new kakao.maps.MarkerImage('../static/icons/photosignature.svg', imageSize)
+
+    const lifefourcutpin = new kakao.maps.MarkerImage(lifefourcutSrc, imageSize)
+    const selfixpin = new kakao.maps.MarkerImage(selfixSrc, imageSize)
+    const photoismpin = new kakao.maps.MarkerImage(photoismSrc, imageSize)
+    const harufilmpin = new kakao.maps.MarkerImage(harufilmSrc, imageSize)
+    const photosignaturepin = new kakao.maps.MarkerImage(photosignatureSrc, imageSize)
     var brandpin = null;
 
-    const lifefourcutClick = new kakao.maps.MarkerImage('../static/icons/lifefourcut.svg', clickSize)
-    const selfixClick= new kakao.maps.MarkerImage('../static/icons/selfix.svg', clickSize)
-    const photoismClick = new kakao.maps.MarkerImage('../static/icons/photoism.svg', clickSize)
-    const harufilmClick = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', clickSize)
-    const photosignatureClick = new kakao.maps.MarkerImage('../static/icons/photosignature.svg', clickSize)
+    const lifefourcutClick = new kakao.maps.MarkerImage(lifefourcutSrc, clickSize)
+    const selfixClick= new kakao.maps.MarkerImage(selfixSrc, clickSize)
+    const photoismClick = new kakao.maps.MarkerImage(photoismSrc, clickSize)
+    const harufilmClick = new kakao.maps.MarkerImage(harufilmSrc, clickSize)
+    const photosignatureClick = new kakao.maps.MarkerImage(photosignatureSrc, clickSize)
     
-    // 지도에 표시된 마커 객체를 가지고 있을 배열입니다.
-    // 브랜드 별로 따로 생성해주었습니다.
-    for (let value in brand_dict){
-        eval("var "+brand_dict[value]+"Markers"+" = []") 
-    };
-    // ex) var selfixMarkers = [];
+    
     
     // 클러스터링 객체 생성, minLevel 15로 절대 cluster 안되게
     const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLevel: 15});
