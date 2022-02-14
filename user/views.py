@@ -25,7 +25,9 @@ def main(request):
         exist = 1
     print(exist)
 
-    ctx = {'posts': posts, 'exist': exist}
+    comments = getNew(request)
+
+    ctx = {'posts': posts, 'exist': exist, 'len': len(comments) }
     return render(request, 'user/main.html', context=ctx)
     # return render(request, "user/main.html")
 
@@ -152,19 +154,23 @@ def member_del(request):
 #     })
 
 def notice(request):
-    posts = LnF_Post.objects.filter(user=request.user)
-    comments =  Comment.objects.none()
-    for post in posts:
-        comments = comments | post.comment_set.filter(read=0)
+    comments = getNew(request)
     print(comments)
     # print(type(comments))
-    ctx={'posts':posts, 'comments':comments, 'len':len(comments)}
+    ctx={'comments':comments, 'len':len(comments)}
 
     # for comment in comments:
     #     comment.read = 1
     #     comment.save()
 
     return render(request, template_name='user/notice.html', context=ctx)
+
+def getNew(request):
+    posts = LnF_Post.objects.filter(user=request.user)
+    comments =  Comment.objects.none()
+    for post in posts:
+        comments = comments | post.comment_set.filter(read=0)
+    return comments
 
 def read_notice(request, pk):
     comment = Comment.objects.get(pk=pk)

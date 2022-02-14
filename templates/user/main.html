@@ -41,6 +41,8 @@
     <a href="{% url 'user:login' %}">로그인</a>
     {% endif %}
 
-    <a href="{% url 'user:notice' %}">알림</a>
+    {% if len != 0 %}
+    <a href="{% url 'user:notice' %}">새로운 알림 {{ len }}개</a>
+    {% endif %}
 </div>
 {% endblock%}
