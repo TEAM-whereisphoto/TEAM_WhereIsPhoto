@@ -1,3 +1,4 @@
+from ctypes.wintypes import tagPOINT
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
@@ -7,26 +8,39 @@ from django.utils import timezone
 from map.models import Booth
 from brand.models import Brand
 from user.models import User
+from django.db.models import Q
 
 import json
 
-
+@csrf_exempt
 def list(request):
-    brands = Brand.objects.all()
-    query = request.GET.get('query', '')
-    tag= request.GET.get('tag', '')
+    posts = LnF_Post.objects.all()
+    if request.method == "POST":
+        req = json.loads(request.body)
+        postList = []
 
-    if query:
-        booths = Booth.objects.filter(name__icontains = query)
-        posts = LnF_Post.objects.filter(booth__in = booths).order_by('-time')
-        if tag:
-            posts = posts.filter(tag=tag)
-    
+        if req["분실"] == True:
+            lostTag = LnF_Post.objects.filter(tag = '분실')
+            postList += lostTag
+        if req["보관"] == True:
+            keepTag = LnF_Post.objects.filter(tag = "보관")
+            postList += keepTag
+
+        posts= LnF_Post.objects.filter(title__in = postList)
+
+        return JsonResponse({"posts": posts})
+
     else:
-        posts=LnF_Post.objects.all().order_by('-time')
-        if tag:
-            posts = posts.filter(tag=tag)
-    ctx = {'posts': posts, 'brands':brands}
+        query = request.GET.get('query', '')
+
+        if query:
+            booths = Booth.objects.filter(name__icontains = query)
+            posts = LnF_Post.objects.filter(booth__in = booths).order_by('-time')
+
+        else:
+            posts=LnF_Post.objects.all().order_by('-time')
+
+    ctx = {'posts': posts}
     return render(request, 'LnF/list.html', context=ctx)
 
 def new(request):
@@ -44,6 +58,10 @@ def new(request):
     
     ctx = {'form': form}
     return render(request, 'LnF/new.html', ctx)
+
+def tag(request):
+    req = json.loads(request.body)
+
 
 # pk: booth pk
 def detail(request, pk):
@@ -77,3 +95,5 @@ def del_comment(request, pk):
     comment = get_object_or_404(Comment, id = comment_id)
     comment.delete()
     return JsonResponse({'id': comment_id})
+
+

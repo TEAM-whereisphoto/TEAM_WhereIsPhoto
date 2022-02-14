@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block head%}
+<script defer src="{% static 'js/LnF/comment.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <h1>LNF List</h1>
@@ -11,22 +15,14 @@
             <input type="text" name="query" value="{{query}}">
             <input type="submit" value="검색">
         </form>
-        <a href="{% url 'LnF:list' %}">리셋</a>
+
     </section>
 
 
     <!-- filter -->
     <section>
-        <form action="" method="get">
-            {% for brand in brands %}
-            <input type="checkbox" name="query" value="{{brand.name}}">{{brand.name}}
-            {% endfor%}
-            <br>
-            <input type="checkbox" name="tag" type="button" value="분실">분실
-            <input type="checkbox" name="tag" type="button" value="보관">보관
-            <input type="checkbox" name="tag" type="button" value="기타">기타
-            <input type="submit" value="필터">
-        </form>
+        <input type="checkbox" checked name="tag" type="button" value="분실">분실
+        <input type="checkbox" checked name="tag" type="button" value="보관">보관
     </section>
 
     <section>
@@ -39,7 +35,7 @@
                 <a href="{% url 'LnF:detail' post.booth.id %}">부스명: {{post.booth.name}}</a>
                  <br>
                 작성자: {{post.user.username}}<br>
-    
+                제목: {{post.title}} <br>
                 {% if post.timeString == False %}
                 작성시간: {{post.time|date:'m월 d일'}}
                 {% else %}

@@ -1,5 +1,6 @@
 const requestComment = new XMLHttpRequest();
 const requestDel = new XMLHttpRequest();
+const requestTag = new XMLHttpRequest();
 
 const onClickComment = (id, type) => {
     const url = "add_comment/";
@@ -16,10 +17,10 @@ const onClickDel = (id) => {
     requestDel.open("POST", url, true);
     requestDel.setRequestHeader(
         "Content-Type", "application/x-www-form-urlencoded"
-    );
-    requestDel.send(JSON.stringify({id: id}))
-}
-
+        );
+        requestDel.send(JSON.stringify({id: id}))
+    }
+    
 const addComment = () => {
     if (requestComment.status < 400){
         const {id, type, content, comment_id} = JSON.parse(requestComment.response)
@@ -28,7 +29,7 @@ const addComment = () => {
         //  -> new_comment(tr, #comment-{comment.id})  
         //      -> comment_content(td)
         //      -> del-btn(button)
-
+        
         const element = document.querySelector(`#comment-table-${id}`)
         const new_comment = document.createElement("tr")
         const comment_content = document.createElement("td")        
@@ -55,10 +56,10 @@ const addComment = () => {
 const delComment = () => {
     if (requestComment.status < 400){
         const{id} = JSON.parse(requestDel.response)
-
+        
         const element = document.querySelector(`#comment-${id}`)
         element.remove();
-
+        
     }
 }
 
@@ -74,3 +75,37 @@ requestDel.onreadystatechange = () => {
         delComment();
     }
 }
+
+
+const checkboxes = document.querySelectorAll("input[type=checkbox][name=tag]")
+const checkDict = {'분실': true, '보관': true}
+
+checkboxes.forEach(function(checkbox){
+    checkbox.addEventListener("change", function(){
+        const url = ""
+        const value = checkbox.value;
+        const checkedIdx = (checkbox.checked == true)
+        checkDict[value] = checkedIdx
+        console.log(checkDict)
+        requestTag.open("POST", url, true);
+        requestTag.setRequestHeader(
+            "Content-Type", "application/x-www-form-urlencoded"
+        );
+        requestTag.send(JSON.stringify(checkDict))
+     })
+    
+})
+
+const filterByTag = () =>{
+    if (requestTag.status < 400){
+        const posts = JSON.parse(requestTag.response)
+        console.log(posts)
+    }
+}
+
+requestTag.onreadystatechange = () => {
+    if(requestDel.readyState === XMLHttpRequest.DONE){
+        filterByTag();
+    }
+}
+

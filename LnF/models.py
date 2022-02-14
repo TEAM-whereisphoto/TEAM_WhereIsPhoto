@@ -10,7 +10,6 @@ from django.utils import timezone
 TAG_CHOICE = (
     ('분실', '분실'),
     ('보관', '보관'),
-    ('기타', '기타')
 )
 
 class LnF_Post(models.Model):
