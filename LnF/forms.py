@@ -6,4 +6,4 @@ from .models import *
 class PostForm(forms.ModelForm):
     class Meta:
         model = LnF_Post
-        fields = ('tag', 'booth', 'title', 'content', 'img')
+        fields = ('tag', 'booth', 'content', 'img')

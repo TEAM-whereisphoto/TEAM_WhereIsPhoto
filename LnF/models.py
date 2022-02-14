@@ -16,7 +16,6 @@ class LnF_Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     
-    title = models.CharField(max_length=100)
     img = models.ImageField(blank=True, null=True, upload_to="LnF")
     content = models.TextField()
     tag = models.CharField(max_length=100, choices=TAG_CHOICE)
