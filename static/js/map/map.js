@@ -9,9 +9,9 @@ var options = {
 var map = new kakao.maps.Map(container, options); // 지도 생성
 // 지도 확대 축소 컨트롤 생성
 var zoomControl = new kakao.maps.ZoomControl();
-map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
+map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-container.children[2].remove()
+container.children[container.childElementCount-2].remove()
 
 // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
@@ -142,14 +142,14 @@ function main(boothList){
     let total = boothList.length; // count booths    
     
     // booth list하는 아코디언 dom
-    const accList = document.getElementById('accordionList')
+    const accList = document.getElementById('booth-list')
     
     // 범위 내의 booth list 저장해두는 array
     let mapboundbooth = []
     
-    const sortAlpha = document.getElementById('sortAlpha');
-    const sortAlphaDesc = document.getElementById('sortAlphaDesc');
-    const sortDist = document.getElementById('sortDist');
+    // const sortAlpha = document.getElementById('sortAlpha');
+    // const sortAlphaDesc = document.getElementById('sortAlphaDesc');
+    // const sortDist = document.getElementById('sortDist');
 
     const refresh = document.getElementById('refresh')
     
@@ -213,9 +213,9 @@ function main(boothList){
         };
 
         curCenter = map.getCenter();
-        mapboundbooth.sort(sorting)
+        // mapboundbooth.sort(sorting)
 
-        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기             
+        // for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기             
     } 
     
     function setbooth(i) {
@@ -295,41 +295,27 @@ function main(boothList){
         var pinsrc = eval(brand_dict[brand]+"Src")
 
         const newdiv = document.createElement('div');
-        newdiv.setAttribute('class', 'accordion-item');
         newdiv.innerHTML = 
-        `<div class="accordion-item">
-            <h2 class="accordion-header">
-                <button id="accordion-name" data-name="${ name }" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${ boothId }" aria-expanded="true" aria-controls="collapse-${ boothId }">
-                    <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
-    
-                    <button class="btn btn-gray btn-sm ms-5 mb-3">${ brand }</button>
-                </button>
-            </h2>
-    
-            <div id="collapse-${ boothId }" class="accordion-collapse collapse" aria-labelledby="heading-${ boothId }" data-bs-parent="#accordionList">
-                <div class="accordion-body">
-                    <div id="mapdetail-${ boothId }" class="ps-4">
-            
-                        
-                        <p style="margin: 16px 0 0 0">${distance} | ${ address }</p>
-    
-                        <p style="margin: 16px 0 0 0"></p>
-                        ${ hourContent }
-                        </p>
-    
-                        <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
-                            <div class="row">
-    
-                                <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
-                                | 
-                                <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>
-                            </div>
-                        </button>
-    
-                        <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
-                    </div>
+        `<div id="list-${ boothId }">
+            <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
+
+            <p style="margin: 16px 0 0 0">${distance} | ${ address }</p>
+
+            <p style="margin: 16px 0 0 0"></p>
+            ${ hourContent }
+            </p>
+
+            <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
+                <div class="row">
+
+                    <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                    | 
+                    <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>
                 </div>
-            </div>
+            </button>
+    
+            <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
+            <hr />
         </div>`;
     
         accList.append(newdiv); // list추가
@@ -390,9 +376,9 @@ function main(boothList){
     
     // 바뀐 범위의 booth들 찾는 함수
     function findList() {
-        sortAlpha.checked = false;
-        sortAlphaDesc.checked = false;
-        sortDist.checked = false;
+        // sortAlpha.checked = false;
+        // sortAlphaDesc.checked = false;
+        // sortDist.checked = false;
     
         accList.innerHTML = '';
         // 이미 되어있던 acc 리스트 초기화
@@ -413,9 +399,9 @@ function main(boothList){
         }
 
         curCenter = map.getCenter();
-        mapboundbooth.sort(sorting)
+        // mapboundbooth.sort(sorting)
 
-        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기           
+        // for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기           
 
     }
     
@@ -429,91 +415,91 @@ function main(boothList){
     // var sortAlphaDesc = document.getElementById('sortAlphaDesc');
     // var sortDist = document.getElementById('sortDist');
     
-    sortAlpha.addEventListener('click', function() {
+    // sortAlpha.addEventListener('click', function() {
         
-        if (this.checked) {
-            // console.log("checked!")
+    //     if (this.checked) {
+    //         // console.log("checked!")
     
-            mapboundbooth.sort(function(a, b) {
-                var nameA = a["name"]; // ignore upper and lowercase
-                var nameB = b["name"]; // ignore upper and lowercase
-                if (nameA < nameB) { return -1; }
-                if (nameA > nameB) { return 1; }
-                return 0; // 이름이 같을 경우
-            });
+    //         mapboundbooth.sort(function(a, b) {
+    //             var nameA = a["name"]; // ignore upper and lowercase
+    //             var nameB = b["name"]; // ignore upper and lowercase
+    //             if (nameA < nameB) { return -1; }
+    //             if (nameA > nameB) { return 1; }
+    //             return 0; // 이름이 같을 경우
+    //         });
     
-            accList.innerHTML = '';
+    //         accList.innerHTML = '';
     
-            for (var index of mapboundbooth) {
-                printList(index);
-            }
-        }
-    });
+    //         for (var index of mapboundbooth) {
+    //             printList(index);
+    //         }
+    //     }
+    // });
     
-    sortAlphaDesc.addEventListener('click', function() {
+    // sortAlphaDesc.addEventListener('click', function() {
         
-        if (this.checked) {
-            // console.log("desc checked!")
+    //     if (this.checked) {
+    //         // console.log("desc checked!")
     
-            mapboundbooth.sort(function(a, b) {
-                var nameA = a["name"]; // ignore upper and lowercase
-                var nameB = b["name"]; // ignore upper and lowercase
-                if (nameA > nameB) { return -1; }
-                if (nameA < nameB) { return 1; }
-                return 0; // 이름이 같을 경우
-            });
+    //         mapboundbooth.sort(function(a, b) {
+    //             var nameA = a["name"]; // ignore upper and lowercase
+    //             var nameB = b["name"]; // ignore upper and lowercase
+    //             if (nameA > nameB) { return -1; }
+    //             if (nameA < nameB) { return 1; }
+    //             return 0; // 이름이 같을 경우
+    //         });
     
-            accList.innerHTML = '';
+    //         accList.innerHTML = '';
     
-            for (var index of mapboundbooth) {
-                printList(index);
-            }
-        }
-    });
+    //         for (var index of mapboundbooth) {
+    //             printList(index);
+    //         }
+    //     }
+    // });
     
-    sortDist.addEventListener('click', function() {
+    // sortDist.addEventListener('click', function() {
     
         
-        if (this.checked) {
-            accList.innerHTML = '';
-            console.log("dist checked!")
+    //     if (this.checked) {
+    //         accList.innerHTML = '';
+    //         console.log("dist checked!")
 
-            var curCenter = map.getCenter();
+    //         var curCenter = map.getCenter();
     
-            mapboundbooth.sort(function(a, b) {
+    //         mapboundbooth.sort(function(a, b) {
     
-                const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
-                const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
+    //             const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
+    //             const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
                 
     
-                var polylineA = new kakao.maps.Polyline({
-                    map: map,
-                    path: [ coordA, curCenter ],
-                    strokeWeight: 0,
-                });
+    //             var polylineA = new kakao.maps.Polyline({
+    //                 map: map,
+    //                 path: [ coordA, curCenter ],
+    //                 strokeWeight: 0,
+    //             });
                 
-                var polylineB = new kakao.maps.Polyline({
-                    map: map,
-                    path: [ coordB, curCenter ],
-                    strokeWeight: 0,
-                });
+    //             var polylineB = new kakao.maps.Polyline({
+    //                 map: map,
+    //                 path: [ coordB, curCenter ],
+    //                 strokeWeight: 0,
+    //             });
                 
-                const lenA = polylineA.getLength();
-                const lenB = polylineB.getLength();
+    //             const lenA = polylineA.getLength();
+    //             const lenB = polylineB.getLength();
 
-                a['len'] = lenA
-                b['len'] = lenB
+    //             a['len'] = lenA
+    //             b['len'] = lenB
 
-                if (lenA < lenB) { return -1; }
-                if (lenA > lenB) { return 1; }
-                return 0; // 같을 경우
-            });
+    //             if (lenA < lenB) { return -1; }
+    //             if (lenA > lenB) { return 1; }
+    //             return 0; // 같을 경우
+    //         });
     
-            for (var index of mapboundbooth) {
-                printList(index);
-            }
-        }
-    });
+    //         for (var index of mapboundbooth) {
+    //             printList(index);
+    //         }
+    //     }
+    // });
     
     // 정렬 필터 끝 -----------------------------------------------------------------------------
     
@@ -545,24 +531,12 @@ function main(boothList){
             }
         } // filterSet은 listup할때 쓰일 예정!
     
-        // 이 부분에서 style 바꾸는 건 그 클러스터 동그라미만 해당이 되는거라
-        // pin들을 삭제하기 위해서는 marker 배열들을 cluster에 delete랑 add하면서 구현할수밖에 없었음.
-    
-        // 방식은 지금같은 전체 pin 삭제 -> 체크된 브랜드들만 pin 추가하는거 말고,
-        // 전체가 다 박혀있는 상황에서 check 안된 브랜드들만 제거하는 방법도 있긴 함.
-        // 삭제까지는 괜찮음.
-        // 문제는 filter을 해제했다 다시 체크하면 check가 된 브랜드 pin들을 다시 cluster에 추가해줘야 하자나?
-        // 근데 이때 맨 처음에 해제를 하나만 하니까 그러면 나머지 4개는 check된 상태인데
-        // 그러면 원래 전체 pin들 + check된 4개 브랜드들 pin이 cluster에 추가될거고, 두번 pin들이 들어갈 거란 말이지? 
-        // cluster가 set 형식으로 지원하는거면 모르겠는데 아닌 것 같아서...
-        // 아니 글로 설명할라니까 못하겠어
-        // 혹시 필요하면 회의 끝나고 설명해줄게....... 
     
         // 아래는 list 관련
-        for (var booth of mapboundbooth) {
-            // 이 printList할때 filterSet의 브랜드들 걸러서 listup 해줌!
-            printList(booth);    
-        }
+        // for (var booth of mapboundbooth) {
+        //     // 이 printList할때 filterSet의 브랜드들 걸러서 listup 해줌!
+        //     printList(booth);    
+        // }
         
     });
     
@@ -618,12 +592,24 @@ function main(boothList){
     // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
 
     refresh.addEventListener('click', function() {
+        console.log("refresh")
         gps_check();
     });
 
 
-    // -----------------------------------------------------------------------------
+    // 내 위치 새로고침 끝 -----------------------------------------------------------------------------
 
+
+
+    // 10. 목록 보여주기 -----------------------------------------------------------------------------
+    const listBtn = document.getElementById('list-btn');
+    listBtn.addEventListener('click', function() {
+        accList.innerHTML=''
+        mapboundbooth.sort(sorting)
+        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기             
+    }); 
+
+    // 목록 끝 -----------------------------------------------------------------------------
 
 }
 

@@ -16,41 +16,54 @@
 <br />
 <div class="container">
 
+    {% comment %}
     <div class="row" id="filter-container">
         <!-- 검색란 & 필터 부분 넣는 공간 -->
-        {% comment %}
         <form method="GET" action="{% url 'map:search' %}">
             <div id="search" class="pb-3">
                 <input class="w-50" name="search" type="text" placeholder="매장 이름 or 지역을 검색해보세요 ex) 홍대">
                 <button class="btn btn-primary" type="submit">검색</button>
             <!-- </div> -->
         </form>
-        {% endcomment %}
-        <div id="searchLoc" class="pb-3">
-            <input id="searchInput" class="w-25 px-2" name="search" type="text" placeholder="어디 지역으로 이동할까요? ex) 신촌역">
-            <button id="searchBtn" class="btn btn-primary" type="submit">검색</button>
-        </div>
         <br />
-
     </div>
+    {% endcomment %}
 
 
 <!-- 리스트 & 지도 -->
-    <div class="row py-3">
-        <div id="list-container" class="col-4">
-            
-            <!-- 정렬 선택 -->
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="sortDist" autocomplete="off">
-                <label class="btn btn-outline-primary" for="sortDist">거리순</label>
-
-                <input type="radio" class="btn-check" name="btnradio" id="sortAlpha" autocomplete="off">
-                <label class="btn btn-outline-primary" for="sortAlpha">가나다순</label>
-              
-                <input type="radio" class="btn-check" name="btnradio" id="sortAlphaDesc" autocomplete="off">
-                <label class="btn btn-outline-primary" for="sortAlphaDesc">가나다순(거꾸로)</label>
+    <div class="row">
+        <!-- 지도 -->
+        <div id="map-container">
+            <div id="map" style="height: 100vh;">
+                <div style="cursor: pointer; position: absolute; z-index: 2; left: 0px; bottom: 0px;">
+                    <img style="width: 60px; height: 60px;" id="refresh" src="../../static/icons/refreshBtn.svg"/>
+                </div>
+                <div id="searchLoc" style="position: absolute; z-index: 32; top: 0px;">
+                    <input id="searchInput" class="w-75 px-2" name="search" type="text" placeholder="어디 지역으로 이동할까요? ex) 신촌역">
+                    <button id="searchBtn" class="btn btn-primary" type="submit">검색</button>
+                </div>
+                <div>
+                    <button style="position: absolute; z-index: 32; right: 10px; bottom: 10px;" id="list-btn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">목록</button>
+                </div>
             </div>
+            <!-- <p id="result"></p> -->
+        </div>
 
+        <div>
+
+            <div class="offcanvas offcanvas-end overflow-auto" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div id="booth-list"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="list-container">            
             <!-- 브랜드 필터 -->
             <div class="btn-group my-4" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup">
                 <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
@@ -71,21 +84,12 @@
             </div>
 
 
-
             <!-- 매장 리스트 -->
             <div class="accordion" id="accordionList" style="height: 500px; overflow: auto;">
             </div>
         </div>
         
-        <!-- 지도 -->
-        <div id="map-container"  class="col-8">
-            <div id="map" style="width:800px; height: 600px;">
-                <div style="cursor: pointer; position: absolute; z-index: 2; left: 0px; bottom: 0px;">
-                    <img style="width: 36px; height: 36px;" id="refresh" src="../../static/icons/refreshBtn.svg"></div>
-                </div>
-            </div>
-            <!-- <p id="result"></p> -->
-        </div>
+        
         
     </div>
 </div>
