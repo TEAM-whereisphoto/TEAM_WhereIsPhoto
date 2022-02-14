@@ -292,7 +292,7 @@ function main(boothList){
         
         let hourContent = ''
         if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
-
+        var pinsrc = eval(brand_dict[brand]+"Src")
 
         const newdiv = document.createElement('div');
         newdiv.setAttribute('class', 'accordion-item');
@@ -300,10 +300,7 @@ function main(boothList){
         `<div class="accordion-item">
             <h2 class="accordion-header">
                 <button id="accordion-name" data-name="${ name }" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${ boothId }" aria-expanded="true" aria-controls="collapse-${ boothId }">
-                    <svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-                        <path fill="none" d="M0 0h24v24H0z"/>
-                        <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(31,82,255,1)"/>
-                    </svg>${ name }
+                    <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
     
                     <button class="btn btn-gray btn-sm ms-5 mb-3">${ brand }</button>
                 </button>
@@ -329,7 +326,7 @@ function main(boothList){
                             </div>
                         </button>
     
-                        <a style="display: block;" class="mt-3" href="/booth/detail/${ boothId }">디테일페이지</a>
+                        <a style="display: block;" class="mt-3" href="booth/detail/${ boothId }">디테일페이지</a>
                     </div>
                 </div>
             </div>
