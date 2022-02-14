@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head%}
+<script defer src="{% static 'js/LnF/comment.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <section>
@@ -44,10 +49,14 @@
                 </tr>
                 {% endfor %}
             </table>
+            {% if user.is_authenticated %}
             <div>
                 <input id="comment_input-{{post.id}}" placeholder="댓글 달기..." type="text"/>
                 <button class="btn" onclick="onClickComment({{post.id}}, 'add')">게시</button>
             </div>
+            {% else %}
+            <input id="comment_input-{{post.id}}" placeholder="로그인 먼저해주세요!" type="text"/>
+            {% endif %}
         </div>
         <br>
     {% endfor %}
