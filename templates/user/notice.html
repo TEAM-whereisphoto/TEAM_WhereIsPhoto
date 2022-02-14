@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if len == 0%}
+<div>새로운 댓글 알림이 없습니다.</div>
+
+{% else %}
+<div>{{len}}개의 새로운 댓글이 있습니다.</div>
+<hr />
+<hr />
+    {% for comment in comments %}
+        <div>제목 {{ comment.post }}</div>
+        <div>작성자 {{ comment.user }}</div>
+        <div>내용 {{ comment.content }}</div>
+        <!-- <div>{{ comment.read }}</div> -->
+        <hr />
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}

@@ -8,7 +8,7 @@ from .forms import LoginForm, SignupForm
 from random import randint
 
 # 리뷰 가져오기
-from LnF.models import LnF_Post
+from LnF.models import *
 
 def main(request):
     users = request.user
@@ -150,3 +150,18 @@ def member_del(request):
 #     return render(request, 'user/change_password.html', {
 #         'form': form
 #     })
+
+def notice(request):
+    posts = LnF_Post.objects.filter(user=request.user)
+    comments =  Comment.objects.none()
+    for post in posts:
+        comments = comments | post.comment_set.filter(read=0)
+    print(comments)
+    # print(type(comments))
+    ctx={'posts':posts, 'comments':comments, 'len':len(comments)}
+
+    for comment in comments:
+        comment.read = 1
+        comment.save()
+
+    return render(request, template_name='user/notice.html', context=ctx)
