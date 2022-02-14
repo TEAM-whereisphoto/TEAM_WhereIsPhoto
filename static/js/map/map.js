@@ -103,12 +103,22 @@ function main(boothList){
     const imageSize = new kakao.maps.Size(28, 28);
     const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 기본 파란 핀
     
-    const lifefourcutpin = new kakao.maps.MarkerImage('../static/icons/lifefourcuts.svg', imageSize)
+    const clickSize = new kakao.maps.Size(36, 36);
+    var selectedMarker = null; // 클릭한 마커를 담을 변수
+
+
+    const lifefourcutpin = new kakao.maps.MarkerImage('../static/icons/lifefourcut.svg', imageSize)
     const selfixpin = new kakao.maps.MarkerImage('../static/icons/selfix.svg', imageSize)
     const photoismpin = new kakao.maps.MarkerImage('../static/icons/photoism.svg', imageSize)
     const harufilmpin = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', imageSize)
-    const photosignaturepin = new kakao.maps.MarkerImage('../static/icons/signature.svg', imageSize)
+    const photosignaturepin = new kakao.maps.MarkerImage('../static/icons/photosignature.svg', imageSize)
     var brandpin = null;
+
+    const lifefourcutClick = new kakao.maps.MarkerImage('../static/icons/lifefourcut.svg', clickSize)
+    const selfixClick= new kakao.maps.MarkerImage('../static/icons/selfix.svg', clickSize)
+    const photoismClick = new kakao.maps.MarkerImage('../static/icons/photoism.svg', clickSize)
+    const harufilmClick = new kakao.maps.MarkerImage('../static/icons/harufilm.svg', clickSize)
+    const photosignatureClick = new kakao.maps.MarkerImage('../static/icons/photosignature.svg', clickSize)
     
     // 지도에 표시된 마커 객체를 가지고 있을 배열입니다.
     // 브랜드 별로 따로 생성해주었습니다.
@@ -116,7 +126,6 @@ function main(boothList){
         eval("var "+brand_dict[value]+"Markers"+" = []") 
     };
     // ex) var selfixMarkers = [];
-    
     
     // 클러스터링 객체 생성, minLevel 15로 절대 cluster 안되게
     const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLevel: 15});
@@ -240,11 +249,12 @@ function main(boothList){
         });
         // console.log(marker);
         marker.setMap(map);
-    
+        marker.normalImage = img;
+
         eval(brand_dict[brandname]+"Markers.push(marker);")
         // brand별로 marker 배열에 marker push
         
-        setClickEvents(marker, infowindow);
+        setClickEvents(marker, infowindow, brandname);
     }
     
     // 리스트에 매장 추가
@@ -321,17 +331,35 @@ function main(boothList){
         accList.append(newdiv); // list추가
     }
     
-    function setClickEvents (marker, infowindow) { // 파라미터
-        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
-        kakao.maps.event.addListener(marker, 'mouseover', function() {
-            infowindow.open(map, marker);
-        });
+    function setClickEvents (marker, infowindow, brandname) { // 파라미터
+        // // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+        // kakao.maps.event.addListener(marker, 'mouseover', function() {
+        //     infowindow.open(map, marker);
+        // });
     
-        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
-        kakao.maps.event.addListener(marker, 'mouseout', function() {
-            infowindow.close();
-        });
-    
+        // // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+        // kakao.maps.event.addListener(marker, 'mouseout', function() {
+        //     infowindow.close();
+        // });
+        
+        kakao.maps.event.addListener(marker, 'click', function() {
+            // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+            // 마커의 이미지를 클릭 이미지로 변경합니다
+            if (!selectedMarker || selectedMarker !== marker) {
+
+                // 클릭된 마커 객체가 null이 아니면
+                // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+                !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
+
+                // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+                marker.setImage( eval(brand_dict[brandname]+"Click") );
+            }
+
+            // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+            selectedMarker = marker;
+
+        })
+        
         // 이 아래는 list에 mouseover시 하려고 했던 것
         // 추후 디자인 logic 따라 수정 예정
     
