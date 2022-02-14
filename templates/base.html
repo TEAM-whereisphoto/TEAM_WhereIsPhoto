@@ -21,42 +21,44 @@
 <body>
     <!-- 로그인 유무에 따른 nav 차이 -->
     {% if user.is_authenticated %} 
-      <header class="fixed-top header-scrolled border-bottom">
-        <div class="container align-items-center">
-          <!--여기사진 글씨-->
-            <div class="container d-flex justify-content-center pt-2">
-              <a class="header__title" href="#">여기사진</a>
-            </div>
-    
-          <div class="navbar">
-            <div class="container">
-              <a class="navbar__link active" href="#">홈</a>
-              <a class="navbar__link active" href="#map">매장찾기</a>
-              <a class="navbar__link active" href="#services">분실물찾기</a>
-              <a class="navbar__link active" href="#portfolio">로그인</a>
-              <a class="navbar__link active" href="#portfolio">회원가입</a>
-            </div>
+    <header class="fixed-top header-scrolled border-bottom">
+      <div class="container align-items-center">
+        <!--여기사진 글씨-->
+          <div class="container d-flex justify-content-center pt-2">
+            <a class="header__title" href="">여기사진</a>
+          </div>
+  
+        <div class="navbar">
+          <div class="container">
+            <a class="navbar__link active" href="{% url 'brand:list' %}">홈</a>
+            <a class="navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
+            <a class="navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
+            <a class="navbar__link active" href="{% url 'user:main' %}">마이페이지</a>
           </div>
         </div>
-    </header>
+      </div>
+    </header>  
+
     {% else %}
-      <header class="fixed-top header-scrolled border-bottom">
-        <div class="container align-items-center">
-          <!--여기사진 글씨-->
-            <div class="container d-flex justify-content-center pt-2">
-              <a class="header__title" href="#">여기사진</a>
-            </div>
-    
-          <div class="navbar">
-            <div class="container">
-              <a class="navbar__link active" href="#">홈</a>
-              <a class="navbar__link active" href="#map">매장찾기</a>
-              <a class="navbar__link active" href="#services">분실물찾기</a>
-              <a class="navbar__link active" href="#portfolio">마이페이지</a>
-            </div>
+    <header class="fixed-top header-scrolled border-bottom">
+      <div class="container align-items-center">
+        <!--여기사진 글씨-->
+          <div class="container d-flex justify-content-center pt-2">
+            <a class="header__title" href="{% url 'brand:list' %}">여기사진</a>
+          </div>
+  
+        <div class="navbar">
+          <div class="container">
+            <a class="navbar__link active" href="{% url 'brand:list' %}">홈</a>
+            <a class="navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
+            <a class="navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
+            <a class="navbar__link active" href="{% url 'user:login' %}">로그인</a>
+            <a class="navbar__link active" href="{% url 'user:signup' %}">회원가입</a>
           </div>
         </div>
+      </div>
     </header>
+    
     {% endif %}
     {% block header %}
     {% endblock %}
