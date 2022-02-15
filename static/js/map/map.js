@@ -233,7 +233,15 @@ function main(boothList){
             boothSmallTitle.innerHTML='';
     
             curCenter = map.getCenter()
-            mapboundbooth.sort(sorting)
+            // mapboundbooth.sort(sorting)
+            const coordA = new kakao.maps.LatLng(booth["x"], booth["y"])
+            var polylineA = new kakao.maps.Polyline({
+                map: map,
+                path: [ coordA, curCenter ],
+                strokeWeight: 0,
+            });
+            booth['len']=polylineA.getLength();
+
             printList(booth, boothSmall, 1)
             
             boothSmallBtn.click()
