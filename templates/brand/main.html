@@ -1,28 +1,63 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content  %}
-    <section>
-        <!-- [brand_name, retake, remote, time, img, [frame]]
-         frame = [price, 프레임 컷 수, 총 촬영 수]] -->
-        {% for brand in brand_list %}
-            <div>
-                이름: {{ brand.0 }} <br>
-                이미지: <br><img src="media/{{ brand.4 }}" alt="" width="200"> <br>
-                재촬영: {{ brand.1 }} <br>
-                리모컨: {{ brand.2 }} <br>
-                촬영시간: {{ brand.3 }}<br>
-                가격정보<br>
-                {% for frame in brand.5 %}
-                    가격: {{frame.0}}
-                    프레임 컷 수: {{frame.1}}
-                    총 촬영 수: {{frame.2}}
-                    <br>
-                {% endfor %}               
-                <br>
+
+  <section>
+    <div class="brand bg-dark">
+      {% for brand in brand_list %}
+        <div class="brand__frame d-flex bg-light">
+          <!--브랜드 이미지-->
+          <div class="brand__img center">
+            <!-- 브랜드 이미지 모델 수정되면 링크 널 예정 -->
+            <img src="{{ brand.5 }}" alt="" class="" width="200" height="200">
+          </div>
+          <!-- brand_list = [brand_id, brand_name, retake, remote, time, img, [frame]] -->
+          <!-- frame = [price, 프레임 컷 수, 총 촬영 수] -->
+          <!--브랜드 설명-->
+          <div class="brand__info brand__{{ brand.0 }} d-flex">
+            <div class="">
+              Retake<br>
+              Remote<br>
+              Time<br>
+              <br>
+              Price
             </div>
-        {% endfor %}
-
-
-
-
-    </section>    
+  
+            <div class="text-right">           
+              {{ brand.2 }} <br>
+              {{ brand.3 }} <br>
+              {{ brand.4 }}sec <br>
+              <br>
+              {% for frame in brand.6 %}
+                  {{frame.0}} <br>
+                  <span style="font-size: 8pt;">{{ frame.1 }} out of {{ frame.2 }}</span> <br>
+              {% endfor %}<br>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <img src="" class="img-fluid" alt="">
+    </div>
+  </section>
+  
+  <!-- <section>
+      {% for brand in brand_list %}
+      
+          <div>
+              이름: {{ brand.0 }} <br>
+              
+              재촬영: {{ brand.1 }} <br>
+              리모컨: {{ brand.2 }} <br>
+              촬영시간: {{ brand.3 }}<br>
+              가격정보<br>
+              {% for frame in brand.4 %}
+                  가격: {{frame.0}}
+                  프레임 컷 수: {{frame.1}}
+                  총 촬영 수: {{frame.2}}
+                  <br>
+              {% endfor %}               
+              <br>
+          </div>
+      {% endfor %}
+  </section>     -->
 {% endblock %}

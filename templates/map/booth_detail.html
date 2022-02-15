@@ -31,21 +31,31 @@
 
         <br>
     </div>
+
     <div>
-        {% for tag in tags %}
+        <br>
+        <h4>리뷰 목록</h4>
+        {% for review in reviews %}
+        <h6>{{review.content}}</h6> 
+        {% endfor %}
+    </div> 
+    <div>
+        <br>
+        <h4>태그</h4>
+        {% for tag in tag_list %}
             <h6>
-                {% if tag == 0 %}
+                {% if tag.0 == 'clean' %}
                     시설이 깨끗해요
-                {% elif tag == 1 %}
+                {% elif tag.0 == 'prop' %}
                     소품이 다양해요
-                {% elif tag == 2 %}
+                {% elif tag.0 == 'booth' %}
                     부스가 많아요
-                {% elif tag == 3 %}
+                {% elif tag.0 == 'iron' %}
                     고데기가 있어요
-                {% elif tag == 4 %}
+                {% elif tag.0 == 'street' %}
                     로드점이에요
                 {% endif %}
-            {tag_dic[1]}개 </h6>
+            {{tag.1}}개 </h6>
         {% endfor %}
     </div>
 
