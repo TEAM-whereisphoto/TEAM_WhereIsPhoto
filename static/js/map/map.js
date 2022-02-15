@@ -1,15 +1,15 @@
 
 // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
 var container = document.getElementById('map');
-var defaultLoc = new kakao.maps.LatLng(37.557074, 126.929276)
+var defaultLoc = new kakao.maps.LatLng(37.55888333399497, 126.92658303847873)
 var options = {
     center: defaultLoc, // 임의의 중심 좌표
     level: 4 // 확대 축소 정도
 };
 var map = new kakao.maps.Map(container, options); // 지도 생성
 // 지도 확대 축소 컨트롤 생성
-var zoomControl = new kakao.maps.ZoomControl();
-map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+// var zoomControl = new kakao.maps.ZoomControl();
+// map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 container.children[container.childElementCount-2].remove()
 
@@ -44,18 +44,8 @@ function showLocation(position) {
     gps_lat = position.coords.latitude;
     gps_lng = position.coords.longitude;
 
-    var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성
-    map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
-            
-    var marker = new kakao.maps.Marker({  
-        map: map, 
-        position: currentPosition, 
-        image: new kakao.maps.MarkerImage('../../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
-        // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
-    }); 
-
-    marker.setMap(map); // 내 위치 pin 박기
-    map.setLevel(7);
+    var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성      
+    pinCurrent(currentPosition)
 }
 
 
@@ -63,14 +53,26 @@ function showLocation(position) {
 function errorHandler(error) {
     if(error.code == 1) {
         alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
-        map.setLevel(4);
-        map.panTo(defaultLoc);
+        pinCurrent(defaultLoc)
     } else if( err.code == 2) {
         alert("위치를 반환할 수 없습니다.");
     }
     gps_use = false;
 }
 
+function pinCurrent(currentPosition) {
+    map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
+
+    var marker = new kakao.maps.Marker({  
+        map: map, 
+        position: currentPosition, 
+        image: new kakao.maps.MarkerImage('../../static/icons/mypin.svg', new kakao.maps.Size(24, 24))
+        // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
+    }); 
+
+    marker.setMap(map); // 내 위치 pin 박기
+    map.setLevel(4);
+}
 // 현재 위치 찍기 끝 -----------------------------------------------------------------------------
     
 
@@ -292,8 +294,8 @@ function main(boothList){
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places(); 
     
-    const searchBtn = document.getElementById('searchBtn');
-    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('search-icon');
+    const searchInput = document.getElementById('search-placeholder');
     
     searchBtn.addEventListener('click', function() {
         var keyword = searchInput.value
@@ -319,7 +321,6 @@ function main(boothList){
                 alert("검색 api에서 오류가 발생했습니다. 다시 검색해주세요!")
             }
         }
-        searchInput.value = ''
     });
 
     searchInput.addEventListener("keyup", function(event) {
@@ -329,6 +330,12 @@ function main(boothList){
             // Trigger the button element with a click
             searchBtn.click();
         }
+    });
+
+    const delSearch = document.getElementById("close-btn")
+    delSearch.addEventListener('click', function() {
+        console.log("close")
+        searchInput.value = ''
     });
 
     // 검색 끝 -----------------------------------------------------------------------------
@@ -437,8 +444,10 @@ function main(boothList){
 
     const listBtn = document.getElementById('list-btn');
     listBtn.addEventListener('click', function() {
-        boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
-
+        if(mapboundbooth.length) {
+            boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
+        }
+        else {boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'}
         curCenter = map.getCenter()
         mapboundbooth.sort(sorting) // 거리순 정렬
         for (let booth of mapboundbooth){ printList(booth); } // list에 표시하기             

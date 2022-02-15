@@ -6,15 +6,13 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/map/style.css' %}">
 <script defer src="{% static 'js/map/map.js' %}"></script>
-
 {% endblock %}
 
 {% block content %}
 <!-- kakao api 사용을 위해 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e596b509c521df7eafd1be72b54054&libraries=services,clusterer,drawing"></script>
 
-<br />
-<div class="container">
+<!-- <div class="container"> -->
 
     {% comment %}
     <div class="row" id="filter-container">
@@ -31,67 +29,85 @@
 
 
 <!-- 리스트 & 지도 -->
-    <div class="row">
+    <!-- <div class="row"> -->
         <!-- 지도 -->
         <div id="map-container">
-            <div id="map" style="height: 100vh;">
-                <div style="cursor: pointer; position: absolute; z-index: 2; left: 0px; bottom: 0px;">
+            <div id="map" style="height: 70vh;">
+                <!-- 새로고침 버튼-->
+                <div style="cursor: pointer; position: absolute; z-index: 2; left: 0.5rem; bottom: 0.5rem;">
                     <img style="width: 60px; height: 60px;" id="refresh" src="../../static/icons/refreshBtn.svg"/>
                 </div>
-                <div id="searchLoc" style="position: absolute; z-index: 32; top: 0px;">
-                    <input id="searchInput" class="w-75 px-2" name="search" type="text" placeholder="어디 지역으로 이동할까요? ex) 신촌역">
-                    <button id="searchBtn" class="btn btn-primary" type="submit">검색</button>
+
+                <!-- 지리 이동 검색란 -->
+                <div id="searchLoc" style="position: absolute; z-index: 3; top: 1rem; left: 50%; width: 80%; transform: translate(-50%);">
+                    <div data-v-64c6254b="" class="search-input bg-white">
+                        <div id="search-icon" style="padding-left: 5px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="none" d="M0 0h24v24H0z"/>
+                                <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" fill="rgba(117,117,135,1)"/>
+                            </svg>
+                        </div>
+                        <div class="search-input-item w-100" >
+                            <input style="width:100%" id="search-placeholder" placeholder="ex. 신촌역" name="icon-name" type="text"> 
+                        </div>
+                        <div id="close-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z"/>
+                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+                            </svg>
+                        </div>   
+                    </div>
                 </div>
-                <div>
-                    <button style="position: absolute; z-index: 32; right: 10px; bottom: 10px;" id="list-btn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">목록</button>
+
+                <!-- 브랜드 필터 -->
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup"
+                style="position: absolute; z-index: 3; top: 4.5rem; left: 0">
+
+                    <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
+                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour">인생네컷</label>
+
+                    <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
+                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism">포토이즘박스</label>
+
+                    <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
+                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature">포토시그니처</label>
+
+                    <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
+                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix">셀픽스</label>
+
+                    <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
+                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru">하루필름</label>
+                    
+                </div>
+
+                <!-- 목록 표시 버튼 -->
+                <div id="listButton">
+                    <button style="position: absolute; z-index: 32; right: 1rem; bottom: 1rem;" id="list-btn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(255,255,255,1)"/></svg>
+                            목록
+                    </button>
                 </div>
             </div>
-            <!-- <p id="result"></p> -->
         </div>
 
         <div>
-
+            <!-- 목록 표시 페이지(?) -->
             <div class="offcanvas offcanvas-end overflow-auto" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
                     <h5 id="offcanvasRightLabel">Offcanvas right</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
+                    <!-- 목록 body 부분 -->
                     <div id="booth-list"></div>
                 </div>
             </div>
         </div>
-
-
-        <div id="list-container">            
-            <!-- 브랜드 필터 -->
-            <div class="btn-group my-4" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup">
-                <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="filter-lifefour">인생네컷</label>
-              
-                <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="filter-photoism">포토이즘박스</label>
-              
-                <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="filter-signature">포토시그니처</label>
-
-                <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="filter-selfix">셀픽스</label>
-
-                <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="filter-haru">하루필름</label>
-                
-            </div>
-
-
-            <!-- 매장 리스트 -->
-            <div class="accordion" id="accordionList" style="height: 500px; overflow: auto;">
-            </div>
-        </div>
         
+       
         
-        
-    </div>
-</div>
+    <!-- </div> -->
+<!-- </div> -->
     
 {% endblock %}
