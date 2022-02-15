@@ -25,19 +25,22 @@ def list(request):
 
 def new(request):
     user = request.user
+    booths = Booth.objects.all()
+
     if request.method == "POST":
+        booth_name = request.POST.get('booth')
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.user = user
+            new_post.booth = get_object_or_404(Booth, name=booth_name)
             new_post.save()
             return redirect('LnF:list')
     
     else:
-    
         form = PostForm()
     
-    ctx = {'form': form}
+    ctx = {'form': form, 'booths': booths }
     return render(request, 'LnF/new.html', ctx)
 
 def tag(request):
@@ -45,13 +48,40 @@ def tag(request):
 
 
 # pk: booth pk
-def detail(request, pk):
+def booth_detail(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     posts = LnF_Post.objects.filter(booth = booth)
     ctx = {'posts': posts, 'booth': booth}
-    return render(request, 'LnF/detail.html', context=ctx)
+    return render(request, 'LnF/booth_detail.html', context=ctx)
+
+def post_detail(request,pk):
+    post = get_object_or_404(LnF_Post, id=pk)
+    booth = post.booth
+    ctx = {'post': post, 'booth': booth}
+    return render(request, 'LnF/post_detail.html', context=ctx)
+
+def post_update(request, pk):
+    post = get_object_or_404(LnF_Post, id=pk)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+        return redirect('LnF:post_detail', pk)
+    else:
+        form = PostForm(instance=post)
+        ctx = {'form': form}
+        return render(request, 'LnF/new.html', context=ctx)
+            
+def post_delete(request, pk):
+    post = get_object_or_404(LnF_Post, id=pk)
+    post.delete()
+    return redirect('LnF:list')
 
 
+
+# ajax
 @csrf_exempt
 def add_comment(request, pk):
     req = json.loads(request.body)

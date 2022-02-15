@@ -125,40 +125,45 @@ def main():
 def brand():
     brand_dict = {
         "인생네컷": {
-            "retake": "yes",
-            "remote": "yes",
-            "QR": "yes",
-            "time": 10
+            "retake": "YES",
+            "remote": "YES",
+            "QR": "YES",
+            "time": 10,
+            "img": "/media/brand/인생네컷.png"
         },
-        "포토이즘박스": {
-            "retake": "NO",
-            "remote": "yes",
-            "QR": "yes",
-            "time": 10
+        "셀픽스":{
+            "retake": "YES",
+            "remote": "YES",
+            "QR": "YES",
+            "time": 20,
+            "img": "/media/brand/셀픽스.png"
+        },
+        "포토시그니처": {
+            "retake": "YES",
+            "remote": "YES",
+            "QR": "YES",
+            "time": 10,
+            "img": "/media/brand/포토시그니쳐.png"
         },
         "하루필름": {
             "retake": "NO",
-            "remote": "yes",
-            "QR": "yes",
-            "time": 15
+            "remote": "YES",
+            "QR": "YES",
+            "time": 15,
+            "img": "/media/brand/하루필름.png"
         },
-        "포토시그니처": {
-            "retake": "yes",
-            "remote": "yes",
-            "QR": "yes",
-            "time": 10
+        "포토이즘박스": {
+            "retake": "NO",
+            "remote": "YES",
+            "QR": "YES",
+            "time": 10,
+            "img": "/media/brand/포토이즘.png"
         },
-        "셀픽스":{
-            "retake": "yes",
-            "remote": "yes",
-            "QR": "yes",
-            "time": 20
-        }
     }
 
     for key in brand_dict.keys():
         name = brand_dict[key]
-        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"], time = name["time"])
+        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"], time = name["time"], img = name["img"])
         new.save()
 
 # frame 등록

@@ -10,7 +10,15 @@
         {% endif %}
         <h3>{{ booth.name }}</h3>
         <h6>{{ booth.loaction }}</h6>
-        <div class="heart" onclick="onClickLike({{pk}} )" >🤍</div>
+        {% if request.user.is_authenticated %}
+            {% if currentLikeState %}
+                <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
+            {% else %}
+                <div class="heart" onclick="onClickLike({{booth.id}})" >🤍여기 매장 좋아요</div>
+            {% endif %}
+        {% else %}
+            <div class="heart" onclick="onClickAlert()" >🤍여기 매장 좋아요</div>
+        {% endif %}
         <br>
     </div>
 
@@ -23,21 +31,31 @@
 
         <br>
     </div>
+
     <div>
-        {% for tag in tags %}
+        <br>
+        <h4>리뷰 목록</h4>
+        {% for review in reviews %}
+        <h6>{{review.content}}</h6> 
+        {% endfor %}
+    </div> 
+    <div>
+        <br>
+        <h4>태그</h4>
+        {% for tag in tag_list %}
             <h6>
-                {% if tag == 0 %}
+                {% if tag.0 == 'clean' %}
                     시설이 깨끗해요
-                {% elif tag == 1 %}
+                {% elif tag.0 == 'prop' %}
                     소품이 다양해요
-                {% elif tag == 2 %}
+                {% elif tag.0 == 'booth' %}
                     부스가 많아요
-                {% elif tag == 3 %}
+                {% elif tag.0 == 'iron' %}
                     고데기가 있어요
-                {% elif tag == 4 %}
+                {% elif tag.0 == 'street' %}
                     로드점이에요
                 {% endif %}
-            {tag_dic[1]}개 </h6>
+            {{tag.1}}개 </h6>
         {% endfor %}
     </div>
 
@@ -61,59 +79,23 @@
         {% endfor %}
         <br>
 
-        <a href="{% url 'LnF:list' %}">more</a> <!--분실물 리스트 -->
+        <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
         <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
         <br>
-    </div>
-
-    <div>
-        <br>
-        <h4>브랜드 정보</h4>
-        이름: {{ brand_list.0.0 }} <br>
-        재촬영: {{ brand_list.0.1 }} <br>
-        리모컨: {{ brand_list.0.2 }} <br>
-        촬영시간: {{ brand_list.0.3 }}<br>
-        가격정보<br>
-        {% for frame in brand.4 %}
-        가격: {{frame.0}}
-        프레임 컷 수: {{frame.1}}
-        총 촬영 수: {{frame.2}}
-        <br>
-        {% endfor %}
-        <br>
-    </div>
 </div>
 
 
 <script>
-    const requestLike = new XMLHttpRequest();
-
-    const onClickLike = (id) => {
-        const url = 'booth/detail/like_ajax/';
-        requestLike.open("POST", url, true);
-        requestLike.setRequestHeader(
-            "Content-Type",
-            "application/x-ww-form-urlencoded"
-        );
-        requestLike.send(JSON.stringify({id: id}))
+    const onClickLike = (booth_id) => {
+        fetch(`${booth_id}/like_ajax/`)
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            console.log(data)
+        })
     }
 
-    const likeHandleResponse = () => {
-        if(requestLike.status < 400){
-            const {id, k, status} = JSON.parse(requestLike.response);
-            const element = document.querySelector(`.booth-id-${id} .heart`);
-            if(k==0)
-                element.innerHTML = '❤️'
-            else
-                element.innerHTML = '🤍'
-        }
-    }
-
-    requestLike.onreadystatechange = () => {
-        if(requestLike.readyState === XMLHttpRequest.DONE){
-            likeHandleResponse();
-        }
-    }
 </script>
 
 

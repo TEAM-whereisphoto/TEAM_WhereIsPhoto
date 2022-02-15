@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 {% block content  %}
     <section>
+        <!-- [brand_name, retake, remote, time, img, [frame]]
+         frame = [price, 프레임 컷 수, 총 촬영 수]] -->
         {% for brand in brand_list %}
-        
             <div>
                 이름: {{ brand.0 }} <br>
-                
+                이미지: <br><img src="media/{{ brand.4 }}" alt="" width="200"> <br>
                 재촬영: {{ brand.1 }} <br>
                 리모컨: {{ brand.2 }} <br>
                 촬영시간: {{ brand.3 }}<br>
                 가격정보<br>
-                {% for frame in brand.4 %}
+                {% for frame in brand.5 %}
                     가격: {{frame.0}}
                     프레임 컷 수: {{frame.1}}
                     총 촬영 수: {{frame.2}}

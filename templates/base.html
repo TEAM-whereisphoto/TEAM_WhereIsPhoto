@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+    <script defer src="{% static 'js/notice.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- bootstrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -25,7 +26,7 @@
       <div class="container align-items-center">
         <!--여기사진 글씨-->
           <div class="container d-flex justify-content-center pt-2">
-            <a class="header__title" href="">여기사진</a>
+            <a class="header__title" href="/">여기사진</a>
           </div>
   
         <div class="navbar">
@@ -40,11 +41,11 @@
     </header>  
 
     {% else %}
-    <header class="fixed-top header-scrolled border-bottom">
+    <header class="sticky-top header-scrolled border-bottom bg-white">
       <div class="container align-items-center">
         <!--여기사진 글씨-->
           <div class="container d-flex justify-content-center pt-2">
-            <a class="header__title" href="{% url 'brand:list' %}">여기사진</a>
+            <a class="header__title" href="/">여기사진</a>
           </div>
   
         <div class="navbar">
