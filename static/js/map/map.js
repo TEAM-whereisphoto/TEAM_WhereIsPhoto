@@ -233,7 +233,7 @@ function main(boothList){
             boothSmallTitle.innerHTML='';
     
             // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
-            
+            // console.log(booth["name"])
             var polylineA = new kakao.maps.Polyline({
                 map: map,
                 path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), map.getCenter() ],

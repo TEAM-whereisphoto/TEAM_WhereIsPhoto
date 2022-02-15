@@ -76,3 +76,11 @@
     padding: 0rem 1rem;
     overflow-y: auto;
 }
+
+:focus-visible {
+    outline: 0;
+}
+
+.offcanvas-bottom{
+    transform: none;
+}
