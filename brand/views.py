@@ -16,7 +16,7 @@ def list(request):
             remote = "possible"
         else:
             remote = "impossible"
-        brand_detail = [brand.name, retake, remote, brand.time]
+        brand_detail = [brand.name, retake, remote, brand.time, brand.img]
 
         etcs = brand.frame_set.all()
         etcList = []

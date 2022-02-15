@@ -1,11 +1,9 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
-
-#에러 메세지를 위해
-from django.contrib import messages
 
 # 탈퇴시 랜덤숫자를 위해
 from random import randint
@@ -184,13 +182,7 @@ def member_del(request):
 
 def notice(request):
     comments = getNew(request.user)
-    print(comments)
-    # print(type(comments))
     ctx={'comments':comments, 'len':len(comments)}
-
-    # for comment in comments:
-    #     comment.read = 1
-    #     comment.save()
 
     return render(request, template_name='user/notice.html', context=ctx)
 
@@ -206,4 +198,18 @@ def read_notice(request, pk):
     comment.read = 1
     comment.save()
 
-    return redirect('LnF:detail', comment.post.booth_id)
+    return redirect('LnF:post_detail', comment.post.id)
+
+
+def nav_notice(request):
+    if request.user.is_authenticated:
+        comments = getNew(request.user)
+        if len(comments) > 0:
+            notice = True
+        else:
+            notice = False
+    else:
+        notice =False
+
+    ctx={'notice': notice}
+    return JsonResponse(ctx)
