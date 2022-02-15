@@ -153,6 +153,7 @@ def modify(request):
         #user = User.objects.get(pk=id)
         user = request.user
         user.username = request.POST["username"]
+        user.email = request.POST["email"]
         user.save()
         return redirect('user:main')
     return render(request, 'user/modify.html')
