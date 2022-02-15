@@ -125,37 +125,37 @@ def main():
 def brand():
     brand_dict = {
         "인생네컷": {
-            "retake": "yes",
-            "remote": "yes",
-            "QR": "yes",
+            "retake": "YES",
+            "remote": "YES",
+            "QR": "YES",
             "time": 10,
             "img": "/media/brand/인생네컷.png"
         },
         "셀픽스":{
-            "retake": "yes",
-            "remote": "yes",
-            "QR": "yes",
+            "retake": "YES",
+            "remote": "YES",
+            "QR": "YES",
             "time": 20,
             "img": "/media/brand/셀픽스.png"
         },
         "포토시그니처": {
-            "retake": "yes",
-            "remote": "yes",
-            "QR": "yes",
+            "retake": "YES",
+            "remote": "YES",
+            "QR": "YES",
             "time": 10,
             "img": "/media/brand/포토시그니쳐.png"
         },
         "하루필름": {
             "retake": "NO",
-            "remote": "yes",
-            "QR": "yes",
+            "remote": "YES",
+            "QR": "YES",
             "time": 15,
             "img": "/media/brand/하루필름.png"
         },
         "포토이즘박스": {
             "retake": "NO",
-            "remote": "yes",
-            "QR": "yes",
+            "remote": "YES",
+            "QR": "YES",
             "time": 10,
             "img": "/media/brand/포토이즘.png"
         },

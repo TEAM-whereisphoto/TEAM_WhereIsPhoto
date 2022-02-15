@@ -19,6 +19,7 @@ import operator
 # Create your views here.
 def mainpage(request):
     return render(request, 'base.html')
+
 def mymap(request):
     booths = Booth.objects.all() 
     ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
@@ -98,14 +99,20 @@ def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
     lnfs = LnF_Post.objects.filter(booth= booth.pk)
-    
-    brand = Brand.objects.all()
-    brand_list = []
-    brand_list = booth_brand(request, pk)
+
+    if request.user.is_authenticated:
+        try:
+            liked = Liked.objects.get(user = request.user)
+            currentLikeState = liked.dolike
+        except Liked.DoesNotExist:
+            currentLikeState = False
+    else:
+        currentLikeState = False
+
     tag_dic = tag_count(pk)
     tag_dic = sorted(tag_dic, key= lambda x: (x[0],-x[1]), reverse = True)
 
-    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk}
+    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_dic': tag_dic, 'currentLikeState': currentLikeState}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
 def booth_review_list(request,pk):
@@ -172,12 +179,11 @@ def search(request):
 
 
 @csrf_exempt
-def like_ajax(request):
-    req = json.loads(request.body)
-    pk = req['id']
-    booth = Booth.objects.get(id=pk)
+# login, currentLikeState: False -> True
+def like_ajax(request, pk):
+    booth = get_object_or_404(Booth, id=pk)
     user = request.user
-    liked = Liked.objects.get(booth=booth.pk, user=user)
+
 
 
     if liked.dolike == True:
@@ -192,26 +198,21 @@ def like_ajax(request):
 
     return JsonResponse({'id': pk, 'k': k, 'status': status})
 
+
+
+
+
+
 def search(request):
     search = request.GET.get('search','')
     boothlist = Booth.objects.filter(name__contains=search)
     ctx = {'booths':boothlist}
     return render(request, 'map/mymap.html', context=ctx)
 
+
 @csrf_exempt
 def load(request):
     booths = list(Booth.objects.values("pk", "name", "location", "x", "y", "rating", "likenum", "operationHour", "brand__name", "review_number"))
-
-    # boothList = []
-    # for booth in booths:
-    #     booth['review_num'] = len(Booth.objects.get(pk=booth["pk"]).review_set.all())
-    #     boothDict = {}
-    #     boothDict = {"id": booth.id, "name": booth.name, "location": booth.location, "x": booth.x, "y": booth.y, "rating":booth.rating,
-    #     "likenum": booth.likenum, "operationHour": booth.operationHour, "review_num": len(booth.review_set.all()), "brand": booth.brand.name}
-    #     boothList.append(boothDict)
-
-    # print(booths)
-
     return JsonResponse({'boothList': booths})
 
     # [{id, name, location, x, y, rating, likenum, operationHour, brand}, {}]
