@@ -25,19 +25,22 @@ def list(request):
 
 def new(request):
     user = request.user
+    booths = Booth.objects.all()
+
     if request.method == "POST":
+        booth_name = request.POST.get('booth')
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.user = user
+            new_post.booth = get_object_or_404(Booth, name=booth_name)
             new_post.save()
             return redirect('LnF:list')
     
     else:
-    
         form = PostForm()
     
-    ctx = {'form': form}
+    ctx = {'form': form, 'booths': booths }
     return render(request, 'LnF/new.html', ctx)
 
 def tag(request):
