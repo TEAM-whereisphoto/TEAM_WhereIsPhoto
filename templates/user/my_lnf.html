@@ -9,7 +9,6 @@
     {% for post in lnf_posts %}
         <div>
             {{post.booth.name}} <br>
-            {{post.user.username}}<br>
         
             {% if post.timeString == False %}
             작성시간: {{post.time|date:'m월 d일'}}

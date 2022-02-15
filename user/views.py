@@ -14,6 +14,9 @@ from random import randint
 from map.models import Review
 from LnF.models import *
 
+from django.contrib.auth.decorators import login_required
+# AnonymousUser 예외처리
+@login_required
 def main(request):
     users = request.user
 
@@ -28,7 +31,7 @@ def main(request):
         my_review_exist = 0
     except Review.MultipleObjectsReturned:
         my_review_exist = 1
-    
+ 
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments)}
     return render(request, 'user/main.html', context=ctx)
     
@@ -137,14 +140,25 @@ def change_password(request):
         auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('user:main')
       else:
-        messages.error(request, 'Password not same')
+        messages.error(request, '비밀번호가 일치하지 않습니다.')
     else:
-      messages.error(request, 'Password not correct')
+      messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
     return render(request, 'user/change_password.html')
   else:
     return render(request, 'user/change_password.html')
 
-def member_del(request):
+def modify(request):
+    if request.method == "POST":
+        #id = request.user.id
+        #user = User.objects.get(pk=id)
+        user = request.user
+        user.username = request.POST["username"]
+        user.email = request.POST["email"]
+        user.save()
+        return redirect('user:main')
+    return render(request, 'user/modify.html')
+
+def delete(request):
     if request.method == "POST":
         user = request.user
         pw_del = request.POST["pw_del"]
@@ -156,7 +170,9 @@ def member_del(request):
             logout(request)
             # user.delete()
             return redirect('/')
-    return render(request, 'user/member_del.html')
+        else:
+            messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
+    return render(request, 'user/delete.html')
 
 # 장고 기본 로그인(조건 까다로움)
 # from django.contrib import messages
