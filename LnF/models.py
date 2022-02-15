@@ -3,6 +3,7 @@ from map.models import Booth
 from user.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django import forms
 
 
 # Create your models here.
@@ -10,21 +11,20 @@ from django.utils import timezone
 TAG_CHOICE = (
     ('분실', '분실'),
     ('보관', '보관'),
-    ('기타', '기타')
 )
 
 class LnF_Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     
-    title = models.CharField(max_length=100)
     img = models.ImageField(blank=True, null=True, upload_to="LnF")
     content = models.TextField()
-    tag = models.CharField(max_length=100, choices=TAG_CHOICE)
+    tag = models.CharField(max_length=50, choices=TAG_CHOICE)
+    
     time = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return self.title
+        return self.content
     
     @property
     def timeString(self):
@@ -52,6 +52,8 @@ class Comment(models.Model):
     content = models.TextField()
     time = models.DateTimeField(default=datetime.now, blank=True)
     
+    read = models.IntegerField(default=0)
+
     @property
     def timeString(self):
         now = timezone.now() - self.time

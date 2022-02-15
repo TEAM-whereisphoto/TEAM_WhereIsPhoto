@@ -11,14 +11,16 @@ from django.contrib import messages
 from random import randint
 
 # 리뷰 가져오기
-from LnF.models import LnF_Post
 from map.models import Review
+from LnF.models import *
 
 def main(request):
     users = request.user
 
     #리뷰
     reviews_posts = Review.objects.filter(user = users)
+
+    comments = getNew(users)
 
     try:
         my_review_exist = Review.objects.get(user = users)
@@ -27,7 +29,7 @@ def main(request):
     except Review.MultipleObjectsReturned:
         my_review_exist = 1
     
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
+    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments)}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
@@ -76,7 +78,7 @@ class LoginView(View):
             user = authenticate(request, username=username, password=password, email=email)
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend') #아래와 동일. 
-                return render(request, "user/main.html")
+                return redirect("user:main")
 
             return render(request, "user/login.html")
 
@@ -179,3 +181,29 @@ def member_del(request):
 #     return render(request, 'user/change_password.html', {
 #         'form': form
 #     })
+
+def notice(request):
+    comments = getNew(request.user)
+    print(comments)
+    # print(type(comments))
+    ctx={'comments':comments, 'len':len(comments)}
+
+    # for comment in comments:
+    #     comment.read = 1
+    #     comment.save()
+
+    return render(request, template_name='user/notice.html', context=ctx)
+
+def getNew(userss):
+    posts = LnF_Post.objects.filter(user=userss)
+    comments =  Comment.objects.none()
+    for post in posts:
+        comments = comments | post.comment_set.filter(read=0)
+    return comments
+
+def read_notice(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    comment.read = 1
+    comment.save()
+
+    return redirect('LnF:detail', comment.post.booth_id)

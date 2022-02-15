@@ -7,12 +7,12 @@ def list(request):
 
     brand_list = []
     for brand in brands:
-        if brand.retake == 1:
+        if brand.retake == "yes":
             retake =  "possible"
         else:
             retake = "impossible"
         
-        if brand.remote == 1:
+        if brand.remote == "yes":
             remote = "possible"
         else:
             remote = "impossible"
@@ -30,6 +30,5 @@ def list(request):
         # brand_list = [brand_name, retake, remote, time, [frame]]
         # frame = [price, 프레임 컷 수, 총 촬영 수]
 
-    print(brand_list)
     ctx = {"brand_list": brand_list}
-    return render(request, "brand/list.html", ctx)
+    return render(request, "brand/main.html", ctx)

@@ -2,6 +2,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', "config.settings")
 import django
 django.setup()
+import requests
 
 import time
 from selenium import webdriver
@@ -11,6 +12,7 @@ from selenium.webdriver.common.by import By
 
 from map.models import Booth
 from brand.models import Brand, Frame
+
 # 드라이버 세팅
 def set_chrome_driver():
     chrome_options = webdriver.ChromeOptions()
@@ -38,10 +40,14 @@ def store_booth(booths_list, brand, brand_list):
             name = booth.find_element(By.CSS_SELECTOR, "div.head_item.clickArea > strong > a.link_name").text
             location = booth.find_element(By.CSS_SELECTOR, "div.info_item > div.addr > p:nth-child(1)").text
             operationHour= booth.find_element(By.CSS_SELECTOR, "div.info_item > div.openhour > p > a").text
+            x, y= getXY(location)
+
             brand_list[name] = {
                     "location": location,
                     "operationHour": operationHour,
-                    "brand": brand
+                    "brand": brand,
+                    "x": x,
+                    "y": y
                 }
 
 
@@ -88,7 +94,6 @@ def crawling(brand):
             idx += 1
 
         time.sleep(1)
-
     return brand_dict
 
 
@@ -102,52 +107,51 @@ def main():
         exec(logic_search)
         exec(logic_crawling)
 
-# {eng_name} = {boothname: {location: , operation_hour: , brand: }}
+    # {eng_name} = {boothname: {location: , operation_hour: , brand: }}
 
     brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict, harufilm_dict]
     for dict in brand_dict_list:
         for key, value in dict.items():
             brand = Brand.objects.get(name = value['brand'])  
             if value['operationHour'] != '':
-                key = Booth(name = key, location = value['location'], operationHour = value['operationHour'], brand = brand)
+                key = Booth(name = key, location = value['location'], operationHour = value['operationHour'], brand = brand, x = value['x'], y = value['y'])
                 key.save()
             else:
-                key = Booth(name = key, location = value['location'], brand = brand)
+                key = Booth(name = key, location = value['location'], brand = brand, x = value['x'], y = value['y'])
                 key.save()
 
 
-
-# brand 등록
+# brand 등록W
 def brand():
     brand_dict = {
         "인생네컷": {
-            "retake": 1,
-            "remote": 1,
-            "QR": 1,
+            "retake": "yes",
+            "remote": "yes",
+            "QR": "yes",
             "time": 10
         },
         "포토이즘박스": {
-            "retake": 0,
-            "remote": 1,
-            "QR": 1,
+            "retake": "NO",
+            "remote": "yes",
+            "QR": "yes",
             "time": 10
         },
         "하루필름": {
-            "retake": 0,
-            "remote": 1,
-            "QR": 1,
+            "retake": "NO",
+            "remote": "yes",
+            "QR": "yes",
             "time": 15
         },
         "포토시그니처": {
-            "retake": 1,
-            "remote": 1,
-            "QR": 1,
+            "retake": "yes",
+            "remote": "yes",
+            "QR": "yes",
             "time": 10
         },
         "셀픽스":{
-            "retake": 1,
-            "remote": 1,
-            "QR": 1,
+            "retake": "yes",
+            "remote": "yes",
+            "QR": "yes",
             "time": 20
         }
     }
@@ -249,11 +253,31 @@ def frame():
             new.save()
 
 
+# 주소 -> 좌표
+def getXY(address):
+    result = ""
+    if address == "인천 미추홀구 숙골로87번길 5 5블럭 1층 40호":
+        address = "인천 미추홀구 숙골로87번길 5"
+
+    url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + address
+    API_KEY = '970791aa193813b80b02a98d2a78907d'
+    header = {'Authorization': 'KakaoAK ' + API_KEY}
+    req = requests.get(url, headers = header)
+
+    if req.status_code == 200:
+        result_address = req.json()["documents"][0]["address"]
+
+        result = result_address["y"], result_address["x"]
+    else:
+        result = "ERROR[" + str(req.status_code) + "]"
+    
+    return result
+
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
-# brand()
-# frame()
+brand()
+frame()
 main()
 
 driver.close()
