@@ -12,7 +12,7 @@ from django.urls import path, re_path, include, reverse_lazy
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('brand.urls')),
-    path('brand/', include('brand.urls')),
+    path('map/', include('map.urls')),
     path('user/', include('user.urls')),
     path('LnF/', include('LnF.urls')),
     path('accounts/', include('allauth.urls')),
