@@ -33,7 +33,7 @@
     <serction id="postList">
         {% for post in posts %}
             <div>
-                <a href="{% url 'LnF:detail' post.booth.id %}">부스명: {{post.booth.name}}</a>
+                <a href="{% url 'LnF:post_detail' post.id %}">부스명: {{post.booth.name}}</a>
                 <div>
                     태그: {{post.tag}}
                 </div>
