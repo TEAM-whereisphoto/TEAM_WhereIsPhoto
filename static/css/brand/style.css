@@ -1,12 +1,11 @@
 .brand {
-    padding: 4rem;
+    padding: 2rem;
     padding-bottom: 6rem;
 }
 
 .brand__frame {
     width: 100%;
-    margin-bottom: 4rem;
-    background-color: blueviolet;
+    margin-bottom: 2rem;
 }
 
 .brand__frame > div {
@@ -17,15 +16,17 @@
     width: 50%;
     padding: 10pt;
     font-family: ROKAFSansMedium;
-    font-size: 20pt;
+    font-size: 12pt;
 }
 
 .brand__info div:first-child {
     color: #424258;
+    padding-right: 0;
 }
 
 .brand__info div:last-child {
     color: white;
+    padding-left: 0;
     text-align:right;
 }
 
