@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content  %}
 
   <section>
@@ -8,8 +9,10 @@
           <!--브랜드 이미지-->
           <div class="brand__img center">
             <!-- 브랜드 이미지 모델 수정되면 링크 널 예정 -->
-            <img src="" alt="" class="" width="200" height="200">
+            <img src="{{ brand.5 }}" alt="" class="" width="200" height="200">
           </div>
+          <!-- brand_list = [brand_id, brand_name, retake, remote, time, img, [frame]] -->
+          <!-- frame = [price, 프레임 컷 수, 총 촬영 수] -->
           <!--브랜드 설명-->
           <div class="brand__info brand__{{ brand.0 }} d-flex">
             <div class="">
@@ -25,7 +28,7 @@
               {{ brand.3 }} <br>
               {{ brand.4 }}sec <br>
               <br>
-              {% for frame in brand.5 %}
+              {% for frame in brand.6 %}
                   {{frame.0}} <br>
                   <span style="font-size: 8pt;">{{ frame.1 }} out of {{ frame.2 }}</span> <br>
               {% endfor %}<br>
