@@ -126,11 +126,11 @@ const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLe
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
 
 // booth lis표시해둘 dom
-const boothListDom = document.getElementById('booth-list')
+const boothListDom = document.getElementById('booth-list');
 // booth 작은 detail 표시해둘 dom
-const boothSmall = document.getElementById('booth-small')
-const boothSmallBtn = document.getElementById('booth-small-btn')
-const boothSmallTitle = document.getElementById("offcanvasBottomLabel")
+const boothSmall = document.getElementById('booth-small');
+const boothSmallBtn = document.getElementById('booth-small-btn');
+const boothSmallTitle = document.getElementById("offcanvasBottomLabel");
 // 범위 내의 booth list 저장해두는 array
 let mapboundbooth = []
 
@@ -245,6 +245,12 @@ function main(boothList){
             printList(booth, boothSmall, 1)
             
             boothSmallBtn.click() // 아래 small detail 열기
+
+            // 디테일 페이지로 이동하는 event
+            boothSmall.addEventListener('click', function() {
+                let getId = boothSmall.children[0].children[0].dataset.id
+                window.location.href = "/find/booth/detail/"+getId
+            })
 
         })
     };
@@ -404,7 +410,7 @@ function main(boothList){
     const delSearch2 = document.getElementById("close-btn2")
 
     delSearch.addEventListener('click', function() { searchInput.value = '' });
-    delSearch2.addEventListener('click', function() { searchInput.value = '' });
+    delSearch2.addEventListener('click', function() { searchInput2.value = '' });
 
     // 8. 검색 끝 -----------------------------------------------------------------------------
 
@@ -455,29 +461,30 @@ function main(boothList){
         const newdiv = document.createElement('div');
         
         if (small) { // 작은 detail 표시하는 경우
+            boothSmallTitle.setAttribute("href", `/find/booth/detail/${ boothId }`)
             boothSmallTitle.innerHTML = 
             `<img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }`
 
             newdiv.innerHTML =
-            `<div id="list-${ boothId }">
+            `<div id="list-${ boothId }" data-id="${ boothId }">
 
-                <p style="margin: 0">${distance} | ${ address }</p>
+                <p style="margin: 0 0 0 2rem">${distance} | ${ address }</p>
 
-                <p style="margin: 16px 0 0 0"></p>
+                <p style="margin: .5rem 0 0 2rem">
                 ${ hourContent }
                 </p>
 
-                <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
+                <button class="btn btn-outline-ratingNlike container d-block mx-auto" style="width: 75%; margin: 1rem 0;">
                     <div class="row">
 
                         <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
                         | 
-                        <div class = "col"> <a style="color: #484848" href="/find/booth/detail/${ boothId }/review">${ reviewnum } review(s)</a></div>  
+                        <div class = "col" style="color: #484848">${ reviewnum } review(s)</div>  
                     </div>
                 </button>
         
-                <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
             </div>`;
+                // <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
         }
         else { // 전체 목록 list print하는 경우
             newdiv.innerHTML = 
@@ -557,7 +564,6 @@ function main(boothList){
             printList(booth, boothListDom, 0); 
         } // list에 표시하기
         
-        console.log(boothListDom)
 
         for (let i=0; i < boothListDom.childElementCount; i++) {
             
@@ -571,6 +577,11 @@ function main(boothList){
                 boothSmallBtn.click() // 아래 small detail 열기
             });
         }
+        // 디테일 페이지로 이동하는 event
+        boothSmall.addEventListener('click', function() {
+            let getId = boothSmall.children[0].children[0].dataset.id
+            window.location.href = "/find/booth/detail/"+getId
+        })
     }); 
 
     // 10. 목록 끝 -----------------------------------------------------------------------------

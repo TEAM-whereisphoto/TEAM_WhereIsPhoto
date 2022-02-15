@@ -81,9 +81,9 @@ body {
 
 
   /* small detail 창 */
-  .offcanvas-body {
+.offcanvas-body {
     flex-grow: 1;
-    padding: 0rem 1rem;
+    padding: 0rem 1rem !important;
     overflow-y: auto;
 }
 
@@ -94,4 +94,8 @@ body {
 .offcanvas-end{
     border: none !important;
     transform: none !important;
+}
+
+.offcanvas-backdrop {
+    background-color: transparent !important;
 }
