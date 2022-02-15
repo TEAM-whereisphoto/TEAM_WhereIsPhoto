@@ -427,27 +427,23 @@ function main(boothList){
         else { // 목록 list print하는 경우
             newdiv.innerHTML = 
             `<div id="list-${ boothId }">
-            <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
-            
-            <p style="margin: 16px 0 0 0">${distance} | ${ address }</p>
-            
-            <p style="margin: 16px 0 0 0"></p>
-            ${ hourContent }
-            </p>
-            
-            <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
-                <div class="row">
-
-                <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
-                | 
-                <div class = "col"> <a style="color: #484848" href="/find/booth/detail/${ boothId }/review">${ reviewnum } review(s)</a></div>  
-
-                </div>
-                </button>
+                <div style="font-size: 20px; color: #000;"><img style="width: 30px; margin-right: 5px" src=${ pinsrc }></img>${ name }</div>
+                <div style="margin: 0 0 0 2rem;">
+                    <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div>
+                    
+                    <div style="margin: 0.5rem 0 0 0;">
+                    <a style=" color: #6D6D79 !important;" href="/find/booth/detail/${ boothId }/review">
+                    ★ ${ rating }
+                    | 
+                    ${ reviewnum } review(s)
+                    </a>
+                    </div>
                 
-                <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
+                    <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
+                    </div>
+                </div>
                 <hr />
-                </div>`;
+            </div>`;
                 
         }
         list.append(newdiv); // list추가
