@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function main(boothList){ 
 
-    // 4 초기 부스 정보 다루기 ----------------------------------------------------------------------------
+    // 4. 초기 부스 정보 다루기 ----------------------------------------------------------------------------
 
     const total = boothList.length; // count booths    
 
@@ -232,27 +232,27 @@ function main(boothList){
             boothSmall.innerHTML='';
             boothSmallTitle.innerHTML='';
     
-            curCenter = map.getCenter()
-            // mapboundbooth.sort(sorting)
-            const coordA = new kakao.maps.LatLng(booth["x"], booth["y"])
+            // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
+            
             var polylineA = new kakao.maps.Polyline({
                 map: map,
-                path: [ coordA, curCenter ],
+                path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), map.getCenter() ],
                 strokeWeight: 0,
             });
+
             booth['len']=polylineA.getLength();
 
             printList(booth, boothSmall, 1)
             
-            boothSmallBtn.click()
+            boothSmallBtn.click() // 아래 small detail 열기
 
         })
     };
 
-    // 초기 부스 정보 다루기 끝 -----------------------------------------------------------------------------
+    // 4.초기 부스 정보 다루기 끝 -----------------------------------------------------------------------------
     
     
-    // 5 map 범위 달라졌을 때 -----------------------------------------------------------------------------
+    // 5. map 범위 달라졌을 때 -----------------------------------------------------------------------------
     // 초기 세팅 이후, 화면 변경에 따라 list 표시 다르게
     
     kakao.maps.event.addListener(map, 'bounds_changed', findBoundBooth);
@@ -277,10 +277,10 @@ function main(boothList){
         }
     }
     
-    // map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
+    // 5. map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
     
     
-    // 7. 브랜드 필터 -----------------------------------------------------------------------------
+    // 6. 브랜드 필터 (map) -----------------------------------------------------------------------------
     const filterGroup = document.getElementById('filterGroup');
     
     // 어떤 거든 필터 설정이 클릭되었을 때
@@ -307,8 +307,35 @@ function main(boothList){
     
     });
     
-    // 브랜드 필터 끝 -----------------------------------------------------------------------------
+    // 6. 브랜드 필터 끝 -----------------------------------------------------------------------------
     
+
+    // 7. 브랜드 필터 (list) -----------------------------------------------------------------------------
+    const filterGroup2 = document.getElementById('filterGroup2');
+    
+    filterGroup2.addEventListener('click', function() {
+        boothListDom.innerHTML = '';
+
+        for (let i=1; i<this.childElementCount; i=i+2) {
+
+            brandname = this.children[i].innerHTML;
+    
+            if (this.children[i-1].checked) { // 필터가 체크되어있다면
+                filterSet.add(brandname); // 필터 set에 해당 브랜드 등록.
+            }
+            else { // 필터가 체크되어있지 않다면
+                filterSet.delete(brandname) // 필터 set에서 해당 브랜드 삭제.
+            }
+
+        } // filterSet은 listup할때 쓰일 예정!
+        
+        // mapboundbooth.sort(sorting);
+        for (let booth of mapboundbooth) {printList(booth, boothListDom, 0)}
+    });
+
+
+    // 7. 목록 브랜드 필터 끝 -----------------------------------------------------------------------------
+
     
     // 8. 검색했을 때 해당 지역으로 지도 이동 -----------------------------------------------------------------------------
     
@@ -377,7 +404,7 @@ function main(boothList){
         searchInput.value = ''
     });
 
-    // 검색 끝 -----------------------------------------------------------------------------
+    // 8. 검색 끝 -----------------------------------------------------------------------------
 
 
     // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
@@ -387,12 +414,12 @@ function main(boothList){
         gps_check();
     });
 
-    // 내 위치 새로고침 끝 -----------------------------------------------------------------------------
+    // 9. 내 위치 새로고침 끝 -----------------------------------------------------------------------------
 
 
     // 10. 목록 보여주는 부분 -----------------------------------------------------------------------------
 
-    // 목록 리스트에 매장 추가하는 함수
+    // 목록 리스트에 매장 추가하는 함수 (small, 전체목록 둘 다)
     function printList(boothElement, list, small) {
         
         const brand = boothElement["brand__name"];
@@ -450,7 +477,7 @@ function main(boothList){
                 <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
             </div>`;
         }
-        else { // 목록 list print하는 경우
+        else { // 전체 목록 list print하는 경우
             newdiv.innerHTML = 
             `<div id="list-${ boothId }">
                 <div style="font-size: 20px; color: #000;"><img style="width: 30px; margin-right: 5px" src=${ pinsrc }></img>${ name }</div>
@@ -477,7 +504,7 @@ function main(boothList){
 
     var curCenter = map.getCenter();
 
-    const sorting = function sortDist(a, b) { // 거리순 정렬
+    const sorting = function sortDist(a, b) { // 거리순 정렬 함수
 
         const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
         const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
@@ -506,18 +533,32 @@ function main(boothList){
         return 0; // 이름이 같을 경우
     }
 
+    // 전체 목록 리스트
     const listBtn = document.getElementById('list-btn');
     listBtn.addEventListener('click', function() {
+
+        // 지도에서 설정한 필터 동일하게 가져오기
+        for (let i=1; i<filterGroup.childElementCount; i=i+2) {
+    
+            if (!filterGroup.children[i-1].checked) { // 필터가 체크되어있지 않다면
+                filterGroup2.children[i-1].checked = false;
+            }
+        }
+
         if(mapboundbooth.length) {
             boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
         }
-        else {boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'}
+        else {
+            boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'
+            return;
+        }
+
         curCenter = map.getCenter()
         mapboundbooth.sort(sorting) // 거리순 정렬
         for (let booth of mapboundbooth){ printList(booth, boothListDom, 0); } // list에 표시하기             
     }); 
 
-    // 목록 끝 -----------------------------------------------------------------------------
+    // 10. 목록 끝 -----------------------------------------------------------------------------
 
-}
+} // main 끝
 

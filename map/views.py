@@ -111,7 +111,7 @@ def booth_detail(request,pk):
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
-    ctx = {'reviews': reviews,'pk':pk}
+    ctx = {'reviews': reviews,'pk':pk, 'boothname':booth.name}
     return render(request, template_name='map/review_list.html', context=ctx)
 
 def booth_review_create(request, pk):
