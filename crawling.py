@@ -281,8 +281,8 @@ def getXY(address):
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
-brand()
-frame()
+# brand()
+# frame()
 main()
 
 driver.close()

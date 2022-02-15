@@ -183,24 +183,13 @@ def search(request):
 
 
 @csrf_exempt
-# login, currentLikeState: False -> True
+# login o , currentLikeState: False -> True
 def like_ajax(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     user = request.user
-
-
-
-    if liked.dolike == True:
-        liked.dolike = False
-        status = liked.dolike
-        k = 1
-    else:
-        liked.dolike = True
-        status = liked.dolike
-        k = 0
-    liked.save()
-
-    return JsonResponse({'id': pk, 'k': k, 'status': status})
+    like = Liked.objects.create(booth = booth, user = user)
+    print(like.dolike)
+    return JsonResponse({})
 
 
 
