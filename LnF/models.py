@@ -52,6 +52,8 @@ class Comment(models.Model):
     content = models.TextField()
     time = models.DateTimeField(default=datetime.now, blank=True)
     
+    read = models.IntegerField(default=0)
+
     @property
     def timeString(self):
         now = timezone.now() - self.time

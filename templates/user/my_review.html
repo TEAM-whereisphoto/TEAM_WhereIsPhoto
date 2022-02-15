@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class = "my_review">
+    <h1>My review</h1>
+    {% if my_review_exist == 0 %}
+        <p>게시물이 없습니다.</p>
+    {% else %}
+    {% for post in reviews_posts %}
+        <p>{{ post.booth }}</p>
+        <p>별점 : {{ post.rate }}</p>
+    {% endfor %}
+    {% endif %}
+</section>
+<a href="{% url 'user:main' %}">마이페이지로</a>
+{% endblock %}

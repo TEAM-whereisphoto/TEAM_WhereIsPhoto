@@ -27,58 +27,16 @@
         </form>
         {% endcomment %}
         <div id="searchLoc" class="pb-3">
-            <input id="searchInput" class="w-25 px-2" name="search" type="text" placeholder="어디 지역을 찾아볼까요?">
+            <input id="searchInput" class="w-25 px-2" name="search" type="text" placeholder="어디 지역으로 이동할까요? ex) 신촌역">
             <button id="searchBtn" class="btn btn-primary" type="submit">검색</button>
         </div>
         <br />
 
-        </div>
-
-    
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              전체 매장 hidden list
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <ul id="boothList">
-
-                <!-- 나중에 이 아래것들 중 접근 필요 없는건 빼기-> 속도 높이기 -->
-                {% for booth in booths %}
-                    <li id="boothId-{{ booth.id }}">
-                        <div data-id="{{ booth.id }}" 
-                        data-name="{{ booth.name }}" 
-                        data-loc="{{ booth.location }}" 
-                        data-hour="{{ booth.operationHour }}"
-                        data-brand="{{ booth.brand }}"
-                        data-user="{{ booth.user }}"
-
-                        data-street="{{ booth.street }}"
-                        data-deco="{{ booth.deco }}"
-                        data-iron="{{ booth.iron }}"
-                        data-boxnum="{{ booth.boxnum }}"
-                        data-rating="{{ booth.rating }}"
-                        data-likenum="{{ booth.likenum }}"
-                        data-x="{{ booth.x }}"
-                        data-y="{{ booth.y }}"
-
-                        ></div>
-                        {{ booth.id }}
-                        <a style="display: block;" class="mt-3" href="{% url 'map:booth_detail' pk=booth.pk %}">디테일페이지</a>
-                    </li>
-                {% endfor %}
-                </ul>
-            </div>
-          </div>
-        </div>
     </div>
+
 
 <!-- 리스트 & 지도 -->
     <div class="row py-3">
-        
         <div id="list-container" class="col-4">
             
             <!-- 정렬 선택 -->
@@ -116,61 +74,16 @@
 
             <!-- 매장 리스트 -->
             <div class="accordion" id="accordionList" style="height: 500px; overflow: auto;">
-{% comment %}
-                {% for booth in booths %}
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading-{{ forloop.counter0 }}">
-                        <button id="accordion-name" data-name="{{ booth.name }}" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter0 }}" aria-expanded="true" aria-controls="collapse-{{ forloop.counter0 }}">
-                            <svg class="me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-                                <path fill="none" d="M0 0h24v24H0z"/>
-                                <path d="M18.364 17.364L12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="rgba(31,82,255,1)"/>
-                            </svg>{{ booth.name }}
-
-                            <button class="btn btn-gray btn-sm ms-5 mb-3">{{ booth.brand }}</button>
-                        </button>
-                    </h2>
-
-                    <div id="collapse-{{ forloop.counter0 }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ forloop.counter0 }}" data-bs-parent="#accordionList">
-                        <div class="accordion-body">
-                            <div id="mapdetail-{{ forloop.counter0 }}" class="ps-4">
-                                
-                                <p style="margin: 0; color: #8B8B8B; font-size: 0.75rem;">
-                                    부스 {{ booth.boxnum }}개 | {% if booth.street == 0%}매장점{% else %}부스점{% endif %} | 소품{% if booth.deco == 0%} X {% else %} ○ {% endif %}
-                                </p>
-                                
-                                <p style="margin: 16px 0 0 0">{{ booth.location }}</p>
-
-                                <p style="margin: 16px 0 0 0"></p>
-                                {% if booth.operationHour == 'nan' %}
-                                {% else %}
-                                {{ booth.operationHour }}
-                                {% endif %}
-                                </p>
-
-                                <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
-                                    <div class="row">
-
-                                        <div class = "col" style="color: #FFD107;">★ {{ booth.rating }}</div>
-                                        | 
-                                        <div class = "col" style="color: #484848"> {{ booth.likenum}} users </div>
-                                    </div>
-                                </button>
-
-                                <a style="display: block;" class="mt-3" href="{% url 'map:booth_detail' pk=booth.pk %}">디테일페이지</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                {% endfor %}
-{% endcomment %}
             </div>
         </div>
         
         <!-- 지도 -->
         <div id="map-container"  class="col-8">
-            <div id="map" style="width:800px; height: 600px;"></div>
+            <div id="map" style="width:800px; height: 600px;">
+                <div style="cursor: pointer; position: absolute; z-index: 2; left: 0px; bottom: 0px;">
+                    <img style="width: 36px; height: 36px;" id="refresh" src="../../static/icons/refreshBtn.svg"></div>
+                </div>
+            </div>
             <!-- <p id="result"></p> -->
         </div>
         

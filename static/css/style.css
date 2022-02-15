@@ -16,3 +16,19 @@
 div {
     font-family: ROKAFSansMedium;
 }
+
+.header__title {
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    font-size: 30pt;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.navbar__link {
+    display: block;
+    padding: .5rem 1rem;
+    color: black;
+    text-decoration: none;
+    font-family:'SUIT', sans-serif;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}

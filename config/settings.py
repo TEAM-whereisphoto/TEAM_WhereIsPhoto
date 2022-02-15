@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_+bwa#v#h%8b^rmli*$kh70un2&mi^6jm#l87!ltmb651-m6#i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # sites 는 사이트 정보를 설정하기 위해 필요
     'django.contrib.sites',
+    'multiselectfield',
 
     'brand',
     'map', 
