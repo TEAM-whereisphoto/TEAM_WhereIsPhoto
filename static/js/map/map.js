@@ -125,9 +125,12 @@ const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLe
 
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
 
-// booth list하는 아코디언 dom
+// booth lis표시해둘 dom
 const boothListDom = document.getElementById('booth-list')
-
+// booth 작은 detail 표시해둘 dom
+const boothSmall = document.getElementById('booth-small')
+const boothSmallBtn = document.getElementById('booth-small-btn')
+const boothSmallTitle = document.getElementById("offcanvasBottomLabel")
 // 범위 내의 booth list 저장해두는 array
 let mapboundbooth = []
 
@@ -182,7 +185,7 @@ function main(boothList){
         const mapLng = booth["y"]
         var coords = new kakao.maps.LatLng(mapLat, mapLng)
     
-        addPin(coords, brandpin, brandname);
+        addPin(coords, brandpin, brandname, booth);
         // 초기 607개 pin 배열 생성
     
         // booth의 좌표가 현재 지도 boundary 안에 있는거면 배열에 push
@@ -191,7 +194,7 @@ function main(boothList){
     }
 
 
-    function addPin(pos, img, brandname) {
+    function addPin(pos, img, brandname, booth) {
         var marker = new kakao.maps.Marker({
             // map:map,
             position: pos,
@@ -204,10 +207,10 @@ function main(boothList){
         eval(brand_dict[brandname]+"Markers.push(marker);")
         // brand별로 marker 배열에 marker push
         
-        setClickEvents(marker, brandname);
+        setClickEvents(marker, brandname, booth);
     }
     
-    function setClickEvents (marker, brandname) {
+    function setClickEvents (marker, brandname, booth) {
 
         kakao.maps.event.addListener(marker, 'click', function() {
             // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
@@ -224,6 +227,16 @@ function main(boothList){
 
             // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
             selectedMarker = marker;
+
+            // offcanvas 내용을 표시합니다.
+            boothSmall.innerHTML='';
+            boothSmallTitle.innerHTML='';
+    
+            curCenter = map.getCenter()
+            mapboundbooth.sort(sorting)
+            printList(booth, boothSmall, 1)
+            
+            boothSmallBtn.click()
 
         })
     };
@@ -354,7 +367,7 @@ function main(boothList){
     // 10. 목록 보여주는 부분 -----------------------------------------------------------------------------
 
     // 목록 리스트에 매장 추가하는 함수
-    function printList(boothElement) {
+    function printList(boothElement, list, small) {
         
         const brand = boothElement["brand__name"];
     
@@ -385,30 +398,58 @@ function main(boothList){
         var pinsrc = eval(brand_dict[brand]+"Src")
 
         const newdiv = document.createElement('div');
-        newdiv.innerHTML = 
-        `<div id="list-${ boothId }">
+        
+        if (small) { // 작은 detail 표시하는 경우
+            boothSmallTitle.innerHTML = 
+            `<img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }`
+
+            newdiv.innerHTML =
+            `<div id="list-${ boothId }">
+
+                <p style="margin: 0">${distance} | ${ address }</p>
+
+                <p style="margin: 16px 0 0 0"></p>
+                ${ hourContent }
+                </p>
+
+                <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
+                    <div class="row">
+
+                        <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                        | 
+                        <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>  
+                    </div>
+                </button>
+        
+                <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
+            </div>`;
+        }
+        else { // 목록 list print하는 경우
+            newdiv.innerHTML = 
+            `<div id="list-${ boothId }">
             <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
-
+            
             <p style="margin: 16px 0 0 0">${distance} | ${ address }</p>
-
+            
             <p style="margin: 16px 0 0 0"></p>
             ${ hourContent }
             </p>
-
+            
             <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
                 <div class="row">
 
-                    <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
-                    | 
-                    <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>  
+                <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                | 
+                <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>  
                 </div>
-            </button>
-    
-            <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
-            <hr />
-        </div>`;
-    
-        boothListDom.append(newdiv); // list추가
+                </button>
+                
+                <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
+                <hr />
+                </div>`;
+                
+        }
+        list.append(newdiv); // list추가
     }
 
     var curCenter = map.getCenter();
@@ -450,7 +491,7 @@ function main(boothList){
         else {boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'}
         curCenter = map.getCenter()
         mapboundbooth.sort(sorting) // 거리순 정렬
-        for (let booth of mapboundbooth){ printList(booth); } // list에 표시하기             
+        for (let booth of mapboundbooth){ printList(booth, boothListDom, 0); } // list에 표시하기             
     }); 
 
     // 목록 끝 -----------------------------------------------------------------------------

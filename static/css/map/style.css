@@ -20,6 +20,11 @@
     border-color: #B5B5CD;
 }
 
+.btn-outline-ratingNlike {
+    color: #D6D6F1 !important;
+    border-color: #D6D6F1 !important;
+}
+
 
 /* search div */
 .search-input {
@@ -63,3 +68,11 @@
   ::-ms-input-placeholder { /* Microsoft Edge */
     color: #B5B5CD;
   }
+
+
+  /* small detail 창 */
+  .offcanvas-body {
+    flex-grow: 1;
+    padding: 0rem 1rem;
+    overflow-y: auto;
+}
