@@ -49,24 +49,23 @@ def avg(request, pk): # 평균 별점 계산 함수
 def tag_count(pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
-    tag_dic = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
+    tag_list = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
 
     for review in reviews:
         tags = []
         tags = review.title
         for tag in tags:
             if tag == '시설이 깨끗해요':
-                tag_dic[0][1] += 1
+                tag_list[0][1] += 1
             elif tag == '소품이 다양해요':
-                tag_dic[1][1] += 1
+                tag_list[1][1] += 1
             elif tag == '부스가 많아요':
-                tag_dic[2][1] += 1
+                tag_list[2][1] += 1
             elif tag == '고데기가 있어요':
-                tag_dic[3][1] += 1
+                tag_list[3][1] += 1
             elif tag == '로드점이에요':
-                tag_dic[4][1] += 1
-    print(tag_dic)
-    return tag_dic
+                tag_list[4][1] += 1
+    return tag_list
 
 def booth_brand(request, pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
@@ -102,10 +101,11 @@ def booth_detail(request,pk):
     brand = Brand.objects.all()
     brand_list = []
     brand_list = booth_brand(request, pk)
-    tag_dic = tag_count(pk)
-    tag_dic = sorted(tag_dic, key= lambda x: (x[0],-x[1]), reverse = True)
+    tag_list = tag_count(pk)
+    tag_list = sorted(tag_list, key= lambda x: -x[1])
+    print(tag_list)
 
-    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk}
+    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'brand_list': brand_list, 'pk': pk, 'tag_list':tag_list}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
 def booth_review_list(request,pk):

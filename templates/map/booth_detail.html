@@ -24,20 +24,22 @@
         <br>
     </div>
     <div>
-        {% for tag in tags %}
+        <h4>태그</h4>
+        <br>
+        {% for tag in tag_list %}
             <h6>
-                {% if tag == 0 %}
+                {% if tag.0 == 0 %}
                     시설이 깨끗해요
-                {% elif tag == 1 %}
+                {% elif tag.0 == 1 %}
                     소품이 다양해요
-                {% elif tag == 2 %}
+                {% elif tag.0 == 2 %}
                     부스가 많아요
-                {% elif tag == 3 %}
+                {% elif tag.0 == 3 %}
                     고데기가 있어요
-                {% elif tag == 4 %}
+                {% elif tag.0 == 4 %}
                     로드점이에요
                 {% endif %}
-            {tag_dic[1]}개 </h6>
+            {{tag.1}}개 </h6>
         {% endfor %}
     </div>
 
