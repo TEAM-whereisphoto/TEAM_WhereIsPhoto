@@ -187,13 +187,30 @@ def search(request):
 def like_ajax(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     user = request.user
-    like = Liked.objects.create(booth = booth, user = user)
-    print(like.dolike)
-    return JsonResponse({})
+    try:
+        like = Liked.objects.get(user = request.user)
 
+    except Liked.DoesNotExist:
+        like = Liked.objects.create(booth = booth, user = user)
+    
+    like.dolike = True
+    booth.likenum += 1
+    like.save()
+    booth.save()
+    return JsonResponse({'booth_id': booth.id })
 
+# login o, currentLikeState: True -> False
+def dislike_ajax(request, pk):
+    booth = get_object_or_404(Booth, id=pk)
+    user = request.user
+    like = Liked.objects.get(user = request.user)
+    
+    like.dolike = False
+    booth.likenum -= 1
+    like.save()
+    booth.save()
 
-
+    return JsonResponse({'booth_id': booth.id })
 
 
 def search(request):
