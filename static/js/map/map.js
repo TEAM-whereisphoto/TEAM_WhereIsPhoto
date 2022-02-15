@@ -417,7 +417,7 @@ function main(boothList){
 
                         <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
                         | 
-                        <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>  
+                        <div class = "col"> <a style="color: #484848" href="/find/booth/detail/${ boothId }/review">${ reviewnum } review(s)</a></div>  
                     </div>
                 </button>
         
@@ -440,7 +440,8 @@ function main(boothList){
 
                 <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
                 | 
-                <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>  
+                <div class = "col"> <a style="color: #484848" href="/find/booth/detail/${ boothId }/review">${ reviewnum } review(s)</a></div>  
+
                 </div>
                 </button>
                 
