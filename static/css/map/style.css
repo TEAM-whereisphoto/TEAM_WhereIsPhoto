@@ -3,6 +3,16 @@
 } */
 /* css 적용되는지 확인용 */
 
+@font-face {
+    font-family: 'ROKAFSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: ROKAFSansMedium !important;
+}
 
 .btn {
     border-radius: 1rem !important;
@@ -81,6 +91,7 @@
     outline: 0;
 }
 
-.offcanvas-bottom{
-    transform: none;
+.offcanvas-end{
+    border: none !important;
+    transform: none !important;
 }

@@ -344,31 +344,24 @@ function main(boothList){
     
     const searchBtn = document.getElementById('search-icon');
     const searchInput = document.getElementById('search-placeholder');
-    
-    searchBtn.addEventListener('click', function() {
-        var keyword = searchInput.value
+    const searchBtn2 = document.getElementById('search-icon2')
+    const searchInput2 = document.getElementById('search-placeholder2');
+
+    function searchLocation(input) {
+        var keyword = input.value
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
             alert('검색할 장소를 입력해주세요!');
             return false;
         }
 
-    
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(keyword, placesSearchCB); 
     
         // 키워드 검색 완료 시 호출되는 콜백함수 입니다
         function placesSearchCB (data, status) {
             if (status === kakao.maps.services.Status.OK) {
-    
-                // var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
-    
-                // // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
-                // map.setCenter(newcenter);
-                // map.setLevel(6);
 
-                // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-                // LatLngBounds 객체에 좌표를 추가합니다
                 var bounds = new kakao.maps.LatLngBounds();
 
                 for (var i=0; i<5; i++) {
@@ -387,6 +380,14 @@ function main(boothList){
                 alert("검색 중 오류가 발생했습니다.")
             }
         }
+    }
+
+    searchBtn.addEventListener('click', function() {
+        searchLocation(searchInput)
+    });
+    
+    searchBtn2.addEventListener('click', function() {
+        searchLocation(searchInput2)
     });
 
     searchInput.addEventListener("keyup", function(event) {
@@ -398,11 +399,12 @@ function main(boothList){
         }
     });
 
+    // x 버튼 (글자지우기)
     const delSearch = document.getElementById("close-btn")
-    delSearch.addEventListener('click', function() {
-        console.log("close")
-        searchInput.value = ''
-    });
+    const delSearch2 = document.getElementById("close-btn2")
+
+    delSearch.addEventListener('click', function() { searchInput.value = '' });
+    delSearch2.addEventListener('click', function() { searchInput.value = '' });
 
     // 8. 검색 끝 -----------------------------------------------------------------------------
 
@@ -479,21 +481,17 @@ function main(boothList){
         }
         else { // 전체 목록 list print하는 경우
             newdiv.innerHTML = 
-            `<div id="list-${ boothId }">
+            `<div id="wholelist-${ boothId }" data-id="${ boothId }">
                 <div style="font-size: 20px; color: #000;"><img style="width: 30px; margin-right: 5px" src=${ pinsrc }></img>${ name }</div>
                 <div style="margin: 0 0 0 2rem;">
-                    <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div>
+                    <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                     
-                    <div style="margin: 0.5rem 0 0 0;">
-                    <a style=" color: #6D6D79 !important;" href="/find/booth/detail/${ boothId }/review">
+                    <div style="margin: 0.5rem 0 0 0; color: #6D6D79;">
                     ★ ${ rating }
-                    | 
+                    |
                     ${ reviewnum } review(s)
-                    </a>
                     </div>
-                
-                    <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
-                    </div>
+                    
                 </div>
                 <hr />
             </div>`;
@@ -555,10 +553,28 @@ function main(boothList){
 
         curCenter = map.getCenter()
         mapboundbooth.sort(sorting) // 거리순 정렬
-        for (let booth of mapboundbooth){ printList(booth, boothListDom, 0); } // list에 표시하기             
+        for (let booth of mapboundbooth){ 
+            printList(booth, boothListDom, 0); 
+        } // list에 표시하기
+        
+        console.log(boothListDom)
+
+        for (let i=0; i < boothListDom.childElementCount; i++) {
+            
+            console.log(boothListDom.children[i])
+            boothListDom.children[i].children[0].addEventListener('click', function() {
+                // 전체 목록 닫기?
+                let selectedId = boothListDom.children[i].children[0].dataset.id
+
+                boothSmall.innerHTML = ''
+                printList(boothList[selectedId-1], boothSmall, 1)
+                boothSmallBtn.click() // 아래 small detail 열기
+            });
+        }
     }); 
 
     // 10. 목록 끝 -----------------------------------------------------------------------------
+
 
 } // main 끝
 
