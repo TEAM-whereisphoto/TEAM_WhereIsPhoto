@@ -312,6 +312,12 @@ function main(boothList){
     
     searchBtn.addEventListener('click', function() {
         var keyword = searchInput.value
+
+        if (!keyword.replace(/^\s+|\s+$/g, '')) {
+            alert('검색할 장소를 입력해주세요!');
+            return false;
+        }
+
     
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(keyword, placesSearchCB); 
@@ -320,18 +326,30 @@ function main(boothList){
         function placesSearchCB (data, status) {
             if (status === kakao.maps.services.Status.OK) {
     
-                var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
+                // var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
     
-                // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
-                map.setCenter(newcenter);
-                map.setLevel(6);
+                // // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
+                // map.setCenter(newcenter);
+                // map.setLevel(6);
+
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                // LatLngBounds 객체에 좌표를 추가합니다
+                var bounds = new kakao.maps.LatLngBounds();
+
+                for (var i=0; i<5; i++) {
+                    bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                }       
+
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                map.setBounds(bounds);
+                
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
             } 
     
-            else {
-                alert("검색 api에서 오류가 발생했습니다. 다시 검색해주세요!")
+            else if (status === kakao.maps.services.Status.ERROR) {
+                alert("검색 중 오류가 발생했습니다.")
             }
         }
     });
