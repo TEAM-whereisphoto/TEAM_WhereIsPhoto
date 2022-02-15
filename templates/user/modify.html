@@ -1,0 +1,14 @@
+
+{% block content %}
+<h1>회원수정</h1>
+    <form action="{% url 'user:modify' %}" method="POST">
+        {% csrf_token %}
+        이메일 : <input type="email" name="email" value="{{ user.email }}">
+        ID : <input type="text" name="username" value="{{ user.username }}">
+
+        <input type="submit" value="회원수정">
+    </form>
+    <a href="{% url 'user:delete' %}">회원탈퇴</a>
+    <a href="{% url 'user:change_password' %}">패스워드 변경</a>
+    <a href="{% url 'user:main' %}">마이페이지로</a>
+{% endblock %}

@@ -7,16 +7,7 @@ def list(request):
 
     brand_list = []
     for brand in brands:
-        if brand.retake == "yes":
-            retake =  "possible"
-        else:
-            retake = "impossible"
-        
-        if brand.remote == "yes":
-            remote = "possible"
-        else:
-            remote = "impossible"
-        brand_detail = [brand.name, retake, remote, brand.time]
+        brand_detail = [brand.name, brand.retake, brand.remote, brand.time, brand.img]
 
         etcs = brand.frame_set.all()
         etcList = []

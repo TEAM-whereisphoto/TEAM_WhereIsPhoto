@@ -13,10 +13,12 @@
         <p>Reviews         <a href="{% url 'user:my_review' %}">></a></p>
         <p>Privacy</p>
     </div>
-    <a href="{% url 'user:change_password' %}">비밀번호 변경</a>
-    <a href="{% url 'user:log_out' %}">로그아웃</a>
+    <a href="{% url 'user:modify' %}">Edit profile</a>
+    <a href="{% url 'user:log_out' %}">log out</a>
+
+    <a href="{% url 'user:notice' %}">notice</a>
     {% if len != 0 %}
-    <a href="{% url 'user:notice' %}">새로운 알림 {{ len }}개</a>
+    <a href="{% url 'user:notice' %}">{{ len }}</a>
     {% endif %}
     
     {% else %}

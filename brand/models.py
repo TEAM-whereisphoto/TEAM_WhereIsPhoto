@@ -12,6 +12,7 @@ class Brand(models.Model):
     etc = models.TextField(null=True)
     # 촬영 시간
     time = models.CharField(max_length=50)
+    img = models.ImageField()
 
     def __str__(self):
         return self.name

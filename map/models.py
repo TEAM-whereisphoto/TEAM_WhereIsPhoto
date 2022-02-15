@@ -65,6 +65,9 @@ class Review(models.Model):
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
+    content = models.TextField()
+    img = models.ImageField(blank=True, null=True, upload_to="Review")
+
     boothid = models.IntegerField(default=0)
     rate = models.IntegerField(default=0,
                                validators=[
