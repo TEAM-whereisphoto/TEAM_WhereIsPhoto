@@ -317,6 +317,21 @@ function main(boothList){
     
     });
     
+    // 목록 필터 지도로 연동
+    returnmap.addEventListener('click', function() {
+
+        for (let i=1; i<filterGroup2.childElementCount; i=i+2) {
+    
+            if (!filterGroup2.children[i-1].checked) { // 필터가 체크되어있지 않다면
+                filterGroup.children[i-1].checked = false;
+            }
+            else {
+                filterGroup.children[i-1].checked = true;
+            }
+        }
+        filterGroup.click()
+    });
+
     // 6. 브랜드 필터 끝 -----------------------------------------------------------------------------
     
 
@@ -625,7 +640,7 @@ function main(boothList){
             let getId = boothSmall.children[0].children[0].dataset.id
             window.location.href = "/find/booth/detail/"+getId
         })
-        
+
         return 0;
     }
 
