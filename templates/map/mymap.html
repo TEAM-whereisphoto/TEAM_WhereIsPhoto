@@ -93,9 +93,11 @@
                 <!-- 목록 표시 버튼 -->
                 <div id="listButton">
                     <button style="position: absolute; z-index: 32; right: 1rem; bottom: 1rem;" id="list-btn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/>
-                            <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(255,255,255,1)"/></svg>
-                            목록
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z" fill="rgba(255,255,255,1)"/>
+                        </svg>
+                        목록
                     </button>
                 </div>
             </div>
@@ -103,7 +105,7 @@
 
         <div>
             <!-- 목록 표시 페이지(?) -->
-            <div class="offcanvas offcanvas-bottom overflow-auto h-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas offcanvas-end overflow-auto h-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
                     <img id="return-map" style="box-shadow: none;" src="../../static/icons/map_icon.svg" type="button" class="text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></img>
                     <!-- <h5 id="offcanvasRightLabel">Offcanvas right</h5> -->
