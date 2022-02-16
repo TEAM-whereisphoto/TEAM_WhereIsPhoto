@@ -485,7 +485,8 @@ function main(boothList){
         const boothId = boothElement["pk"];
         const hour = boothElement["operationHour"];
             
-        const rating = boothElement["rating"];
+        const rating = boothElement["rate_average"];
+        const width = rating*20
         const reviewnum = boothElement["review_number"];
         var distance = Math.round(boothElement["len"])
 
@@ -519,8 +520,15 @@ function main(boothList){
 
                 <button class="btn btn-outline-ratingNlike container d-block mx-auto" style="width: 75%; margin: 1rem 0;">
                     <div class="row">
-
-                        <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                        <div class="star-rating col">
+                            <div class="star-rating-fill" style= "width: ${width}%;">                
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                            <div class="star-rating-base">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                        </div>
+                            
                         | 
                         <div class = "col" style="color: #484848">${ reviewnum } review(s)</div>  
                     </div>
@@ -536,9 +544,17 @@ function main(boothList){
                 <div style="margin: 0 0 0 2rem;">
                     <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                     
-                    <div style="margin: 0.5rem 0 0 0; color: #6D6D79;">
-                    ★ ${ rating }
-                    |
+                    <div style="margin: 0.5rem 0 0 0;">
+                    <a style=" color: #6D6D79 !important;" href="/find/booth/detail/${ boothId }/review">
+                        <div class="star-rating">
+                            <div class="star-rating-fill" style= "width: ${width}%;">                
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                            <div class="star-rating-base">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                        </div>
+                    | 
                     ${ reviewnum } review(s)
                     </div>
                     
