@@ -107,3 +107,18 @@ body {
 .offcanvas-backdrop {
     background-color: transparent !important;
 }
+
+/* filter 관련 */
+.card {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.card-body {
+    padding: 4rem 1rem;
+}
+
+#list-filter {
+    padding: 0
+}
+

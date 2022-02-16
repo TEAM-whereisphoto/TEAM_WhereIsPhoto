@@ -56,36 +56,38 @@
                 </div>
 
                 <!-- 브랜드 필터 -->
-                <button style="position: absolute; z-index: 3; top: 4.5rem; left: 0" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <button style="position: absolute; z-index: 3; top: 4.5rem; left: 0" class="btn btn-primary d-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
                     브랜드 필터
+                </button>
+
+                <button class="btn btn-primary d-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="true" aria-controls="collapseExample2">
+                    브랜드 필터(리스트)
                 </button>
                 
 
-                <div class="collapse" id="collapseExample">
+                <div class="collapse show" id="collapseExample">
                     <div class="card card-body" style="z-index: 5;">
-                        
+                        <div class="btn-group overflow-auto" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup">
+                        <!-- style="position: absolute; z-index: 3; top: 4.5rem; left: 0" -->
+
+                            <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour">인생네컷</label>
+
+                            <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism">포토이즘박스</label>
+
+                            <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature">포토시그니처</label>
+
+                            <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix">셀픽스</label>
                             
-                    <div class="btn-group overflow-auto" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup">
-                    <!-- style="position: absolute; z-index: 3; top: 4.5rem; left: 0" -->
+                            <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru">하루필름</label>
+                            
+                        </div>
 
-                        <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
-                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour">인생네컷</label>
-
-                        <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
-                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism">포토이즘박스</label>
-
-                        <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
-                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature">포토시그니처</label>
-
-                        <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
-                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix">셀픽스</label>
-                        
-                        <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
-                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru">하루필름</label>
-                        
                     </div>
-
-                </div>
                 </div>
 
                 <!-- 목록 표시 버튼 -->
@@ -127,24 +129,28 @@
 
 
                 <!-- filter -->
-                <div class="btn-group overflow-auto" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup2">
+                <div class="collapse show" id="collapseExample2">
+                    <div class="card card-body" id="list-filter">
+                        <div class="btn-group overflow-auto" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup2">
 
-                    <input type="checkbox" class="btn-check" id="filter-lifefour2" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour2">인생네컷</label>
+                            <input type="checkbox" class="btn-check" id="filter-lifefour2" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour2">인생네컷</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-photoism2" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism2">포토이즘박스</label>
+                            <input type="checkbox" class="btn-check" id="filter-photoism2" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism2">포토이즘박스</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-signature2" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature2">포토시그니처</label>
+                            <input type="checkbox" class="btn-check" id="filter-signature2" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature2">포토시그니처</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-selfix2" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix2">셀픽스</label>
+                            <input type="checkbox" class="btn-check" id="filter-selfix2" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix2">셀픽스</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-haru2" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru2">하루필름</label>
-                    
-                </div>
+                            <input type="checkbox" class="btn-check" id="filter-haru2" autocomplete="off" checked>
+                            <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru2">하루필름</label>
+                            
+                        </div>
+                    </div>
+                </div>  
 
                 <hr />
                 <div class="offcanvas-body">
