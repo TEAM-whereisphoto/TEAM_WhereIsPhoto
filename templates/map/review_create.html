@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% if user.is_authenticated %}
 <h1> .</h1>
 <h1> .</h1>
 <h1> .</h1>
@@ -14,4 +15,11 @@
       <br>
         <button type="submit">save</button>
     </form>
+
+  {% else %}
+  <script type="text/javascript">
+    alert('로그인을 먼저 해주세요.!')
+    window.location.href = '{% url "user:login" %}'
+  </script>
+{% endif %}
 {% endblock %}
