@@ -62,16 +62,23 @@ def post_detail(request,pk):
 
 def post_update(request, pk):
     post = get_object_or_404(LnF_Post, id=pk)
+    booths = Booth.objects.all()
 
     if request.method == 'POST':
+        booth_name = request.POST.get('booth')
         form = PostForm(request.POST, request.FILES, instance=post)
+
         if form.is_valid():
+            post.booth = get_object_or_404(Booth, name=booth_name)
             post = form.save(commit=False)
             post.save()
         return redirect('LnF:post_detail', pk)
+
     else:
+        booth = post.booth
+        print(booth)
         form = PostForm(instance=post)
-        ctx = {'form': form}
+        ctx = {'form': form, 'booths':booths, 'booth':booth}
         return render(request, 'LnF/new.html', context=ctx)
             
 def post_delete(request, pk):

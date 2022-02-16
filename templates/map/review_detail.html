@@ -6,8 +6,16 @@
     <div>
       <h5>유저 : {{ review.user }}</h5>
       <h5>날짜 : {{ review.date }}</h5>
-      <h5>별점 : {{ review.rate }}</h5>
-
+      <h5>별점 :</h5>
+      <div class="star-rating">
+        <div class="star-rating-fill" style= "width: {{review.getWidth}}%;">                
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <div class="star-rating-base">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+    </div>
+    
         {% if review.img %}
         이미지 : <img src="{{ review.img.url }}" alt="" width="auto"> 
         {% endif %}
@@ -22,14 +30,20 @@
         </h5>
     </div>
     <div>
-        <h5> 이미지 :
+        <h5> color :
             {% for color in colors %}
                 {{color}} /
             {% endfor%}
-            </h5>
-    </div>>
-    <a href="{% url 'map:booth_review_list' pk %}">lists</a> <br />
-    <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
-    <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
+        </h5>
+    </div>
+    <div>
+        내용: {{ review.content }}
+    </div>
+
+    <a href="{% url 'map:booth_review_list' review.booth.id %}">lists</a> <br />
+    {% if review.user == request.user %}
+        <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
+        <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
+    {% endif %}
 
 {% endblock %}
