@@ -91,7 +91,7 @@ body {
   /* small detail 창 */
 .offcanvas-body {
     flex-grow: 1;
-    padding: 0rem 1rem !important;
+    padding: 1rem !important;
     overflow-y: auto;
 }
 

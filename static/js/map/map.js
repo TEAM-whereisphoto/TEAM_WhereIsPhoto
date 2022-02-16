@@ -133,7 +133,6 @@ const returnmap = document.getElementById('return-map') // 지도 돌아가는 '
 // booth 작은 detail 표시해둘 dom
 const boothSmall = document.getElementById('booth-small');
 const boothSmallBtn = document.getElementById('booth-small-btn');
-const boothSmallTitle = document.getElementById("offcanvasBottomLabel");
 // 범위 내의 booth list 저장해두는 array
 let mapboundbooth = []
 
@@ -234,7 +233,6 @@ function main(boothList){
 
             // offcanvas 내용을 표시합니다.
             boothSmall.innerHTML='';
-            boothSmallTitle.innerHTML='';
     
             // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
             // console.log(booth["name"])
@@ -486,26 +484,25 @@ function main(boothList){
         }
         
         let hourContent = ''
-        if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
+        if (hour) { hourContent = `<p style="margin: 1rem 0 0 2rem; font-family: ROKAFSansMedium;" class="fs-6">
+        ${ hour }
+        </p>` } // 시간 null 아닌 경우만 표시
         var pinsrc = eval(brand_dict[brand]+"Src")
 
         const newdiv = document.createElement('div');
         
         if (small) { // 작은 detail 표시하는 경우
-            boothSmallTitle.setAttribute("href", `/find/booth/detail/${ boothId }`)
-            boothSmallTitle.innerHTML = 
-            `<img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }`
-
             newdiv.innerHTML =
-            `<div id="list-${ boothId }" data-id="${ boothId }">
+            `<a id="list-${ boothId }" data-id="${ boothId }" href="/find/booth/detail/${ boothId }">
+                <div class="fs-4">
+                    <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
+                </div>
 
-                <p style="margin: 0 0 0 2rem">${distance} | ${ address }</p>
+                <p style="margin: 1rem 0 0 2rem; font-family: ROKAFSansMedium;" class="fs-6">${distance} | ${ address }</p>
 
-                <p style="margin: .5rem 0 0 2rem">
                 ${ hourContent }
-                </p>
 
-                <button class="btn btn-outline-ratingNlike container d-block mx-auto" style="width: 75%; margin: 1rem 0;">
+                <button class="btn btn-outline-ratingNlike container" style="width: 75%; margin: 1rem 0 0 2rem;">
                     <div class="row">
                         <div class="star-rating col">
                             <div class="star-rating-fill" style= "width: ${width}%;">                
@@ -515,34 +512,32 @@ function main(boothList){
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                             </div>
                         </div>
-                            
                         | 
                         <div class = "col" style="color: #484848">${ reviewnum } review(s)</div>  
                     </div>
                 </button>
         
-            </div>`;
+            </a>`;
                 // <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
         }
         else { // 전체 목록 list print하는 경우
             newdiv.innerHTML = 
             `<div id="wholelist-${ boothId }" data-id="${ boothId }">
                 <div style="font-size: 20px; color: #000;"><img style="width: 30px; margin-right: 5px" src=${ pinsrc }></img>${ name }</div>
+
                 <div style="margin: 0 0 0 2rem;">
+
                     <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                     
-                    <div style="margin: 0.5rem 0 0 0;">
-                    <a style=" color: #6D6D79 !important;">
-                        <div class="star-rating">
+                    <div style="margin: 0.5rem 0 0 0; display: inline-flex;">
+                        <div class="star-rating pe-1">
                             <div class="star-rating-fill" style= "width: ${width}%;">                
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                             </div>
                             <div class="star-rating-base">
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                             </div>
-                        </div>
-                    | 
-                    ${ reviewnum } review(s)
+                        </div> | ${ reviewnum } review(s)
                     </div>
                     
                 </div>
