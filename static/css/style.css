@@ -70,7 +70,7 @@ header {
 
 .navbar__link {
     display: block;
-    padding: .5rem 1rem;
+    padding: 1rem 0;
     color: black;
     text-decoration: none;
     font-family:'SUIT', sans-serif;
