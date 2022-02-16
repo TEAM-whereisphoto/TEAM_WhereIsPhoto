@@ -434,7 +434,8 @@ function main(boothList){
         const boothId = boothElement["pk"];
         const hour = boothElement["operationHour"];
             
-        const rate_average = boothElement["rate_average"];
+        const rating = boothElement["rate_average"];
+        const width = rating*20
         const reviewnum = boothElement["review_number"];
         var distance = Math.round(boothElement["len"])
 
@@ -467,8 +468,15 @@ function main(boothList){
 
                 <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
                     <div class="row">
-
-                        <div class = "col" style="color: #FFD107;">★ ${ rate_average }</div>
+                        <div class="star-rating col">
+                            <div class="star-rating-fill" style= "width: ${width}%;">                
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                            <div class="star-rating-base">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                        </div>
+                            
                         | 
                         <div class = "col"> <a style="color: #484848" href="/find/booth/detail/${ boothId }/review">${ reviewnum } review(s)</a></div>  
                     </div>
@@ -486,7 +494,14 @@ function main(boothList){
                     
                     <div style="margin: 0.5rem 0 0 0;">
                     <a style=" color: #6D6D79 !important;" href="/find/booth/detail/${ boothId }/review">
-                    ★ ${ rating }
+                        <div class="star-rating">
+                            <div class="star-rating-fill" style= "width: ${width}%;">                
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                            <div class="star-rating-base">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                        </div>
                     | 
                     ${ reviewnum } review(s)
                     </a>

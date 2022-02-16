@@ -29,7 +29,7 @@ class Booth(models.Model):
     review_number = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name + "("+str(self.brand)+")"
+        return self.name
 
 # user - liked - booth 다 대 다 연결
 class Liked(models.Model):
