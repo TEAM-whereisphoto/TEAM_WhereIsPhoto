@@ -12,12 +12,21 @@ from random import randint
 from map.models import Review
 from LnF.models import *
 
+#Liked 구현 - 뷰인가 모델인가?
+# from map.views import booth_detail
+from map.models import Liked
+
 from django.contrib.auth.decorators import login_required
 # AnonymousUser 예외처리
 @login_required
 def main(request):
     users = request.user
 
+    #좋아요
+    users = request.user
+    my_like = Liked.objects.get(user=users)
+    if my_like.dolike == True:
+        print(my_like.booth)
     #리뷰
     reviews_posts = Review.objects.filter(user = users)
 
