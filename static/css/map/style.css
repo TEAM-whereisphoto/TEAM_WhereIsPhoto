@@ -3,6 +3,16 @@
 } */
 /* css 적용되는지 확인용 */
 
+@font-face {
+    font-family: 'ROKAFSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: ROKAFSansMedium !important;
+}
 
 .btn {
     border-radius: 1rem !important;
@@ -14,10 +24,18 @@
     border-color: #B5B5CD !important;
 }
 
-.btn-outline-primary, .btn-outline-primary:hover {
-    background-color: #B5B5CD;
-    color: #FFF;
-    border-color: #B5B5CD;
+/* .btn-check, */
+.btn-outline-primary,
+.btn-outline-primary:hover {
+    background-color: #B5B5CD !important;
+    color: #FFF !important;
+    border-color: #B5B5CD !important;
+}
+
+.btn-check:checked+.btn-outline-primary {
+    color: #fff !important;
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
 }
 
 .btn-outline-ratingNlike {
@@ -71,9 +89,9 @@
 
 
   /* small detail 창 */
-  .offcanvas-body {
+.offcanvas-body {
     flex-grow: 1;
-    padding: 0rem 1rem;
+    padding: 0rem 1rem !important;
     overflow-y: auto;
 }
 
@@ -81,67 +99,11 @@
     outline: 0;
 }
 
-.offcanvas-bottom{
-    transform: none;
+.offcanvas-end{
+    border: none !important;
+    transform: none !important;
 }
-/* review-detail star-rate */
-.star-rating {
-    color: #aaa9a9; 
-    position: relative;
-    unicode-bidi: bidi-override;
-    width: max-content;
-    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 1.3px;
-    -webkit-text-stroke-color: #2b2a29;
-  }
-   
-  .star-rating-fill {
-    color: #fff58c;
-    padding: 0;
-    position: absolute;
-    z-index: 1;
-    display: flex;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    -webkit-text-fill-color: gold;
-  }
-   
-  .star-rating-base {
-    z-index: 0;
-    padding: 0;
-  }
 
-  /* new_review star rate */
-  .new-star-rating {
-    display: flex;
-    flex-direction: row-reverse;
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    justify-content: space-around;
-    padding: 0 0.2em;
-    text-align: center;
-    width: 5em;
-  }
-   
-  .new-star-rating input {
-    display: none;
-  }
-   
-  .new-star-rating label {
-    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 2.3px;
-    -webkit-text-stroke-color: #2b2a29;
-    cursor: pointer;
-  }
-   
-  /* 클릭시 별 색깔 */
-  .new-star-rating :checked ~ label {
-    -webkit-text-fill-color: gold;
-  }
-   
-  /* hover시 별 색깔 */
-  .new-star-rating label:hover,
-  .new-star-rating label:hover ~ label {
-    -webkit-text-fill-color: #fff58c;
-  }
+.offcanvas-backdrop {
+    background-color: transparent !important;
+}

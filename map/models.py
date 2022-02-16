@@ -78,5 +78,8 @@ class Review(models.Model):
     tag = MultiSelectField(choices = TAG_CHOICES)
     color = MultiSelectField(choices = COLOR_CHOICES)
 
+    @property
+    def getWidth(self):
+        return self.rate*20
 
 

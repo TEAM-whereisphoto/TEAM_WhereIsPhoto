@@ -41,10 +41,6 @@
         </div>
     
         <h6>{{booth.rate_average}}</h6>
-        
-        <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
-        <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
-
         <br>
     </div>
 
@@ -54,34 +50,35 @@
         {% for review in reviews %}
             <div>
                 <span>
-                    {{review.content}}
+                    <a href="{% url 'map:review_detail' review.id %}">{{review.content}}</a>
                 </span>
                 <span>
                     {{review.user.username}}
                 </span>
                 <span>
-                    {{review.time}}
+                    {{review.date|date:'m월 d일'}}
                 </span>
-                
             </div>
-        {% endfor %}
+            {% endfor %}
+            <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
+            <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
     </div> 
     <div>
         <br>
         <h4>태그</h4>
         {% for tag in tag_list %}
             <h6>
-                {% if tag.0 == 'clean' %}
-                    시설이 깨끗해요
-                {% elif tag.0 == 'prop' %}
-                    소품이 다양해요
-                {% elif tag.0 == 'booth' %}
-                    부스가 많아요
-                {% elif tag.0 == 'iron' %}
-                    고데기가 있어요
-                {% elif tag.0 == 'street' %}
-                    로드점이에요
-                {% endif %}
+            {% if tag.0 == 'clean' %}
+                시설이 깨끗해요
+            {% elif tag.0 == 'prop' %}
+                소품이 다양해요
+            {% elif tag.0 == 'booth' %}
+                부스가 많아요
+            {% elif tag.0 == 'iron' %}
+                고데기가 있어요
+            {% elif tag.0 == 'street' %}
+                로드점이에요
+            {% endif %}
             {{tag.1}}개 </h6>
         {% endfor %}
     </div>
@@ -90,19 +87,9 @@
         <br>
         <h4>Lost and Found</h4>
         {% for lnf in lnfs %}
-            {% if lnf.tag == '분실' %}
-            <h6>분실</h6>
-            {{lnf.title}}
-
-            {% elif lnf.tag == '보관' %}
-            <h6>보관</h6>
-            {{lnf.title}}
-
-            {% else %}
-            <h6>기타</h6>
-            {{lnf.title}}
-
-            {% endif %}
+        <div>
+            {{lnf.tag}}: {{lnf.content}}
+        </div>
         {% endfor %}
         <br>
 
