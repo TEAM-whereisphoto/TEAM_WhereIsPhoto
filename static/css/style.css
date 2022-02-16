@@ -90,3 +90,8 @@ header {
 .main__btn {
     background-color : #C979D0
 }
+
+.user__title {
+    font-family: ROKAFSansMedium;
+    color: black;
+}

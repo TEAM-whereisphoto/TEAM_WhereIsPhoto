@@ -1,22 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div>
-    <div> TEST </div>
-    {% if user.is_authenticated %}
-    <div>
-        <h3>{{ user }}</h3>
-        <div>
-            <p>{{ user }}님! 여기사진과 함께 다양한 부스를 방문해보세요😉   </p>
-        </div>
-        <p>Dashboard</p>
-        <p>Lost and Found       <a href="{% url 'user:my_lnf' %}">></a></p>
-        <p>Reviews         <a href="{% url 'user:my_review' %}">></a></p>
-        <p>Privacy</p>
-    </div>
-    <a href="{% url 'user:modify' %}">Edit profile</a>
-    <a href="{% url 'user:log_out' %}">log out</a>
 
-    <a href="{% url 'user:notice' %}">notice</a>
+<div>
+    {% if user.is_authenticated %}
+    <div class="all">
+        <p>{{ user }}</p>
+        <div>
+            <p>{{ user }}님! 여기사진과 함께 다양한 부스를 방문해보세요😉</p>
+        </div>
+        <div>
+            <p>liked</p>
+            {% if my_like_exist == 0 %}
+                <p> 좋아요 한 매장이 없습니다. </p>
+            {% else %}
+                {% for my_like in my_likes %}
+                    {% if my_like.dolike == True %}
+                        <p>{{ my_like.booth }}</p>
+                        {% if flag == 1 %}
+                            <!-- 플래그안됨 -->
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <p>Dashboard</p>
+            <div>
+                <p><img src="../static/icons/LnF.svg">Lost and Found<a href="{% url 'user:my_lnf' %}">></a></p>      
+                <p><img src="../static/icons/review.svg">Reviews<a href="{% url 'user:my_review' %}">></a></p>
+                <p><img src="../static/icons/notice.svg">notice<a href="{% url 'user:notice' %}">></a></p>
+            </div>
+        </div>
+        <div>
+            <div class="log"><a href="{% url 'user:log_out' %}">log out</a></div>
+            <div><a href="{% url 'user:modify' %}">Edit profile</a></div>
+        </div>
+    </div>
+
     {% if len != 0 %}
     <a href="{% url 'user:notice' %}">{{ len }}</a>
     {% endif %}

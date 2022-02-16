@@ -9,25 +9,44 @@ from .forms import LoginForm, SignupForm
 from random import randint
 
 # 리뷰 가져오기
-from map.models import Review
 from LnF.models import *
 
-#Liked 구현 - 뷰인가 모델인가?
-# from map.views import booth_detail
-from map.models import Liked
+#Liked 구현 
+from map.models import *
 
 from django.contrib.auth.decorators import login_required
 # AnonymousUser 예외처리
 @login_required
 def main(request):
     users = request.user
+    # booth = get_object_or_404(Booth)
 
     #좋아요
-    users = request.user
-    my_like = Liked.objects.get(user=users)
-    if my_like.dolike == True:
-        print(my_like.booth)
-    #리뷰
+    my_likes = Liked.objects.filter(user = users)
+    print(my_likes)
+
+    # all_likes =[] 해서 list 만들어서 저장? for돌리고 또 if?
+    
+    # flag = 0
+    # for my_like in my_likes:
+    #     if "인생네컷" in str(my_like.booth):
+    #         flag = 1
+    #     elif "포토이즘" in str(my_like.booth):
+    #         flag = 2
+    #     else:
+    #         flag = 0
+    
+
+    # 좋아요의 여부
+    
+    try:
+        my_like_exist = Liked.objects.get(user=users)
+    except Liked.DoesNotExist:
+        my_like_exist = 0
+    except Liked.MultipleObjectsReturned:
+        my_like_exist = 1
+
+    # 리뷰
     reviews_posts = Review.objects.filter(user = users)
 
     comments = getNew(users)
@@ -39,7 +58,8 @@ def main(request):
     except Review.MultipleObjectsReturned:
         my_review_exist = 1
  
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments)}
+    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments), 'my_like_exist':my_like_exist, 
+    'my_likes': my_likes, 'flag': flag}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
