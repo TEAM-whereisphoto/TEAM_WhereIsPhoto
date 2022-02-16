@@ -269,7 +269,6 @@ function main(boothList){
     
     // 바뀐 범위의 booth들 찾는 함수
     function findBoundBooth() {
-        console.log("3번 얘가 움직인 셈 이라 이거 자동 실행(ㄴㄴtrigger해줌) 다음")
         mapboundbooth = []
         // 현재 범위 안의 booth들 담아놓는 객체 초기화
     
@@ -285,6 +284,7 @@ function main(boothList){
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
             if (bounds.contain( boothcoord )) { mapboundbooth.push(booth) }
         }
+
     }
     
     // 5. map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
@@ -373,7 +373,6 @@ function main(boothList){
     const searchInput2 = document.getElementById('search-placeholder2');
 
     function searchLocation(input) {
-        console.log("얘가 1번이어야 하고")
         var keyword = input.value
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -396,9 +395,8 @@ function main(boothList){
                 }       
 
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-                console.log("이게 2번이 아니야?")
-                map.setBounds(searchbounds);
-                kakao.maps.event.trigger(map, 'bounds_changed')
+                map.setBounds(searchbounds); //2
+                setList();
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
@@ -407,11 +405,7 @@ function main(boothList){
             else if (status === kakao.maps.services.Status.ERROR) {
                 alert("검색 중 오류가 발생했습니다.")
             }
-            return 0;
         }
-
-        return 0;
-        
     }
 
     searchBtn.addEventListener('click', function() {
@@ -419,16 +413,9 @@ function main(boothList){
     });
     
     searchBtn2.addEventListener('click', function() {
-
-        getSearch();
-        // findBoundBooth(); // 얘는 범위 바뀌어서 자동실행될 줄 알았으나 강제 trigger 해줘야겠다
-        // console.log("여기로 다시 돌아와서 4번 setList 할건데")
+        searchLocation(searchInput2);       
     });
 
-    async function getSearch() {
-        searchLocation(searchInput2);
-        var result = await setList();
-    }
 
     searchInput.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
@@ -444,6 +431,7 @@ function main(boothList){
         if (event.key === 'Enter') {
             event.preventDefault(); // 새로고침 방지
             // Trigger the button element with a click
+
             searchBtn2.click();
         }
     });
@@ -461,7 +449,6 @@ function main(boothList){
     // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
 
     refresh.addEventListener('click', function() {
-        console.log("refresh")
         gps_check();
     });
 
@@ -545,7 +532,7 @@ function main(boothList){
                     <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                     
                     <div style="margin: 0.5rem 0 0 0;">
-                    <a style=" color: #6D6D79 !important;" href="/find/booth/detail/${ boothId }/review">
+                    <a style=" color: #6D6D79 !important;">
                         <div class="star-rating">
                             <div class="star-rating-fill" style= "width: ${width}%;">                
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -614,13 +601,12 @@ function main(boothList){
     }); 
 
     function setList() {
-        console.log("5번인가 아무튼 setList는 여기임")
         if(mapboundbooth.length) {
             boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
         }
         else {
             boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'
-            return;
+            return 0;
         }
 
         curCenter = map.getCenter()
@@ -657,7 +643,6 @@ function main(boothList){
             window.location.href = "/find/booth/detail/"+getId
         })
 
-        return 0;
     }
 
     // 10. 목록 끝 -----------------------------------------------------------------------------
