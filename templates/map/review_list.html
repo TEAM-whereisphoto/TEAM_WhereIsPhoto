@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h4>{{ boothname }}</h4>
+    <h4>{{ booth.name }}</h4>
+    <a href="{% url 'map:booth_detail' booth.id%}">detail</a>
+    
 
     {% for review in reviews %}
-    <a href="{% url 'map:review_detail' review.id %}"><h4>작성자 : {{review.user}}</h4></a>
-        <h6>{{review.color}}</h6>
-        <h6>{{review.tag}}</h6>
-    <br>
+    <a href="{% url 'map:review_detail' review.id %}">
+        <div>
+            <h4>작성자 : {{review.user}}</h4>
+            <h6>{{review.color}}</h6>
+            <h6>{{review.tag}}</h6>
+        <br>
+        </div>
+        
+    </a>
+        
 
     {% endfor %}
 
-    <a href="{% url 'map:booth_review_create' pk %}">리뷰 작성 </a>
+    <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
 
 
 {% endblock %}

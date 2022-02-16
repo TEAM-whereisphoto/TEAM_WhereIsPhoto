@@ -1,20 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from .models import *
-
 from LnF.models import LnF_Post
-from brand.models import Brand
-from brand.models import Frame
-from user.models import User
-
-from django.templatetags.static import static
-from django.db.models import Q
-import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
-import operator
-
 
 # Create your views here.
 def mainpage(request):
@@ -76,18 +65,15 @@ def booth_detail(request,pk):
     else:
         currentLikeState = False
 
-    tag_dic = tag_count(pk)
-    tag_dic = sorted(tag_dic, key= lambda x: (x[0],-x[1]), reverse = True)
-
+    tag_list = tag_count(pk)
     width = booth.rate_average * 20 
-
-    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_dic': tag_dic, 'currentLikeState': currentLikeState, 'width':width}
+    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_list': tag_list, 'currentLikeState': currentLikeState, 'width':width}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
-    ctx = {'reviews': reviews,'pk':pk, 'boothname':booth.name}
+    ctx = {'reviews': reviews,'booth':booth, 'boothname':booth.name}
     return render(request, template_name='map/review_list.html', context=ctx)
 
 def booth_review_create(request, pk):
@@ -118,7 +104,6 @@ def booth_review_create(request, pk):
 
 def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk를 받는다. 게시물 상세조
     review = Review.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다
-    tags = []
     tags = review.tag
     colors = review.color
 
@@ -187,7 +172,6 @@ def like_ajax(request, pk):
 # login o, currentLikeState: True -> False
 def dislike_ajax(request, pk):
     booth = get_object_or_404(Booth, id=pk)
-    user = request.user
     like = Liked.objects.get(user = request.user, booth = booth)
     
     like.dolike = False

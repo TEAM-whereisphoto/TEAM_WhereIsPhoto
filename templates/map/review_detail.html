@@ -28,8 +28,10 @@
             {% endfor%}
             </h5>
     </div>>
-    <a href="{% url 'map:booth_review_list' pk %}">lists</a> <br />
-    <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
-    <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
+    <a href="{% url 'map:booth_review_list' review.booth.id %}">lists</a> <br />
+    {% if rebiew.user == request.user %}
+        <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
+        <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
+    {% endif %}
 
 {% endblock %}
