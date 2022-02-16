@@ -62,33 +62,6 @@ def tag_count(pk):
     tag_list = sorted(tag_list, key= lambda x: -x[1])
     return tag_list
 
-# def booth_brand(request, pk):
-
-#     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-#     like = Liked.objects.all()
-#     avg(pk)  # 왜 새로고침해야 뜨는거지
-#     brandname = booth.brand
-#     brand = Brand.objects.get(name=brandname)
-#     brand_list = []
-#     if brand.retake == 1:
-#         retake = "possible"
-#     else:
-#         retake = "impossible"
-#     if brand.remote == 1:
-#         remote = "possible"
-#     else:
-#         remote = "impossible"
-#     brand_detail = [brand.name, retake, remote, brand.time]
-#     etcs = brand.frame_set.all()
-#     etcList = []
-#     for etc in etcs:
-#         etcList.append([etc.price, etc.frame, etc.take])
-#     brand_detail.append(etcList)
-#     brand_list.append(brand_detail)
-
-#     return brand_list
-
-
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
@@ -104,8 +77,8 @@ def booth_detail(request,pk):
 
     tag_dic = tag_count(pk)
     tag_dic = sorted(tag_dic, key= lambda x: (x[0],-x[1]), reverse = True)
-
-    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_dic': tag_dic, 'currentLikeState': currentLikeState}
+    width = booth.rate_average * 20 
+    ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_dic': tag_dic, 'currentLikeState': currentLikeState, 'width':width}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
 def booth_review_list(request,pk):
@@ -119,13 +92,16 @@ def booth_review_create(request, pk):
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
+        rate = request.POST.get('rating')
+
         if form.is_valid():
             post = form.save(commit=False)
             post.booth = booth
             post.user = request.user
             post.boothid = pk
-
+            post.rate = rate
             booth.review_number += 1
+
             post.save()
             booth.save()
             save_booth_rate_avg(pk)
@@ -150,12 +126,18 @@ def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
     boothid = review.boothid
+
     if request.method == 'POST':
+        rate = request.POST.get('rating')
         form = ReviewForm(request.POST, request.FILES)
+
         if form.is_valid():
+            review.rate = rate
+            review.save()
             review = form.save(commit=False)
             save_booth_rate_avg(pk)
             return redirect('map:booth_review_list', boothid)
+
     else:
         form = ReviewForm(instance=review)
         ctx = {'form': form,'pk':pk}
