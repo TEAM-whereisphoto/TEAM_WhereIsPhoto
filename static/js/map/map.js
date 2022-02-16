@@ -434,7 +434,7 @@ function main(boothList){
         const boothId = boothElement["pk"];
         const hour = boothElement["operationHour"];
             
-        const rating = boothElement["rating"];
+        const rate_average = boothElement["rate_average"];
         const reviewnum = boothElement["review_number"];
         var distance = Math.round(boothElement["len"])
 
@@ -468,7 +468,7 @@ function main(boothList){
                 <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
                     <div class="row">
 
-                        <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
+                        <div class = "col" style="color: #FFD107;">★ ${ rate_average }</div>
                         | 
                         <div class = "col"> <a style="color: #484848" href="/find/booth/detail/${ boothId }/review">${ reviewnum } review(s)</a></div>  
                     </div>

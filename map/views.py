@@ -115,7 +115,7 @@ def booth_review_list(request,pk):
     return render(request, template_name='map/review_list.html', context=ctx)
 
 def booth_review_create(request, pk):
-    booth = get_object_or_404(id=pk)
+    booth = get_object_or_404(Booth, id=pk)
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
@@ -222,7 +222,7 @@ def search(request):
 
 @csrf_exempt
 def load(request):
-    booths = list(Booth.objects.values("pk", "name", "location", "x", "y", "rating", "likenum", "operationHour", "brand__name", "review_number"))
+    booths = list(Booth.objects.values("pk", "name", "location", "x", "y", "rate_average", "likenum", "operationHour", "brand__name", "review_number"))
     return JsonResponse({'boothList': booths})
 
     # [{id, name, location, x, y, rating, likenum, operationHour, brand}, {}]
