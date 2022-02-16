@@ -66,9 +66,10 @@ def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
     reviews = Review.objects.filter(booth = booth.pk)
     lnfs = LnF_Post.objects.filter(booth= booth.pk)
+
     if request.user.is_authenticated:
         try:
-            liked = Liked.objects.get(user = request.user)
+            liked = Liked.objects.get(user = request.user, booth= booth)
             currentLikeState = liked.dolike
         except Liked.DoesNotExist:
             currentLikeState = False
@@ -77,7 +78,9 @@ def booth_detail(request,pk):
 
     tag_dic = tag_count(pk)
     tag_dic = sorted(tag_dic, key= lambda x: (x[0],-x[1]), reverse = True)
+
     width = booth.rate_average * 20 
+
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_dic': tag_dic, 'currentLikeState': currentLikeState, 'width':width}
     return render(request, template_name='map/booth_detail.html', context=ctx)
 
@@ -170,7 +173,7 @@ def like_ajax(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     user = request.user
     try:
-        like = Liked.objects.get(user = request.user)
+        like = Liked.objects.get(user = request.user, booth=booth)
 
     except Liked.DoesNotExist:
         like = Liked.objects.create(booth = booth, user = user)
@@ -185,7 +188,7 @@ def like_ajax(request, pk):
 def dislike_ajax(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     user = request.user
-    like = Liked.objects.get(user = request.user)
+    like = Liked.objects.get(user = request.user, booth = booth)
     
     like.dolike = False
     booth.likenum -= 1
