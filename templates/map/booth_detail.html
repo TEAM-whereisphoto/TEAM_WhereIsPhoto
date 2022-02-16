@@ -5,110 +5,120 @@
 <script defer type="text/javascript" src="{% static 'js/map/like.js' %}"></script>
 {% endblock %}
 
+{% block header %}
+<!-- 매장찾기 파란글씨 헤더? 원래 헤더 없애고? -->
+{% endblock %}
+
+
 {% block content %}
-<div>
-    <div>
+<div class="container">
+
+    <div id="container__image">
         {% if article.image %}
         <p>
             <img src ="{{ booth.image.url }}">
-        </p>>
+        </p>
         {% endif %}
-        <h3>{{ booth.name }}</h3>
-        <h6>{{ booth.location }}</h6>
-        <div>
-            {% if request.user.is_authenticated %}
-                {% if currentLikeState %}
-                    <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
-                {% else %}
-                    <div class="heart" onclick="onClickLike({{booth.id}})" >🤍여기 매장 좋아요</div>
-                {% endif %}
-            {% else %}
-                <div class="heart" onclick="onClickAlert()" >🤍여기 매장 좋아요</div>
-            {% endif %}
-        </div>
-        <br>
     </div>
-    <div>
-        <h4>Customer reviews</h4>
-        <h6>{{booth.review_number}} Reviews</h6>
-        <div class="star-rating">
-            <div class="star-rating-fill" :style="width: {{booth.rating}}%; color: red ">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+
+    <div id="container__body">
+
+        <div id="body__name">
+            <h3>{{ booth.name }}</h3>
+            <h6>{{ booth.location }}</h6>
+            <div>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
+
+                    {% if currentLikeState %}
+                        <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
+                    {% else %}
+                        <div class="heart" onclick="onClickLike({{booth.id}})" >🤍여기 매장 좋아요</div>
+                    {% endif %}
+                {% else %}
+                    <div class="heart" onclick="onClickAlert()" >🤍여기 매장 좋아요</div>
+                {% endif %}
             </div>
-            <div class="star-rating-base">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-            </div>
+            <br>
+        </div>
+
+        <div id="body__tags">
+            <h4>태그(갯수)</h4>
+            {% for tag in tag_list %}
+                <h6>
+                    {% if tag.0 == 'clean' %}
+                        시설이 깨끗해요
+                    {% elif tag.0 == 'prop' %}
+                        소품이 다양해요
+                        {% elif tag.0 == 'booth' %}
+                        부스가 많아요
+                        {% elif tag.0 == 'iron' %}
+                        고데기가 있어요
+                    {% elif tag.0 == 'street' %}
+                        로드점이에요
+                    {% endif %}
+                    {{tag.1}}개 
+                </h6>
+            {% endfor %}
         </div>
     
-        <h6>{{booth.rate_average}}</h6>
-        
-        <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
-        <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
+        <div id="body__reviews">
+            <h6>Reviews({{booth.review_number}})</h6>
+            <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
 
-        <br>
-    </div>
-
-    <div>
-        <br>
-        <h4>리뷰 목록</h4>
-        {% for review in reviews %}
-            <div>
-                <span>
-                    {{review.content}}
-                </span>
-                <span>
-                    {{review.user.username}}
-                </span>
-                <span>
-                    {{review.time}}
-                </span>
-                
+            <div class="star-rating">
+                <div class="star-rating-fill" :style="width: {{booth.rating}}%; color: red ">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <div class="star-rating-base">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <h6>{{booth.rate_average}}</h6>
             </div>
-        {% endfor %}
-    </div> 
-    <div>
+            
+            <div id="review__list">
+                <br>
+                <h4>리뷰 목록</h4>
+                {% for review in reviews %}
+                <div>
+                    <span>
+                        {{review.content}}
+                    </span>
+                    <span>
+                        {{review.user.username}}
+                    </span>
+                    <span>
+                        {{review.time}}
+                    </span>
+                    
+                </div>
+                {% endfor %}
+            </div>
+        </div> 
         <br>
-        <h4>태그</h4>
-        {% for tag in tag_list %}
-            <h6>
-                {% if tag.0 == 'clean' %}
-                    시설이 깨끗해요
-                {% elif tag.0 == 'prop' %}
-                    소품이 다양해요
-                {% elif tag.0 == 'booth' %}
-                    부스가 많아요
-                {% elif tag.0 == 'iron' %}
-                    고데기가 있어요
-                {% elif tag.0 == 'street' %}
-                    로드점이에요
-                {% endif %}
-            {{tag.1}}개 </h6>
-        {% endfor %}
-    </div>
 
-    <div>
-        <br>
-        <h4>Lost and Found</h4>
-        {% for lnf in lnfs %}
+        <div id="body__LnF">
+            <h4>Lost and Found</h4>
+            {% for lnf in lnfs %}
             {% if lnf.tag == '분실' %}
-            <h6>분실</h6>
-            {{lnf.title}}
+                <h6>분실</h6>
+                {{lnf.title}}
 
-            {% elif lnf.tag == '보관' %}
-            <h6>보관</h6>
-            {{lnf.title}}
+                {% elif lnf.tag == '보관' %}
+                <h6>보관</h6>
+                {{lnf.title}}
 
-            {% else %}
-            <h6>기타</h6>
-            {{lnf.title}}
+                {% else %}
+                <h6>기타</h6>
+                {{lnf.title}}
 
-            {% endif %}
-        {% endfor %}
-        <br>
+                {% endif %}
+                {% endfor %}
+            <br>
 
-        <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
-        <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
-        <br>
+            <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
+            <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
+        </div>
 </div>
 
 {% endblock %}
