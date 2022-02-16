@@ -13,7 +13,7 @@
 {% block content %}
 <div class="container">
 
-    <div id="container__image">
+    <div id="boothdetail__image">
         {% if article.image %}
         <p>
             <img src ="{{ booth.image.url }}">
@@ -21,7 +21,7 @@
         {% endif %}
     </div>
 
-    <div id="container__body">
+    <div id="boothdetail__body">
 
         <div id="body__name">
             <h3>{{ booth.name }}</h3>
@@ -42,7 +42,7 @@
             <br>
         </div>
 
-        <div id="body__tags">
+        <div id="boothdetail__tags">
             <h4>태그(갯수)</h4>
             {% for tag in tag_list %}
                 <h6>
@@ -62,7 +62,7 @@
             {% endfor %}
         </div>
     
-        <div id="body__reviews">
+        <div id="boothdetail__reviews">
             <h6>Reviews({{booth.review_number}})</h6>
             <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
 
@@ -76,7 +76,7 @@
                 <h6>{{booth.rate_average}}</h6>
             </div>
             
-            <div id="review__list">
+            <div id="boothdetail__reviewlist">
                 <br>
                 <h4>리뷰 목록</h4>
                 {% for review in reviews %}
@@ -97,7 +97,7 @@
         </div> 
         <br>
 
-        <div id="body__LnF">
+        <div id="boothdetail__LnF">
             <h4>Lost and Found</h4>
             {% for lnf in lnfs %}
             {% if lnf.tag == '분실' %}
