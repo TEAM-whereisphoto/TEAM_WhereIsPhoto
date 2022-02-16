@@ -5,15 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}"> 
-    <link rel="stylesheet" href="{% static 'css/map/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- bootstrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="{% static 'css/map/style.css' %}">
     <script defer src="{% static 'js/map/map.js' %}"></script>
     
     <title>example</title>
@@ -25,28 +23,29 @@
 
     <!-- 로그인 유무에 따른 nav 차이 -->
     {% if user.is_authenticated %} 
-    <header class="sticky-top header-scrolled border-bottom bg-white" id="header">
+    <header class="sticky-top header-scrolled border-bottom bg-white">
     <div class="container align-items-center">
         <div class="navbar">
         <div class="container">
-            <a class="col-3 navbar__link active" href="{% url 'brand:list' %}">홈</a>
-            <a class="col-3 navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
-            <a class="col-3 navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
-            <a class="col-3 navbar__link active" href="{% url 'user:main' %}">마이페이지</a>
+            <a class="navbar__link active" href="{% url 'brand:list' %}">홈</a>
+            <a class="navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
+            <a class="navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
+            <a class="navbar__link active" href="{% url 'user:main' %}">마이페이지</a>
         </div>
         </div>
     </div>
     </header>  
 
     {% else %}
-    <header class="sticky-top header-scrolled border-bottom bg-white" id="header">
+    <header class="sticky-top header-scrolled border-bottom bg-white">
     <div class="container align-items-center">
         <div class="navbar">
         <div class="container">
-            <a class="col-3 navbar__link active" href="{% url 'brand:list' %}">홈</a>
-            <a class="col-3 navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
-            <a class="col-3 navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
-            <a class="col-3 navbar__link active" href="{% url 'user:login' %}">로그인</a>
+            <a class="navbar__link active" href="{% url 'brand:list' %}">홈</a>
+            <a class="navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
+            <a class="navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
+            <a class="navbar__link active" href="{% url 'user:login' %}">로그인</a>
+            <a class="navbar__link active" href="{% url 'user:signup' %}">회원가입</a>
         </div>
         </div>
     </div>
@@ -72,7 +71,7 @@
     <!-- <div class="row"> -->
         <!-- 지도 -->
         <div id="map-container">
-            <div id="map" style="height: calc(100vh - 72px);">
+            <div id="map" style="height: calc(100vh - 40px);">
                 <!-- 새로고침 버튼-->
                 <div style="cursor: pointer; position: absolute; z-index: 2; left: 0.5rem; bottom: 0.5rem;">
                     <img style="width: 60px; height: 60px;" id="refresh" src="../../static/icons/refreshBtn.svg"/>
@@ -100,33 +99,44 @@
                 </div>
 
                 <!-- 브랜드 필터 -->
-                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup"
-                style="position: absolute; z-index: 3; top: 4.5rem; left: 0">
+                <button style="position: absolute; z-index: 3; top: 4.5rem; left: 0" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    브랜드 필터
+                </button>
+                
 
-                    <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour">인생네컷</label>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body" style="z-index: 5;">
+                        
+                            
+                    <div class="btn-group overflow-auto" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup">
+                    <!-- style="position: absolute; z-index: 3; top: 4.5rem; left: 0" -->
 
-                    <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism">포토이즘박스</label>
+                        <input type="checkbox" class="btn-check" id="filter-lifefour" autocomplete="off" checked>
+                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour">인생네컷</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature">포토시그니처</label>
+                        <input type="checkbox" class="btn-check" id="filter-photoism" autocomplete="off" checked>
+                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-photoism">포토이즘박스</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix">셀픽스</label>
+                        <input type="checkbox" class="btn-check" id="filter-signature" autocomplete="off" checked>
+                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-signature">포토시그니처</label>
 
-                    <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
-                    <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru">하루필름</label>
-                    
+                        <input type="checkbox" class="btn-check" id="filter-selfix" autocomplete="off" checked>
+                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-selfix">셀픽스</label>
+                        
+                        <input type="checkbox" class="btn-check" id="filter-haru" autocomplete="off" checked>
+                        <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-haru">하루필름</label>
+                        
+                    </div>
+
+                </div>
                 </div>
 
                 <!-- 목록 표시 버튼 -->
                 <div id="listButton">
                     <button style="position: absolute; z-index: 32; right: 1rem; bottom: 1rem;" id="list-btn" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                            <path fill="none" d="M0 0h24v24H0z"/>
-                            <path d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z" fill="rgba(255,255,255,1)"/>
-                        </svg>목록
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/>
+                            <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" fill="rgba(255,255,255,1)"/></svg>
+                            목록
                     </button>
                 </div>
             </div>
@@ -134,9 +144,9 @@
 
         <div>
             <!-- 목록 표시 페이지(?) -->
-            <div class="offcanvas offcanvas-end overflow-auto w-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas offcanvas-bottom overflow-auto h-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
-                    <img style="box-shadow: none;" src="../../static/icons/map_icon.svg" type="button" class="text-reset" id="return-map" data-bs-dismiss="offcanvas" aria-label="Close"></img>
+                    <img id="return-map" style="box-shadow: none;" src="../../static/icons/map_icon.svg" type="button" class="text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></img>
                     <!-- <h5 id="offcanvasRightLabel">Offcanvas right</h5> -->
                     <div data-v-64c6254b="" class="search-input bg-white" style="width: 80%;">
                         <div id="search-icon2" style="padding-left: 5px;">
@@ -148,7 +158,7 @@
                         <div class="search-input-item w-100" >
                             <input style="width:100%" id="search-placeholder2" placeholder="ex. 신촌역" name="icon-name" type="text"> 
                         </div>
-                        <div id="close-btn2">
+                        <div id="close-btn2"> 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                 <path fill="none" d="M0 0h24v24H0z"/>
                                 <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
@@ -160,7 +170,7 @@
 
 
                 <!-- filter -->
-                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup2">
+                <div class="btn-group overflow-auto" role="group" aria-label="Basic checkbox toggle button group" id="filterGroup2">
 
                     <input type="checkbox" class="btn-check" id="filter-lifefour2" autocomplete="off" checked>
                     <label style="font-size: 15px;" class="text-nowrap btn btn-outline-primary mx-1" for="filter-lifefour2">인생네컷</label>
@@ -191,10 +201,10 @@
 
             <div class="offcanvas offcanvas-bottom" data-bs-scroll="true" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                 <div class="offcanvas-header">
-                    <a class="offcanvas-title fs-4 text-decoration-none text-black" id="offcanvasBottomLabel">Offcanvas bottom</a>
+                    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
+                <div class="offcanvas-body small">
                     <div id="booth-small"></div>
                 </div>
             </div>
