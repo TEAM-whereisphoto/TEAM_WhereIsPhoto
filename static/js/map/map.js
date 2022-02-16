@@ -543,9 +543,22 @@ function main(boothList){
                 </div>
                 <hr />
             </div>`;
-                
+            
+            // 이 div에 event Listener 추가
+            // boothListDom.children[i].children[0]
+            newdiv.addEventListener('click', function() {
+                // 전체 목록 닫기?
+                returnmap.click()
+
+                boothSmall.innerHTML = ''
+                printList(boothElement, boothSmall, 1)
+                map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
+
+                kakao.maps.event.trigger(allMarker[boothId-1], 'click')
+            });
         }
         list.append(newdiv); // list추가
+
     }
 
     var curCenter = map.getCenter();
@@ -610,33 +623,6 @@ function main(boothList){
             printList(booth, boothListDom, 0); 
         } // list에 표시하기
         
-        // 목록별 부스 이벤트 등록
-        for (let i=0; i < boothListDom.childElementCount; i++) {
-            
-            boothListDom.children[i].children[0].addEventListener('click', function() {
-                // 전체 목록 닫기?
-                let selectedId = boothListDom.children[i].children[0].dataset.id
-                returnmap.click()
-
-                let clickedbooth = boothList[selectedId-1] 
-                boothSmall.innerHTML = ''
-                printList(clickedbooth, boothSmall, 1)
-                map.setCenter(new kakao.maps.LatLng(clickedbooth['x'],clickedbooth['y']))
-
-                kakao.maps.event.trigger(allMarker[selectedId-1], 'click')
-                // allMarker[selectedId-1].click()
-                // // 핀 크게도 하고싶은디
-                // allMarker[selectedId-1].setImage( eval(brand_dict[clickedbooth["brand__name"]]+"Click") );
-                // selectedMarker = allMarker[selectedId-1];
-                // boothSmallBtn.click() // 아래 small detail 열기
-            });
-        }
-
-        // 디테일 페이지로 이동하는 event 등록
-        boothSmall.addEventListener('click', function() {
-            let getId = boothSmall.children[0].children[0].dataset.id
-            window.location.href = "/find/booth/detail/"+getId
-        })
 
     }
 
