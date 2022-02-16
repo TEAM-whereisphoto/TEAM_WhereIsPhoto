@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load static %}
 
+{% block head %}
+<script defer src="{% static 'js/map/like.js' %}"></script>
+{% endblock %}
+
+{% block content %}
 <div>
     <div>
         {% if article.image %}
@@ -9,19 +14,20 @@
         </p>>
         {% endif %}
         <h3>{{ booth.name }}</h3>
-        <h6>{{ booth.loaction }}</h6>
-        {% if request.user.is_authenticated %}
-            {% if currentLikeState %}
-                <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
+        <h6>{{ booth.location }}</h6>
+        <div>
+            {% if request.user.is_authenticated %}
+                {% if currentLikeState %}
+                    <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
+                {% else %}
+                    <div class="heart" onclick="onClickLike({{booth.id}})" >🤍여기 매장 좋아요</div>
+                {% endif %}
             {% else %}
-                <div class="heart" onclick="onClickLike({{booth.id}})" >🤍여기 매장 좋아요</div>
+                <div class="heart" onclick="onClickAlert()" >🤍여기 매장 좋아요</div>
             {% endif %}
-        {% else %}
-            <div class="heart" onclick="onClickAlert()" >🤍여기 매장 좋아요</div>
-        {% endif %}
+        </div>
         <br>
     </div>
-
     <div>
         <h4>Customer reviews</h4>
         <h6>{{booth.rating}}</h6>
@@ -84,21 +90,12 @@
         <br>
 </div>
 
-
-<script>
-    const onClickLike = (booth_id) => {
-        fetch(`${booth_id}/like_ajax/`)
-        .then(response => {
-            return response.json()
-        })
-        .then(data => {
-            console.log(data)
-        })
-    }
-
+<script type="text/javascript">
+    const onClickAlert = () =>{
+        alert('로그인을 먼저 해주세요.!')
+        window.location.href ='{% url "user:login" %}'
+}
 </script>
-
-
 
 {% endblock %}
 
