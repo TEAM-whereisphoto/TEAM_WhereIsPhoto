@@ -89,7 +89,7 @@ const imageSrc = '../../static/icons/pin_blue.png'
 const imageSize = new kakao.maps.Size(28, 28);
 const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 기본 파란 핀
 
-const clickSize = new kakao.maps.Size(36, 36);
+const clickSize = new kakao.maps.Size(40, 40);
 var selectedMarker = null; // 클릭한 마커를 담을 변수
 
 for (let value in brand_dict){
@@ -103,6 +103,7 @@ for (let value in brand_dict){
     // ex) var selfixMarkers = [];
     eval("var "+key+"Markers"+" = []")
 }; 
+var allMarker = [] // 전체 마커 담을 배열
 
 
 const lifefourcutpin = new kakao.maps.MarkerImage(lifefourcutSrc, imageSize)
@@ -125,8 +126,10 @@ const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLe
 
 var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
 
-// booth lis표시해둘 dom
+// booth list 표시해둘 dom
 const boothListDom = document.getElementById('booth-list');
+const returnmap = document.getElementById('return-map') // 지도 돌아가는 '지도' 버튼
+
 // booth 작은 detail 표시해둘 dom
 const boothSmall = document.getElementById('booth-small');
 const boothSmallBtn = document.getElementById('booth-small-btn');
@@ -203,7 +206,8 @@ function main(boothList){
         // console.log(marker);
         marker.setMap(map);
         marker.normalImage = img;
-
+        
+        allMarker.push(marker)
         eval(brand_dict[brandname]+"Markers.push(marker);")
         // brand별로 marker 배열에 marker push
         
@@ -265,7 +269,7 @@ function main(boothList){
     
     // 바뀐 범위의 booth들 찾는 함수
     function findBoundBooth() {
-
+        console.log("3번 얘가 움직인 셈 이라 이거 자동 실행(ㄴㄴtrigger해줌) 다음")
         mapboundbooth = []
         // 현재 범위 안의 booth들 담아놓는 객체 초기화
     
@@ -354,11 +358,13 @@ function main(boothList){
     const searchInput2 = document.getElementById('search-placeholder2');
 
     function searchLocation(input) {
+        console.log("얘가 1번이어야 하고")
         var keyword = input.value
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
             alert('검색할 장소를 입력해주세요!');
             return false;
+            console.log("이거 뜨면 안된다")
         }
 
         // 키워드로 장소를 검색합니다
@@ -368,15 +374,16 @@ function main(boothList){
         function placesSearchCB (data, status) {
             if (status === kakao.maps.services.Status.OK) {
 
-                var bounds = new kakao.maps.LatLngBounds();
+                var searchbounds = new kakao.maps.LatLngBounds();
 
                 for (var i=0; i<5; i++) {
-                    bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                    searchbounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                 }       
 
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-                map.setBounds(bounds);
-                
+                console.log("이게 2번이 아니야?")
+                map.setBounds(searchbounds);
+                kakao.maps.event.trigger(map, 'bounds_changed')
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
@@ -385,7 +392,11 @@ function main(boothList){
             else if (status === kakao.maps.services.Status.ERROR) {
                 alert("검색 중 오류가 발생했습니다.")
             }
+            return 0;
         }
+
+        return 0;
+        
     }
 
     searchBtn.addEventListener('click', function() {
@@ -393,8 +404,16 @@ function main(boothList){
     });
     
     searchBtn2.addEventListener('click', function() {
-        searchLocation(searchInput2)
+
+        getSearch();
+        // findBoundBooth(); // 얘는 범위 바뀌어서 자동실행될 줄 알았으나 강제 trigger 해줘야겠다
+        // console.log("여기로 다시 돌아와서 4번 setList 할건데")
     });
+
+    async function getSearch() {
+        searchLocation(searchInput2);
+        var result = await setList();
+    }
 
     searchInput.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
@@ -402,6 +421,15 @@ function main(boothList){
             event.preventDefault(); // 새로고침 방지
             // Trigger the button element with a click
             searchBtn.click();
+        }
+    });
+
+    searchInput2.addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 새로고침 방지
+            // Trigger the button element with a click
+            searchBtn2.click();
         }
     });
 
@@ -550,6 +578,12 @@ function main(boothList){
             }
         }
 
+        setList();
+        
+    }); 
+
+    function setList() {
+        console.log("5번인가 아무튼 setList는 여기임")
         if(mapboundbooth.length) {
             boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
         }
@@ -564,25 +598,36 @@ function main(boothList){
             printList(booth, boothListDom, 0); 
         } // list에 표시하기
         
-
+        // 목록별 부스 이벤트 등록
         for (let i=0; i < boothListDom.childElementCount; i++) {
             
-            console.log(boothListDom.children[i])
             boothListDom.children[i].children[0].addEventListener('click', function() {
                 // 전체 목록 닫기?
                 let selectedId = boothListDom.children[i].children[0].dataset.id
+                returnmap.click()
 
+                let clickedbooth = boothList[selectedId-1] 
                 boothSmall.innerHTML = ''
-                printList(boothList[selectedId-1], boothSmall, 1)
-                boothSmallBtn.click() // 아래 small detail 열기
+                printList(clickedbooth, boothSmall, 1)
+                map.setCenter(new kakao.maps.LatLng(clickedbooth['x'],clickedbooth['y']))
+
+                kakao.maps.event.trigger(allMarker[selectedId-1], 'click')
+                // allMarker[selectedId-1].click()
+                // // 핀 크게도 하고싶은디
+                // allMarker[selectedId-1].setImage( eval(brand_dict[clickedbooth["brand__name"]]+"Click") );
+                // selectedMarker = allMarker[selectedId-1];
+                // boothSmallBtn.click() // 아래 small detail 열기
             });
         }
-        // 디테일 페이지로 이동하는 event
+
+        // 디테일 페이지로 이동하는 event 등록
         boothSmall.addEventListener('click', function() {
             let getId = boothSmall.children[0].children[0].dataset.id
             window.location.href = "/find/booth/detail/"+getId
         })
-    }); 
+        
+        return 0;
+    }
 
     // 10. 목록 끝 -----------------------------------------------------------------------------
 
