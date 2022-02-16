@@ -104,8 +104,12 @@ header {
     font-family: 'ROKAF Sans', 'SUIT', sans-serif;;
 }
 
-.main__btn {
+.main__btn:first-child {
     background-color : #C979D0
+}
+
+.main__btn:last-child {
+    background-color : #69C3D7
 }
 
 .user__title {
