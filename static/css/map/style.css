@@ -122,3 +122,14 @@ body {
     padding: 0 1rem;
 }
 
+.btn-group {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    overflow: -moz-scrollbars-none;
+}
+
+/* -webkit- (Chrome, Safari, newer versions of Opera) */
+.btn-group::-webkit-scrollbar {
+    /* width: 0 !important; */
+    display: none !important;
+}
