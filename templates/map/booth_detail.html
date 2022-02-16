@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<script defer src="{% static 'js/map/like.js' %}"></script>
+<script defer type="text/javascript" src="{% static 'js/map/like.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -30,8 +30,18 @@
     </div>
     <div>
         <h4>Customer reviews</h4>
-        <h6>{{booth.rating}}</h6>
         <h6>{{booth.review_number}} Reviews</h6>
+        <div class="star-rating">
+            <div class="star-rating-fill" :style="width: {{booth.rating}}%; color: red ">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <div class="star-rating-base">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+        </div>
+    
+        <h6>{{booth.rate_average}}</h6>
+        
         <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
         <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
 
@@ -42,7 +52,18 @@
         <br>
         <h4>리뷰 목록</h4>
         {% for review in reviews %}
-        <h6>{{review.content}}</h6> 
+            <div>
+                <span>
+                    {{review.content}}
+                </span>
+                <span>
+                    {{review.user.username}}
+                </span>
+                <span>
+                    {{review.time}}
+                </span>
+                
+            </div>
         {% endfor %}
     </div> 
     <div>
@@ -89,13 +110,6 @@
         <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
         <br>
 </div>
-
-<script type="text/javascript">
-    const onClickAlert = () =>{
-        alert('로그인을 먼저 해주세요.!')
-        window.location.href ='{% url "user:login" %}'
-}
-</script>
 
 {% endblock %}
 
