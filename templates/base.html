@@ -64,52 +64,8 @@
       </div>
     </nav>
 
-<!-- 
-    로그인 유무에 따른 nav 차이 -->
-    <!-- {% if user.is_authenticated %} 
-    <header class="sticky-top header-scrolled border-bottom bg-white">
-      <div class="container align-items-center">
-
-          <div class="container d-flex justify-content-center pt-2">
-            <a class="header__title" href="/">여기사진</a>
-          </div>
-  
-        <div class="navbar">
-          <div class="container">
-            <a class="navbar__link active" href="{% url 'brand:list' %}">홈</a>
-            <a class="navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
-            <a class="navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
-            <a class="navbar__link active" href="{% url 'user:main' %}">마이페이지</a>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    {% else %}
-    <header class="sticky-top header-scrolled border-bottom bg-white">
-      <div class="container align-items-center">
-
-          <div class="container d-flex justify-content-center pt-2">
-            <a class="header__title" href="/">여기사진</a>
-          </div>
-  
-        <div class="navbar">
-          <div class="container">
-            <a class="navbar__link active" href="{% url 'brand:list' %}">홈</a>
-            <a class="navbar__link active" href="{% url 'map:mymap' %}">매장찾기</a>
-            <a class="navbar__link active" href="{% url 'LnF:list' %}">분실물찾기</a>
-            <a class="navbar__link active" href="{% url 'user:login' %}">로그인</a>
-            <a class="navbar__link active" href="{% url 'user:signup' %}">회원가입</a>
-          </div>
-        </div>
-      </div>
-    </header>
-    
-    {% endif %} -->
-
     {% block header %}
     {% endblock %}
-
 
     <!-- main block -->
     {% block content %}
