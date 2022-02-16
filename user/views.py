@@ -60,7 +60,7 @@ def main(request):
         my_review_exist = 1
  
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments), 'my_like_exist':my_like_exist, 
-    'my_likes': my_likes, 'flag': flag}
+    'my_likes': my_likes}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
