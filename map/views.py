@@ -17,7 +17,7 @@ def mymap(request):
 # 부스 평균 별점 계산 후 booth.rate_average 저장
 def save_booth_rate_avg(pk): 
     booth = Booth.objects.get(id=pk)
-    reviews = Review.objects.filter(booth = booth.pk)
+    reviews = Review.objects.filter(booth = booth.id)
     
     review_num=len(reviews)
     rate_sum =0
@@ -73,6 +73,7 @@ def booth_detail(request,pk):
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
+    
     ctx = {'reviews': reviews,'booth':booth, 'boothname':booth.name}
     return render(request, template_name='map/review_list.html', context=ctx)
 
@@ -94,7 +95,7 @@ def booth_review_create(request, pk):
             post.save()
             booth.save()
             save_booth_rate_avg(pk)
-            return redirect('map:booth_review_list', pk)
+            return redirect('map:review_detail', post.id)
     else:
         form = ReviewForm()
 
@@ -106,25 +107,21 @@ def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk
     review = Review.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다
     tags = review.tag
     colors = review.color
-
     ctx = {'review': review, 'pk':pk, 'tags':tags, 'colors': colors }  # template로 보내기 위해선 context를 만들어야한다.
     return render(request, template_name='map/review_detail.html', context=ctx)
 
 
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
-    boothid = review.boothid
-
     if request.method == 'POST':
         rate = request.POST.get('rating')
-        form = ReviewForm(request.POST, request.FILES)
-
+        form = ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid():
             review.rate = rate
-            review.save()
             review = form.save(commit=False)
-            save_booth_rate_avg(pk)
-            return redirect('map:booth_review_list', boothid)
+            review.save()
+            save_booth_rate_avg(review.booth.id)
+            return redirect('map:review_detail', review.id)
 
     else:
         form = ReviewForm(instance=review)
@@ -134,9 +131,9 @@ def review_update(request, pk):
 
 def review_delete(request, pk):
     review = get_object_or_404(Review, id=pk)
-    booth = get_object_or_404(Booth, id=booth_id)  # id가 pk인 게시물 하나를 가져온다.
 
     booth_id = review.boothid
+    booth = get_object_or_404(Booth, id=booth_id)  # id가 pk인 게시물 하나를 가져온다.
     booth.review_number -= 1
     booth.save()
     review.delete()

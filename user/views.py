@@ -4,7 +4,8 @@ from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 # 탈퇴시 랜덤숫자를 위해
 from random import randint
 
@@ -66,6 +67,7 @@ def my_lnf(request):
     return render(request, 'user/my_lnf.html', context=ctx)
 
 class LoginView(View):
+    @method_decorator(csrf_exempt)
     def get(self, request):
         form = LoginForm()
         return render(request, "user/login.html", {"form": form})
