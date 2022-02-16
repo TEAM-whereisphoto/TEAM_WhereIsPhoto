@@ -41,6 +41,11 @@
     font-style: normal;
 }
 
+a {
+    color: inherit!important;
+    text-decoration: none!important;
+}
+
 h1 h2 h3 h4 h5{
     font-family: ROKAFSansMedium;
 }
@@ -62,13 +67,21 @@ header {
 }
 
 .header__title {
+    color: #1F52FF;
     font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
-    font-size: 30pt;
-    font-weight: 600;
+    font-size: 2rem;
     text-decoration: none;
+
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    white-space: nowrap;
 }
 
-.navbar__link {
+.header__navbar {
+    color: #424258;
+}
+
+.header__navbar {
     display: block;
     padding: 1rem 0;
     color: black;
@@ -80,6 +93,10 @@ header {
 .main {
     padding-top: 120pt;
     padding-bottom: 50pt;
+}
+
+.main-color {
+    color: #1F52FF;
 }
 
 .main__text {
