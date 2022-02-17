@@ -46,10 +46,6 @@ a {
     text-decoration: none!important;
 }
 
-h1 h2 h3 h4 h5{
-    font-family: ROKAFSansMedium;
-}
-
 p {
     font-family: SUIT-Medium;
     font-size: 16pt;
@@ -68,7 +64,7 @@ header {
 
 .header__title {
     color: #1F52FF;
-    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    font-family: 'ROKAFSansMedium', SUIT-Medium, sans-serif;
     font-size: 2rem;
     text-decoration: none;
 
@@ -87,24 +83,24 @@ header {
 }
 
 /* main 영역 CSS */
-.main__text {
-    color: white;
-    font-family: ROKAFSansMedium, 'SUIT', sans-serif;
-    font-size: 12pt;
-}
-
 .main {
     padding: 50pt 10pt;
     position: relative;
     background-color: #1F52FF;
+    color: white;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
 }
 
-.main__text > h3 {
-    font-size: calc(2rem + .6vw);;
+.main__title {
+    padding-left: 20pt;
+}
+
+.main__title > h3 {
+    font-size: calc(2rem + .6vw);
     font-weight: normal;
 }
 
-.main__text > h5 {
+.main__title > h5 {
     font-weight: lighter;
 }
 
@@ -113,7 +109,10 @@ header {
     top: 2rem;
     right: 2rem;
     width: 70%;
-    height:100%;
+}
+
+.main__btn {
+    font-size: 12pt;
 }
 
 .main__btn a:first-child {
@@ -127,9 +126,4 @@ header {
     width: 50%;
     padding: .5rem;
     background-color : #69C3D7
-}
-
-.user__title {
-    font-family: ROKAFSansMedium;
-    color: black;
 }
