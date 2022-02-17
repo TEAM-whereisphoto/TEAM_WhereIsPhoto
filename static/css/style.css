@@ -84,15 +84,21 @@ header {
 
 /* main 영역 CSS */
 .main {
-    padding: 50pt 10pt;
+    display: flex!important;
+    align-items: center;
+    height: 300pt;
     position: relative;
+    padding: 50pt 10pt!important;
     background-color: #1F52FF;
-    color: white;
-    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
 }
 
 .main__title {
+    /* position: absolute;
+    z-index: 2; */
     padding-left: 20pt;
+    color: white;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    z-index: 2;
 }
 
 .main__title > h3 {
@@ -101,17 +107,21 @@ header {
 }
 
 .main__title > h5 {
-    font-weight: lighter;
+    font-weight:lighter;
 }
 
 .main__img {
     position: absolute;
-    top: 2rem;
-    right: 2rem;
+    z-index: 1;
+    top: 0;
+    right: 0;
     width: 70%;
+    z-index: 1;
 }
 
 .main__btn {
+    color: white;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
     font-size: 12pt;
 }
 
@@ -125,5 +135,5 @@ header {
 .main__btn a:last-child {
     width: 50%;
     padding: .5rem;
-    background-color : #69C3D7
+    background-color : #69C3D7;
 }

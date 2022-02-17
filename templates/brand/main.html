@@ -6,7 +6,7 @@
   <section>
     <div class="main">
       <!-- 글씨영역 -->
-      <div class="main__title main__text">
+      <div class="main__title">
         <h3>
           당신이 <br>
           원하는 <br>
@@ -26,7 +26,7 @@
   <!-- main btn sec -->
   <section>
     <!-- 버튼 2개 구현 위치 -->
-    <div class="main__btn main__text d-flex flex-row">
+    <div class="main__btn d-flex flex-row">
       <a href="{% url 'LnF:list' %}" role="button" >Lost & Found<br>분실물 찾기</a>
       <a href="{% url 'map:mymap' %}" role="button" >Search Booth<br>부스 찾기</a>
     </div>
@@ -70,25 +70,4 @@
       <img src="" class="img-fluid" alt="">
     </div>
   </section>
-  
-  <!-- <section>
-      {% for brand in brand_list %}
-      
-          <div>
-              이름: {{ brand.0 }} <br>
-              
-              재촬영: {{ brand.1 }} <br>
-              리모컨: {{ brand.2 }} <br>
-              촬영시간: {{ brand.3 }}<br>
-              가격정보<br>
-              {% for frame in brand.4 %}
-                  가격: {{frame.0}}
-                  프레임 컷 수: {{frame.1}}
-                  총 촬영 수: {{frame.2}}
-                  <br>
-              {% endfor %}               
-              <br>
-          </div>
-      {% endfor %}
-  </section>     -->
 {% endblock %}
