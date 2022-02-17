@@ -13,6 +13,7 @@ class Brand(models.Model):
     # 촬영 시간
     time = models.CharField(max_length=50)
     img = models.ImageField()
+    liked_img = models.ImageField(null=True)
 
     def __str__(self):
         return self.name

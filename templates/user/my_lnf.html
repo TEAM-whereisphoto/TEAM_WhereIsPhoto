@@ -24,6 +24,7 @@
             {% if post.img %}
             <img src="{{ post.img.url }}" alt="" width="auto">
             {% endif %}
+            <a href="{% url 'user:read_my_lnf' post.id %}">게시글 확인하기</a>
             <br> <br>
         </div>
     {% endfor %}

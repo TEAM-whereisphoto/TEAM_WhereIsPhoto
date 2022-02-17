@@ -129,35 +129,40 @@ def brand():
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/media/brand/인생네컷.png"
+            "img": "/media/brand/인생네컷.png",
+            "liked_img": "/media/user/life_four_liked.png",
         },
         "셀픽스":{
             "retake": "YES",
             "remote": "YES",
             "QR": "YES",
             "time": 20,
-            "img": "/media/brand/셀픽스.png"
+            "img": "/media/brand/셀픽스.png",
+            "liked_img": "/media/user/selpix_liked.png",
         },
         "포토시그니처": {
             "retake": "YES",
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/media/brand/포토시그니쳐.png"
+            "img": "/media/brand/포토시그니쳐.png",
+            "liked_img": "/media/user/signature_liked.png",
         },
         "하루필름": {
             "retake": "NO",
             "remote": "YES",
             "QR": "YES",
             "time": 15,
-            "img": "/media/brand/하루필름.png"
+            "img": "/media/brand/하루필름.png",
+            "liked_img": "/media/user/haru_liked.png",
         },
         "포토이즘박스": {
             "retake": "NO",
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/media/brand/포토이즘.png"
+            "img": "/media/brand/포토이즘.png",
+            "liked_img": "/media/user/photoism_liked.png",
         },
     }
 
@@ -279,10 +284,10 @@ def getXY(address):
     return result
 
 driver = set_chrome_driver()
-driver.implicitly_wait(3)
+driver.implicitly_wait(5)
 
-# brand()
-# frame()
+brand()
+frame()
 main()
 
 driver.close()

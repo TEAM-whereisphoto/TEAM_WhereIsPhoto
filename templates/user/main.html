@@ -11,18 +11,16 @@
         </div>
         <div>
             <p>liked</p>
-            {% if my_like_exist == 0 %}
-                <p> 좋아요 한 매장이 없습니다. </p>
+            {% if user_liked_num == 0 %}
+            <p> 좋아요 한 매장이 없습니다. </p>
             {% else %}
-                {% for my_like in my_likes %}
-                    {% if my_like.dolike == True %}
-                        <p>{{ my_like.booth }}</p>
-                        {% if flag == 1 %}
-                            <!-- 플래그안됨 -->
-                        {% endif %}
-                    {% endif %}
+                {% for booth_brand in liked_booth_brand %}
+                    <p>{{booth_brand.0.name}}</p>
+                    <img src="{{booth_brand.1.liked_img.url}}" alt="">
                 {% endfor %}
             {% endif %}
+            
+
         </div>
         <div>
             <p>Dashboard</p>
