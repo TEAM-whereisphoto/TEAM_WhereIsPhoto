@@ -5,4 +5,6 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
+        
         fields = ('tag', 'color', 'content', 'img')
+

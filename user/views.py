@@ -20,47 +20,18 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def main(request):
     users = request.user
-    # booth = get_object_or_404(Booth)
 
-    #좋아요
+    # dolike가 true인 booth-brand pair 관련 list 만들기
+    liked_booth_brand = []
     my_likes = Liked.objects.filter(user = users)
-    print(my_likes)
+    for my_like in my_likes:
+        if my_like.dolike:
+            liked_booth_brand.append([my_like.booth, my_like.booth.brand])
 
-    # all_likes =[] 해서 list 만들어서 저장? for돌리고 또 if?
-    
-    # flag = 0
-    # for my_like in my_likes:
-    #     if "인생네컷" in str(my_like.booth):
-    #         flag = 1
-    #     elif "포토이즘" in str(my_like.booth):
-    #         flag = 2
-    #     else:
-    #         flag = 0
-    
-
-    # 좋아요의 여부
-    
-    try:
-        my_like_exist = Liked.objects.get(user=users)
-    except Liked.DoesNotExist:
-        my_like_exist = 0
-    except Liked.MultipleObjectsReturned:
-        my_like_exist = 1
-
-    # 리뷰
-    reviews_posts = Review.objects.filter(user = users)
-
+    user_liked_num = len(liked_booth_brand)
     comments = getNew(users)
-
-    try:
-        my_review_exist = Review.objects.get(user = users)
-    except Review.DoesNotExist:
-        my_review_exist = 0
-    except Review.MultipleObjectsReturned:
-        my_review_exist = 1
- 
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments), 'my_like_exist':my_like_exist, 
-    'my_likes': my_likes}
+    
+    ctx = {'len': len(comments), 'liked_booth_brand':liked_booth_brand, 'user_liked_num': user_liked_num}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
@@ -79,6 +50,11 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
+def read_my_review(request, pk):
+    my_review = Review.objects.get(pk=pk)
+
+    return redirect('map:review_detail', my_review.id)
+
 def my_lnf(request):
     users = request.user
 
@@ -94,6 +70,11 @@ def my_lnf(request):
 
     ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist}
     return render(request, 'user/my_lnf.html', context=ctx)
+
+def read_my_lnf(request, pk):
+    my_lnf = LnF_Post.objects.get(pk=pk)
+
+    return redirect('LnF:post_detail', my_lnf.id)
 
 class LoginView(View):
     @method_decorator(csrf_exempt)
@@ -258,5 +239,5 @@ def nav_notice(request):
     else:
         notice =False
 
-    ctx={'notice': notice}
+    ctx={'notice': notice, 'notice_num': len(comments)}
     return JsonResponse(ctx)

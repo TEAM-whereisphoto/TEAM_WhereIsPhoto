@@ -1,10 +1,22 @@
-
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
+<h2>Sign up</h2>
+
 {{ help_text }}
 <form method="POST" action="">
     {% csrf_token %}
-        아이디: <br>
-        <input name="username" type="text">
+        <h1>열심히 배끼는 중</h1>
+        <!-- <form>
+            <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
+            <label for="nme"><span>What's your name?</span></label>
+            <textarea name="message" rows="2" class="question" id="msg" required autocomplete="off"></textarea>
+            <label for="msg"><span>What's your message?</span></label>
+            <input type="submit" value="Submit!" />
+        </form> -->
+        
+        <!-- 아이디: <br>
+        <input name="username" type="text" placeholder="your username">
         <br>
         이메일: <br>
         <input name="email" type="email">
@@ -16,7 +28,34 @@
         <input name="password2" type="password">
         <br>
         <br><br>
-        <input type="submit" class="btn btn-primary" value="Sign Up">
+        <input type="submit" class="btn btn-primary" value="Sign Up"> -->
 
 </form>
+<div class="container">
+  
+    <h2>Google Material Design in CSS3<small>Inputs</small></h2>
+    
+    <form>
+      
+      <div class="group">      
+        <input type="text" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Name</label>
+      </div>
+        
+      <div class="group">      
+        <input type="text" required>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Email</label>
+      </div>
+      
+    </form>
+        
+    <p class="footer">
+      a <a href="https://scotch.io/tutorials/css/google-material-design-input-boxes-in-css3" target="_blank">tutorial</a> by <a href="https://scotch.io" target="_blank">scotch.io</a>
+    </p>
+    
+  </div>
 {% endblock content %}

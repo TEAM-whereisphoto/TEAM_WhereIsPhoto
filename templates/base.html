@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{% static 'css/user/style.css' %}"> 
     <link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
     <link rel="stylesheet" href="{% static 'css/map/star.css' %}"> 
+    <script defer src="{% static 'js/notice.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no"">
-    <script defer src="{% static 'js/LnF/comment.js' %}"></script>
     <!-- remixicon css -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <!-- bootstrap css -->
@@ -41,7 +41,7 @@
         <div>
           <button class="navbar-toggler" type="button">
             {% if user.is_authenticated %} 
-              <a href="{% url 'user:main' %}"><i class="ri-user-line" style="color: #1F52FF;" ></i></a>
+              <a href="{% url 'user:main' %}"><i class="ri-user-line position-relative" style="color: #1F52FF;" ></i></a>
             {% else %}
               <a href="{% url 'user:login' %}"><i class="ri-login-circle-line" style="color: #1F52FF;"></i></a>
             {% endif %}
