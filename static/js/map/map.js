@@ -138,6 +138,8 @@ let mapboundbooth = []
 
 const refresh = document.getElementById('refresh')
 
+const listcanvas = document.getElementById('offcanvasRight')
+
 // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
 
@@ -550,13 +552,13 @@ function main(boothList){
             // 이 div에 event Listener 추가
             // boothListDom.children[i].children[0]
             newdiv.addEventListener('click', function() {
-                // 전체 목록 닫기?
-                returnmap.click()
+                returnmap.click() // 전체 목록 닫기 ㄴㄴ, 리스트 필터 지도로 연동 ㅇㅇ
+                listcanvas.setAttribute("style","visibility: hidden;")
 
                 boothSmall.innerHTML = ''
                 printList(boothElement, boothSmall, 1)
                 map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
-
+                
                 kakao.maps.event.trigger(allMarker[boothId-1], 'click')
             });
         }
