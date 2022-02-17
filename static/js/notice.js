@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', function(){
     })
     .then(data => {
         const notice = data['notice']
+        const notice_num = data['notice_num']
         if (notice == true){
-            const mypageBtn = document.querySelector("body > header > div > div.navbar > div > a:nth-child(4)")
+            const mypageBtn = document.querySelector("body > nav > div > div:nth-child(3) > button")
             const circleDiv = document.createElement("div")
-            circleDiv.setAttribute('style', 'width:10px; height: 10px; border-radius:50%; background-color:red; z-index:3;')
+            circleDiv.setAttribute('class', "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger")
+            circleDiv.innerHTML = notice_num
             mypageBtn.append(circleDiv)
         }
     })
