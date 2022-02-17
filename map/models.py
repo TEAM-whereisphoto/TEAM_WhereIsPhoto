@@ -24,12 +24,12 @@ class Booth(models.Model):
     iron = models.IntegerField(default=0) # 고데기 (없 0 있 1)
     boxnum = models.IntegerField(default=0) # 부스 갯수 (갯수마다)
 
-    rating = models.FloatField(default=0) # 별점, 기본값은 0, 별점은 0.5 부터 0.5 단위로?
+    rate_average = models.FloatField(default=0) # 별점, 기본값은 0, 별점은 0.5 부터 0.5 단위로?
     likenum = models.IntegerField(default=0) # 이 매장의 좋아요
     review_number = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name + "("+str(self.brand)+")"
+        return self.name
 
 # user - liked - booth 다 대 다 연결
 class Liked(models.Model):
@@ -65,15 +65,21 @@ class Review(models.Model):
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
-    boothid = models.IntegerField(default=0)
+    content = models.TextField()
+    img = models.ImageField(blank=True, null=True, upload_to="Review")
+
+    boothid = models.IntegerField()
     rate = models.IntegerField(default=0,
                                validators=[
                                    MaxValueValidator(5),
                                    MinValueValidator(0),
                                ]
                                )
-    title = MultiSelectField(choices = TAG_CHOICES)
+    tag = MultiSelectField(choices = TAG_CHOICES)
     color = MultiSelectField(choices = COLOR_CHOICES)
 
+    @property
+    def getWidth(self):
+        return self.rate*20
 
 

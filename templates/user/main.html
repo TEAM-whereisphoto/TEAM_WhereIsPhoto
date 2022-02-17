@@ -1,24 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+
 <div>
     {% if user.is_authenticated %}
-    <div class="all">
-        <h5>{{ user }}</h5>
+    <div>
+        <h3>{{ user }}</h3>
         <div>
-            <p>{{ user }}님! 여기사진과 함께 다양한 부스를 방문해보세요😉   </p>
+            <p>{{ user }}님! 여기사진과 함께 다양한 부스를 방문해보세요😉</p>
         </div>
         <div>
-            <h5>liked</h5>
-            <div>이미지들</div>
+            <p>liked</p>
+            {% if my_like_exist == 0 %}
+                <p> 좋아요 한 매장이 없습니다. </p>
+            {% else %}
+                {% for my_like in my_likes %}
+                    {% if my_like.dolike == True %}
+                        <p>{{ my_like.booth }}</p>
+                        {% if flag == 1 %}
+                            <!-- 플래그안됨 -->
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div>
-            <h5>Dashboard</h5>
-            <p><img src="../static/icons/LnF.svg">Lost and Found       <a href="{% url 'user:my_lnf' %}">></a></p>
-            <p><img src="../static/icons/review.svg">Reviews<a href="{% url 'user:my_review' %}">></a></p>
-            <p><img src="../static/icons/notice.svg">notice<a href="{% url 'user:notice' %}">></a></p>
+            <p>Dashboard</p>
+            <div>
+                <p><img src="../static/icons/LnF.svg">Lost and Found<a href="{% url 'user:my_lnf' %}">></a></p>      
+                <p><img src="../static/icons/review.svg">Reviews<a href="{% url 'user:my_review' %}">></a></p>
+                <p><img src="../static/icons/notice.svg">notice<a href="{% url 'user:notice' %}">></a></p>
+            </div>
         </div>
         <div>
-            <div><a href="{% url 'user:log_out' %}">log out</a></div>
+            <div class="log"><a href="{% url 'user:log_out' %}">log out</a></div>
             <div><a href="{% url 'user:modify' %}">Edit profile</a></div>
         </div>
     </div>

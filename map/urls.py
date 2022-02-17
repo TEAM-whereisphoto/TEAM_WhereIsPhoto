@@ -11,7 +11,8 @@ urlpatterns = [
 
     path('booth/detail/<int:pk>', view=views.booth_detail, name='booth_detail'),
     path('booth/detail/<int:pk>/review', view=views.booth_review_list, name='booth_review_list'),
-    path('booth/detail/like_ajax/', views.like_ajax, name='like_ajax'),
+    path('booth/detail/<int:pk>/like_ajax/', views.like_ajax, name='like_ajax'),
+    path('booth/detail/<int:pk>/dislike_ajax/', views.dislike_ajax, name='dislike_ajax'),
 
     path('', view= views.mainpage, name = 'main'), # 메인페이지 view
     path('map/', views.mymap, name="mymap"),
