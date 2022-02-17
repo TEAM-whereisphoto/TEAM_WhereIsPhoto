@@ -14,13 +14,16 @@
             {% if user_liked_num == 0 %}
             <p> 좋아요 한 매장이 없습니다. </p>
             {% else %}
+            <div class="liked_container ">    
                 {% for booth_brand in liked_booth_brand %}
-                    <p>{{booth_brand.0.name}}</p>
-                    <img src="{{booth_brand.1.liked_img.url}}" alt="">
+                <div class="liked__content">
+                    <img class="liked__img" src="{{booth_brand.1.liked_img.url}}" alt="">
+                    <p class="liked__title">{{booth_brand.0.name}}</p>
+                </div>
                 {% endfor %}
+            </div>
             {% endif %}
             
-
         </div>
         <div class="part">
             <p class="sub__title">Dashboard</p>
