@@ -50,7 +50,6 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
-# http://127.0.0.1:8000/find/review/3/
 def read_my_review(request, pk):
     my_review = Review.objects.get(pk=pk)
 
