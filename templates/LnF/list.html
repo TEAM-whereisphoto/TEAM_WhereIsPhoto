@@ -8,9 +8,9 @@
 
 {% block content %}
 <h1>LNF List</h1>
+<div class="container">
     <!-- search -->
     <section>
-
         <div id="searchLoc" style="position: absolute; z-index: 3; top: 1rem; left: 50%; width: 80%; transform: translate(-50%);">
             <div data-v-64c6254b="" class="search-input bg-white">
                 <div id="search-icon" style="padding-left: 5px;">
@@ -53,24 +53,24 @@
 
     </section>
 
-
     <!-- btn sec -->
     <section>
-        <div class="lnf__btn1">
-            <input type="checkbox" checked name="tag" value="분실" class="btn-check" id="btn-check" autocomplete="off">
-            <label class="btn" for="btn-check" style="background-color:#C979D0;"> 잃어버렸어요:( </label>
+        <div class="container d-flex justify-content-between" style="width: 100%;">
+            <div class="lnf__btn1 d-flex justify-content-center">
+                <input type="checkbox" checked name="tag" value="분실" class="btn-check" id="btn-check" autocomplete="off">
+                <label class="btn" for="btn-check" style="color: white;"> 잃어버렸어요 :( </label>
+            </div>
+    
+            <div class="lnf__btn2 d-flex justify-content-center">
+                <input type="checkbox" checked name="tag" value="보관" class="btn-check" id="btn-check" autocomplete="off">
+                <label class="btn" for="btn-check" style="color: white;"> 보관하고있어요 :) </label>
+            </div>
         </div>
-
-        <div class="lnf__btn2">
-        <input type="checkbox" checked name="tag" value="보관" class="btn-check" id="btn-check" autocomplete="off">
-        <label class="btn" for="btn-check" style="background-color:#69C3D7;"> 보관하고있어요:) </label>
-        </div>
-
     </section>
 
     <!-- 글 작성하기 -->
     <section>
-        <div style="cursor: pointer; position: absolute; z-index: 2; right: 1rem; bottom: 1rem;">
+        <div class="lnf__write" style="cursor: pointer; z-index: 2; right: 1rem; bottom: 1rem;">
             <a href="{% url 'LnF:new' %}">
                 <div class="center" style="border-radius: 50%; width: 60px; height: 60px; background-color:#1F52FF;; color:white">
                     <i class="ri-pencil-fill ri-2x"></i></div>
@@ -113,4 +113,5 @@
             </div>
         {% endfor %}
     </section>
+</div>
 {% endblock %}

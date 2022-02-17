@@ -1,12 +1,19 @@
 .lnf__btn1 {
-    width: 50%;
+    width: 49%;
     padding: .5rem;
     background-color : #C979D0;
-    text-align: right;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
 }
 
 .lnf__btn2 {
-    width: 50%;
+    width: 49%;
     padding: .5rem;
     background-color : #69C3D7;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+.lnf__write {
+    position: fixed;
 }
