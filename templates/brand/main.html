@@ -6,7 +6,7 @@
   <section>
     <div class="main__img">
       <!-- 글씨영역 -->
-      <div class="">
+      <div class="main__text">
         <h3>
           당신이 
           원하는 
@@ -21,14 +21,27 @@
       <!-- 이미지 같은 경우는 position 사용해서 div끼리 겹치게 하면 될 것 같습니다 -->
       <div class=""></div>
     </div>
-
   </section>
 
   <!-- main btn sec -->
   <section>
     <!-- 버튼 2개 구현 위치 -->
-    <div class="main__btn"></div>
-    <div class="main__btn"></div>
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button">
+        <a href="{% url 'user:main' %}"></a>
+      </button>
+      <button class="navbar-toggler" type="button">
+        <a href="{% url 'user:main' %}"></a>
+      </button>
+    </div>
+
+    <div class="main__btn main__text">
+      <p class="">Lost & Found<br>분실물 찾기</p>
+    </div>
+
+    <div class="main__btn">
+      <p class="main__text">Search Booth<br>부스 찾기</p>
+    </div>
   </section>
 
   <!-- main brand sec -->

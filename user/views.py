@@ -4,21 +4,42 @@ from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 # 탈퇴시 랜덤숫자를 위해
 from random import randint
 
 # 리뷰 가져오기
-from map.models import Review
 from LnF.models import *
+
+#Liked 구현 
+from map.models import *
 
 from django.contrib.auth.decorators import login_required
 # AnonymousUser 예외처리
 @login_required
 def main(request):
     users = request.user
+    # booth = get_object_or_404(Booth)
 
-    #리뷰
+    #좋아요
+    my_likes = Liked.objects.filter(user = users)
+    booth_likes = Review.objects.filter(user = users)
+    for my_like in my_likes:
+        for booth_like in booth_likes:
+            array = (my_like.booth.name, booth_like.boothid)
+            print(array)
+
+    # 좋아요의 여부
+    
+    try:
+        my_like_exist = Liked.objects.get(user=users)
+    except Liked.DoesNotExist:
+        my_like_exist = 0
+    except Liked.MultipleObjectsReturned:
+        my_like_exist = 1
+
+    # 리뷰
     reviews_posts = Review.objects.filter(user = users)
 
     comments = getNew(users)
@@ -30,7 +51,8 @@ def main(request):
     except Review.MultipleObjectsReturned:
         my_review_exist = 1
  
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments)}
+    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments), 'my_like_exist':my_like_exist, 
+    'my_likes': my_likes}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
@@ -49,6 +71,12 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
+# http://127.0.0.1:8000/find/review/3/
+def read_my_review(request, pk):
+    my_review = Review.objects.get(pk=pk)
+
+    return redirect('map:review_detail', my_review.id)
+
 def my_lnf(request):
     users = request.user
 
@@ -65,7 +93,13 @@ def my_lnf(request):
     ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist}
     return render(request, 'user/my_lnf.html', context=ctx)
 
+def read_my_lnf(request, pk):
+    my_lnf = LnF_Post.objects.get(pk=pk)
+
+    return redirect('LnF:post_detail', my_lnf.id)
+
 class LoginView(View):
+    @method_decorator(csrf_exempt)
     def get(self, request):
         form = LoginForm()
         return render(request, "user/login.html", {"form": form})

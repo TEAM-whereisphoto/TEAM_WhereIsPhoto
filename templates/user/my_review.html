@@ -6,10 +6,20 @@
     {% if my_review_exist == 0 %}
         <p>게시물이 없습니다.</p>
     {% else %}
-    {% for post in reviews_posts %}
+    <div>
+        {% for post in reviews_posts %}
         <p>{{ post.booth }}</p>
         <p>별점 : {{ post.rate }}</p>
-    {% endfor %}
+        <p>{{ post.content }}</p>
+        <p>{{ post.tag }}</p>
+        <div>
+            <!-- <p>{{ post.user }}</p> -->
+            <p>{{ post.date }}</p> 
+        </div>
+        <a href="{% url 'user:read_my_review' post.id %}">게시글 확인하기</a>
+        {% endfor %}
+    </div>
+    
     {% endif %}
 </section>
 <a href="{% url 'user:main' %}">마이페이지로</a>

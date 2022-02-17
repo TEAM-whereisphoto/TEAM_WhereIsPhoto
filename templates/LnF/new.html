@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 <!-- main block -->
 {% block content %}
 
@@ -10,7 +10,7 @@
                 <tr>
                     <th><label for="id_booth">Booth:</label></th>
                     <td>
-                        <input type="text" name="booth" list="boothList" placeholder="매장 이름을 입력하세요.">
+                        <input type="text" name="booth" value="{{booth}}" list="boothList" placeholder="매장 이름을 입력하세요.">
                         <datalist id = "boothList">
                             {% for booth in booths %}
                                 <option value="{{booth.name}}"></option>
