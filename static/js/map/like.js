@@ -24,5 +24,5 @@ const onClickDislike = (booth_id) => {
 
 const onClickAlert = () =>{
     alert('로그인을 먼저 해주세요.!')
-    window.location.href ='http://127.0.0.1:8000/user/login'
+    window.location.href ='/user/login'
 }
