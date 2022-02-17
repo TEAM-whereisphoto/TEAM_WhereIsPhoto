@@ -117,8 +117,12 @@ body {
     border: none !important;
 }
 
+#collapseExample {
+    margin: 4rem 1rem;
+}
+
 .card-body {
-    padding: 4rem 1rem;
+    padding: 0;
 }
 
 #list-filter {
