@@ -3,6 +3,7 @@
 
 {% block head %}
 <script defer type="text/javascript" src="{% static 'js/map/like.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/map/detail.css' %}"> 
 {% endblock %}
 
 {% block header %}
@@ -19,16 +20,17 @@
             <img src ="{{ booth.image.url }}">
         </p>
         {% endif %}
+        <img src = "../../../static/haru_profile.png"> 
     </div>
 
     <div id="boothdetail__body">
 
         <div id="body__name">
-            <h3 class="text-center">{{ booth.name }}</h3>
+            <h3 class="text-center" style="font-family: ROKAFSansMedium; font-size: 30px">{{ booth.name }}</h3>
             <h6 class="text-center">{{ booth.location }}</h6>
-            <div>
+            <div class="text-center">
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성✍</a>
+                    <a href="{% url 'map:booth_review_create' booth.id %}" class="text-primary">리뷰 작성✍</a>
 
                     {% if currentLikeState %}
                         <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
@@ -109,6 +111,7 @@
 
             <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
             <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
+            {% endfor %}
         </div>
 </div>
 
