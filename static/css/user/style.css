@@ -1,7 +1,56 @@
-/* hello */
-@font-face {
-    font-family: 'GmarketSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+@import "../reset.css";
+
+.all {
+    padding-left:2rem;
+}
+
+h3 {
+    font-family: SUIT-Bold;
+    font-size: 16pt;
+    color: black;
+    /* color : #424258; */
+}
+
+h4 {
+    font-family: SUIT-Bold;
+    font-size: 13pt !important;
+    color: #858598;
+}
+
+.sub__title {
+    margin-bottom: 5px;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: #AEAECA
+}
+
+.line {
+    display: flex;
+    justify-content: space-between;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: black;
+}
+
+.log__out {
+    font-family: SUIT-Bold;
+    color: red;
+}
+
+.edit {
+    font-family: SUIT-Bold;
+    color: #1F52FF;
+}
+
+.profile {
+    width: 70%;
+    padding-bottom: 2rem;
+}
+
+.part {
+    padding-bottom: 2rem;
+}
+
+.arrow {
+    color: #858598 !important;
 }
