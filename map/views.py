@@ -15,8 +15,7 @@ def mymap(request):
     return render(request, 'map/mymap.html', context=ctx)
 
 # 부스 평균 별점 계산 후 booth.rate_average 저장
-def save_booth_rate_avg(pk): 
-    booth = Booth.objects.get(id=pk)
+def save_booth_rate_avg(booth): 
     reviews = Review.objects.filter(booth = booth.id)
     
     review_num=len(reviews)
@@ -94,7 +93,7 @@ def booth_review_create(request, pk):
 
             post.save()
             booth.save()
-            save_booth_rate_avg(pk)
+            save_booth_rate_avg(booth)
             return redirect('map:review_detail', post.id)
     else:
         form = ReviewForm()
@@ -120,7 +119,7 @@ def review_update(request, pk):
             review.rate = rate
             review = form.save(commit=False)
             review.save()
-            save_booth_rate_avg(review.booth.id)
+            save_booth_rate_avg(review.booth)
             return redirect('map:review_detail', review.id)
 
     else:
@@ -138,7 +137,7 @@ def review_delete(request, pk):
     booth.save()
     review.delete()
 
-    save_booth_rate_avg(pk)
+    save_booth_rate_avg(booth)
 
     return redirect('map:booth_review_list', booth_id)
 
