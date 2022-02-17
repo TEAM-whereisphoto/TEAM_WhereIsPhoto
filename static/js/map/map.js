@@ -395,6 +395,7 @@ function main(boothList){
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                 map.setBounds(searchbounds); //2
                 setList();
+                input.value='';
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
