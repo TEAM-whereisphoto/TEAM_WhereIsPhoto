@@ -239,5 +239,5 @@ def nav_notice(request):
     else:
         notice =False
 
-    ctx={'notice': notice}
+    ctx={'notice': notice, 'notice_num': len(comments)}
     return JsonResponse(ctx)

@@ -1,45 +1,113 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map/star.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map/reviewdetail.css' %}">
+
+{% endblock %}
+
 
 {% block content %}
-{% if user.is_authenticated %}
-<h1> .</h1>
-<h1> .</h1>
-<h1> .</h1>
+    {% if user.is_authenticated %}
+<div class="main">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class = "form-container">
+            <div class ="form">
+              <div>
+              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' pk %}"> 취소 </a></button>
+              <button type="submit" class="save btn btn-secondary">전송</button>
+            </div>
+              <div class ='title'>
+                <label>{{boothname}}</label>
+              </div>
+            <div class = "content">
+              <table class = "star">
+              <tbody>
+                <tr>
+                  <th>
+                  </th>
+                  <td>
+                    <div class="new-star-rating">
+                      <input type="radio" id="5-stars" name="rating" value="5"/>
+                      <label for="5-stars" class="star">★</label>
+                      <input type="radio" id="4-stars" name="rating" value="4"/>
+                      <label for="4-stars" class="star">★</label>
+                      <input type="radio" id="3-stars" name="rating" value="3"/>
+                      <label for="3-stars" class="star">★</label>
+                      <input type="radio" id="2-stars" name="rating" value="2"/>
+                      <label for="2-stars" class="star">★</label>
+                      <input type="radio" id="1-star" name="rating" value="1"/>
+                      <label for="1-star" class="star">★</label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-    <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-        <table>
-          <tbody>
-            <tr>
-              <th>
-                <label>Rate</label>
-              </th>
-              <td>
-                <div class="new-star-rating">
-                  <input type="radio" id="5-stars" name="rating" value="5"/>
-                  <label for="5-stars" class="star">★</label>
-                  <input type="radio" id="4-stars" name="rating" value="4"/>
-                  <label for="4-stars" class="star">★</label>
-                  <input type="radio" id="3-stars" name="rating" value="3"/>
-                  <label for="3-stars" class="star">★</label>
-                  <input type="radio" id="2-stars" name="rating" value="2"/>
-                  <label for="2-stars" class="star">★</label>
-                  <input type="radio" id="1-star" name="rating" value="1"/>
-                  <label for="1-star" class="star">★</label>
-                </div>
-              </td>
-            </tr>
-            {{form.as_table}}
-          </tbody>
-        </table>
-      <br>
-        <button type="submit">save</button>
-    </form>
+                <div class="tag">
+                  <label>태그</label> 
+                  <!-- {{form.tag}} -->
+<!--
+                      {% for field in form %}
+                      <div class="col-md-12 dropdown">
+                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ field.label_tag }}
+                              <span class="caret"></span>
+                          </button>
+                          <div class="dropdown-menu">
+                              <div><a href="#">{{ field }}</a></div>
+                          </div>
+                      </div>
+                  {% endfor %}
+                  -->
+                  <select class="form-select" aria-label="Default select example" style="width: 100%">
+                      <option selected>태그를 선택해주세요</option>
+                    <option value="clean">시설이 깨끗해요</option>
+                    <option value="prop">소품이 다양해요</option>
+                    <option value="booth">부스가 많아요</option>
+                    <option value="iron">고데기가 있어요</option>
+                    <option value="street">로드점이에요</option>
+                  </select>
+              </div>
 
-  {% else %}
-  <script type="text/javascript">
-    alert('로그인을 먼저 해주세요.!')
-    window.location.href = '{% url "user:login" %}'
-  </script>
-{% endif %}
+              <div class="color">
+                <label>배경색</label>
+                <!-- {{form.color}} -->
+
+                <select class="form-select" aria-label="Default select example" style="width: 100%">
+                  <option selected>배경색을 선택해주세요</option>
+                    <option value="pink" style="color:deeppink"> 핑크</option>
+                    <option class = "blue"value="blue"> 🟦</option>
+                    <option class = "yellow"value="yellow"> 🟨 </option>
+                    <option class = "purple"value="purple">🟪</option>
+                    <option class = "red" value="red"> 🟥 </option>
+                  </select>
+              </div>
+
+              <div class = "textcontent">
+                <textarea class="content-input" placeholder="add comment here!">{% if review.content %}{{review.content}}{% endif %}</textarea>
+              </div>
+
+              <div>
+
+                <label class="img-btn" for="img-input">
+                  사진 추가
+                </label>
+                <input id="img-input" type="file" maxlength="255" value="{% if review.img %}{{review.img.url}}{% endif %}">
+              </div>
+              </div>
+            </div>
+            </div>
+
+          <br>
+        </form>
+      {% else %}
+      <script type="text/javascript">
+        alert('로그인을 먼저 해주세요.!')
+        window.location.href = '{% url "user:login" %}'
+      </script>
+    {% endif %}
+</div>
 {% endblock %}
