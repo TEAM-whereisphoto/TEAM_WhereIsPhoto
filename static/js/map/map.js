@@ -504,12 +504,14 @@ function main(boothList){
 
                 <button class="btn btn-outline-ratingNlike container" style="width: 75%; margin: 1rem 0 0 2rem;">
                     <div class="row">
-                        <div class="star-rating col">
-                            <div class="star-rating-fill" style= "width: ${width}%;">                
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                            <div class="star-rating-base">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        <div class="col d-flex justify-content-center">
+                            <div class="star-rating">
+                                <div class="star-rating-fill" style= "width: ${width}%;">                
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <div class="star-rating-base">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
                             </div>
                         </div>
                         | 
