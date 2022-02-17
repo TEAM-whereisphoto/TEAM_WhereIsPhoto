@@ -26,8 +26,9 @@
             <img src="{{ post.img.url }}" alt="" width="auto"> 
         {% endif %}
         {% if post.user == request.user %}
-        <a href="{% url 'LnF:post_update' post.id %}">수정</a>
-        <a href="{% url 'LnF:post_delete' post.id %}">삭제</a>
+            <a href="{% url 'LnF:post_update' post.id %}">수정</a>
+            <!-- <a href="{% url 'LnF:post_delete' post.id %}">삭제</a> -->
+            <button class="button" onclick="post_del({{post.id}})">삭제</button>
         {% endif %}
     </div>
         <!-- 댓글 -->
@@ -64,5 +65,13 @@
     </div>
         <br>
 </section>
-
+<script>
+    const post_del = (id) => {
+        var res = confirm('정말로 삭제하시겠습니까?');
+        if (res){
+            window.location.href = "{% url 'LnF:post_delete' post.id %}"
+            alert('성공적으로 삭제되었습니다.')
+        }
+    }
+</script>
 {% endblock %}

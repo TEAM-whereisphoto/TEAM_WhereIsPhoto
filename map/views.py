@@ -4,6 +4,8 @@ from .models import *
 from LnF.models import LnF_Post
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def mainpage(request):
@@ -76,6 +78,7 @@ def booth_review_list(request,pk):
     ctx = {'reviews': reviews,'booth':booth, 'boothname':booth.name}
     return render(request, template_name='map/review_list.html', context=ctx)
 
+@login_required
 def booth_review_create(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     
@@ -109,37 +112,39 @@ def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk
     ctx = {'review': review, 'pk':pk, 'tags':tags, 'colors': colors }  # template로 보내기 위해선 context를 만들어야한다.
     return render(request, template_name='map/review_detail.html', context=ctx)
 
-
+@login_required
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
-    if request.method == 'POST':
-        rate = request.POST.get('rating')
-        form = ReviewForm(request.POST, request.FILES, instance=review)
-        if form.is_valid():
-            review.rate = rate
-            review = form.save(commit=False)
-            review.save()
-            save_booth_rate_avg(review.booth)
-            return redirect('map:review_detail', review.id)
+    if request.user == review.user:
+        if request.method == 'POST':
+            rate = request.POST.get('rating')
+            form = ReviewForm(request.POST, request.FILES, instance=review)
+            if form.is_valid():
+                review.rate = rate
+                review = form.save(commit=False)
+                review.save()
+                save_booth_rate_avg(review.booth)
+                return redirect('map:review_detail', review.id)
 
-    else:
-        form = ReviewForm(instance=review)
-        ctx = {'form': form,'pk':pk}
+        else:
+            form = ReviewForm(instance=review)
+            ctx = {'form': form,'pk':pk}
 
-        return render(request, template_name='map/review_create.html', context=ctx)
+            return render(request, template_name='map/review_create.html', context=ctx)
 
+@login_required
 def review_delete(request, pk):
     review = get_object_or_404(Review, id=pk)
+    if request.user == review.user:
+        booth_id = review.boothid
+        booth = get_object_or_404(Booth, id=booth_id)  # id가 pk인 게시물 하나를 가져온다.
+        booth.review_number -= 1
+        booth.save()
+        review.delete()
 
-    booth_id = review.boothid
-    booth = get_object_or_404(Booth, id=booth_id)  # id가 pk인 게시물 하나를 가져온다.
-    booth.review_number -= 1
-    booth.save()
-    review.delete()
+        save_booth_rate_avg(booth)
 
-    save_booth_rate_avg(booth)
-
-    return redirect('map:booth_review_list', booth_id)
+        return redirect('map:booth_review_list', booth_id)
 
 def search(request):
     search = request.GET.get('search','')
