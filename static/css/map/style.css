@@ -70,7 +70,10 @@ body {
 #search-placeholder {
     border: none !important;
     outline: none !important;
-    padding-left: 0.5rem;
+    padding: 0 0 0 0.5rem;
+}
+#search-placeholder2 {
+    padding: 0;
 }
 
 /* placeholder color */
