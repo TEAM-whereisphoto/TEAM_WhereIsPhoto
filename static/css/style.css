@@ -86,7 +86,7 @@ header {
 .main {
     display: flex!important;
     align-items: center;
-    height: 300pt;
+    height: 320pt;
     position: relative;
     padding: 50pt 10pt!important;
     background-color: #1F52FF;

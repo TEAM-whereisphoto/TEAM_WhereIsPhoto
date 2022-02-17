@@ -1,0 +1,12 @@
+.lnf__btn1 {
+    width: 50%;
+    padding: .5rem;
+    background-color : #C979D0;
+    text-align: right;
+}
+
+.lnf__btn2 {
+    width: 50%;
+    padding: .5rem;
+    background-color : #69C3D7;
+}
