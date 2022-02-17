@@ -3,7 +3,7 @@
 
 {% block head %}
 <script defer type="text/javascript" src="{% static 'js/map/like.js' %}"></script>
-<link rel="stylesheet" href="{% static 'css/map/detail.css' %}"> 
+<link rel="stylesheet" href="{% static 'css/map/boothdetail.css' %}"> 
 {% endblock %}
 
 {% block header %}
@@ -19,7 +19,7 @@
             <img src ="{{ booth.image.url }}">
         </p>
         {% endif %}
-        <img src = "../../../static/haru_profile.png"> 
+        <img src = "{% static 'haru_profile.png' %}"> 
     </div>
 
     <div id="boothdetail__body"> <!-- div:nthchild (1)-->
@@ -31,13 +31,15 @@
                 {% if request.user.is_authenticated %}
                     <a style="font-family: ROKAFSansMedium; font-size: 16px;" href="{% url 'map:booth_review_create' booth.id %}" class="text-primary">리뷰 작성✍</a>
 
-                    {% if currentLikeState %}
-                        <div class="detail__heart" id="detail_login_heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요!</div>
-                    {% else %}
-                        <div class="detail__noheart" id="detail_login_noheart" onclick="onClickLike({{booth.id}})" >🤍 여기 매장 좋아요!</div>
-                    {% endif %}
+                    <div id="heart_container">
+                        {% if currentLikeState %}
+                        <div class="detail__heart" onclick="onClickDislike({{booth.id}})">♡ 여기 매장 좋아요!</div>
+                        {% else %}
+                        <div class="detail__noheart" onclick="onClickLike({{booth.id}})" >♡ 여기 매장 좋아요!</div>
+                        {% endif %}
+                    </div>
                 {% else %}
-                    <div class="detail__noheart" onclick="onClickAlert()" >🤍 여기 매장 좋아요!</div>
+                    <div class="detail__noheart" onclick="onClickAlert()" >♡ 여기 매장 좋아요!</div>
                 {% endif %}
             </div>
             <br>
