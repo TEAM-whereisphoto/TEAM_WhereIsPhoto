@@ -73,12 +73,13 @@ def booth_detail(request,pk):
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
-    
-    ctx = {'reviews': reviews,'booth':booth, 'boothname':booth.name}
+
+    ctx = {'reviews': reviews,'booth':booth, 'boothname': booth.name}
     return render(request, template_name='map/review_list.html', context=ctx)
 
 def booth_review_create(request, pk):
     booth = get_object_or_404(Booth, id=pk)
+    boothname = booth.name
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
@@ -99,7 +100,7 @@ def booth_review_create(request, pk):
     else:
         form = ReviewForm()
 
-    ctx = {'form': form}
+    ctx = {'form': form, 'pk':pk, 'boothname':boothname}
     return render(request, template_name='map/review_create.html', context=ctx)
    
 
