@@ -1,96 +1,210 @@
-/* hello */
-@font-face {
-    font-family: 'GmarketSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+@import "../reset.css";
+
+.all {
+    padding-left:1.5rem;
+    padding-right:1.5rem;
 }
 
-@font-face {
-    font-family: 'ROKAFSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'ROKAFSansBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'SUIT-Medium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'SUIT-Light';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'SUIT-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-a {
-    color: red;
-    text-decoration: none;
-}
-h1 h2 h3 h4 h5{
-    font-family:ROKAFSansBold;
-}
-
-p {
-    font-family: SUIT-Medium;
+h3 {
+    padding-top: 3rem !important;
+    font-family: SUIT-Bold;
     font-size: 16pt;
-    color : #424258;
+    color: black;
+    /* color : #424258; */
 }
 
-header {
-    background-color: white;
+h4 {
+    font-family: SUIT-Bold;
+    font-size: 13pt !important;
+    color: #858598;
 }
 
-.center {
-    display: flex!important;
-    justify-content: center;
+.sub__title {
+    margin-bottom: 5px;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: #AEAECA
+}
+
+.liked__title {
+    font-family: SUIT-Medium;
+    font-size: 10pt;
+    color: white;
+    z-index: 3;
+    margin: 0;
+    /* position: relative;
+    top: -5.2rem; */
+}
+
+.liked_container {
+    display: flex;
+    overflow: scroll;
+}
+
+.liked__content {
+    padding-right: 1rem;
+    margin-right: .5rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.header__title {
-    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
-    font-size: 30pt;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.navbar__link {
-    display: block;
-    padding: .5rem 1rem;
+.line {
+    display: flex;
+    justify-content: space-between;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
     color: black;
-    text-decoration: none;
-    font-family:'SUIT', sans-serif;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    padding-bottom: 0.5rem;
 }
 
-.main {
-    padding-top: 120pt;
-    padding-bottom: 50pt;
+.liked__img {
+    width: 8rem;
+    height: 10rem;
 }
 
-.main__text {
-    color: white;
-    font-family: 'ROKAF Sans', 'SUIT', sans-serif;;
+.log__out {
+    font-family: SUIT-Bold;
+    color: red;
 }
 
-.main__btn {
-    background-color : #C979D0
+.edit {
+    font-family: SUIT-Bold;
+    color: #1F52FF;
+}
+
+.profile {
+    width: 70%;
+    padding-bottom: 2rem;
+}
+
+.part {
+    padding-bottom: 2rem;
+}
+
+.arrow {
+    color: #858598 !important;
+}
+
+/* signup */
+
+/*
+Basic input element using psuedo classes
+*/
+
+* { box-sizing:border-box; }
+
+/* basic stylings ------------------------------------------ */
+body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
+.container 		{ 
+  font-family:'Roboto';
+  width:600px; 
+  margin:30px auto 0; 
+  display:block; 
+  background:#FFF;
+  padding:10px 50px 50px;
+}
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
+}
+h2 small { 
+  font-weight:normal; 
+  color:#888; 
+  display:block; 
+}
+.footer 	{ text-align:center; }
+.footer a  { color:#53B2C8; }
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+input 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:300px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:300px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }

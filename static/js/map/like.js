@@ -5,8 +5,8 @@ const onClickLike = (booth_id) => {
     })
     .then(data => {
         booth_id = data['booth_id'];
-        const heart = document.querySelector("body > div > div:nth-child(1) > div")
-        heart.innerHTML = `<div class="heart" onclick="onClickDislike(${booth_id})">❤️ 여기 매장 좋아요</div>`
+        const heart = document.getElementById("detail_login_noheart")
+        heart.innerHTML = `<div class="detail__heart" id="detail_login_heart" onclick="onClickDislike(${booth_id})">❤️ 여기 매장 좋아요!</div>`
     })
 }
 
@@ -17,8 +17,8 @@ const onClickDislike = (booth_id) => {
     })
     .then(data => {
         booth_id = data['booth_id'];
-        const heart = document.querySelector("body > div > div:nth-child(1) > div")
-        heart.innerHTML = `<div class="heart" onclick="onClickLike(${booth_id})">🤍 여기 매장 좋아요</div>`
+        const heart = document.getElementById("detail_login_heart")
+        heart.innerHTML = `<div class="detail__noheart" id="detail_login_noheart" onclick="onClickLike(${booth.id})" >🤍 여기 매장 좋아요!</div>`
     })
 }
 
