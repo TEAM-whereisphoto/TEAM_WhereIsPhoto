@@ -1,34 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/map/reviewlist.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h4>{{ booth.name }}</h4>
-    <a href="{% url 'map:booth_detail' booth.id%}">detail</a>
-    
+<div class = "main">
+    <div class ='title'>
+        <a href="{% url 'map:booth_detail' booth.id%}">{{boothname}}</a>
+    </div>
 
-    {% for review in reviews %}
-    <a href="{% url 'map:review_detail' review.id %}">
-        <div>
-            <h4>작성자 : {{review.user}}</h4>
-            <h5>별점</h5>
-            <div class="star-rating">
-                <div class="star-rating-fill" style= "width: {{review.getWidth}}%;">                
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        <div class="reviewblock">
+        {% for review in reviews %}
+        <a href="{% url 'map:review_detail' review.id %}">
+            <div>
+
+                <div class="color">{{review.color}}</div>
+                <div class = "tag">{{review.tag}}</div>
+
+                <div class="star-rating">
+                    <div class="star-rating-fill" style= "width: {{review.getWidth}}%;">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <div class="star-rating-base">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
                 </div>
-                <div class="star-rating-base">
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                <div class="foot">
+                    {{review.user}} | {{review.time|date:'m월 d일'}}
                 </div>
+
+
+            <br>
             </div>
-            <h6>{{review.color}}</h6>
-            <h6>{{review.tag}}</h6>
-        <br>
+        </a>
         </div>
-        
-    </a>
-        
-
-    {% endfor %}
-
-    <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
-
+        {% endfor %}
+        <button type="button" class="write btn btn-secondary">리뷰 작성</button>
+</div>
 
 {% endblock %}

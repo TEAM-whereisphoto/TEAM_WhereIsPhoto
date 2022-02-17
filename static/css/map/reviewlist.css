@@ -1,0 +1,34 @@
+body{
+    font-family: ROKAFSansMedium !important;
+    background-color : #DEDEE6;
+}
+
+.main{
+    padding: 0.5rem;
+}
+
+.reviewblock{
+    padding: 0.8rem;
+    background-color : #FFFFFF;
+    border-radius: 1rem;
+}
+.title{
+    margin-bottom: 1rem;
+    font-size: 20pt;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.write{
+    margin-top: 2rem;
+    border-radius: 2rem;
+    float :right;
+}
+.foot{
+    font-size: 10pt;
+    color : #A3A3B5;
+    float:right;
+}
+.color, .tag{
+    font-size: 12pt;
+}
