@@ -89,3 +89,30 @@ header {
     font-family:'SUIT', sans-serif;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
+
+.main {
+    padding-top: 120pt;
+    padding-bottom: 50pt;
+}
+
+.main-color {
+    color: #1F52FF;
+}
+
+.main__text {
+    color: white;
+    font-family: 'ROKAF Sans', 'SUIT', sans-serif;;
+}
+
+.main__btn:first-child {
+    background-color : #C979D0
+}
+
+.main__btn:last-child {
+    background-color : #69C3D7
+}
+
+.user__title {
+    font-family: ROKAFSansMedium;
+    color: black;
+}

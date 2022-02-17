@@ -91,7 +91,7 @@ body {
   /* small detail 창 */
 .offcanvas-body {
     flex-grow: 1;
-    padding: 0rem 1rem !important;
+    padding: 1rem !important;
     overflow-y: auto;
 }
 
@@ -106,4 +106,30 @@ body {
 
 .offcanvas-backdrop {
     background-color: transparent !important;
+}
+
+/* filter 관련 */
+.card {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.card-body {
+    padding: 4rem 1rem;
+}
+
+#list-filter {
+    padding: 0 1rem;
+}
+
+.btn-group {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    overflow: -moz-scrollbars-none;
+}
+
+/* -webkit- (Chrome, Safari, newer versions of Opera) */
+.btn-group::-webkit-scrollbar {
+    /* width: 0 !important; */
+    display: none !important;
 }

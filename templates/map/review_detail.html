@@ -43,7 +43,18 @@
     <a href="{% url 'map:booth_review_list' review.booth.id %}">lists</a> <br />
     {% if review.user == request.user %}
         <a href="{% url 'map:review_update' review.id %}"> 수정 </a> <br/>
-        <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/>
+        <!-- <a href="{% url 'map:review_delete' review.id %}"> 삭제 </a> <br/> -->
+        <button class="button" onclick="post_del({{post.id}})">삭제</button>
+
     {% endif %}
 
+    <script>
+        const post_del = (id) => {
+        var res = confirm('정말로 삭제하시겠습니까?');
+        if (res){
+            window.location.href = "{% url 'map:review_delete' review.id %}"
+            alert('성공적으로 삭제되었습니다.')
+        }
+    }
+    </script>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from .forms import *
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from map.models import Booth
 from brand.models import Brand
@@ -60,31 +61,35 @@ def post_detail(request,pk):
     ctx = {'post': post, 'booth': booth}
     return render(request, 'LnF/post_detail.html', context=ctx)
 
+@login_required
 def post_update(request, pk):
     post = get_object_or_404(LnF_Post, id=pk)
     booths = Booth.objects.all()
 
-    if request.method == 'POST':
-        booth_name = request.POST.get('booth')
-        form = PostForm(request.POST, request.FILES, instance=post)
+    if request.user == post.user:
+        if request.method == 'POST':
+            booth_name = request.POST.get('booth')
+            form = PostForm(request.POST, request.FILES, instance=post)
 
-        if form.is_valid():
-            post.booth = get_object_or_404(Booth, name=booth_name)
-            post = form.save(commit=False)
-            post.save()
-        return redirect('LnF:post_detail', pk)
+            if form.is_valid():
+                post.booth = get_object_or_404(Booth, name=booth_name)
+                post = form.save(commit=False)
+                post.save()
+            return redirect('LnF:post_detail', pk)
 
-    else:
-        booth = post.booth
-        print(booth)
-        form = PostForm(instance=post)
-        ctx = {'form': form, 'booths':booths, 'booth':booth}
-        return render(request, 'LnF/new.html', context=ctx)
-            
+        else:
+            booth = post.booth
+            print(booth)
+            form = PostForm(instance=post)
+            ctx = {'form': form, 'booths':booths, 'booth':booth}
+            return render(request, 'LnF/new.html', context=ctx)
+
+@login_required
 def post_delete(request, pk):
     post = get_object_or_404(LnF_Post, id=pk)
-    post.delete()
-    return redirect('LnF:list')
+    if request.user == post.user:
+        post.delete()
+        return redirect('LnF:list')
 
 
 
