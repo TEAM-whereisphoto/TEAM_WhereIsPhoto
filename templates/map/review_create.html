@@ -2,17 +2,16 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1> .</h1>
-<h1> .</h1>
-<h1> .</h1>
 
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      <div class = "form-container">
+        <div class ="form">
         <table>
           <tbody>
             <tr>
               <th>
-                <label>Rate</label>
+                <label>별점 : </label>
               </th>
               <td>
                 <div class="new-star-rating">
@@ -29,9 +28,29 @@
                 </div>
               </td>
             </tr>
+
+            <p>
+              <label>태그: </label> 
+              <select class="select" multiple>
+                <option value="clean">{{tag.1}}</option>
+                <option value="prop">Two</option>
+                <option value="booth">Three</option>
+                <option value="4">Four</option>
+                <option value="5">Five</option>
+                <option value="6">Six</option>
+                <option value="7">Seven</option>
+                <option value="8">Eight</option>
+              </select>
+              <input class="form-input" name="title" type="text" maxlength="30" value="{% if review.title %}{{review.title}}{% endif %}">
+            </p>
+
+
             {{form.as_table}}
           </tbody>
         </table>
+        </div>
+        </div>
+
       <br>
         <button type="submit">save</button>
     </form>
