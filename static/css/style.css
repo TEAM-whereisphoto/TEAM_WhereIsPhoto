@@ -67,9 +67,9 @@ header {
 }
 
 .header__title {
-    color: #1F52FF;
     font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
-    font-size: 2rem;
+    font-size: 30pt;
+    font-weight: 600;
     text-decoration: none;
 
     padding-top: 0.3125rem;

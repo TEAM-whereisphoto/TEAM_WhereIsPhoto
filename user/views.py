@@ -20,39 +20,18 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def main(request):
     users = request.user
-    # booth = get_object_or_404(Booth)
 
-    #좋아요
+    # dolike가 true인 booth-brand pair 관련 list 만들기
+    liked_booth_brand = []
     my_likes = Liked.objects.filter(user = users)
-    booth_likes = Review.objects.filter(user = users)
     for my_like in my_likes:
-        for booth_like in booth_likes:
-            array = (my_like.booth.name, booth_like.boothid)
-            print(array)
+        if my_like.dolike:
+            liked_booth_brand.append([my_like.booth, my_like.booth.brand])
 
-    # 좋아요의 여부
-    
-    try:
-        my_like_exist = Liked.objects.get(user=users)
-    except Liked.DoesNotExist:
-        my_like_exist = 0
-    except Liked.MultipleObjectsReturned:
-        my_like_exist = 1
-
-    # 리뷰
-    reviews_posts = Review.objects.filter(user = users)
-
+    user_liked_num = len(liked_booth_brand)
     comments = getNew(users)
-
-    try:
-        my_review_exist = Review.objects.get(user = users)
-    except Review.DoesNotExist:
-        my_review_exist = 0
-    except Review.MultipleObjectsReturned:
-        my_review_exist = 1
- 
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments), 'my_like_exist':my_like_exist, 
-    'my_likes': my_likes}
+    
+    ctx = {'len': len(comments), 'liked_booth_brand':liked_booth_brand, 'user_liked_num': user_liked_num}
     return render(request, 'user/main.html', context=ctx)
     
 def my_review(request):
@@ -71,7 +50,6 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
-# http://127.0.0.1:8000/find/review/3/
 def read_my_review(request, pk):
     my_review = Review.objects.get(pk=pk)
 
@@ -261,5 +239,5 @@ def nav_notice(request):
     else:
         notice =False
 
-    ctx={'notice': notice}
+    ctx={'notice': notice, 'notice_num': len(comments)}
     return JsonResponse(ctx)
