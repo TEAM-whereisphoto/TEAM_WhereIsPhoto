@@ -16,6 +16,7 @@
             <!-- <p>{{ post.user }}</p> -->
             <p>{{ post.date }}</p> 
         </div>
+        <a href="{% url 'user:read_my_review' post.id %}">게시글 확인하기</a>
         {% endfor %}
     </div>
     

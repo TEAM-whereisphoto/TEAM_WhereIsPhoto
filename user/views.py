@@ -24,19 +24,11 @@ def main(request):
 
     #좋아요
     my_likes = Liked.objects.filter(user = users)
-    print(my_likes)
-
-    # all_likes =[] 해서 list 만들어서 저장? for돌리고 또 if?
-    
-    # flag = 0
-    # for my_like in my_likes:
-    #     if "인생네컷" in str(my_like.booth):
-    #         flag = 1
-    #     elif "포토이즘" in str(my_like.booth):
-    #         flag = 2
-    #     else:
-    #         flag = 0
-    
+    booth_likes = Review.objects.filter(user = users)
+    for my_like in my_likes:
+        for booth_like in booth_likes:
+            array = (my_like.booth.name, booth_like.boothid)
+            print(array)
 
     # 좋아요의 여부
     
@@ -79,6 +71,12 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
+# http://127.0.0.1:8000/find/review/3/
+def read_my_review(request, pk):
+    my_review = Review.objects.get(pk=pk)
+
+    return redirect('map:review_detail', my_review.id)
+
 def my_lnf(request):
     users = request.user
 
@@ -94,6 +92,11 @@ def my_lnf(request):
 
     ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist}
     return render(request, 'user/my_lnf.html', context=ctx)
+
+def read_my_lnf(request, pk):
+    my_lnf = LnF_Post.objects.get(pk=pk)
+
+    return redirect('LnF:post_detail', my_lnf.id)
 
 class LoginView(View):
     @method_decorator(csrf_exempt)
