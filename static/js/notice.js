@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if (notice == true){
             const mypageBtn = document.querySelector("body > nav > div > div:nth-child(3) > button")
             const circleDiv = document.createElement("div")
-            circleDiv.setAttribute('class', "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger")
+            circleDiv.setAttribute('class', "position-absolute top-20 start-80 translate-middle badge rounded-pill bg-danger")
             circleDiv.innerHTML = notice_num
             mypageBtn.append(circleDiv)
         }
