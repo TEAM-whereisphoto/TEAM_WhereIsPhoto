@@ -78,10 +78,6 @@ header {
 }
 
 .header__navbar {
-    color: #424258;
-}
-
-.header__navbar {
     display: block;
     padding: 1rem 0;
     color: black;
@@ -90,25 +86,46 @@ header {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
 
-.main {
-    padding-top: 120pt;
-    padding-bottom: 50pt;
-}
-
-.main-color {
-    color: #1F52FF;
-}
-
+/* main 영역 CSS */
 .main__text {
     color: white;
-    font-family: 'ROKAF Sans', 'SUIT', sans-serif;;
+    font-family: ROKAFSansMedium, 'SUIT', sans-serif;
+    font-size: 12pt;
 }
 
-.main__btn:first-child {
-    background-color : #C979D0
+.main {
+    padding: 50pt 10pt;
+    position: relative;
+    background-color: #1F52FF;
 }
 
-.main__btn:last-child {
+.main__text > h3 {
+    font-size: calc(2rem + .6vw);;
+    font-weight: normal;
+}
+
+.main__text > h5 {
+    font-weight: lighter;
+}
+
+.main__img {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 70%;
+    height:100%;
+}
+
+.main__btn a:first-child {
+    width: 50%;
+    padding: .5rem;
+    background-color : #C979D0;
+    text-align: right;
+}
+
+.main__btn a:last-child {
+    width: 50%;
+    padding: .5rem;
     background-color : #69C3D7
 }
 

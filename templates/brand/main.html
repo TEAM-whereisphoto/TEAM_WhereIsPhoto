@@ -4,43 +4,31 @@
   
   <!-- main image sec -->
   <section>
-    <div class="main__img">
+    <div class="main">
       <!-- 글씨영역 -->
       <div class="main__text">
         <h3>
-          당신이 
-          원하는 
-          포토부스
+          당신이 <br>
+          원하는 <br>
+          포토부스 <br>
         </h3>
         <h5>
-          빠르게 가깝게 편하게
-          매장찾아 사진찍자!
+          빠르게 가깝게 편하게 <br>
+          매장찾아 사진찍자! <br>
         </h5>
       </div>
       <!-- 이미지영역 -->
-      <!-- 이미지 같은 경우는 position 사용해서 div끼리 겹치게 하면 될 것 같습니다 -->
-      <div class=""></div>
+      <div class="main__img">
+        <img src="/static/icons/frame_all.png" alt="" width="100%" height="100%">
+      </div>
     </div>
   </section>
-
   <!-- main btn sec -->
   <section>
     <!-- 버튼 2개 구현 위치 -->
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button">
-        <a href="{% url 'user:main' %}"></a>
-      </button>
-      <button class="navbar-toggler" type="button">
-        <a href="{% url 'user:main' %}"></a>
-      </button>
-    </div>
-
-    <div class="main__btn main__text">
-      <p class="">Lost & Found<br>분실물 찾기</p>
-    </div>
-
-    <div class="main__btn">
-      <p class="main__text">Search Booth<br>부스 찾기</p>
+    <div class="main__btn main__text d-flex flex-row">
+      <a href="{% url 'LnF:list' %}" role="button" >Lost & Found<br>분실물 찾기</a>
+      <a href="{% url 'map:mymap' %}" role="button" >Search Booth<br>부스 찾기</a>
     </div>
   </section>
 
