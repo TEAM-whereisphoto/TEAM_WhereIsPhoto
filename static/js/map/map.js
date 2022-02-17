@@ -133,7 +133,6 @@ const returnmap = document.getElementById('return-map') // 지도 돌아가는 '
 // booth 작은 detail 표시해둘 dom
 const boothSmall = document.getElementById('booth-small');
 const boothSmallBtn = document.getElementById('booth-small-btn');
-const boothSmallTitle = document.getElementById("offcanvasBottomLabel");
 // 범위 내의 booth list 저장해두는 array
 let mapboundbooth = []
 
@@ -234,7 +233,6 @@ function main(boothList){
 
             // offcanvas 내용을 표시합니다.
             boothSmall.innerHTML='';
-            boothSmallTitle.innerHTML='';
     
             // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
             // console.log(booth["name"])
@@ -269,7 +267,6 @@ function main(boothList){
     
     // 바뀐 범위의 booth들 찾는 함수
     function findBoundBooth() {
-        console.log("3번 얘가 움직인 셈 이라 이거 자동 실행(ㄴㄴtrigger해줌) 다음")
         mapboundbooth = []
         // 현재 범위 안의 booth들 담아놓는 객체 초기화
     
@@ -285,6 +282,7 @@ function main(boothList){
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
             if (bounds.contain( boothcoord )) { mapboundbooth.push(booth) }
         }
+
     }
     
     // 5. map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
@@ -373,7 +371,6 @@ function main(boothList){
     const searchInput2 = document.getElementById('search-placeholder2');
 
     function searchLocation(input) {
-        console.log("얘가 1번이어야 하고")
         var keyword = input.value
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -396,9 +393,8 @@ function main(boothList){
                 }       
 
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-                console.log("이게 2번이 아니야?")
-                map.setBounds(searchbounds);
-                kakao.maps.event.trigger(map, 'bounds_changed')
+                map.setBounds(searchbounds); //2
+                setList();
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
@@ -407,11 +403,7 @@ function main(boothList){
             else if (status === kakao.maps.services.Status.ERROR) {
                 alert("검색 중 오류가 발생했습니다.")
             }
-            return 0;
         }
-
-        return 0;
-        
     }
 
     searchBtn.addEventListener('click', function() {
@@ -419,16 +411,9 @@ function main(boothList){
     });
     
     searchBtn2.addEventListener('click', function() {
-
-        getSearch();
-        // findBoundBooth(); // 얘는 범위 바뀌어서 자동실행될 줄 알았으나 강제 trigger 해줘야겠다
-        // console.log("여기로 다시 돌아와서 4번 setList 할건데")
+        searchLocation(searchInput2);       
     });
 
-    async function getSearch() {
-        searchLocation(searchInput2);
-        var result = await setList();
-    }
 
     searchInput.addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
@@ -444,6 +429,7 @@ function main(boothList){
         if (event.key === 'Enter') {
             event.preventDefault(); // 새로고침 방지
             // Trigger the button element with a click
+
             searchBtn2.click();
         }
     });
@@ -461,7 +447,6 @@ function main(boothList){
     // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
 
     refresh.addEventListener('click', function() {
-        console.log("refresh")
         gps_check();
     });
 
@@ -499,26 +484,25 @@ function main(boothList){
         }
         
         let hourContent = ''
-        if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
+        if (hour) { hourContent = `<p style="margin: 1rem 0 0 2rem; font-family: ROKAFSansMedium;" class="fs-6">
+        ${ hour }
+        </p>` } // 시간 null 아닌 경우만 표시
         var pinsrc = eval(brand_dict[brand]+"Src")
 
         const newdiv = document.createElement('div');
         
         if (small) { // 작은 detail 표시하는 경우
-            boothSmallTitle.setAttribute("href", `/find/booth/detail/${ boothId }`)
-            boothSmallTitle.innerHTML = 
-            `<img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }`
-
             newdiv.innerHTML =
-            `<div id="list-${ boothId }" data-id="${ boothId }">
+            `<a id="list-${ boothId }" data-id="${ boothId }" href="/find/booth/detail/${ boothId }">
+                <div class="fs-4">
+                    <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
+                </div>
 
-                <p style="margin: 0 0 0 2rem">${distance} | ${ address }</p>
+                <p style="margin: 1rem 0 0 2rem; font-family: ROKAFSansMedium;" class="fs-6">${distance} | ${ address }</p>
 
-                <p style="margin: .5rem 0 0 2rem">
                 ${ hourContent }
-                </p>
 
-                <button class="btn btn-outline-ratingNlike container d-block mx-auto" style="width: 75%; margin: 1rem 0;">
+                <button class="btn btn-outline-ratingNlike container" style="width: 75%; margin: 1rem 0 0 2rem;">
                     <div class="row">
                         <div class="star-rating col">
                             <div class="star-rating-fill" style= "width: ${width}%;">                
@@ -528,42 +512,53 @@ function main(boothList){
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                             </div>
                         </div>
-                            
                         | 
                         <div class = "col" style="color: #484848">${ reviewnum } review(s)</div>  
                     </div>
                 </button>
         
-            </div>`;
+            </a>`;
                 // <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
         }
         else { // 전체 목록 list print하는 경우
             newdiv.innerHTML = 
             `<div id="wholelist-${ boothId }" data-id="${ boothId }">
                 <div style="font-size: 20px; color: #000;"><img style="width: 30px; margin-right: 5px" src=${ pinsrc }></img>${ name }</div>
+
                 <div style="margin: 0 0 0 2rem;">
+
                     <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                     
-                    <div style="margin: 0.5rem 0 0 0;">
-                    <a style=" color: #6D6D79 !important;" href="/find/booth/detail/${ boothId }/review">
-                        <div class="star-rating">
+                    <div style="margin: 0.5rem 0 0 0; display: inline-flex;">
+                        <div class="star-rating pe-1">
                             <div class="star-rating-fill" style= "width: ${width}%;">                
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                             </div>
                             <div class="star-rating-base">
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                             </div>
-                        </div>
-                    | 
-                    ${ reviewnum } review(s)
+                        </div> | ${ reviewnum } review(s)
                     </div>
                     
                 </div>
                 <hr />
             </div>`;
-                
+            
+            // 이 div에 event Listener 추가
+            // boothListDom.children[i].children[0]
+            newdiv.addEventListener('click', function() {
+                // 전체 목록 닫기?
+                returnmap.click()
+
+                boothSmall.innerHTML = ''
+                printList(boothElement, boothSmall, 1)
+                map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
+
+                kakao.maps.event.trigger(allMarker[boothId-1], 'click')
+            });
         }
         list.append(newdiv); // list추가
+
     }
 
     var curCenter = map.getCenter();
@@ -614,13 +609,12 @@ function main(boothList){
     }); 
 
     function setList() {
-        console.log("5번인가 아무튼 setList는 여기임")
         if(mapboundbooth.length) {
             boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
         }
         else {
             boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'
-            return;
+            return 0;
         }
 
         curCenter = map.getCenter()
@@ -629,35 +623,7 @@ function main(boothList){
             printList(booth, boothListDom, 0); 
         } // list에 표시하기
         
-        // 목록별 부스 이벤트 등록
-        for (let i=0; i < boothListDom.childElementCount; i++) {
-            
-            boothListDom.children[i].children[0].addEventListener('click', function() {
-                // 전체 목록 닫기?
-                let selectedId = boothListDom.children[i].children[0].dataset.id
-                returnmap.click()
 
-                let clickedbooth = boothList[selectedId-1] 
-                boothSmall.innerHTML = ''
-                printList(clickedbooth, boothSmall, 1)
-                map.setCenter(new kakao.maps.LatLng(clickedbooth['x'],clickedbooth['y']))
-
-                kakao.maps.event.trigger(allMarker[selectedId-1], 'click')
-                // allMarker[selectedId-1].click()
-                // // 핀 크게도 하고싶은디
-                // allMarker[selectedId-1].setImage( eval(brand_dict[clickedbooth["brand__name"]]+"Click") );
-                // selectedMarker = allMarker[selectedId-1];
-                // boothSmallBtn.click() // 아래 small detail 열기
-            });
-        }
-
-        // 디테일 페이지로 이동하는 event 등록
-        boothSmall.addEventListener('click', function() {
-            let getId = boothSmall.children[0].children[0].dataset.id
-            window.location.href = "/find/booth/detail/"+getId
-        })
-
-        return 0;
     }
 
     // 10. 목록 끝 -----------------------------------------------------------------------------
