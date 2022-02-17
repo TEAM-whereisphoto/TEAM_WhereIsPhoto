@@ -47,16 +47,16 @@
             {% for tag in tag_list %}
                 <h6>
                     {% if tag.0 == 'clean' %}
-                        시설이 깨끗해요
-                    {% elif tag.0 == 'prop' %}
-                        소품이 다양해요
-                        {% elif tag.0 == 'booth' %}
-                        부스가 많아요
-                        {% elif tag.0 == 'iron' %}
-                        고데기가 있어요
-                    {% elif tag.0 == 'street' %}
-                        로드점이에요
-                    {% endif %}
+                시설이 깨끗해요
+                {% elif tag.0 == 'prop' %}
+                    소품이 다양해요
+                {% elif tag.0 == 'booth' %}
+                    부스가 많아요
+                {% elif tag.0 == 'iron' %}
+                    고데기가 있어요
+                {% elif tag.0 == 'street' %}
+                    로드점이에요
+                {% endif %}
                     {{tag.1}}개 
                 </h6>
             {% endfor %}
@@ -69,7 +69,7 @@
             </div>
 
             <div class="star-rating">
-                <div class="star-rating-fill" :style="width: {{booth.rating}}%; color: red ">
+                <div class="star-rating-fill" style= "width: {{ width }}%;">
                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                 </div>
                 <div class="star-rating-base">
@@ -83,17 +83,16 @@
                 {% for review in reviews %}
                 <div class="row" style="border: 1px black; border-radius: 0.5rem; box-shadow: 0.5rem;">
                     <span>
-                        {{review.content}}
+                        <a href="{% url 'map:review_detail' review.id %}">{{review.content}}</a>
                     </span>
                     <div class="d-flex justify-content-around" style="color: #A3A3B5">
                         <span>
                             {{review.user.username}}
                         </span>
                         <span>
-                            {{review.time}}
+                            {{review.date|date:'m월 d일'}}
                         </span>
                     </div>
-                    
                 </div>
                 {% endfor %}
             </div>
@@ -103,20 +102,9 @@
         <div id="boothdetail__LnF" style="background-color: #F3F4F6;">
             <h4>Lost and Found</h4>
             {% for lnf in lnfs %}
-            {% if lnf.tag == '분실' %}
-                <h6>분실</h6>
-                {{lnf.title}}
-
-                {% elif lnf.tag == '보관' %}
-                <h6>보관</h6>
-                {{lnf.title}}
-
-                {% else %}
-                <h6>기타</h6>
-                {{lnf.title}}
-
-                {% endif %}
-                {% endfor %}
+            <div>
+                {{lnf.tag}}: {{lnf.content}}
+            </div>
             <br>
 
             <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
