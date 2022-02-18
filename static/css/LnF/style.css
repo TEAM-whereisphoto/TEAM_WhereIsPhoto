@@ -1,3 +1,28 @@
+.blank {
+    margin-bottom: 0.8rem;
+}
+
+.search {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+
+    padding: 0.3rem;
+    border: solid #A3A3B5 1px;
+    border-radius: 0.5rem;
+}
+
+.search__input > input {
+    border: none;
+    width: 100%;
+}
+
+.search__btn > button{
+    border: none;
+    background-color: transparent;
+}
+
 .lnf__btn1 {
     width: 49%;
     padding: .5rem;

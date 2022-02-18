@@ -4,55 +4,30 @@
 
 {% block head %}
 <script defer src="{% static 'js/LnF/filter.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
 {% endblock %}
 
 {% block content %}
-<h1>LNF List</h1>
 <div class="container">
     <!-- search -->
     <section>
-        <div id="searchLoc" style="position: absolute; z-index: 3; top: 1rem; left: 50%; width: 80%; transform: translate(-50%);">
-            <div data-v-64c6254b="" class="search-input bg-white">
-                <div id="search-icon" style="padding-left: 5px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" fill="rgba(117,117,135,1)"></path>
-                    </svg>
+        <div class="container">
+            <form class="search" action="" method="get">
+                <div class="search__btn">
+                    <button type="submit" value="검색">
+                        <i class="ri-search-line ri-1x"></i>
+                    </button>
                 </div>
-                <div class="search-input-item w-100">
-                    <input style="width:100%" id="search-placeholder" placeholder="ex. 신촌역" name="icon-name" type="text"> 
+                <div class="search__input w-100">
+                    <input id="query" type="text" name="query" value="{{query}}" placeholder="ex. 잠실">
                 </div>
-                <div id="close-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
-                    </svg>
-                </div>   
-            </div>
-        </div>
-
-        <div class="row" id="filter-container">
-            <!-- 검색란 & 필터 부분 넣는 공간 -->
-            <form method="GET" action="{% url 'map:search' %}">
-                <div id="search" class="pb-3">
-                    <input class="w-50" name="search" type="text" placeholder="매장 이름 or 지역을 검색해보세요 ex) 홍대">
-                    <button class="btn btn-primary" type="submit">검색</button>
-                <!-- </div> -->
-            </form>
-            <br />
-        </div>
-
-        <div class="search">
-            <form action="" method="get">
-                <input id="query" type="text" name="query" value="{{query}}">
-                <input type="submit" value="검색">
+                <div class="search__close">
+                    <i class="ri-close-fill ri-1x"></i>
+                </div>
             </form>
         </div>
-        search:
-
-
     </section>
-
+    <div class="blank"></div>
     <!-- btn sec -->
     <section>
         <div class="container d-flex justify-content-between" style="width: 100%;">
@@ -67,8 +42,7 @@
             </div>
         </div>
     </section>
-
-    <!-- 글 작성하기 -->
+    <!-- write sec -->
     <section>
         <div class="lnf__write" style="cursor: pointer; z-index: 2; right: 1rem; bottom: 1rem;">
             <a href="{% url 'LnF:new' %}">
@@ -77,8 +51,7 @@
             </a>
         </div>
     </section>
-    <br>
-
+    <!-- post sec -->
     <section id="postList">
         <div class="container d-flex flex-column">
             {% for post in posts %}
@@ -112,7 +85,6 @@
                 </div>                
             </div>
         {% endfor %}
-
         </div>
     </section>
 </div>
