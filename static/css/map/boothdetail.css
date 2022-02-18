@@ -60,3 +60,44 @@ body {
 /* #boothdetail__tags {
 
 } */
+
+/* lnf CSS */
+.post {
+    font-family: 'SUIT-Medium';
+    color : #424258;
+    border-radius: 10pt;
+    margin-bottom: 1rem;
+}
+
+.post__title {
+    display: flex!important;
+    align-items: center;
+}
+
+.post__title > a {
+    font-size: 1.2rem;
+    font-family: 'SUIT-Bold';
+}
+
+.post__분실 {
+    background-color: #C979D0;
+    color: white;
+    border-radius: 1rem;
+    padding: .1rem .3rem;
+    margin-right: .5rem;
+}
+
+.post__보관 {
+    background-color: #69C3D7;
+    color: white;
+    border-radius: 1rem;
+    padding: .1rem .3rem;
+    margin-right: .5rem;
+}
+
+.post__footer {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    color: #A3A3B5;
+}

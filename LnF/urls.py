@@ -6,6 +6,7 @@ app_name = "LnF"
 urlpatterns = [
     path("", view=views.list, name='list'),
     path("new/", view=views.new, name='new'),
+    path("new/<int:pk>", view=views.new_one, name='new_one'),
     path("tag/", view=views.tag, name='tag'),
     path("<int:pk>/booth_detail/", view=views.booth_detail, name='booth_detail'),
     path("<int:pk>/post_detail/", view=views.post_detail, name='post_detail'),
