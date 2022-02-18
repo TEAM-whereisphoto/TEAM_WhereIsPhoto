@@ -1,7 +1,7 @@
 .blank {
     margin-bottom: 0.8rem;
 }
-
+/* search bar CSS */
 .search {
     display: flex;
     justify-content: space-around;
@@ -18,7 +18,7 @@
     width: 100%;
 }
 
-.search__btn > button{
+button{
     border: none;
     background-color: transparent;
 }
@@ -43,7 +43,7 @@
     position: fixed;
 }
 
-/* 게시물 CSS */
+/* post CSS */
 .post {
     font-family: 'SUIT-Medium';
     color : #424258;
@@ -84,3 +84,15 @@
     color: #A3A3B5;
     font-size: .8rem;
 }
+
+.post__func {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post__chg {
+    background-color: #a3a3b583;
+}
+
+/*comment css*/
