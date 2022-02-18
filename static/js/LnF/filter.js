@@ -75,3 +75,7 @@ requestTag.onreadystatechange = () => {
     
     }
 }
+
+function delInput() {
+    document.getElementById("query").value ='';
+}
