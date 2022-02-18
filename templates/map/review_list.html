@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/map/reviewlist.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map/list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -11,12 +11,20 @@
         <a href="{% url 'map:booth_detail' booth.id%}">{{boothname}}</a>
     </div>
 
-        <div class="reviewblock">
+
         {% for review in reviews %}
+        <div class="reviewblock">
         <a href="{% url 'map:review_detail' review.id %}">
             <div>
 
-                <div class="color">{{review.color}}</div>
+                <div class="color">
+                    {% for color in review.color %}
+                    {% if color == '핑크'%}<div class="backcolor"></div>
+                    {% elif color == '하늘'%}<div class="backcolor"></div>
+                    {% endif %}
+                    {{color}}
+                    {% endfor %}
+                </div>
                 <div class = "tag">{{review.tag}}</div>
 
                 <div class="star-rating">
@@ -37,7 +45,7 @@
         </a>
         </div>
         {% endfor %}
-        <button type="button" class="write btn btn-secondary">리뷰 작성</button>
+        <button type="button" class="write btn btn-secondary"> <a href = "{% url 'map:booth_review_create' booth.id %}"> 리뷰 작성</a></button>
 </div>
 
 {% endblock %}
