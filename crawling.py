@@ -16,14 +16,16 @@ from brand.models import Brand, Frame
 # 드라이버 세팅
 def set_chrome_driver():
     chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument('headless')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage') 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     return driver
 
 
 # brand 검색
 def search(brand):
-    input_selector = "search\.keyword\.query"
+    input_selector = "search.keyword.query"
     search_btn_selector = "search.keyword.submit"
 
     driver.get(url="https://map.kakao.com/")
@@ -41,7 +43,7 @@ def store_booth(booths_list, brand, brand_list):
             location = booth.find_element(By.CSS_SELECTOR, "div.info_item > div.addr > p:nth-child(1)").text
             operationHour= booth.find_element(By.CSS_SELECTOR, "div.info_item > div.openhour > p > a").text
             x, y= getXY(location)
-
+            print(name)
             brand_list[name] = {
                     "location": location,
                     "operationHour": operationHour,
@@ -278,14 +280,13 @@ def getXY(address):
         result = result_address["x"], result_address["y"]
     else:
         result = "ERROR[" + str(req.status_code) + "]"
-    print(result)
     return result
 
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
-# brand()
-# frame()
+brand()
+frame()
 main()
 
 driver.close()
