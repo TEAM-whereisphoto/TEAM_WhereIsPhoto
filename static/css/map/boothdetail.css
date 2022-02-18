@@ -23,6 +23,7 @@ body {
     color: white;
     background-color: #C2C2C2; 
     width: 50%;
+    font-size: 20px;
 }
 
 .detail__heart {
@@ -32,6 +33,7 @@ body {
     color: white;
     background-color: #F37272; 
     width: 50%;
+    font-size: 20px;
 }
 
 /* #boothdetail__tags {

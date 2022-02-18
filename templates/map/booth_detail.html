@@ -25,51 +25,63 @@
     <div id="boothdetail__body"> <!-- div:nthchild (1)-->
 
         <div id="body__name"> <!-- div:nthchild (0)-->
-            <h3 class="text-center" style="font-family: ROKAFSansMedium; font-size: 28px">{{ booth.name }}</h3>
-            <h6 class="text-center" style="color: #B0B0B0; font-size: 20px;">{{ booth.location }}</h6>
+            <h3 class="text-center" style="font-family: ROKAFSansMedium; font-size: 26px">{{ booth.name }}</h3>
+            <h6 class="text-center mx-5" style="color: #B0B0B0; font-size: 20px;">{{ booth.location }}</h6>
             <div class="text-center">
                 {% if request.user.is_authenticated %}
                     <a style="font-family: ROKAFSansMedium; font-size: 16px;" href="{% url 'map:booth_review_create' booth.id %}" class="text-primary">리뷰 작성✍</a>
 
                     <div id="heart_container">
                         {% if currentLikeState %}
-                        <div class="detail__heart" onclick="onClickDislike({{booth.id}})">♡ 여기 매장 좋아요!</div>
+                        <div class="detail__heart" onclick="onClickDislike({{booth.id}})">♥ 여기 매장 좋아요!</div>
                         {% else %}
-                        <div class="detail__noheart" onclick="onClickLike({{booth.id}})" >♡ 여기 매장 좋아요!</div>
+                        <div class="detail__noheart" onclick="onClickLike({{booth.id}})" >♥ 여기 매장 좋아요!</div>
                         {% endif %}
                     </div>
                 {% else %}
-                    <div class="detail__noheart" onclick="onClickAlert()" >♡ 여기 매장 좋아요!</div>
+                    <a style="font-family: ROKAFSansMedium; font-size: 16px; color: #C2C2C2 !important;" onclick = "onClickAlert()">리뷰 작성✍</a>
+                    <div class="detail__noheart" onclick="onClickAlert()" >♥ 여기 매장 좋아요!</div>
                 {% endif %}
             </div>
             <br>
         </div>
 
-        <div id="boothdetail__tags" style="background-color: #F3F4F6;">
-            <h4>User Tags ({{ booth.review_number }})</h4>
-            {% for tag in tag_list %}
-                <h6>
-                    {% if tag.0 == 'clean' %}
-                시설이 깨끗해요
-                {% elif tag.0 == 'prop' %}
-                    소품이 다양해요
-                {% elif tag.0 == 'booth' %}
-                    부스가 많아요
-                {% elif tag.0 == 'iron' %}
-                    고데기가 있어요
-                {% elif tag.0 == 'street' %}
-                    로드점이에요
-                {% endif %}
-                    {{tag.1}}개 
-                </h6>
-            {% endfor %}
-        </div>
-    
-        <div id="boothdetail__reviews">
-            <div class="d-flex justify-content-between">
+        <div style="background-color: #F3F4F6;" class="px-3 pt-3">
+
+            <div id="boothdetail__tags">
+                <div id="boothdetail__tagtop" class="d-flex">
+                    <h4 class="fw-bold me-1">User Tags<h4>
+                    <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
+                </div>
+                        
+                <div id="boothdetail__taglist">
+
+                    {% for tag in tag_list %}
+                    <h6>
+                        {% if tag.0 == 'clean' %}
+                        시설이 깨끗해요
+                        {% elif tag.0 == 'prop' %}
+                        소품이 다양해요
+                        {% elif tag.0 == 'booth' %}
+                        부스가 많아요
+                        {% elif tag.0 == 'iron' %}
+                        고데기가 있어요
+                        {% elif tag.0 == 'street' %}
+                        로드점이에요
+                        {% endif %}
+                        {{tag.1}}개 
+                    </h6>
+                    {% endfor %}
+                </div>
+            </div>
+        
+            <div class="d-flex justify-content-between mt-5">
                 <h6>Reviews({{booth.review_number}})</h6>
                 <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
             </div>
+        </div>
+
+        <div id="boothdetail__reviews">
 
             <div class="star-rating">
                 <div class="star-rating-fill" style= "width: {{ width }}%;">
