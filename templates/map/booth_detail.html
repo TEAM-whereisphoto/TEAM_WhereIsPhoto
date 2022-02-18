@@ -46,53 +46,72 @@
             <br>
         </div>
 
-        <div style="background-color: #F3F4F6;" class="px-3 pt-3">
+        <div style="background-color: #F9F9F9;" class="px-3 pt-3">
 
             <div id="boothdetail__tags">
-                <div id="boothdetail__tagtop" class="d-flex">
+                <div id="boothdetail__tagtop" class="d-flex mb-2">
                     <h4 class="fw-bold me-1">User Tags<h4>
                     <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
                 </div>
                         
-                <div id="boothdetail__taglist">
+                <div id="boothdetail__taglist" class="mx-3">
+                    {% if booth.review_number == 0 %}
+                    <div class="boothdetail__noreviews text-center fs-5">
+                        아직 작성된 리뷰가 없어요!
+                    </div>
 
-                    {% for tag in tag_list %}
-                    <h6>
-                        {% if tag.0 == 'clean' %}
-                        시설이 깨끗해요
-                        {% elif tag.0 == 'prop' %}
-                        소품이 다양해요
-                        {% elif tag.0 == 'booth' %}
-                        부스가 많아요
-                        {% elif tag.0 == 'iron' %}
-                        고데기가 있어요
-                        {% elif tag.0 == 'street' %}
-                        로드점이에요
-                        {% endif %}
-                        {{tag.1}}개 
-                    </h6>
-                    {% endfor %}
+                    {% else %}
+                        {% for tag in tag_list %}
+                            {% if tag.1 > 0 %}
+                                <div class="position-relative">
+                                    <div class="tag__fill" data-reviews="{{ booth.review_number }}" data-num="{{ tag.1 }}"></div>
+                                    <div class="tag__container mb-2 py-2 px-3 d-flex justify-content-between">
+                                        <div class="tag__name">
+                                            {% if tag.0 == 'clean' %} ✨ "시설이 깨끗해요"
+                                            {% elif tag.0 == 'prop' %} 🎉 "소품이 다양해요" 
+                                            {% elif tag.0 == 'booth' %} 📸 "부스가 많아요"
+                                            {% elif tag.0 == 'iron' %} 💇🏻‍♀️ "고데기가 있어요"
+                                            {% elif tag.0 == 'street' %} 🛣️ "로드점이에요"
+                                            {% endif %}
+                                        </div>
+                                        <div style="color: #1F52FF">
+                                            {{tag.1}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         
             <div class="d-flex justify-content-between mt-5">
-                <h6>Reviews({{booth.review_number}})</h6>
-                <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
+                <div id="boothdetail__reviewtop" class="d-flex align-items-center">
+                    <h4 class="fw-bold me-1">Reviews<h4>
+                    <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
+                </div>
+                <!-- <h6>Reviews({{booth.review_number}})</h6> -->
+                <a href="{% url 'map:booth_review_list' booth.id %}" class="fw-bold ">View All ></a>
             </div>
         </div>
 
         <div id="boothdetail__reviews">
-
-            <div class="star-rating">
-                <div class="star-rating-fill" style= "width: {{ width }}%;">
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            <div id="star__container" class="d-flex justify-content-center" style="font-size: 50px;">
+                <div class="star-rating">
+                    <div class="star-rating-fill" style= "width: {{ width }}%;">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <div class="star-rating-base">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
                 </div>
-                <div class="star-rating-base">
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                </div>
-                <h6>{{booth.rate_average}}</h6>
             </div>
-            
+                
+            {% if booth.review_number == 0 %}
+                    <div class="boothdetail__noreviews text-center fs-5">
+                        아직 작성된 리뷰가 없어요!
+                    </div>
+            {% else %}
             <div id="boothdetail__reviewlist">
                 <br>
                 {% for review in reviews %}
@@ -111,6 +130,7 @@
                 </div>
                 {% endfor %}
             </div>
+            {% endif %}
         </div> 
         <br>
 
@@ -126,7 +146,7 @@
             <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
             {% endfor %}
         </div>
-</div>
+    </div>
 
 {% endblock %}
 
