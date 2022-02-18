@@ -138,6 +138,8 @@ let mapboundbooth = []
 
 const refresh = document.getElementById('refresh')
 
+const listcanvas = document.getElementById('offcanvasRight')
+
 // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
 
@@ -395,6 +397,7 @@ function main(boothList){
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                 map.setBounds(searchbounds); //2
                 setList();
+                input.value='';
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
@@ -504,12 +507,14 @@ function main(boothList){
 
                 <button class="btn btn-outline-ratingNlike container" style="width: 75%; margin: 1rem 0 0 2rem;">
                     <div class="row">
-                        <div class="star-rating col">
-                            <div class="star-rating-fill" style= "width: ${width}%;">                
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                            <div class="star-rating-base">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        <div class="col d-flex justify-content-center">
+                            <div class="star-rating">
+                                <div class="star-rating-fill" style= "width: ${width}%;">                
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <div class="star-rating-base">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
                             </div>
                         </div>
                         | 
@@ -547,13 +552,13 @@ function main(boothList){
             // 이 div에 event Listener 추가
             // boothListDom.children[i].children[0]
             newdiv.addEventListener('click', function() {
-                // 전체 목록 닫기?
-                returnmap.click()
+                returnmap.click() // 전체 목록 닫기 ㄴㄴ, 리스트 필터 지도로 연동 ㅇㅇ
+                listcanvas.setAttribute("style","visibility: hidden;")
 
                 boothSmall.innerHTML = ''
                 printList(boothElement, boothSmall, 1)
                 map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
-
+                
                 kakao.maps.event.trigger(allMarker[boothId-1], 'click')
             });
         }
