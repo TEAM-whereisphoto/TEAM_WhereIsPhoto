@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class = "my_LnF">
+    <h1>My Lost and Found</h1>
+    {% if my_lnf_exist == 0 %}
+        <p>게시물이 없습니다.</p>
+    {% else %}
+    {% for post in lnf_posts %}
+        <div>
+            {{post.booth.name}} <br>
+        
+            {% if post.timeString == False %}
+            작성시간: {{post.time|date:'m월 d일'}}
+            {% else %}
+            작성시간: {{post.time}} <br>
+            작성시간: {{post.timeString}}
+            {% endif %}
+            <br>
+            태그: {{post.tag}}
+            <br>
+            내용: {{post.content}}
+            <br>
+            {% if post.img %}
+            <img src="{{ post.img.url }}" alt="" width="auto">
+            {% endif %}
+            <a href="{% url 'user:read_my_lnf' post.id %}">게시글 확인하기</a>
+            <br> <br>
+        </div>
+    {% endfor %}
+    {% endif %}
+</section>
+<a href="{% url 'user:main' %}">마이페이지로</a>
+{% endblock %}

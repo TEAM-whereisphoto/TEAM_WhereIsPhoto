@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="row" style="margin:20px auto;">
+        <div class="col-sm-12">
+            <div class="alert alert-danger">
+            <strong>{{ message.tags }}!</strong> {{ message.message }}
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+{% endif %}
+<h1>회원삭제</h1>
+    <form action="{% url 'user:delete' %}" method="POST">
+        {% csrf_token %}
+        비밀번호: <input type="text" name="pw_del">
+        <input type="submit" value="회원탈퇴">
+    </form>
+
+{% endblock %}

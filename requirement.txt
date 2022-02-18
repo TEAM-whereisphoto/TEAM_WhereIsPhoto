@@ -3,3 +3,8 @@ Django==4.0.2
 Pillow==9.0.1
 sqlparse==0.4.2
 tzdata==2021.5
+selenium==4.1.0
+django-allauth==0.48.0
+webdriver-manager==3.5.2
+django-multiselectfield==0.1.12
+
