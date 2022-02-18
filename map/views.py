@@ -54,8 +54,11 @@ def tag_count(pk):
 
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-    reviews = Review.objects.filter(booth = booth.pk)
-    lnfs = LnF_Post.objects.filter(booth= booth.pk)
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-date')
+    lnfs = LnF_Post.objects.filter(booth= booth.pk).order_by('-time')
+
+    if (len(reviews) > 3):
+        reviews = reviews[:3]
 
     if request.user.is_authenticated:
         try:
