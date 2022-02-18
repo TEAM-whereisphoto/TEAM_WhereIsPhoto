@@ -12,21 +12,25 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_+bwa#v#h%8b^rmli*$kh70un2&mi^6jm#l87!ltmb651-m6#i'
+# .config_secret 폴더 및 하위 파일 경로
+ROOT_DIR = BASE_DIR
+CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
+CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
+CONFIG_SECRET_DEV_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_dev.json')
+CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.json')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
+SECRET_KEY = config_secret_common['django']['secret_key']
 
 
 # Application definition
@@ -94,9 +98,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -145,6 +146,7 @@ USE_TZ = False
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -164,7 +166,7 @@ EMAIL_PORT = '587'
 # gmail과의 통신하는 포트
 EMAIL_HOST_USER = 'MemoryInPhoto.official@gmail.com'
 # 발신할 이메일
-EMAIL_HOST_PASSWORD = 'yogisajin'
+EMAIL_HOST_PASSWORD = config_secret_common['django']['email_host_password']
 # 발신할 메일의 비밀번호
 EMAIL_USE_TLS = True
 # TLS 보안 방법
