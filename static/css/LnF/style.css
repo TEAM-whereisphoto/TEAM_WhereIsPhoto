@@ -1,0 +1,86 @@
+.blank {
+    margin-bottom: 0.8rem;
+}
+
+.search {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+
+    padding: 0.3rem;
+    border: solid #A3A3B5 1px;
+    border-radius: 0.5rem;
+}
+
+.search__input > input {
+    border: none;
+    width: 100%;
+}
+
+.search__btn > button{
+    border: none;
+    background-color: transparent;
+}
+
+.lnf__btn1 {
+    width: 49%;
+    padding: .5rem;
+    background-color : #C979D0;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+.lnf__btn2 {
+    width: 49%;
+    padding: .5rem;
+    background-color : #69C3D7;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+.lnf__write {
+    position: fixed;
+}
+
+/* 게시물 CSS */
+.post {
+    font-family: 'SUIT-Medium';
+    color : #424258;
+    border-radius: 10pt;
+    margin-bottom: 1rem;
+}
+
+.post__title {
+    display: flex!important;
+    align-items: center;
+}
+
+.post__title > a {
+    font-size: 1.2rem;
+    font-family: 'SUIT-Bold';
+}
+
+.post__분실 {
+    background-color: #C979D0;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .5rem;
+}
+
+.post__보관 {
+    background-color: #69C3D7;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .5rem;
+}
+
+.post__footer {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    color: #A3A3B5;
+    font-size: .8rem;
+}
