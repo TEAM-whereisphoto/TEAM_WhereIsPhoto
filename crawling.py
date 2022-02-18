@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', "config.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', "config.settings.dev")
 import django
 django.setup()
 import requests
@@ -9,7 +9,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-
+from config.settings.base import *
 from map.models import Booth
 from brand.models import Brand, Frame
 
@@ -168,7 +168,7 @@ def brand():
 
     for key in brand_dict.keys():
         name = brand_dict[key]
-        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"], time = name["time"], img = name["img"])
+        new = Brand(name = key, retake = name["retake"], remote = name["remote"], QR = name["QR"], time = name["time"], img = name["img"], liked_img = name["liked_img"])
         new.save()
 
 # frame 등록
@@ -270,24 +270,22 @@ def getXY(address):
         address = "인천 미추홀구 숙골로87번길 5"
 
     url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + address
-    API_KEY = '970791aa193813b80b02a98d2a78907d'
+    API_KEY = config_secret_common['kakao']['secret_key']
     header = {'Authorization': 'KakaoAK ' + API_KEY}
     req = requests.get(url, headers = header)
-
     if req.status_code == 200:
         result_address = req.json()["documents"][0]["address"]
-
-        result = result_address["y"], result_address["x"]
+        result = result_address["x"], result_address["y"]
     else:
         result = "ERROR[" + str(req.status_code) + "]"
-    
+    print(result)
     return result
 
 driver = set_chrome_driver()
-driver.implicitly_wait(5)
+driver.implicitly_wait(3)
 
-brand()
-frame()
+# brand()
+# frame()
 main()
 
 driver.close()
