@@ -2,18 +2,15 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/star.css' %}">
-    <link rel="stylesheet" href="{% static 'css/map.css' %}">
 
-    <link rel="stylesheet" href="{% static 'css/map/reviewdetail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map/reviewcreate.css' %}">
 
 {% endblock %}
 
 
 {% block content %}
     {% if user.is_authenticated %}
-<div class="main">
+<div class="content">
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class = "form-container">
