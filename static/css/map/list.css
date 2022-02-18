@@ -3,13 +3,25 @@ body{
     background-color : #DEDEE6;
 }
 
+.review{
+    padding : 1rem;
+}
 
+button{
+background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+}
 .container {
-    font-family: ROKAFSansMedium !important;
     display : flex;
-    background-color: #DEDEE6;
     padding : 0;
     margin : 0;
+}
+
+.reviewblock{
+    padding: 0.8rem;
+    background-color : #FFFFFF;
+    border-radius: 1rem;
+    margin-bottom : 1rem;
+    box-shadow: 4px 4px 3px lightgray;
 }
 
 .dropdown-toggle{
@@ -20,13 +32,26 @@ body{
     display: flex;
     flex-direction: row-reverse;
 }
+
+.content{
+    margin : auto;
+}
+.img{
+    padding :0 1rem;
+}
+
 .color{
     display: flex;
     justify-wrap: wrap;
     margin : 0.5rem 0;
 }
+.colortext{
+    font-size:8pt;
+    margin-top : 0.2rem;
+    margin-right: 0.3rem;
+}
 .colorbtn{
-    margin : 0 0.3rem;
+    margin-right: 0.4rem;
 }
 .tag{
     margin : 0.5rem 0;
@@ -35,13 +60,16 @@ body{
 }
 .tagbtn{
     padding : 0.3rem;
-    margin-right : 0.4rem;
-    font-size : 8pt;
-    box-shadow: 2px 2px lightgray;
+    margin-right : 0.5rem;
+    font-size : 7pt;
+    box-shadow: 2px 2px 2px lightgray;
+    background-color: #E3E3ED;
+    border-radius: 0.3rem;
 }
 .dropdown-item{
     font-size: 10pt;
 }
+
 .container_review {
     font-family: ROKAFSansMedium !important;
     display : flex;
@@ -50,16 +78,7 @@ body{
     padding : 0;
     margin : 0.2rem 0;
 }
-.main{
-    padding: 0.5rem;
-}
 
-.reviewblock{
-    padding: 0.8rem;
-    background-color : #FFFFFF;
-    border-radius: 1rem;
-    margin-bottom : 1rem;
-}
 .backbtn{
     margin : auto;
     margin-left: 0.3rem;
@@ -84,45 +103,47 @@ body{
 .foot{
     font-size: 7pt;
     color : #A3A3B5;
-    float : right;
+    float : left;
+    margin-top: 0.3rem;
 }
+
 .color, .tag{
     font-size: 12pt;
 }
 
 .colorpink{
-    -webkit-text-fill-color: pink;
-}
-
-.colorskyblue{
-    -webkit-text-fill-color: skyblue;
+    -webkit-text-fill-color: #f7b5c0;
 }
 
 .coloryellow{
-    -webkit-text-fill-color: yellow;
-}
-
-.colorgray{
-    -webkit-text-fill-color: gray;
-}
-
-.colorindigo{
-    -webkit-text-fill-color: indigo;
-}
-
-.colorpurple{
-    -webkit-text-fill-color: rebeccapurple;
-}
-
-.colorpink{
-    -webkit-text-fill-color: pink;
+    -webkit-text-fill-color: #f7e572;
 }
 
 .colorred{
-    -webkit-text-fill-color: red;
+    -webkit-text-fill-color: #e36262;
 }
+
+.colorpurple{
+    -webkit-text-fill-color: #d1b5f7;
+}
+
+.colorindigo{
+    -webkit-text-fill-color: #4e557b;
+}
+
 .colororange{
-    -webkit-text-fill-color: orange;
+    -webkit-text-fill-color: #f7a35e;
+}
+
+.colorskyblue{
+    -webkit-text-fill-color: #b5e0f7;
+}
+
+.colorgray{
+    -webkit-text-fill-color: #e7e7e7;
+}
+.colorgreen{
+    -webkit-text-fill-color: #d1eba7;
 }
 .colorrainbow{
     -webkit-text-fill-color: saddlebrown;
