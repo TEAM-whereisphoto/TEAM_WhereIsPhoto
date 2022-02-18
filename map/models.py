@@ -64,7 +64,7 @@ class Review(models.Model):
 
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(default=datetime.now, blank=True)
+    time = models.DateTimeField(default=datetime.now, blank=True)
     content = models.TextField()
     img = models.ImageField(blank=True, null=True, upload_to="Review")
 
@@ -81,5 +81,3 @@ class Review(models.Model):
     @property
     def getWidth(self):
         return self.rate*20
-
-

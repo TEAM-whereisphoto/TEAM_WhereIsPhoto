@@ -1,0 +1,129 @@
+body{
+    font-family: ROKAFSansMedium !important;
+    background-color : #DEDEE6;
+}
+
+
+.container {
+    font-family: ROKAFSansMedium !important;
+    display : flex;
+    background-color: #DEDEE6;
+    padding : 0;
+    margin : 0;
+}
+
+.dropdown-toggle{
+    font-size: 15px;
+    font-weight: bolder;
+}
+.container-drop{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.color{
+    display: flex;
+    justify-wrap: wrap;
+    margin : 0.5rem 0;
+}
+.colorbtn{
+    margin : 0 0.3rem;
+}
+.tag{
+    margin : 0.5rem 0;
+    display: flex;
+    justify-wrap: wrap;
+}
+.tagbtn{
+    padding : 0.3rem;
+    margin-right : 0.4rem;
+    font-size : 8pt;
+    box-shadow: 2px 2px lightgray;
+}
+.dropdown-item{
+    font-size: 10pt;
+}
+.container_review {
+    font-family: ROKAFSansMedium !important;
+    display : flex;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    padding : 0;
+    margin : 0.2rem 0;
+}
+.main{
+    padding: 0.5rem;
+}
+
+.reviewblock{
+    padding: 0.8rem;
+    background-color : #FFFFFF;
+    border-radius: 1rem;
+    margin-bottom : 1rem;
+}
+.backbtn{
+    margin : auto;
+    margin-left: 0.3rem;
+    opacity: 100%;
+}
+.goback{
+    border-radius: 2rem;
+}
+.title{
+    margin-bottom: 1rem;
+    font-size: 20pt;
+    padding-top: 1rem;
+    padding-left: 0.3rem;
+}
+
+.write{
+    margin-top: 2rem;
+    border-radius: 2rem;
+    float :right;
+    margin-bottom: 3rem;
+}
+.foot{
+    font-size: 7pt;
+    color : #A3A3B5;
+    float : right;
+}
+.color, .tag{
+    font-size: 12pt;
+}
+
+.colorpink{
+    -webkit-text-fill-color: pink;
+}
+
+.colorskyblue{
+    -webkit-text-fill-color: skyblue;
+}
+
+.coloryellow{
+    -webkit-text-fill-color: yellow;
+}
+
+.colorgray{
+    -webkit-text-fill-color: gray;
+}
+
+.colorindigo{
+    -webkit-text-fill-color: indigo;
+}
+
+.colorpurple{
+    -webkit-text-fill-color: rebeccapurple;
+}
+
+.colorpink{
+    -webkit-text-fill-color: pink;
+}
+
+.colorred{
+    -webkit-text-fill-color: red;
+}
+.colororange{
+    -webkit-text-fill-color: orange;
+}
+.colorrainbow{
+    -webkit-text-fill-color: saddlebrown;
+}

@@ -1,19 +1,48 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/signup.css' %}">
+{% endblock %}
 {% block content %}
-<h2>Sign up</h2>
+<div class="title__all">
+  <h2 class="signup__title">Hello <span class="signup__title__bold">Stranger,</span></h2>
+
+  <p class="signup__subtitle">Enter your informations below</p>
+  <p class="space signup__subtitle">or login with a social account</p>
+</div>
+
 
 {{ help_text }}
 <form method="POST" action="">
-    {% csrf_token %}
-        <h1>열심히 배끼는 중</h1>
-        <!-- <form>
-            <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
-            <label for="nme"><span>What's your name?</span></label>
-            <textarea name="message" rows="2" class="question" id="msg" required autocomplete="off"></textarea>
-            <label for="msg"><span>What's your message?</span></label>
-            <input type="submit" value="Submit!" />
-        </form> -->
+  {% csrf_token %}
+  <p class="top__text">USERNAME</p>
+  <div class="form__all">
+    <div class="form-group">
+      <input class="form-field" name="username" type="text" placeholder="Username" required>
+    </div>
+
+    <p class="top__text">EMAIL</p>
+    <div class="form-group">
+      <input class="form-field" type="email" placeholder="Email" required>
+    </div>
+
+    <p class="top__text">PASSWORD</p>
+    <div class="form-group">
+      <input class="form-field" name="password1" type="password" placeholder="Password" required>
+    </div>
+
+    <p class="top__text">CONFIRM PASSWORD</p>
+    <div class="form-group">
+      <input class="form-field" name="password2" type="password" placeholder="confirm Password" required>
+    </div>
+  </div>
+  <input class="signup__input" type="submit" class="btn btn-primary" value="Sign Up">
+</form>
+
+<!-- {{ help_text }}
+<form method="POST" action="">
+    {% csrf_token %} -->
         
         <!-- 아이디: <br>
         <input name="username" type="text" placeholder="your username">
@@ -29,33 +58,7 @@
         <br>
         <br><br>
         <input type="submit" class="btn btn-primary" value="Sign Up"> -->
+<!-- 
+</form> -->
 
-</form>
-<div class="container">
-  
-    <h2>Google Material Design in CSS3<small>Inputs</small></h2>
-    
-    <form>
-      
-      <div class="group">      
-        <input type="text" required>
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Name</label>
-      </div>
-        
-      <div class="group">      
-        <input type="text" required>
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Email</label>
-      </div>
-      
-    </form>
-        
-    <p class="footer">
-      a <a href="https://scotch.io/tutorials/css/google-material-design-input-boxes-in-css3" target="_blank">tutorial</a> by <a href="https://scotch.io" target="_blank">scotch.io</a>
-    </p>
-    
-  </div>
 {% endblock content %}
