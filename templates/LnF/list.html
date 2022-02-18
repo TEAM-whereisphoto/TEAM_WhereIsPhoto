@@ -49,7 +49,8 @@
         <div class="lnf__write" style="cursor: pointer; z-index: 2; right: 1rem; bottom: 1rem;">
             <a href="{% url 'LnF:new' %}">
                 <div class="center" style="border-radius: 50%; width: 60px; height: 60px; background-color:#1F52FF;; color:white">
-                    <i class="ri-pencil-fill ri-2x"></i></div>
+                    <i class="ri-pencil-fill ri-2x"></i>
+                </div>
             </a>
         </div>
     </section>
@@ -60,7 +61,7 @@
             <div class="post shadow p-3">
                 <!-- post title -->
                 <div class="post__title">
-                    <span class="post__tag">{{post.tag}}</span>
+                    <span class="post__{{ post.tag }}">{{post.tag}}</span>
                     <a href="{% url 'LnF:post_detail' post.id %}">{{post.booth.name}}</a>
                 </div>
                 <div style="height: .5rem;"></div>
@@ -68,8 +69,8 @@
                 <div class="post_content">
                     {{post.content}} <br>
                     {% if post.img %}
-                    <img src="{{ post.img.url }}" alt="" width="300" class="post__clip"> 
-                {% endif %}
+                        <img src="{{ post.img.url }}" alt="" width="300"> 
+                    {% endif %}
                 </div>
                 <div style="height: .5rem;"></div>
                 <!-- post footer -->

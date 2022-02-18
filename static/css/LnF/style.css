@@ -61,8 +61,16 @@
     font-family: 'SUIT-Bold';
 }
 
-.post__tag {
+.post__분실 {
     background-color: #C979D0;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .5rem;
+}
+
+.post__보관 {
+    background-color: #69C3D7;
     color: white;
     border-radius: 1rem;
     padding: .3rem;

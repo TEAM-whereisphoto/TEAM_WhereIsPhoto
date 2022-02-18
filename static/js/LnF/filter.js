@@ -22,7 +22,7 @@ const filterByTag = () =>{
     if (requestTag.status < 400){
         const {resList, query} = JSON.parse(requestTag.response)
 
-        const postList = document.querySelectorAll('#postList > div');
+        const postList = document.querySelectorAll('#postList > div > div');
         for (const div of postList){
             div.remove();
         }
@@ -30,8 +30,39 @@ const filterByTag = () =>{
         
         for (const post of resList){
             const container = document.createElement('div')
+            container.setAttribute
 
-            container.innerHTML=`<div>
+            container.innerHTML=`
+            <div class="post shadow p-3">
+                <div class="post__title">
+                    <span class="post__${ post.tag }">${post.tag}</span>
+                    <a href="/LnF/${post.booth_id}/detail/">${post.booth.name}</a>
+                </div>
+                <div style="height: .5rem;"></div>
+                <!-- post content -->
+                <div class="post_content">
+                    ${post.content} <br>
+                    {% if post.img %}
+                    <img src="${post.img.url}" alt="" width="300"> 
+                {% endif %}
+                </div>
+                <div style="height: .5rem;"></div>
+                <!-- post footer -->
+                <div class="post__footer">
+                    <div>
+                        ${post.user.username}}<br>
+                    </div>
+                    <div>
+                        {% if post.timeString == False %}
+                        {{post.time|date:'m월 d일'}}
+                        {% else %}
+                        {{post.timeString}}
+                        {% endif %}
+                    </div>
+                </div>          
+            </div>
+
+            <div>
             <a href="/LnF/${post.booth_id}/detail/">부스명: ${post.booth_name}</a>
             <div>
                 태그: ${post.tag}
@@ -41,7 +72,8 @@ const filterByTag = () =>{
             </div>
             <div>
                 작성자: ${post.user}<br>
-            </div>`
+            </div>
+            `
             
             const timeDiv = document.createElement('div')
             const imgDiv = document.createElement('div')
