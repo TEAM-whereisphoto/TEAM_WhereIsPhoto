@@ -3,8 +3,9 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/map/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/map/star.css' %}"> 
     <script defer src="{% static 'js/map/map.js' %}"></script>
-{% endblock %}
+    {% endblock %}
 
 {% block content %}
 <!-- kakao api 사용을 위해 -->
@@ -31,7 +32,7 @@
             <div id="map" style="height: calc(78vh);">
                 <!-- 새로고침 버튼-->
                 <div style="cursor: pointer; position: absolute; z-index: 2; left: 0.5rem; bottom: 0.5rem;">
-                    <img style="width: 60px; height: 60px;" id="refresh" src="../../static/icons/refreshBtn.svg"/>
+                    <img style="width: 60px; height: 60px;" id="refresh" src="{% static 'icons/refreshBtn.svg' %}"/>
                 </div>
 
                 <!-- 지리 이동 검색란 -->
@@ -107,7 +108,7 @@
             <!-- 목록 표시 페이지(?) -->
             <div class="offcanvas offcanvas-end overflow-auto w-100" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
-                    <img id="return-map" style="box-shadow: none;" src="../../static/icons/map_icon.svg" type="button" class="text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></img>
+                    <img id="return-map" style="box-shadow: none;" src="{% static 'icons/map_icon.svg' %}" type="button" class="text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></img>
                     <!-- <h5 id="offcanvasRightLabel">Offcanvas right</h5> -->
                     <div data-v-64c6254b="" class="search-input bg-white" style="width: calc(100vw - 80px);">
                         <div id="search-icon2" style="padding-left: 5px;">
