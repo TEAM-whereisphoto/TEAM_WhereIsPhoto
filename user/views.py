@@ -230,15 +230,18 @@ def read_notice(request, pk):
 
 
 def nav_notice(request):
+    
     if request.user.is_authenticated:
         comments = getNew(request.user)
+        notice_num = len(comments)
         if len(comments) > 0:
             notice = True
         else:
             notice = False
-        ctx={'notice': notice, 'notice_num': len(comments)}
+        
     else:
         notice =False
-        ctx={'notice': notice}
-
+        notice_num = 0
+        
+    ctx={'notice': notice, 'notice_num': notice_num}
     return JsonResponse(ctx)
