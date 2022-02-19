@@ -2,27 +2,40 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/map/star.css' %}">
-    <link rel="stylesheet" href="{% static 'css/map/reviewdetail.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/map/reviewcreate.css' %}">
 
 {% endblock %}
 
 
 {% block content %}
     {% if user.is_authenticated %}
-<div class="main">
+<div class="content">
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class = "form-container">
             <div class ="form">
               <div>
-              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' pk %}"> 취소 </a></button>
+              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' id %}"> 취소 </a></button>
               <button type="submit" class="save btn btn-secondary">전송</button>
-            </div>
+              </div>
               <div class ='title'>
                 <label>{{boothname}}</label>
               </div>
+              <!-- 오류표시 Start -->
+              <div class="error">
+              {% if form.errors %}
+                  <div class="alert alert-danger" role="alert">
+                  {% for field in form %}
+                      {% if field.errors %}
+                      <strong>{{ field.label }}</strong>
+                      {{ field.errors }}
+                      {% endif %}
+                  {% endfor %}
+                  </div>
+              {% endif %}
+              </div>
+               <!-- 오류표시 end-->
             <div class = "content">
               <table class = "star">
               <tbody>
@@ -48,60 +61,45 @@
             </table>
 
                 <div class="tag">
-                  <label>태그</label> 
-                  <!-- {{form.tag}} -->
-<!--
-                      {% for field in form %}
-                      <div class="col-md-12 dropdown">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ field.label_tag }}
-                              <span class="caret"></span>
-                          </button>
-                          <div class="dropdown-menu">
-                              <div><a href="#">{{ field }}</a></div>
-                          </div>
-                      </div>
-                  {% endfor %}
-                  -->
-                  <select class="form-select" aria-label="Default select example" style="width: 100%">
-                      <option selected>태그를 선택해주세요</option>
-                    <option value="clean">시설이 깨끗해요</option>
-                    <option value="prop">소품이 다양해요</option>
-                    <option value="booth">부스가 많아요</option>
-                    <option value="iron">고데기가 있어요</option>
-                    <option value="street">로드점이에요</option>
+                  <label>태그</label>
+                  <select class="form-select" aria-label="Default select example" style="width: 100%" multiple="multiple">
+                    <option value="시설이 깨끗해요">✨ 시설이 깨끗해요</option>
+                    <option value="소품이 다양해요">🎉 소품이 다양해요</option>
+                    <option value="부스가 많아요">📸 부스가 많아요</option>
+                    <option value="고데기가 있어요">💇🏻‍ ‍고데기가 있어요</option>
+                    <option value="로드점이에요">🛣️ 로드점이에요</option>
                   </select>
               </div>
 
               <div class="color">
                 <label>배경색</label>
-                <!-- {{form.color}} -->
-
-                <select class="form-select" aria-label="Default select example" style="width: 100%">
-                  <option selected>배경색을 선택해주세요</option>
-                    <option value="pink" style="color:deeppink"> 핑크</option>
-                    <option class = "blue"value="blue"> 🟦</option>
-                    <option class = "yellow"value="yellow"> 🟨 </option>
-                    <option class = "purple"value="purple">🟪</option>
-                    <option class = "red" value="red"> 🟥 </option>
+                <select class="form-select" aria-label="Default select example" name="color" multiple="multiple" style="width: 100%">
+                  <option value="핑크">핑크</option>
+                  <option value="하늘">하늘</option>
+                  <option value="노랑">노랑</option>
+                  <option value="회색">회색</option>
+                  <option value="남색">남색</option>
+                  <option value="연두">연두</option>
+                  <option value="보라">보라</option>
+                  <option value="빨강">빨강</option>
+                  <option value="주황">주황</option>
+                  <option value="기타">기타</option>
                   </select>
               </div>
 
               <div class = "textcontent">
-                <textarea class="content-input" placeholder="add comment here!">{% if review.content %}{{review.content}}{% endif %}</textarea>
+                <textarea class="content-input" placeholder="add comment here!" name="content">{% if review.content %}{{review.content}}{% endif %}</textarea>
               </div>
 
               <div>
 
-                <label class="img-btn" for="img-input">
-                  사진 추가
-                </label>
-                <input id="img-input" type="file" maxlength="255" value="{% if review.img %}{{review.img.url}}{% endif %}">
-              </div>
-              </div>
-            </div>
-            </div>
+                <label class="img-btn" for="img-input"> 사진 추가 </label>
+                <input id="img-input" type="file" maxlength="255" name="img" value="{% if review.img %}{{review.img.url}}{% endif %}">
 
-          <br>
+              </div>
+              </div>
+            </div>
+            </div>
         </form>
       {% else %}
       <script type="text/javascript">

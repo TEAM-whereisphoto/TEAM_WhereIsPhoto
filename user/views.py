@@ -159,12 +159,13 @@ def change_password(request):
 
 def modify(request):
     if request.method == "POST":
-        #id = request.user.id
-        #user = User.objects.get(pk=id)
         user = request.user
         user.username = request.POST["username"]
         user.email = request.POST["email"]
+        print(user.username)
+        print(user.email)
         user.save()
+        
         return redirect('user:main')
     return render(request, 'user/modify.html')
 
@@ -183,30 +184,6 @@ def delete(request):
         else:
             messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
     return render(request, 'user/delete.html')
-
-# 장고 기본 로그인(조건 까다로움)
-# from django.contrib import messages
-# from django.contrib.auth import update_session_auth_hash
-# from django.contrib.auth.forms import PasswordChangeForm
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
-# @login_required
-# def change_password(request):
-#     if request.method == 'POST':
-#         form = PasswordChangeForm(request.user, request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             update_session_auth_hash(request, user)  # Important!
-#             messages.success(request, 'Your password was successfully updated!')
-#             return redirect('index')
-#         else:
-#             messages.error(request, 'Please correct the error below.')
-#     else:
-#         form = PasswordChangeForm(request.user)
-#     return render(request, 'user/change_password.html', {
-#         'form': form
-#     })
 
 def notice(request):
     comments = getNew(request.user)
@@ -229,16 +206,18 @@ def read_notice(request, pk):
     return redirect('LnF:post_detail', comment.post.id)
 
 def nav_notice(request):
+    
     if request.user.is_authenticated:
         comments = getNew(request.user)
         notice_num = len(comments)
-        if notice_num > 0:
+        if len(comments) > 0:
             notice = True
         else:
             notice = False
+        
     else:
         notice =False
         notice_num = 0
-
+        
     ctx={'notice': notice, 'notice_num': notice_num}
     return JsonResponse(ctx)

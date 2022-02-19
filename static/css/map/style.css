@@ -70,7 +70,13 @@ body {
 #search-placeholder {
     border: none !important;
     outline: none !important;
-    padding-left: 0.5rem;
+    padding: 0 0 0 0.5rem;
+}
+#search-placeholder2 {
+
+    border: none !important;
+    outline: none !important;
+    padding: 0 0 0 0.5rem;
 }
 
 /* placeholder color */
@@ -108,14 +114,22 @@ body {
     background-color: transparent !important;
 }
 
+#offcanvasBottom {
+    height: 27vh;
+}
+
 /* filter 관련 */
 .card {
     background-color: transparent !important;
     border: none !important;
 }
 
+#collapseExample {
+    margin: 4rem 1rem;
+}
+
 .card-body {
-    padding: 4rem 1rem;
+    padding: 0;
 }
 
 #list-filter {

@@ -4,7 +4,6 @@ from map import views
 app_name = "map"
 
 urlpatterns = [
-    path('review/<int:pk>/', view=views.review_detail, name='review_detail'),  # 리뷰 디테일 페이지
     path('booth/review/create/<int:pk>', view=views.booth_review_create, name='booth_review_create'),  # 리뷰 작성/수정 페이지
     path('<int:pk>/update', view=views.review_update, name='review_update'),
     path('<int:pk>/delete', view=views.review_delete, name='review_delete'),

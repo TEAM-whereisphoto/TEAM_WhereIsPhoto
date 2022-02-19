@@ -53,10 +53,6 @@ a {
     text-decoration: none!important;
 }
 
-h1 h2 h3 h4 h5{
-    font-family: ROKAFSansMedium;
-}
-
 p {
     font-family: SUIT-Medium;
     font-size: 16pt;
@@ -74,18 +70,14 @@ header {
 }
 
 .header__title {
-    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
-    font-size: 30pt;
-    font-weight: 600;
+    color: #1F52FF;
+    font-family: 'ROKAFSansMedium', SUIT-Medium, sans-serif;
+    font-size: 1.5rem;
     text-decoration: none;
 
     padding-top: 0.3125rem;
     padding-bottom: 0.3125rem;
     white-space: nowrap;
-}
-
-.header__navbar {
-    color: #424258;
 }
 
 .header__navbar {
@@ -97,29 +89,58 @@ header {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
 
+/* main 영역 CSS */
 .main {
-    padding-top: 120pt;
-    padding-bottom: 50pt;
+    display: flex!important;
+    align-items: center;
+    height: 320pt;
+    position: relative;
+    padding: 50pt 10pt!important;
+    background-color: #1F52FF;
 }
 
-.main-color {
-    color: #1F52FF;
-}
-
-.main__text {
+.main__title {
+    /* position: absolute;
+    z-index: 2; */
+    padding-left: 20pt;
     color: white;
-    font-family: 'ROKAF Sans', 'SUIT', sans-serif;;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    z-index: 2;
 }
 
-.main__btn:first-child {
-    background-color : #C979D0
+.main__title > h3 {
+    font-size: calc(2rem + .6vw);
+    font-weight: normal;
 }
 
-.main__btn:last-child {
-    background-color : #69C3D7
+.main__title > h5 {
+    font-weight:lighter;
 }
 
-.user__title {
-    font-family: ROKAFSansMedium;
-    color: black;
+.main__img {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 70%;
+    z-index: 1;
+}
+
+.main__btn {
+    color: white;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    font-size: 12pt;
+}
+
+.main__btn a:first-child {
+    width: 50%;
+    padding: .5rem;
+    background-color : #C979D0;
+    text-align: right;
+}
+
+.main__btn a:last-child {
+    width: 50%;
+    padding: .5rem;
+    background-color : #69C3D7;
 }

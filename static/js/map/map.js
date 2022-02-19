@@ -1,5 +1,11 @@
-
 // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
+let headerheight = document.querySelector("body > nav").offsetHeight
+// First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+let vh = (window.innerHeight - headerheight) * 0.01;
+
+// Then we set the value in the --vh custom property to the root of the document
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 var container = document.getElementById('map');
 var defaultLoc = new kakao.maps.LatLng(37.55888333399497, 126.92658303847873)
 var options = {
@@ -66,7 +72,7 @@ function pinCurrent(currentPosition) {
     var marker = new kakao.maps.Marker({  
         map: map, 
         position: currentPosition, 
-        image: new kakao.maps.MarkerImage('../../static/icons/mypin.svg', new kakao.maps.Size(24, 24))
+        image: new kakao.maps.MarkerImage('/.static_root/icons/mypin.svg', new kakao.maps.Size(24, 24))
         // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
     }); 
 
@@ -85,7 +91,7 @@ const brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoi
 
 // 브랜드별 색깔 바꿀 때 이 부분 src 수정, 혹은 실제 pin 박을 때 수정도 가능
 // 참고 -> 이 api에서는 href 링크나 실제 이미지로만 pin 이미지 설정 가능. <i> rexicon꺼 </i> 등 형태 불가. 
-const imageSrc = '../../static/icons/pin_blue.png'
+const imageSrc = '/.static_root/icons/pin_blue.png'
 const imageSize = new kakao.maps.Size(28, 28);
 const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 기본 파란 핀
 
@@ -96,7 +102,7 @@ for (let value in brand_dict){
     var key = brand_dict[value]
     
     // 브랜드별 icon 위치 src입니다.
-    eval("var "+key+"Src"+"= '../../static/icons/"+key+".svg'") 
+    eval("var "+key+"Src"+"= '/.static_root/icons/"+key+".svg'") 
     
     // 지도에 표시된 마커 객체를 가지고 있을 배열입니다.
     // 브랜드 별로 따로 생성해주었습니다.
@@ -137,6 +143,8 @@ const boothSmallBtn = document.getElementById('booth-small-btn');
 let mapboundbooth = []
 
 const refresh = document.getElementById('refresh')
+
+const listcanvas = document.getElementById('offcanvasRight')
 
 // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
@@ -395,6 +403,7 @@ function main(boothList){
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                 map.setBounds(searchbounds); //2
                 setList();
+                input.value='';
             }
             else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                 alert("입력된 장소가 없습니다. 다시 입력해주세요!")
@@ -504,12 +513,14 @@ function main(boothList){
 
                 <button class="btn btn-outline-ratingNlike container" style="width: 75%; margin: 1rem 0 0 2rem;">
                     <div class="row">
-                        <div class="star-rating col">
-                            <div class="star-rating-fill" style= "width: ${width}%;">                
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                            </div>
-                            <div class="star-rating-base">
-                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        <div class="col d-flex justify-content-center">
+                            <div class="star-rating">
+                                <div class="star-rating-fill" style= "width: ${width}%;">                
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <div class="star-rating-base">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
                             </div>
                         </div>
                         | 
@@ -547,13 +558,13 @@ function main(boothList){
             // 이 div에 event Listener 추가
             // boothListDom.children[i].children[0]
             newdiv.addEventListener('click', function() {
-                // 전체 목록 닫기?
-                returnmap.click()
+                returnmap.click() // 전체 목록 닫기 ㄴㄴ, 리스트 필터 지도로 연동 ㅇㅇ
+                listcanvas.setAttribute("style","visibility: hidden;")
 
                 boothSmall.innerHTML = ''
                 printList(boothElement, boothSmall, 1)
                 map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
-
+                
                 kakao.maps.event.trigger(allMarker[boothId-1], 'click')
             });
         }
