@@ -103,15 +103,10 @@ button{
     padding: 0 .3rem;
 }
 
-
 /*comment css*/
 .comment {
     padding: .5rem;
-
     border-left:2px solid #A3A3B5;;
-    /* border-style: solid;
-    border-color: #A3A3B5;
-    border-width: 2px; */
 }
 
 .comment__add {

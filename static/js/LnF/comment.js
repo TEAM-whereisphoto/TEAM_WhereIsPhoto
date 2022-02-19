@@ -51,20 +51,36 @@ const addComment = () => {
         //     </tr>
         //     {% endfor %}
         // </table>
+
+        // <tr id = "comment-${comment_id}">
+        // <td>댓글내용: ${content}</td>
+        // <td>댓글 작성자: ${user}</td>
+        // <td>
+        //     작성시간: 방금 전
+        //     </td>
+        //     <td>
+        //     <button class="del-btn" onclick="onClickDel(${comment_id})">❌</button>
+        //     </td>
+        //     </tr>
         
         const element = document.querySelector(`#comment-table-${id}`)
-        const new_comment = document.createElement("tr")
+        const new_comment = document.createElement("div")
         
-        new_comment.innerHTML = `<tr id = "comment-${comment_id}">
-        <td>댓글내용: ${content}</td>
-        <td>댓글 작성자: ${user}</td>
-        <td>
-            작성시간: 방금 전
-            </td>
-            <td>
-            <button class="del-btn" onclick="onClickDel(${comment_id})">❌</button>
-            </td>
-            </tr>`
+        new_comment.innerHTML = `
+        <div id="comment-${comment_id}" class="comment">
+            <div class="between">
+                <p style="margin:0; font-size:1rem">${content}</p>
+                <button class="del-btn" onclick="onClickDel(${comment_id})">❌</button>
+            </div>
+            <div class="post__footer">
+                <div>
+                    ${user}
+                </div>
+                <div> 방금 전
+                </div>
+            </div>
+        </div>
+        `
             
             //input 칸 리셋
         document.getElementById(`comment_input-${id}`).value = ''

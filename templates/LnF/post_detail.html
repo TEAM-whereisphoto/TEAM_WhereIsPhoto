@@ -72,31 +72,29 @@
                 {% endif %}
             </div>
             <br>
-            <div class="comments">
-                <table id="comment-table-{{post.id}}">
-                    {% for comment in post.comment_set.all %}
-                    <div id="comment-{{comment.id}}" class="comment">
-                        <div class="between">
-                            <p style="margin:0; font-size:1rem">{{comment.content}}</p>
-                            {% if comment.user == request.user %}
-                            <button class="del-btn" onclick="onClickDel({{comment.id}})">❌</button>
+            <div id="comment-table-{{post.id}}" class="comments">
+                {% for comment in post.comment_set.all %}
+                <div id="comment-{{comment.id}}" class="comment">
+                    <div class="between">
+                        <p style="margin:0; font-size:1rem">{{comment.content}}</p>
+                        {% if comment.user == request.user %}
+                        <button class="del-btn" onclick="onClickDel({{comment.id}})">❌</button>
+                        {% endif %}
+                    </div>
+                    <div class="post__footer">
+                        <div>
+                            {{comment.user}}
+                        </div>
+                        <div>
+                            {% if comment.timeString == False %}
+                            {{comment.time|date:'m월 d일'}}
+                            {% else %}
+                            {{comment.timeString}}
                             {% endif %}
                         </div>
-                        <div class="post__footer">
-                            <div>
-                                {{comment.user}}
-                            </div>
-                            <div>
-                                {% if comment.timeString == False %}
-                                {{comment.time|date:'m월 d일'}}
-                                {% else %}
-                                {{comment.timeString}}
-                                {% endif %}
-                            </div>
-                        </div>
                     </div>
-                    {% endfor %}
-                </table>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

@@ -1,3 +1,4 @@
+from cmath import pi
 from django.http import  JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
@@ -106,10 +107,11 @@ def add_comment(request, pk):
     comment.content = content
     comment.user = request.user
     comment.time = timezone.now()
-    comment_id = comment.id
     comment.save()
+    comment_id = comment.id
+
     print(request.user.username)
-    return JsonResponse({'id': id, 'type': type, 'content': content, 'comment-id': comment_id, 'user': request.user.username })
+    return JsonResponse({'id': id, 'type': type, 'content': content, 'comment_id': comment_id, 'user': request.user.username })
 
 @csrf_exempt
 def del_comment(request, pk):
