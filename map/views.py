@@ -54,11 +54,10 @@ def tag_count(pk):
 
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')[:3]
     lnfs = LnF_Post.objects.filter(booth= booth.pk).order_by('-time')
-
-    if (len(reviews) > 3):
-        reviews = reviews[:3]
+    lnf_num = len(lnfs)
+    lnfs = lnfs[:3]
 
     if request.user.is_authenticated:
         try:
@@ -71,8 +70,10 @@ def booth_detail(request,pk):
 
     tag_list = tag_count(pk)
     width = booth.rate_average * 20 
+    
+
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_list': tag_list, 'currentLikeState': currentLikeState, 'width':width}
-    return render(request, template_name='map/booth_detail.html', context=ctx)
+    return render(request, template_name='map/booth_detail.html', context=locals())
 
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
