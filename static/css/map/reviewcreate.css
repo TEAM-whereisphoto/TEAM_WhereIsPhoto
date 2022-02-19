@@ -3,6 +3,10 @@ body{
     background-color : #DEDEE6;
 }
 
+.color option {
+    display:inline-block !important;
+}
+
 .form-container{
     padding: 0.5rem;
     background-color : #FFFFFF;
