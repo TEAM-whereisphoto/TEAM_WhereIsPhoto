@@ -29,6 +29,7 @@
 
 .signup__title__bold {
     font-family: SUIT-Bold;
+    padding-left: 0.3rem;
 }
 
 .signup__subtitle {
@@ -178,6 +179,86 @@
   border:none;
   border-radius: 5px;
   background: #275EFE;
+  align-content: center;
+  justify-content: center;
+}
+
+.password {
+  font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: black;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -2px;
+    padding-top: 2rem;
+}
+
+.bottom__btn {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+  padding-top: 2rem;
+}
+
+.signup__btn {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+}
+
+.signup {
+  font-size: 18px;
+  color: white !important;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  width: 20rem;
+  border: none;
+  border-radius: 5px;
+  background: #FFD107;
+  align-content: center;
+  justify-content: center;
+}
+
+.center__form {
+  display: flex;
+  justify-content: center;
+}
+
+.hr-sect {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.35);
+  font-size: 12px;
+  margin: 8px 0px;
+}
+
+.hr-sect::before,
+      .hr-sect::after {
+        content: "";
+        flex-grow: 1;
+        background: rgba(0, 0, 0, 0.35);
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: 0px 16px;
+      }
+
+.social__btn {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
+}
+
+.social{
+  font-size: 18px;
+  color: white !important;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  width: 20rem;
+  border: none;
+  border-radius: 5px;
+  background: #d3d3e9;
   align-content: center;
   justify-content: center;
 }

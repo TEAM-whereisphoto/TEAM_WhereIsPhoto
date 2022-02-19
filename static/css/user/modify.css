@@ -178,3 +178,20 @@
     display: flex;
     justify-content: center;
   }
+
+  .password {
+    font-size:18px;
+    color:white !important;
+    padding:10px 10px 10px 10px;
+    display:flex;
+    width: 20rem;
+    border:none;
+    border-radius: 5px;
+    background: #FFD107;
+    align-content: center;
+    justify-content: center;
+  }
+
+.space {
+  padding-top: 1rem;
+}
