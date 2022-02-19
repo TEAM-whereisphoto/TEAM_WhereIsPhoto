@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-    url = 'http://1b61-110-15-88-106.ngrok.io/'
+    url = 'https://whereisphoto.tk/'
     fetch(url+'user/nav_notice/')
     .then(response => {
         return response.json()
