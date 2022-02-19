@@ -4,6 +4,7 @@ import django
 django.setup()
 import requests
 
+import pandas as pd
 import time
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -17,9 +18,15 @@ from brand.models import Brand, Frame
 def set_chrome_driver():
     print("set")
     chrome_options = webdriver.ChromeOptions()
+<<<<<<< HEAD
     chrome_options.add_argument('--headless')
     #chrome_options.add_argument('--no-sandbox')
     #chrome_options.add_argument('--disable-dev-shm-usage')
+=======
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('--disable-dev-shm-usage')
+>>>>>>> 8e07373b16cdf98be5ecb5022e7c7a2e1b6518d4
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     return driver
 
@@ -44,6 +51,7 @@ def store_booth(booths_list, brand, brand_list):
             location = booth.find_element(By.CSS_SELECTOR, "div.info_item > div.addr > p:nth-child(1)").text
             operationHour= booth.find_element(By.CSS_SELECTOR, "div.info_item > div.openhour > p > a").text
             x, y= getXY(location)
+<<<<<<< HEAD
             print(name)
             brand_list[name] = {
                     "location": location,
@@ -52,11 +60,21 @@ def store_booth(booths_list, brand, brand_list):
                     "x": x,
                     "y": y
                 }
+=======
+            brand_list.append({
+                "name": name,
+                "location": location,
+                "operationHour": operationHour,
+                "brand": brand,
+                "x": x,
+                "y": y
+                })
+>>>>>>> 8e07373b16cdf98be5ecb5022e7c7a2e1b6518d4
 
 
 # crawling
 def crawling(brand):
-    brand_dict = {}
+    brand_list = []
     Flag = True
     idx = 1
     while Flag:
@@ -64,65 +82,68 @@ def crawling(brand):
         if idx == 1:
             if "HIDDEN" in driver.find_element(By.ID, "info.search.place.more").get_attribute("class"):
                 booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-                store_booth(booths_list, brand, brand_dict)
+                store_booth(booths_list, brand, brand_list)
                 Flag = False
             else:
                 booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-                store_booth(booths_list, brand, brand_dict)
+                store_booth(booths_list, brand, brand_list)
                 driver.find_element(By.ID, "info.search.place.more").click()
                 idx += 1
 
         # 종료 조건 -> 다음 번호에 hidden이라는 class 있으면 종료
         elif "HIDDEN" in driver.find_element(By.ID, "info.search.page.no" + str(idx % 5 + 1)).get_attribute("class"):
             booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-            store_booth(booths_list, brand, brand_dict)
+            store_booth(booths_list, brand, brand_list)
             Flag = False
 
         # next btn
         elif idx % 5 == 0:
             if "disabled" in driver.find_element(By.ID, "info.search.page.next").get_attribute("class"):
                 booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-                store_booth(booths_list, brand, brand_dict)
+                store_booth(booths_list, brand, brand_list)
                 Flag = False
             else:
                 booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-                store_booth(booths_list, brand, brand_dict)
+                store_booth(booths_list, brand, brand_list)
                 driver.find_element(By.ID, "info.search.page.next").click()
                 idx += 1
 
         else:
             booths_list = driver.find_elements(By.CLASS_NAME, "PlaceItem")
-            store_booth(booths_list, brand, brand_dict)
+            store_booth(booths_list, brand, brand_list)
             driver.find_element(By.ID, "info.search.page.no" + str(idx % 5 + 1)).click()
             idx += 1
 
         time.sleep(1)
-    return brand_dict
+    return brand_list
 
 
 def main():
     brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
     
-    logic_search = "search(brand)"
-    logic_crawling = "globals()['{}_dict'.format(eng)] = crawling(brand)"
-
     for brand, eng in brand_dict.items():
+<<<<<<< HEAD
         print("1")
         exec(logic_search)
         exec(logic_crawling)
+=======
+        search(brand)
+        df = pd.DataFrame(crawling(brand))
+        df.to_csv(f"booth_data\{eng}.csv")
+>>>>>>> 8e07373b16cdf98be5ecb5022e7c7a2e1b6518d4
 
     # {eng_name} = {boothname: {location: , operation_hour: , brand: }}
-
-    brand_dict_list = [lifefourcut_dict, photoism_dict, photosignature_dict, selfix_dict, harufilm_dict]
-    for dict in brand_dict_list:
-        for key, value in dict.items():
-            brand = Brand.objects.get(name = value['brand'])  
-            if value['operationHour'] != '':
-                key = Booth(name = key, location = value['location'], operationHour = value['operationHour'], brand = brand, x = value['x'], y = value['y'])
-                key.save()
-            else:
-                key = Booth(name = key, location = value['location'], brand = brand, x = value['x'], y = value['y'])
-                key.save()
+    # brand_list_list = [lifefourcut_list, photoism_list, photosignature_list, selfix_list, harufilm_list]
+    # for list in brand_list_list:
+    #     # for key, value in dict.items():
+    #     df = pd.DataFrame(list)
+    #     df.to_csv(f"booth_data\{list}_csv")
+            # if value['operationHour'] != '':
+            #     key = Booth(name = key, location = value['location'], operationHour = value['operationHour'], brand = brand, x = value['x'], y = value['y'])
+            #     key.save()
+            # else:
+            #     key = Booth(name = key, location = value['location'], brand = brand, x = value['x'], y = value['y'])
+            #     key.save()
 
 
 # brand 등록W
@@ -287,11 +308,16 @@ def getXY(address):
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
+<<<<<<< HEAD
 print("brand")
 brand()
 print("frame")
 frame()
 print("main")
+=======
+#brand()
+#frame()
+>>>>>>> 8e07373b16cdf98be5ecb5022e7c7a2e1b6518d4
 main()
 
 driver.close()
