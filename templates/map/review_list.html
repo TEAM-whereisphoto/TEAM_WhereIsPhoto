@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/map/list.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'css/map/list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -11,7 +10,7 @@
     <div class="container">
 
     <div class = 'backbtn item col-2'>
-        <button type="button" class=" goback btn"><a href = "{% url 'map:booth_detail' booth.id%}"> 〈 </a></button>
+        <button type="button" class=" goback btn"><a href = "{% url 'map:booth_detail' pk %}"> 〈 </a></button>
     </div>
 
     <div class ='title item col-10'>
@@ -103,10 +102,10 @@
             </div>
             <div class = "tag">
                         {% for tag in review.tag %}
-                        {% if tag == '시설이 깨끗해요'%}<button type="button" class="tagbtn">🧹 시설이 깨끗해요</button>
-                        {% elif tag == '소품이 다양해요'%}<button type="button"  class="tagbtn">🎩 소품이 다양해요</button>
-                        {% elif tag == '부스가 많아요'%}<button type="button"  class="tagbtn">🕋 부스가 많아요</button>
-                        {% elif tag == '고데기가 있어요'%}<button type="button" class="tagbtn">🦱 고데기가 있어요</button>
+                        {% if tag == '시설이 깨끗해요'%}<button type="button" class="tagbtn">✨ 시설이 깨끗해요</button>
+                        {% elif tag == '소품이 다양해요'%}<button type="button"  class="tagbtn">🎉  소품이 다양해요</button>
+                        {% elif tag == '부스가 많아요'%}<button type="button"  class="tagbtn">📸 부스가 많아요</button>
+                        {% elif tag == '고데기가 있어요'%}<button type="button" class="tagbtn">💇🏻‍ 고데기가 있어요</button>
                         {% elif tag == '로드점이에요'%}<button type="button"  class="tagbtn">🛣️ 로드점이에요</button>
                         {% endif %}
                         {% endfor %}
