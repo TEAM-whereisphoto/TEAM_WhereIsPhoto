@@ -70,7 +70,7 @@ def tag(request):
 # pk: booth pk
 def booth_detail(request, pk):
     booth = get_object_or_404(Booth, id=pk)
-    posts = LnF_Post.objects.filter(booth = booth)
+    posts = LnF_Post.objects.filter(booth = booth).order_by('-time')
     ctx = {'posts': posts, 'booth': booth}
     return render(request, 'LnF/booth_detail.html', context=ctx)
 
