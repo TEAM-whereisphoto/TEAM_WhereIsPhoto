@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block head %}
@@ -70,7 +69,7 @@
                 <div class="post_content">
                     {{post.content}} <br>
                     {% if post.img %}
-                        <img src="{{ post.img.url }}" alt="" width="300"> 
+                        <img src="{{ post.img.url }}" alt="" width="100%"> 
                     {% endif %}
                 </div>
                 <div style="height: .5rem;"></div>
