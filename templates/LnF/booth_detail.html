@@ -1,30 +1,51 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
+{% endblock %}
+
 {% block content %}
 <section>
-    <h1>{{ booth.name }}</h1>
-    <a href="{% url 'LnF:list' %}">목록으로</a> <br>
-    {% for post in posts %}
-    <div>
-        작성자: {{post.user.username}}<br>
-        {% if post.timeString == False %}
-            작성시간: {{post.time|date:'m월 d일'}}
-        {% else %}
-            작성시간: {{post.time}} <br>
-            작성시간: {{post.timeString}}
-        {% endif %}
-        <br>
-        태그: {{post.tag}}
-        <br>
-        내용: {{post.content}}
-        <br>
-        {% if post.img %}
-            <img src="{{ post.img.url }}" alt="" width="auto"> 
-        {% endif %}
+    <div class="center">
+        <h1 class="header__text">✨{{ booth.name }} 리스트 모아보기✨</h1>
     </div>
-    <br>
-    {% endfor %}
 </section>
 
+<section id="postList">
+    <div class="container d-flex flex-column">
+        {% for post in posts %}
+        <div class="post shadow p-3">
+            <!-- post title -->
+            <div class="post__title">
+                <span class="post__{{ post.tag }}">{{post.tag}}</span>
+                <a href="{% url 'LnF:post_detail' post.id %}">{{post.booth.name}}</a>
+            </div>
+            <div style="height: .5rem;"></div>
+            <!-- post content -->
+            <div class="post_content">
+                {{post.content}} <br>
+                {% if post.img %}
+                    <img src="{{ post.img.url }}" alt="" width="100%"> 
+                {% endif %}
+            </div>
+            <div style="height: .5rem;"></div>
+            <!-- post footer -->
+            <div class="post__footer">
+                <div>
+                    {{post.user.username}}<br>
+                </div>
+                <div>
+                    {% if post.timeString == False %}
+                    {{post.time|date:'m월 d일'}}
+                    {% else %}
+                    {{post.timeString}}
+                    {% endif %}
+                </div>
+            </div>                
+        </div>
+        <div class="blank"></div>
+    {% endfor %}
+    </div>
+</section>
 {% endblock %}

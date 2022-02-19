@@ -1,5 +1,3 @@
-@import "../reset.css";
-
 .all {
     padding-left:1.5rem;
     padding-right:1.5rem;
@@ -10,13 +8,15 @@ h3 {
     font-family: SUIT-Bold;
     font-size: 16pt;
     color: black;
+    margin-bottom: 0.5rem;
     /* color : #424258; */
 }
 
 h4 {
     font-family: SUIT-Bold;
-    font-size: 13pt !important;
+    font-size: 14pt !important;
     color: #858598;
+    margin-bottom: 0;
 }
 
 .sub__title {
@@ -53,10 +53,12 @@ h4 {
 .line {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-family: SUIT-Bold;
     font-size: 10pt;
     color: black;
     padding-bottom: 0.5rem;
+    font-size: 12pt;
 }
 
 .liked__img {
@@ -67,6 +69,7 @@ h4 {
 .log__out {
     font-family: SUIT-Bold;
     color: red;
+    padding-bottom: 0.5rem;
 }
 
 .edit {
@@ -87,7 +90,8 @@ h4 {
     color: #858598 !important;
 }
 
-/* --------------------------------------- login --------------------------------------- */
-#login__form * { box-sizing:border-box; }
-
-
+.no__liked {
+    color: #858598 !important;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+}
