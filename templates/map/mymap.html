@@ -3,7 +3,6 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/map/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/map/star.css' %}"> 
     <script defer src="{% static 'js/map/map.js' %}"></script>
     {% endblock %}
 
@@ -29,7 +28,7 @@
     <!-- <div class="row"> -->
         <!-- 지도 -->
         <div id="map-container">
-            <div id="map" style="height: calc(78vh);">
+            <div id="map" style="height: calc(100 * var(--vh));">
                 <!-- 새로고침 버튼-->
                 <div style="cursor: pointer; position: absolute; z-index: 2; left: 0.5rem; bottom: 0.5rem;">
                     <img style="width: 60px; height: 60px;" id="refresh" src="{% static 'icons/refreshBtn.svg' %}"/>
@@ -118,7 +117,7 @@
                             </svg>
                         </div>
                         <div class="search-input-item w-100" >
-                            <input style="width:100%; border: none !important;" id="search-placeholder2" placeholder="ex. 신촌역" name="icon-name" type="text"> 
+                            <input style="width:100%;" id="search-placeholder2" placeholder="ex. 신촌역" name="icon-name" type="text"> 
                         </div>
                         <div id="close-btn2"> 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">

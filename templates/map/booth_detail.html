@@ -14,22 +14,30 @@
 {% block content %}
 
     <div id="boothdetail__image">
-        {% if article.image %}
-        <p>
-            <img src ="{{ booth.image.url }}">
-        </p>
+        {% if booth.brand.name == "하루필름" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/haru_profile.png' %}"> </img>
+        {% elif booth.brand.name == "인생네컷" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/life_profile.png' %}"/></img> 
+        {% elif booth.brand.name == "포토이즘박스" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/box_profile.jpg' %}"/> </img>
+        {% elif booth.brand.name == "셀픽스" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/selpix_profile.jpg' %}"/></img>
+        {% elif booth.brand.name == "포토시그니처" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/sign_profile.png' %}"/></img>
         {% endif %}
-        <img src = "{% static 'haru_profile.png' %}"> 
     </div>
 
     <div id="boothdetail__body"> <!-- div:nthchild (1)-->
 
         <div id="body__name"> <!-- div:nthchild (0)-->
-            <h3 class="text-center mb-3" style="font-family: ROKAFSansMedium; font-size: 26px">{{ booth.name }}</h3>
+            <h3 class="text-center mb-3 mx-3" style="font-family: ROKAFSansMedium; font-size: 25px">{{ booth.name }}</h3>
             <h6 class="text-center mx-4 mb-3" style="color: #B0B0B0; font-size: 20px;">{{ booth.location }}</h6>
             <div class="text-center">
                 {% if request.user.is_authenticated %}
-                    <a style="font-family: ROKAFSansMedium; font-size: 16px;" href="{% url 'map:booth_review_create' booth.id %}" class="text-primary">리뷰 작성✍🏻</a>
+                <div style="font-family: ROKAFSansMedium; font-size: 16px;" class="text-primary d-flex justify-content-evenly">
+                    <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성✍🏻</a>
+                    <a href="{% url 'LnF:new_one' booth.id %}">분실물 작성✍🏻</a>
+                </div>
 
                     <div id="heart_container">
                         {% if currentLikeState %}
@@ -39,14 +47,17 @@
                         {% endif %}
                     </div>
                 {% else %}
-                    <a style="font-family: ROKAFSansMedium; font-size: 16px; color: #C2C2C2 !important; opacity: 0.5;" onclick = "onClickAlert()">리뷰 작성✍🏻</a>
-                    <div class="detail__noheart" onclick="onClickAlert()" >♥ 여기 매장 좋아요!</div>
+                <div style="font-family: ROKAFSansMedium; font-size: 16px; color: #C2C2C2 !important; opacity: 0.5;" class="text-primary d-flex justify-content-evenly">
+                    <a onclick = "onClickAlert()" href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성✍🏻</a>
+                    <a href="{% url 'LnF:new' %}">분실물 작성✍🏻</a>
+                </div>
+                <div class="detail__noheart" onclick="onClickAlert()" >♥ 여기 매장 좋아요!</div>
                 {% endif %}
             </div>
             <br>
         </div>
 
-        <div style="background-color: #F9F9F9;" class="px-3 pt-3">
+        <div style="background-color: #F9F9F9;" class="p-3">
 
             <div id="boothdetail__tags">
                 <div id="boothdetail__tagtop" class="d-flex mb-2">
@@ -84,19 +95,20 @@
                     {% endif %}
                 </div>
             </div>
+        </div>
         
-            <div class="d-flex justify-content-between mt-5">
+        <div id="boothdetail__reviews" class="p-3">
+            <div class="d-flex justify-content-between">
                 <div id="boothdetail__reviewtop" class="d-flex align-items-center">
                     <h4 class="fw-bold me-1">Reviews<h4>
                     <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
                 </div>
                 <!-- <h6>Reviews({{booth.review_number}})</h6> -->
+                {% if booth.review_number > 3 %}
                 <a href="{% url 'map:booth_review_list' booth.id %}" class="fw-bold ">View All ></a>
+                {% endif %}
             </div>
-        </div>
-
-        <div id="boothdetail__reviews">
-            <div id="star__container" class="d-flex justify-content-center" style="font-size: 50px;">
+            <div id="star__container" class="d-flex justify-content-center" style="font-size: 45px;">
                 <div class="star-rating">
                     <div class="star-rating-fill" style= "width: {{ width }}%;">
                         <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -108,22 +120,26 @@
             </div>
                 
             {% if booth.review_number == 0 %}
-                    <div class="boothdetail__noreviews text-center fs-5">
-                        아직 작성된 리뷰가 없어요 :(
-                    </div>
+                <div class="boothdetail__noreviews text-center fs-5">
+                    아직 작성된 리뷰가 없어요 :(
+                </div>
             {% else %}
             <div id="boothdetail__reviewlist">
                 {% for review in reviews %}
-                    <div class="row mx-4 mb-4 py-2 px-1" style="border-radius: 0.5rem; box-shadow: 0px 0.25rem 0.5rem lightgrey;">
+                    <div class="row mx-4 mb-4 py-2 px-1 shadow" style="border-radius: 0.5rem;">
                         <div>
-                            <a href="{% url 'map:review_detail' review.id %}">{{review.content}}</a>
+                            {{review.content}}
                         </div>
                         <div class="d-flex justify-content-between" style="color: #A3A3B5">
                             <span>
                                 {{review.user.username}}
                             </span>
                             <span>
-                                {{review.date|date:'y. m. d.'}}
+                                {% if review.time.timeString == False %}
+                                    {{review.time|time:'y. m. d.'}}
+                                {% else %}
+                                    {{review.timeString}}
+                                {% endif %}
                             </span>
                         </div>
                     </div>
@@ -131,27 +147,50 @@
             </div>
             {% endif %}
         </div> 
-        <div id="boothdetail__LnF" style="background-color: #F3F4F6;">
-            <br />
-            <div class="d-flex justify-content-between px-3">
+
+        <div id="boothdetail__LnF" style="background-color: #F9F9F9;" class="p-3">
+            <div class="d-flex justify-content-between mb-2">
                 <div id="boothdetail__reviewtop" class="d-flex align-items-center">
                     <h4 class="fw-bold me-1">Lost and Found<h4>
-                    <div style="color: #C6C6C6"> (갯수)</div>
+                    <div style="color: #C6C6C6">({{lnf_num}})</div>
                 </div>
+                {% if lnf_num > 3 %}
                 <a href="{% url 'LnF:booth_detail' booth.id %}" class="fw-bold ">View All ></a>
+                {% endif %}
             </div>
-            {% for lnf in lnfs %}
-            <div class="row mx-4 mb-4 py-2 px-1 bg-white" style="border-radius: 0.5rem; box-shadow: 0px 0.25rem 0.5rem lightgrey;">
-                <div class="fw-bold">
-                    <div class="btn" style="padding-top: 0.05rem; padding-bottom: 0.05rem; color: white; background-color: #69C3D7; border-radius: 1rem;">{{lnf.tag}}</div>
-                    {{lnf.booth}}
-                </div>
-                <div class="mt-1">{{lnf.content}}</div>
-            </div>
+            {% if lnf_num == 0 %}
+                    <div class="boothdetail__noreviews text-center fs-5">
+                        아직 작성된 게시글이 없어요 :(
+                    </div>
+            {% else %}
 
-            <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
-            <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
-            {% endfor %}
+                {% for lnf in lnfs %}
+                <div class="row post shadow mx-4 mb-4 py-2 px-1">
+                    <a href="{% url 'LnF:post_detail' lnf.id %}">
+
+                        <div style="height: .5rem;"></div>
+                        <!-- post content -->
+                        <div class="post_content">
+                            <span class="post__{{ lnf.tag }}">{{lnf.tag}}</span>{{lnf.content}}
+                        </div>
+                        <div style="height: .5rem;"></div>
+                        <!-- post footer -->
+                        <div class="post__footer">
+                            <div>
+                                {{lnf.user.username}}<br>
+                            </div>
+                            <div>
+                                {% if lnf.timeString == False %}
+                                {{lnf.time|date:'y. m. d.'}}
+                                {% else %}
+                                {{lnf.timeString}}
+                                {% endif %}
+                            </div>
+                        </div>                
+                    </a>
+                </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
