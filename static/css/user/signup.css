@@ -8,11 +8,16 @@
 }
 
 .space {
-    margin-bottom: 50px !important;
+    margin-bottom: 3rem !important;
+}
+
+.space__alert {
+  margin-bottom: 1rem !important;
 }
 
 .signup__title__bold {
     font-family: SUIT-Bold;
+    padding-left: 0.3rem;
 }
 
 .signup__subtitle {
@@ -22,6 +27,14 @@
     display: flex;
     justify-content: center;
     margin-bottom: -2px;
+}
+
+.alert__subtitle {
+  font-family: SUIT-Bold;
+  font-size: 13pt;
+  color: red;
+  display: flex;
+  justify-content: center;
 }
 
 .top__text {
@@ -137,14 +150,25 @@
   }
 
 .signup__input {
-    font-size:18px;
-    color:white;
-    padding:10px 10px 10px 10px;
-    display:flex;
-    width: 70%;
-    border:none;
-    border-radius: 5px;
-    background: #275EFE;
-    align-content: center;
+  font-size:18px;
+  color:white;
+  padding:10px 10px 10px 10px;
+  display:flex;
+  width: 20rem;
+  border:none;
+  border-radius: 5px;
+  background: #275EFE;
+  align-content: center;
+  justify-content: center;
+}
+  
+  .bottom__btn {
+    padding-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .center__form {
+    display: flex;
     justify-content: center;
   }

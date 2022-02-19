@@ -1,21 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/notice.css' %}">
+{% endblock %}
 
 {% block content %}
 
 {% if len == 0 %}
-<div>새로운 댓글 알림이 없습니다.</div>
+<p class="sub__title">My notice</p>
+<div class="no__alarm">새로운 댓글 알림이 없습니다.</div>
 
 {% else %}
-<div>{{len}}개의 새로운 댓글이 있습니다.</div>
-<hr />
-<hr />
+<div class="top__shadow p-2">
+    <p class="sub__title">My notice</p>
+    <div class="alarm">{{len}}개의 새로운 댓글이 있습니다.</div>
+</div>
+<div class="p-2 bg"></div>
+<!-- <hr class="top__line"/> -->
     {% for comment in comments %}
-        <div>제목 {{ comment.post }}</div>
-        <div>작성자 {{ comment.user }}</div>
-        <div>내용 {{ comment.content }}</div>
+        <div class="comment__block">
+            <div class="title">{{ comment.post }}</div>
+            <div>{{ comment.user }}</div>
+            <div class="comment">{{ comment.content }}</div>
+            <div class="check__comment">
+                <a class="check" href="{% url 'user:read_notice' comment.id %}">댓글 확인하기 ></a>
+            </div>
+        </div>
+        
         <!-- <div>{{ comment.read }}</div> -->
-        <a href="{% url 'user:read_notice' comment.id %}">댓글 확인하기</a>
-        <hr />
+        <hr/>
     {% endfor %}
 
 {% endif %}

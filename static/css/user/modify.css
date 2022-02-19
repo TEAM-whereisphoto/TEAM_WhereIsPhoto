@@ -1,4 +1,46 @@
-/* 로그인 css */
+.profile {
+    padding-bottom: 2rem;
+    text-align: center;
+  }
+
+.username {
+    padding-top: 3rem !important;
+    font-family: SUIT-Bold;
+    font-size: 16pt;
+    color: black;
+    margin-bottom: 0.5rem;
+}
+
+.description {
+    font-family: SUIT-Bold;
+    font-size: 13pt !important;
+    color: #858598;
+}
+
+.space {
+    margin-bottom: 50px !important;
+}
+
+.signup__title__bold {
+    font-family: SUIT-Bold;
+}
+
+.signup__subtitle {
+    font-family: SUIT-Bold;
+    font-size: 13pt;
+    color: gray;
+    display: flex;
+    justify-content: center;
+    margin-bottom: -2px;
+}
+
+.top__text {
+    font-family: SUIT-Heavy;
+    margin-bottom: 0;
+    top:-20px;
+    font-size:12px;
+    color:#1F52FF;
+}
 
 :root {
     --input-color: #99A3BA;
@@ -13,63 +55,9 @@
     --group-border-focus: var(--input-border-focus);
     --group-background-focus: #678EFE;
   }
-
-.signup__title {
-    display: flex;
-    justify-content: center;
-    margin: 100px 0 15px 0;
-    font-family: SUIT-Light;
-    font-size: 30pt;
-    color: black;
-}
-
-.space {
-    margin-bottom: 50px !important;
-}
-
-.signup__title__bold {
-    font-family: SUIT-Bold;
-    padding-left: 0.3rem;
-}
-
-.signup__subtitle {
-    font-family: SUIT-Bold;
-    font-size: 13pt;
-    color: gray;
-    display: flex;
-    justify-content: center;
-    margin-bottom: -2px;
-}
-
-.login__form label {
-    font-family: SUIT-Heavy;
-    margin-bottom: 0;
-    top:-20px;
-    font-size:12px;
-    color:#1F52FF;
-}
-
-.login__form input {
-    display: block;
-    width: 100%;
-    padding: 8px 16px;
-    line-height: 25px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-    border-radius: 6px;
-    -webkit-appearance: none;
-    color: var(--input-color);
-    border: 1px solid var(--input-border);
-    background: var(--input-background);
-    transition: border 0.3s ease;
-}
-
-
   
   .form-field {
     display: block;
-    width: 100%;
     padding: 8px 16px;
     line-height: 25px;
     font-size: 14px;
@@ -157,108 +145,50 @@
     margin-bottom: 32px;
   }
 
-.login__form button {
+.signup__input {
     font-size:18px;
     color:white;
     padding:10px 10px 10px 10px;
     display:flex;
-    width: 70%;
+    width: 20rem;
     border:none;
     border-radius: 5px;
     background: #275EFE;
     align-content: center;
     justify-content: center;
-}
+  }
 
-.login__form button {
-  font-size:18px;
-  color:white;
-  padding:10px 10px 10px 10px;
-  display:flex;
-  width: 20rem;
-  border:none;
-  border-radius: 5px;
-  background: #275EFE;
-  align-content: center;
-  justify-content: center;
-}
-
-.password {
-  font-family: SUIT-Bold;
-    font-size: 10pt;
-    color: black;
+  .bottom__btn {
     display: flex;
     justify-content: center;
-    margin-bottom: -2px;
-    padding-top: 2rem;
-}
+  }
 
-.bottom__btn {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1rem;
-  padding-top: 2rem;
-}
+  .center__form {
+    display: flex;
+    justify-content: center;
+  }
 
-.signup__btn {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1rem;
-}
+  .bottom__text {
+    font-family: SUIT-Medium;
+    font-size: 13pt !important;
+    color: #858598;
+    display: flex;
+    justify-content: center;
+  }
 
-.signup {
-  font-size: 18px;
-  color: white !important;
-  padding: 10px 10px 10px 10px;
-  display: flex;
-  width: 20rem;
-  border: none;
-  border-radius: 5px;
-  background: #FFD107;
-  align-content: center;
-  justify-content: center;
-}
+  .password {
+    font-size:18px;
+    color:white !important;
+    padding:10px 10px 10px 10px;
+    display:flex;
+    width: 20rem;
+    border:none;
+    border-radius: 5px;
+    background: #FFD107;
+    align-content: center;
+    justify-content: center;
+  }
 
-.center__form {
-  display: flex;
-  justify-content: center;
-}
-
-.hr-sect {
-  display: flex;
-  flex-basis: 100%;
-  align-items: center;
-  color: rgba(0, 0, 0, 0.35);
-  font-size: 12px;
-  margin: 8px 0px;
-}
-
-.hr-sect::before,
-      .hr-sect::after {
-        content: "";
-        flex-grow: 1;
-        background: rgba(0, 0, 0, 0.35);
-        height: 1px;
-        font-size: 0px;
-        line-height: 0px;
-        margin: 0px 16px;
-      }
-
-.social__btn {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1rem;
-}
-
-.social{
-  font-size: 18px;
-  color: white !important;
-  padding: 10px 10px 10px 10px;
-  display: flex;
-  width: 20rem;
-  border: none;
-  border-radius: 5px;
-  background: #d3d3e9;
-  align-content: center;
-  justify-content: center;
+.space {
+  padding-top: 1rem;
 }
