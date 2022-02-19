@@ -47,7 +47,8 @@
             </table>
 
                 <div class="tag">
-                  <label>태그</label> 
+                  <label>태그</label>
+
                   <!-- {{form.tag}} -->
 <!--
                       {% for field in form %}
@@ -61,8 +62,8 @@
                       </div>
                   {% endfor %}
                   -->
-                  <select class="form-select" aria-label="Default select example" style="width: 100%">
-                      <option selected>태그를 선택해주세요</option>
+                  <select class="form-select" aria-label="Default select example" style="width: 100%" multiple>
+                    <option selected>태그를 선택해주세요</option>
                     <option value="clean">시설이 깨끗해요</option>
                     <option value="prop">소품이 다양해요</option>
                     <option value="booth">부스가 많아요</option>
@@ -77,11 +78,24 @@
 
                 <select class="form-select" aria-label="Default select example" style="width: 100%">
                   <option selected>배경색을 선택해주세요</option>
-                    <option value="pink" style="color:deeppink"> 핑크</option>
                     <option class = "blue"value="blue"> 🟦</option>
                     <option class = "yellow"value="yellow"> 🟨 </option>
                     <option class = "purple"value="purple">🟪</option>
                     <option class = "red" value="red"> 🟥 </option>
+                                    {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
+                                    {% elif color == '하늘'%}<div><button type="button" class="colorbtn colorskyblue">■</button></div>
+                                    {% elif color == '노랑'%}<div><button type="button" class="colorbtn coloryellow">■</button></div>
+                                    {% elif color == '회색'%}<div><button type="button" class="colorbtn colorgray">■</button></div>
+                                    {% elif color == '남색'%}<div><button type="button" class="colorbtn colorindigo">■</button></div>
+                                    {% elif color == '연두'%}<div><button type="button" class="colorbtn colorgreen">■</button></div>
+                                    {% elif color == '보라'%}<div><button type="button" class="colorbtn colorpurple">■</button></div>
+                                    {% elif color == '빨강'%}<div><button type="button" class="colorbtn colorred">■</button></div>
+                                    {% elif color == '주황'%}<div><button type="button" class="colorbtn colororange">■</button></div>
+                                    {% elif color == '기타'%}<div><button type="button" class="colorbtn colorrainbow">■</button></div>
+                                    {% endif %}
+
+
+
                   </select>
               </div>
 
