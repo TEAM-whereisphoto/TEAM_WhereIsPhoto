@@ -89,9 +89,11 @@ def booth_review_create(request, pk):
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
-        rate = request.POST.get('rating')
-
+        form.checkstar(request.POST)
+        
         if form.is_valid():
+            rate = request.POST.get('rating')
+
             post = form.save(commit=False)
             post.booth = booth
             post.user = request.user
@@ -116,17 +118,20 @@ def review_update(request, pk):
 
     if request.user == review.user:
         if request.method == 'POST': #post방식 요청
-            rate = request.POST.get('rating')
             form = ReviewForm(request.POST, request.FILES, instance=review)
             if form.is_valid(): #폼 유효하면
-                review.rate = rate
+                form.checkstar(request.POST)
+                rate = request.POST.get('rating')
+
                 review = form.save(commit=False) #데이터 가져오기
+                review.rate = rate
                 review.save() #저장
                 save_booth_rate_avg(review.booth)
                 return redirect('map:booth_review_list', boothid)
-
+            
         else:
-            ctx = {'review': review,'id':boothid, 'boothname' : boothname}
+            form = ReviewForm(instance=review)
+        ctx = {'review': review,'id':boothid, 'boothname' : boothname, 'form':form}
         return render(request, template_name='map/review_create.html', context=ctx)
 
 @login_required

@@ -32,74 +32,82 @@
                       {{ field.errors }}
                       {% endif %}
                   {% endfor %}
+                  
+                  <!-- 별점 선택 예외처리 -->
+                  {% for error in form.errors %}
+                    {% if error == "Rate" %}
+                    <strong>{{error}}</strong>
+                    <ul class="errorlist"><li>필수 항목입니다.</li></ul>
+                    {% endif %}
+                  {% endfor %}
                   </div>
               {% endif %}
               </div>
                <!-- 오류표시 end-->
-            <div class = "content">
-              <table class = "star">
-              <tbody>
-                <tr>
-                  <th>
-                  </th>
-                  <td>
-                    <div class="new-star-rating">
-                      <input type="radio" id="5-stars" name="rating" value="5"/>
-                      <label for="5-stars" class="star">★</label>
-                      <input type="radio" id="4-stars" name="rating" value="4"/>
-                      <label for="4-stars" class="star">★</label>
-                      <input type="radio" id="3-stars" name="rating" value="3"/>
-                      <label for="3-stars" class="star">★</label>
-                      <input type="radio" id="2-stars" name="rating" value="2"/>
-                      <label for="2-stars" class="star">★</label>
-                      <input type="radio" id="1-stars" name="rating" value="1"/>
-                      <label for="1-starS" class="star">★</label>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <div class = "content">
+                <table class = "star">
+                <tbody>
+                  <tr>
+                    <th>
+                    </th>
+                    <td>
+                      <div class="new-star-rating">
+                        <input type="radio" id="5-stars" name="rating" value="5"/>
+                        <label for="5-stars" class="star">★</label>
+                        <input type="radio" id="4-stars" name="rating" value="4"/>
+                        <label for="4-stars" class="star">★</label>
+                        <input type="radio" id="3-stars" name="rating" value="3"/>
+                        <label for="3-stars" class="star">★</label>
+                        <input type="radio" id="2-stars" name="rating" value="2"/>
+                        <label for="2-stars" class="star">★</label>
+                        <input type="radio" id="1-stars" name="rating" value="1"/>
+                        <label for="1-stars" class="star">★</label>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                </table>
 
-                <div class="tag">
-                  <label>태그</label>
-                  <select class="form-select" aria-label="Default select example" name="tag" style="width: 100%" multiple="multiple">
-                    <option value="시설이 깨끗해요">✨ 시설이 깨끗해요</option>
-                    <option value="소품이 다양해요">🎉 소품이 다양해요</option>
-                    <option value="부스가 많아요">📸 부스가 많아요</option>
-                    <option value="고데기가 있어요">💇🏻‍ ‍고데기가 있어요</option>
-                    <option value="로드점이에요">🛣️ 로드점이에요</option>
-                  </select>
-              </div>
+                  <div class="tag">
+                    <label>태그</label>
+                    <select class="form-select" aria-label="Default select example" name="tag" style="width: 100%" multiple="multiple">
+                      <option value="시설이 깨끗해요">✨ 시설이 깨끗해요</option>
+                      <option value="소품이 다양해요">🎉 소품이 다양해요</option>
+                      <option value="부스가 많아요">📸 부스가 많아요</option>
+                      <option value="고데기가 있어요">💇🏻‍ ‍고데기가 있어요</option>
+                      <option value="로드점이에요">🛣️ 로드점이에요</option>
+                    </select>
+                </div>
 
-              <div class="color">
-                <label>배경색</label>
-                <select class="form-select" aria-label="Default select example" name="color" multiple="multiple" style="width: 100%">
-                  <option value="핑크">핑크</option>
-                  <option value="하늘">하늘</option>
-                  <option value="노랑">노랑</option>
-                  <option value="회색">회색</option>
-                  <option value="남색">남색</option>
-                  <option value="연두">연두</option>
-                  <option value="보라">보라</option>
-                  <option value="빨강">빨강</option>
-                  <option value="주황">주황</option>
-                  <option value="기타">기타</option>
-                  </select>
-              </div>
+                <div class="color">
+                  <label>배경색</label>
+                  <select class="form-select" aria-label="Default select example" name="color" multiple="multiple" style="width: 100%">
+                    <option value="핑크">핑크</option>
+                    <option value="하늘">하늘</option>
+                    <option value="노랑">노랑</option>
+                    <option value="회색">회색</option>
+                    <option value="남색">남색</option>
+                    <option value="연두">연두</option>
+                    <option value="보라">보라</option>
+                    <option value="빨강">빨강</option>
+                    <option value="주황">주황</option>
+                    <option value="기타">기타</option>
+                    </select>
+                </div>
 
-              <div class = "textcontent">
-                <textarea class="content-input" placeholder="add comment here!" name="content">{% if review.content %}{{review.content}}{% endif %}</textarea>
-              </div>
+                <div class = "textcontent">
+                  <textarea class="content-input" placeholder="add comment here!" name="content">{% if review.content %}{{review.content}}{% endif %}</textarea>
+                </div>
 
-              <div>
+                <div>
 
-                <label class="img-btn" for="img-input"> 사진 추가 </label>
-                <input id="img-input" type="file" maxlength="255" name="img" value="{% if review.img %}{{review.img.url}}{% endif %}">
+                  <label class="img-btn" for="img-input"> 사진 추가 </label>
+                  <input id="img-input" type="file" maxlength="255" name="img" value="{% if review.img %}{{review.img.url}}{% endif %}">
 
-              </div>
+                </div>
               </div>
             </div>
-            </div>
+          </div>
         </form>
 
         {% if review.rate %} <!-- update 인 경우 -->
