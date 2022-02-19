@@ -3,12 +3,12 @@
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/map/style.css' %}">
-    <script defer type="application/javascript" src="{% static 'js/map/map.js' %}"></script>
+    <script defer type="text/javascript" src="{% static 'js/map/map.js' %}"></script>
     {% endblock %}
 
 {% block content %}
 <!-- kakao api 사용을 위해 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{API_KEY}}"&libraries=services,clusterer,drawing></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{API_KEY}}&libraries=services,clusterer,drawing"></script>
 
     {% comment %}
     <div class="row" id="filter-container">
