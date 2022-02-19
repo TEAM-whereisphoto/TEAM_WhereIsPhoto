@@ -38,7 +38,7 @@
         <div>
           <button class="navbar-toggler" type="button">
             {% if user.is_authenticated %} 
-              <a href="{% url 'user:main' %}"><i class="ri-user-line position-relative" style="color: #1F52FF;" ></i></a>
+              <a class="position-relative" href="{% url 'user:main' %}"><i class="ri-user-line position-relative" style="color: #1F52FF;" ></i></a>
             {% else %}
               <a href="{% url 'user:login' %}"><i class="ri-login-circle-line" style="color: #1F52FF;"></i></a>
             {% endif %}

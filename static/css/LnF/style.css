@@ -84,3 +84,7 @@
     color: #A3A3B5;
     font-size: .8rem;
 }
+
+.btn:hover {
+    box-shadow: none !important;
+}

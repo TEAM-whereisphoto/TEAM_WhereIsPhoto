@@ -53,12 +53,11 @@ def tag_count(pk):
     return tag_list
 
 def booth_detail(request,pk):
-    booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
+    booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
     lnfs = LnF_Post.objects.filter(booth= booth.pk).order_by('-time')
-
-    if (len(reviews) > 3):
-        reviews = reviews[:3]
+    lnf_num = len(lnfs)
+    lnfs = lnfs[:3]
 
     if request.user.is_authenticated:
         try:
@@ -71,20 +70,22 @@ def booth_detail(request,pk):
 
     tag_list = tag_count(pk)
     width = booth.rate_average * 20 
+    
+
     ctx = {'booth': booth, 'lnfs' : lnfs, 'reviews': reviews, 'tag_list': tag_list, 'currentLikeState': currentLikeState, 'width':width}
-    return render(request, template_name='map/booth_detail.html', context=ctx)
+    return render(request, template_name='map/booth_detail.html', context=locals())
 
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
-
-    ctx = {'reviews': reviews,'booth':booth, 'boothname': booth.name}
+    ctx = {'reviews': reviews,'pk': pk, 'booth':booth, 'boothname': booth.name, }
     return render(request, template_name='map/review_list.html', context=ctx)
 
 @login_required
 def booth_review_create(request, pk):
     booth = get_object_or_404(Booth, id=pk)
     boothname = booth.name
+    id = pk
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
@@ -101,39 +102,32 @@ def booth_review_create(request, pk):
             post.save()
             booth.save()
             save_booth_rate_avg(booth)
-            return redirect('map:review_detail', post.id)
+            return redirect('map:booth_review_list', post.boothid)
     else:
         form = ReviewForm()
 
-    ctx = {'form': form, 'pk':pk, 'boothname':boothname}
+    ctx = {'form': form, 'id': id, 'boothname':boothname}
     return render(request, template_name='map/review_create.html', context=ctx)
    
-
-def review_detail(request, pk):  # request도 받고 몇번 인덱스인지 = pk를 받는다. 게시물 상세조
-    review = Review.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다
-    tags = review.tag
-    colors = review.color
-    ctx = {'review': review, 'pk':pk, 'tags':tags, 'colors': colors }  # template로 보내기 위해선 context를 만들어야한다.
-    return render(request, template_name='map/review_detail.html', context=ctx)
-
-@login_required
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
+    boothname = review.booth
+    id = review.boothid
     if request.user == review.user:
-        if request.method == 'POST':
+        if request.method == 'POST': #post방식 요청
             rate = request.POST.get('rating')
             form = ReviewForm(request.POST, request.FILES, instance=review)
-            if form.is_valid():
+            if form.is_valid(): #폼 유효하면
                 review.rate = rate
-                review = form.save(commit=False)
-                review.save()
+                review = form.save(commit=False) #데이터 가져오기
+                review.save() #저장
                 save_booth_rate_avg(review.booth)
-                return redirect('map:review_detail', review.id)
+                return redirect('map:booth_review_list', review.id)
 
         else:
             form = ReviewForm(instance=review)
-            ctx = {'form': form,'pk':pk}
-
+            tag= review.tag
+            ctx = {'form': form,'id':id, 'boothname' : boothname}
             return render(request, template_name='map/review_create.html', context=ctx)
 
 @login_required
