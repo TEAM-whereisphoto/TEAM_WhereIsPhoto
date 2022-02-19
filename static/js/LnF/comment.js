@@ -30,6 +30,27 @@ const addComment = () => {
         //  -> new_comment(tr, #comment-{comment.id})  
         //      -> comment_content(td)
         //      -> del-btn(button)
+
+        // <table id="comment-table-{{post.id}}">
+        //     {% for comment in post.comment_set.all %}
+        //     <tr id = "comment-{{comment.id}}">
+        //         <td>댓글내용: {{comment.content}}</td>
+        //         <td>댓글 작성자: {{comment.user}}</td>
+        //         <td>
+        //             {% if comment.timeString == False %}
+        //             작성시간: {{comment.time|date:'m월 d일'}}
+        //             {% else %}
+        //             작성시간: {{comment.timeString}}
+        //             {% endif %}
+        //         </td>
+        //         <td>
+        //             {% if comment.user == request.user %}
+        //             <button class="del-btn" onclick="onClickDel({{comment.id}})">❌</button>
+        //             {% endif %}                    
+        //         </td>
+        //     </tr>
+        //     {% endfor %}
+        // </table>
         
         const element = document.querySelector(`#comment-table-${id}`)
         const new_comment = document.createElement("tr")
@@ -41,7 +62,7 @@ const addComment = () => {
             작성시간: 방금 전
             </td>
             <td>
-            <button class="del-btn" onclick="onClickDel(${comment_id})">삭제</button>
+            <button class="del-btn" onclick="onClickDel(${comment_id})">❌</button>
             </td>
             </tr>`
             

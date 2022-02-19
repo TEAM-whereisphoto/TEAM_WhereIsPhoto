@@ -1,6 +1,18 @@
 .blank {
     margin-bottom: 0.8rem;
 }
+
+.between {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button{
+    border: none;
+    background-color: transparent;
+}
+
 /* search bar CSS */
 .search {
     display: flex;
@@ -16,11 +28,6 @@
 .search__input > input {
     border: none;
     width: 100%;
-}
-
-button{
-    border: none;
-    background-color: transparent;
 }
 
 .lnf__btn1 {
@@ -48,7 +55,6 @@ button{
     font-family: 'SUIT-Medium';
     color : #424258;
     border-radius: 10pt;
-    margin-bottom: 1rem;
 }
 
 .post__title {
@@ -59,6 +65,7 @@ button{
 .post__title > a {
     font-size: 1.2rem;
     font-family: 'SUIT-Bold';
+    margin-right: 0.3rem;
 }
 
 .post__분실 {
@@ -66,7 +73,7 @@ button{
     color: white;
     border-radius: 1rem;
     padding: .3rem;
-    margin-right: .5rem;
+    margin-right: .3rem;
 }
 
 .post__보관 {
@@ -74,25 +81,59 @@ button{
     color: white;
     border-radius: 1rem;
     padding: .3rem;
-    margin-right: .5rem;
+    margin-right: .3rem;
 }
 
 .post__footer {
     display: flex!important;
     justify-content: space-between;
     align-items: center;
+
     color: #A3A3B5;
     font-size: .8rem;
 }
 
-.post__func {
-    display: flex!important;
-    justify-content: space-between;
-    align-items: center;
+.post__chg {
+    display: flex;
+    justify-content: flex-end;
+    color: black;
 }
 
-.post__chg {
-    background-color: #a3a3b583;
+.post__chg > a {
+    padding: 0 .3rem;
 }
+
 
 /*comment css*/
+.comment {
+    padding: .5rem;
+
+    border-left:2px solid #A3A3B5;;
+    /* border-style: solid;
+    border-color: #A3A3B5;
+    border-width: 2px; */
+}
+
+.comment__add {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+
+    padding: 0.3rem;
+    border: solid #A3A3B5 1px;
+}
+
+.comment__add > input {
+    border: none;
+    width: 100%;
+}
+
+.comment__add > button {
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+}
