@@ -65,3 +65,42 @@ body{
 .pink{
     color : hotpink;
 }
+
+/* 색상 */
+.colorpink{
+    -webkit-text-fill-color: #f7b5c0;
+}
+
+.coloryellow{
+    -webkit-text-fill-color: #f7e572;
+}
+
+.colorred{
+    -webkit-text-fill-color: #e36262;
+}
+
+.colorpurple{
+    -webkit-text-fill-color: #d1b5f7;
+}
+
+.colorindigo{
+    -webkit-text-fill-color: #4e557b;
+}
+
+.colororange{
+    -webkit-text-fill-color: #f7a35e;
+}
+
+.colorskyblue{
+    -webkit-text-fill-color: #b5e0f7;
+}
+
+.colorgray{
+    -webkit-text-fill-color: #e7e7e7;
+}
+.colorgreen{
+    -webkit-text-fill-color: #d1eba7;
+}
+.colorrainbow{
+    -webkit-text-fill-color: saddlebrown;
+}
