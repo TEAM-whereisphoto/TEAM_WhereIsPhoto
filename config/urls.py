@@ -40,9 +40,14 @@ urlpatterns = [
         'password_reset_complete/',
         auth_views.PasswordResetCompleteView.as_view(template_name='user/reset_password_sucess.html'),
         name='password_reset_complete'
-    )
+    ),
+    # re_path(r'^static/(?P<path>.*)', serve, kwargs={'insecure': True}),
+    # re_path(r'^media/(?P<path>.*)', serve, kwargs={'insecure': True})
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+
 
 ]
 #set image urls
-urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
