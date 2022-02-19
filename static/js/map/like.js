@@ -5,8 +5,8 @@ const onClickLike = (booth_id) => {
     })
     .then(data => {
         booth_id = data['booth_id'];
-        const heart = document.querySelector("body > div > div:nth-child(1) > div")
-        heart.innerHTML = `<div class="heart" onclick="onClickDislike(${booth_id})">❤️ 여기 매장 좋아요</div>`
+        const heart = document.getElementById("heart_container")
+        heart.innerHTML = `<div class="detail__heart" onclick="onClickDislike(${booth_id})">♥ 여기 매장 좋아요!</div>`
     })
 }
 
@@ -17,12 +17,25 @@ const onClickDislike = (booth_id) => {
     })
     .then(data => {
         booth_id = data['booth_id'];
-        const heart = document.querySelector("body > div > div:nth-child(1) > div")
-        heart.innerHTML = `<div class="heart" onclick="onClickLike(${booth_id})">🤍 여기 매장 좋아요</div>`
+        const heart = document.getElementById("heart_container")
+        heart.innerHTML = `<div class="detail__noheart" onclick="onClickLike(${booth_id})" >♥ 여기 매장 좋아요!</div>`
     })
 }
 
 const onClickAlert = () =>{
     alert('로그인을 먼저 해주세요.!')
-    window.location.href ='http://127.0.0.1:8000/user/login'
+    window.location.href ='/user/login'
 }
+
+// ------------------------------------------------------------
+// tag fill 채우기
+document.addEventListener("DOMContentLoaded", function(event){
+    // your code here
+    const tagfills = this.getElementsByClassName("tag__fill")
+    for (let eachtag of tagfills) {
+        let width = eachtag.dataset.num / eachtag.dataset.reviews * 100
+        console.log(width)
+        eachtag.setAttribute("style", `width: ${width}%`)
+    }
+    
+});

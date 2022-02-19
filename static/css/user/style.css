@@ -1,0 +1,93 @@
+@import "../reset.css";
+
+.all {
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+}
+
+h3 {
+    padding-top: 3rem !important;
+    font-family: SUIT-Bold;
+    font-size: 16pt;
+    color: black;
+    /* color : #424258; */
+}
+
+h4 {
+    font-family: SUIT-Bold;
+    font-size: 13pt !important;
+    color: #858598;
+}
+
+.sub__title {
+    margin-bottom: 5px;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: #AEAECA
+}
+
+.liked__title {
+    font-family: SUIT-Medium;
+    font-size: 10pt;
+    color: white;
+    z-index: 3;
+    margin: 0;
+    position: relative;
+    top: -3rem;
+    align-items: center;
+}
+
+.liked_container {
+    display: flex;
+    overflow: scroll;
+}
+
+.liked__content {
+    padding-right: 1rem;
+    margin-right: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.line {
+    display: flex;
+    justify-content: space-between;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: black;
+    padding-bottom: 0.5rem;
+}
+
+.liked__img {
+    width: 8rem;
+    height: 10rem;
+}
+
+.log__out {
+    font-family: SUIT-Bold;
+    color: red;
+}
+
+.edit {
+  font-family: SUIT-Bold;
+  color: #1F52FF;
+}
+
+.profile {
+  width: 70%;
+  padding-bottom: 2rem;
+}
+
+.part {
+    padding-bottom: 2rem;
+}
+
+.arrow {
+    color: #858598 !important;
+}
+
+/* --------------------------------------- login --------------------------------------- */
+#login__form * { box-sizing:border-box; }
+
+

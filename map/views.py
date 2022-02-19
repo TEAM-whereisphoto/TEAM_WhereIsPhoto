@@ -54,8 +54,11 @@ def tag_count(pk):
 
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)  # id가 pk인 게시물 하나를 가져온다.
-    reviews = Review.objects.filter(booth = booth.pk)
-    lnfs = LnF_Post.objects.filter(booth= booth.pk)
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
+    lnfs = LnF_Post.objects.filter(booth= booth.pk).order_by('-time')
+
+    if (len(reviews) > 3):
+        reviews = reviews[:3]
 
     if request.user.is_authenticated:
         try:
@@ -74,13 +77,14 @@ def booth_detail(request,pk):
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
     reviews = Review.objects.filter(booth = booth.pk)
-    
-    ctx = {'reviews': reviews,'booth':booth, 'boothname':booth.name}
+
+    ctx = {'reviews': reviews,'booth':booth, 'boothname': booth.name}
     return render(request, template_name='map/review_list.html', context=ctx)
 
 @login_required
 def booth_review_create(request, pk):
     booth = get_object_or_404(Booth, id=pk)
+    boothname = booth.name
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
@@ -101,7 +105,7 @@ def booth_review_create(request, pk):
     else:
         form = ReviewForm()
 
-    ctx = {'form': form}
+    ctx = {'form': form, 'pk':pk, 'boothname':boothname}
     return render(request, template_name='map/review_create.html', context=ctx)
    
 

@@ -50,7 +50,6 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
-# http://127.0.0.1:8000/find/review/3/
 def read_my_review(request, pk):
     my_review = Review.objects.get(pk=pk)
 
@@ -231,14 +230,18 @@ def read_notice(request, pk):
 
 
 def nav_notice(request):
+    
     if request.user.is_authenticated:
         comments = getNew(request.user)
+        notice_num = len(comments)
         if len(comments) > 0:
             notice = True
         else:
             notice = False
+        
     else:
         notice =False
-
-    ctx={'notice': notice}
+        notice_num = 0
+        
+    ctx={'notice': notice, 'notice_num': notice_num}
     return JsonResponse(ctx)

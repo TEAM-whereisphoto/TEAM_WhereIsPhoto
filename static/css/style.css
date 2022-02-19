@@ -41,6 +41,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'SUIT-Heavy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 a {
     color: inherit!important;
     text-decoration: none!important;

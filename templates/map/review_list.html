@@ -1,34 +1,130 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/map/list.css' %}">
+
+{% endblock %}
 
 {% block content %}
-    <h4>{{ booth.name }}</h4>
-    <a href="{% url 'map:booth_detail' booth.id%}">detail</a>
-    
+<div class = "review">
+    <div class="container">
 
-    {% for review in reviews %}
-    <a href="{% url 'map:review_detail' review.id %}">
-        <div>
-            <h4>작성자 : {{review.user}}</h4>
-            <h5>별점</h5>
-            <div class="star-rating">
-                <div class="star-rating-fill" style= "width: {{review.getWidth}}%;">                
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+    <div class = 'backbtn item col-2'>
+        <button type="button" class=" goback btn"><a href = "{% url 'map:booth_detail' booth.id%}"> 〈 </a></button>
+    </div>
+
+    <div class ='title item col-10'>
+        {{boothname}}
+    </div>
+</div>
+        {% for review in reviews %}
+
+        <div class="reviewblock">
+            <div class="foot">
+                        {{review.user}} | {{review.time|date:'m월 d일'}}
                 </div>
-                <div class="star-rating-base">
-                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            <div class="container-drop">
+                    <div class="dropdown">
+                  <a class="btn btn-sm btn-outline-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">⋮</a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      {% if review.user == request.user %}
+                    <li><a class="dropdown-item" href="{% url 'map:review_update' review.id %}">수정</a></li>
+                    <li><a class="dropdown-item" onclick="post_del({{post.id}})">삭제</a></li>
+                      {% endif %}
+                  </ul>
                 </div>
+                </div>
+            <div class="container">
+
+                {% if review.img %}
+                <div class="content col-7">
+                    <div class="text">
+                                    {{review.content}}
+                                </div>
+                    <div class="color">
+                                        <div class ="colortext">배경색 : </div>
+                                        {% for color in review.color %}
+
+                                        {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
+                                        {% elif color == '하늘'%}<div><button type="button" class="colorbtn colorskyblue">■</button></div>
+                                        {% elif color == '노랑'%}<div><button type="button" class="colorbtn coloryellow">■</button></div>
+                                        {% elif color == '회색'%}<div><button type="button" class="colorbtn colorgray">■</button></div>
+                                        {% elif color == '남색'%}<div><button type="button" class="colorbtn colorindigo">■</button></div>
+                                        {% elif color == '연두'%}<div><button type="button" class="colorbtn colorgreen">■</button></div>
+                                        {% elif color == '보라'%}<div><button type="button" class="colorbtn colorpurple">■</button></div>
+                                        {% elif color == '빨강'%}<div><button type="button" class="colorbtn colorred">■</button></div>
+                                        {% elif color == '주황'%}<div><button type="button" class="colorbtn colororange">■</button></div>
+                                        {% elif color == '기타'%}<div><button type="button" class="colorbtn colorrainbow">■</button></div>
+                                        {% endif %}
+                                        {% endfor %}
+                                </div>
+                </div>
+                <div class="img col-5">
+                    <img src="{{ review.img.url }}" alt="" width="100%" height="100%">
+                </div>
+                {% else %}
+                <div>
+                    <div class="text">
+                                {{review.content}}
+                            </div>
+                    <div class="color">
+                                    <div class ="colortext">배경색 : </div>
+                                    {% for color in review.color %}
+
+                                    {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
+                                    {% elif color == '하늘'%}<div><button type="button" class="colorbtn colorskyblue">■</button></div>
+                                    {% elif color == '노랑'%}<div><button type="button" class="colorbtn coloryellow">■</button></div>
+                                    {% elif color == '회색'%}<div><button type="button" class="colorbtn colorgray">■</button></div>
+                                    {% elif color == '남색'%}<div><button type="button" class="colorbtn colorindigo">■</button></div>
+                                    {% elif color == '연두'%}<div><button type="button" class="colorbtn colorgreen">■</button></div>
+                                    {% elif color == '보라'%}<div><button type="button" class="colorbtn colorpurple">■</button></div>
+                                    {% elif color == '빨강'%}<div><button type="button" class="colorbtn colorred">■</button></div>
+                                    {% elif color == '주황'%}<div><button type="button" class="colorbtn colororange">■</button></div>
+                                    {% elif color == '기타'%}<div><button type="button" class="colorbtn colorrainbow">■</button></div>
+                                    {% endif %}
+                                    {% endfor %}
+                            </div>
+                </div>
+                {% endif %}
+
+
             </div>
-            <h6>{{review.color}}</h6>
-            <h6>{{review.tag}}</h6>
-        <br>
+
+            <div class="container_review">
+                    <div class="star-rating">
+                        <div class="star-rating-fill" style= "width: {{review.getWidth}}%;">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <div class="star-rating-base">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                    </div>
+            </div>
+            <div class = "tag">
+                        {% for tag in review.tag %}
+                        {% if tag == '시설이 깨끗해요'%}<button type="button" class="tagbtn">🧹 시설이 깨끗해요</button>
+                        {% elif tag == '소품이 다양해요'%}<button type="button"  class="tagbtn">🎩 소품이 다양해요</button>
+                        {% elif tag == '부스가 많아요'%}<button type="button"  class="tagbtn">🕋 부스가 많아요</button>
+                        {% elif tag == '고데기가 있어요'%}<button type="button" class="tagbtn">🦱 고데기가 있어요</button>
+                        {% elif tag == '로드점이에요'%}<button type="button"  class="tagbtn">🛣️ 로드점이에요</button>
+                        {% endif %}
+                        {% endfor %}
+            </div>
+
         </div>
-        
-    </a>
-        
 
-    {% endfor %}
-
-    <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
-
+    <script>
+        const post_del = (id) => {
+        var res = confirm('정말로 삭제하시겠습니까?');
+        if (res){
+            window.location.href = "{% url 'map:review_delete' review.id %}"
+            alert('성공적으로 삭제되었습니다.')
+        }
+    }
+    </script>
+        {% endfor %}
+        <button type="button" class="write btn btn-secondary"> <a href = "{% url 'map:booth_review_create' booth.id %}"> 리뷰 작성</a></button>
+</div>
 
 {% endblock %}

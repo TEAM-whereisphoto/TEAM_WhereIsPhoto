@@ -3,100 +3,157 @@
 
 {% block head %}
 <script defer type="text/javascript" src="{% static 'js/map/like.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/map/boothdetail.css' %}"> 
 {% endblock %}
 
+{% block header %}
+<!-- 매장찾기 파란글씨 헤더? 원래 헤더 없애고? -->
+{% endblock %}
+
+
 {% block content %}
-<div>
-    <div>
+
+    <div id="boothdetail__image">
         {% if article.image %}
         <p>
             <img src ="{{ booth.image.url }}">
-        </p>>
+        </p>
         {% endif %}
-        <h3>{{ booth.name }}</h3>
-        <h6>{{ booth.location }}</h6>
-        <div>
-            {% if request.user.is_authenticated %}
-                {% if currentLikeState %}
-                    <div class="heart" onclick="onClickDislike({{booth.id}})">❤️ 여기 매장 좋아요</div>
+        <img src = "{% static 'haru_profile.png' %}"> 
+    </div>
+
+    <div id="boothdetail__body"> <!-- div:nthchild (1)-->
+
+        <div id="body__name"> <!-- div:nthchild (0)-->
+            <h3 class="text-center mb-3" style="font-family: ROKAFSansMedium; font-size: 26px">{{ booth.name }}</h3>
+            <h6 class="text-center mx-4 mb-3" style="color: #B0B0B0; font-size: 20px;">{{ booth.location }}</h6>
+            <div class="text-center">
+                {% if request.user.is_authenticated %}
+                    <a style="font-family: ROKAFSansMedium; font-size: 16px;" href="{% url 'map:booth_review_create' booth.id %}" class="text-primary">리뷰 작성✍🏻</a>
+
+                    <div id="heart_container">
+                        {% if currentLikeState %}
+                        <div class="detail__heart" onclick="onClickDislike({{booth.id}})">♥ 여기 매장 좋아요!</div>
+                        {% else %}
+                        <div class="detail__noheart" onclick="onClickLike({{booth.id}})" >♥ 여기 매장 좋아요!</div>
+                        {% endif %}
+                    </div>
                 {% else %}
-                    <div class="heart" onclick="onClickLike({{booth.id}})" >🤍여기 매장 좋아요</div>
+                    <a style="font-family: ROKAFSansMedium; font-size: 16px; color: #C2C2C2 !important; opacity: 0.5;" onclick = "onClickAlert()">리뷰 작성✍🏻</a>
+                    <div class="detail__noheart" onclick="onClickAlert()" >♥ 여기 매장 좋아요!</div>
                 {% endif %}
+            </div>
+            <br>
+        </div>
+
+        <div style="background-color: #F9F9F9;" class="px-3 pt-3">
+
+            <div id="boothdetail__tags">
+                <div id="boothdetail__tagtop" class="d-flex mb-2">
+                    <h4 class="fw-bold me-1">User Tags<h4>
+                    <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
+                </div>
+                        
+                <div id="boothdetail__taglist" class="mx-3">
+                    {% if booth.review_number == 0 %}
+                    <div class="boothdetail__noreviews text-center fs-5">
+                        아직 작성된 리뷰가 없어요 :(
+                    </div>
+
+                    {% else %}
+                        {% for tag in tag_list %}
+                            {% if tag.1 > 0 %}
+                                <div class="position-relative">
+                                    <div class="tag__fill" data-reviews="{{ booth.review_number }}" data-num="{{ tag.1 }}"></div>
+                                    <div class="tag__container mb-2 py-2 px-3 d-flex justify-content-between">
+                                        <div class="tag__name">
+                                            {% if tag.0 == 'clean' %} ✨ "시설이 깨끗해요"
+                                            {% elif tag.0 == 'prop' %} 🎉 "소품이 다양해요" 
+                                            {% elif tag.0 == 'booth' %} 📸 "부스가 많아요"
+                                            {% elif tag.0 == 'iron' %} 💇🏻‍♀️ "고데기가 있어요"
+                                            {% elif tag.0 == 'street' %} 🛣️ "로드점이에요"
+                                            {% endif %}
+                                        </div>
+                                        <div style="color: #1F52FF">
+                                            {{tag.1}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div class="d-flex justify-content-between mt-5">
+                <div id="boothdetail__reviewtop" class="d-flex align-items-center">
+                    <h4 class="fw-bold me-1">Reviews<h4>
+                    <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
+                </div>
+                <!-- <h6>Reviews({{booth.review_number}})</h6> -->
+                <a href="{% url 'map:booth_review_list' booth.id %}" class="fw-bold ">View All ></a>
+            </div>
+        </div>
+
+        <div id="boothdetail__reviews">
+            <div id="star__container" class="d-flex justify-content-center" style="font-size: 50px;">
+                <div class="star-rating">
+                    <div class="star-rating-fill" style= "width: {{ width }}%;">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <div class="star-rating-base">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                </div>
+            </div>
+                
+            {% if booth.review_number == 0 %}
+                    <div class="boothdetail__noreviews text-center fs-5">
+                        아직 작성된 리뷰가 없어요 :(
+                    </div>
             {% else %}
-                <div class="heart" onclick="onClickAlert()" >🤍여기 매장 좋아요</div>
+            <div id="boothdetail__reviewlist">
+                {% for review in reviews %}
+                    <div class="row mx-4 mb-4 py-2 px-1" style="border-radius: 0.5rem; box-shadow: 0px 0.25rem 0.5rem lightgrey;">
+                        <div>
+                            <a href="{% url 'map:review_detail' review.id %}">{{review.content}}</a>
+                        </div>
+                        <div class="d-flex justify-content-between" style="color: #A3A3B5">
+                            <span>
+                                {{review.user.username}}
+                            </span>
+                            <span>
+                                {{review.date|date:'y. m. d.'}}
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
             {% endif %}
-        </div>
-        <br>
-    </div>
-    <div>
-        <h4>Customer reviews</h4>
-        <h6>{{booth.review_number}} Reviews</h6>
-        <div class="star-rating">
-            <div class="star-rating-fill" style= "width: {{width}}%;">                
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div> 
+        <div id="boothdetail__LnF" style="background-color: #F3F4F6;">
+            <br />
+            <div class="d-flex justify-content-between px-3">
+                <div id="boothdetail__reviewtop" class="d-flex align-items-center">
+                    <h4 class="fw-bold me-1">Lost and Found<h4>
+                    <div style="color: #C6C6C6"> (갯수)</div>
+                </div>
+                <a href="{% url 'LnF:booth_detail' booth.id %}" class="fw-bold ">View All ></a>
             </div>
-            <div class="star-rating-base">
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            {% for lnf in lnfs %}
+            <div class="row mx-4 mb-4 py-2 px-1 bg-white" style="border-radius: 0.5rem; box-shadow: 0px 0.25rem 0.5rem lightgrey;">
+                <div class="fw-bold">
+                    <div class="btn" style="padding-top: 0.05rem; padding-bottom: 0.05rem; color: white; background-color: #69C3D7; border-radius: 1rem;">{{lnf.tag}}</div>
+                    {{lnf.booth}}
+                </div>
+                <div class="mt-1">{{lnf.content}}</div>
             </div>
-        </div>
-    
-        <h6>{{booth.rate_average}}</h6>
-        <br>
-    </div>
 
-    <div>
-        <br>
-        <h4>리뷰 목록</h4>
-        {% for review in reviews %}
-            <div>
-                <span>
-                    <a href="{% url 'map:review_detail' review.id %}">{{review.content}}</a>
-                </span>
-                <span>
-                    {{review.user.username}}
-                </span>
-                <span>
-                    {{review.date|date:'m월 d일'}}
-                </span>
-            </div>
+            <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
+            <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
             {% endfor %}
-            <a href="{% url 'map:booth_review_list' booth.id %}">view all reviews</a>
-            <a href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성 </a>
-    </div> 
-    <div>
-        <br>
-        <h4>태그</h4>
-        {% for tag in tag_list %}
-            <h6>
-            {% if tag.0 == 'clean' %}
-                시설이 깨끗해요
-            {% elif tag.0 == 'prop' %}
-                소품이 다양해요
-            {% elif tag.0 == 'booth' %}
-                부스가 많아요
-            {% elif tag.0 == 'iron' %}
-                고데기가 있어요
-            {% elif tag.0 == 'street' %}
-                로드점이에요
-            {% endif %}
-            {{tag.1}}개 </h6>
-        {% endfor %}
-    </div>
-
-    <div>
-        <br>
-        <h4>Lost and Found</h4>
-        {% for lnf in lnfs %}
-        <div>
-            {{lnf.tag}}: {{lnf.content}}
         </div>
-        {% endfor %}
-        <br>
-
-        <a href="{% url 'LnF:booth_detail' booth.id %}">more</a> <!--분실물 리스트 -->
-        <a href="{% url 'LnF:new' %}">Write</a> <!-- 분실물 작성 연결 -->
-        <br>
-</div>
+    </div>
 
 {% endblock %}
 
