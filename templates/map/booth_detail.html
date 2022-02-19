@@ -14,26 +14,23 @@
 {% block content %}
 
     <div id="boothdetail__image">
-        {{booth.brand}}
-        {% if booth.brand == "하루필름" %}
-            <img src = "{% static 'haru_profile.png' %}"> </img>
-        {% elif booth.brand == "인생네컷" %}
-            <img src = "{% static 'life_profile.png' %}"/></img> 
-        {% elif booth.brand == "포토이즘박스" %}
-            <img src = "{% static 'box_profile.jpg' %}"/> </img>
-        {% elif booth.brand == "셀픽스" %}
-            <img src = "{% static 'selpix_profile.jpg' %}"/> </img>
-        {% elif booth.brand == "포토시그니처" %}
-            <img src = "{% static 'sign_profile.jpg' %}"/> </img>
-        {% else %}
-        엥
+        {% if booth.brand.name == "하루필름" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/haru_profile.png' %}"> </img>
+        {% elif booth.brand.name == "인생네컷" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/life_profile.png' %}"/></img> 
+        {% elif booth.brand.name == "포토이즘박스" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/box_profile.jpg' %}"/> </img>
+        {% elif booth.brand.name == "셀픽스" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/selpix_profile.jpg' %}"/></img>
+        {% elif booth.brand.name == "포토시그니처" %}
+            <img class="boothdetail__profile" src = "{% static 'icons/profile/sign_profile.jpg' %}"/></img>
         {% endif %}
     </div>
 
     <div id="boothdetail__body"> <!-- div:nthchild (1)-->
 
         <div id="body__name"> <!-- div:nthchild (0)-->
-            <h3 class="text-center mb-3" style="font-family: ROKAFSansMedium; font-size: 26px">{{ booth.name }}</h3>
+            <h3 class="text-center mb-3 mx-3" style="font-family: ROKAFSansMedium; font-size: 25px">{{ booth.name }}</h3>
             <h6 class="text-center mx-4 mb-3" style="color: #B0B0B0; font-size: 20px;">{{ booth.location }}</h6>
             <div class="text-center">
                 {% if request.user.is_authenticated %}
@@ -107,7 +104,9 @@
                     <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
                 </div>
                 <!-- <h6>Reviews({{booth.review_number}})</h6> -->
+                {% if booth.review_number > 3 %}
                 <a href="{% url 'map:booth_review_list' booth.id %}" class="fw-bold ">View All ></a>
+                {% endif %}
             </div>
             <div id="star__container" class="d-flex justify-content-center" style="font-size: 45px;">
                 <div class="star-rating">
@@ -121,9 +120,9 @@
             </div>
                 
             {% if booth.review_number == 0 %}
-                    <div class="boothdetail__noreviews text-center fs-5">
-                        아직 작성된 리뷰가 없어요 :(
-                    </div>
+                <div class="boothdetail__noreviews text-center fs-5">
+                    아직 작성된 리뷰가 없어요 :(
+                </div>
             {% else %}
             <div id="boothdetail__reviewlist">
                 {% for review in reviews %}
@@ -155,35 +154,43 @@
                     <h4 class="fw-bold me-1">Lost and Found<h4>
                     <div style="color: #C6C6C6">({{lnf_num}})</div>
                 </div>
+                {% if lnf_num > 3 %}
                 <a href="{% url 'LnF:booth_detail' booth.id %}" class="fw-bold ">View All ></a>
+                {% endif %}
             </div>
-            {% for lnf in lnfs %}
-            <div class="row post shadow mx-4 mb-4 py-2 px-1">
-                <a href="{% url 'LnF:post_detail' lnf.id %}">
-
-                    <div style="height: .5rem;"></div>
-                    <!-- post content -->
-                    <div class="post_content">
-                        <span class="post__{{ lnf.tag }}">{{lnf.tag}}</span>{{lnf.content}}
+            {% if lnf_num == 0 %}
+                    <div class="boothdetail__noreviews text-center fs-5">
+                        아직 작성된 게시글이 없어요 :(
                     </div>
-                    <div style="height: .5rem;"></div>
-                    <!-- post footer -->
-                    <div class="post__footer">
-                        <div>
-                            {{lnf.user.username}}<br>
-                        </div>
-                        <div>
-                            {% if lnf.timeString == False %}
-                            {{lnf.time|date:'y. m. d.'}}
-                            {% else %}
-                            {{lnf.timeString}}
-                            {% endif %}
-                        </div>
-                    </div>                
-                </a>
-            </div>
-            {% endfor %}
+            {% else %}
 
+                {% for lnf in lnfs %}
+                <div class="row post shadow mx-4 mb-4 py-2 px-1">
+                    <a href="{% url 'LnF:post_detail' lnf.id %}">
+
+                        <div style="height: .5rem;"></div>
+                        <!-- post content -->
+                        <div class="post_content">
+                            <span class="post__{{ lnf.tag }}">{{lnf.tag}}</span>{{lnf.content}}
+                        </div>
+                        <div style="height: .5rem;"></div>
+                        <!-- post footer -->
+                        <div class="post__footer">
+                            <div>
+                                {{lnf.user.username}}<br>
+                            </div>
+                            <div>
+                                {% if lnf.timeString == False %}
+                                {{lnf.time|date:'y. m. d.'}}
+                                {% else %}
+                                {{lnf.timeString}}
+                                {% endif %}
+                            </div>
+                        </div>                
+                    </a>
+                </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 
