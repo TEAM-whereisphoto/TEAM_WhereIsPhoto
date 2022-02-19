@@ -8,7 +8,11 @@
 }
 
 .space {
-    margin-bottom: 50px !important;
+    margin-bottom: 3rem !important;
+}
+
+.space__alert {
+  margin-bottom: 1rem !important;
 }
 
 .signup__title__bold {
@@ -23,6 +27,14 @@
     display: flex;
     justify-content: center;
     margin-bottom: -2px;
+}
+
+.alert__subtitle {
+  font-family: SUIT-Bold;
+  font-size: 13pt;
+  color: red;
+  display: flex;
+  justify-content: center;
 }
 
 .top__text {
