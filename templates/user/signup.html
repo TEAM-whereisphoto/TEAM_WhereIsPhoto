@@ -9,11 +9,11 @@
   <h2 class="signup__title">Hello <span class="signup__title__bold">Stranger,</span></h2>
 
   <p class="signup__subtitle">Enter your informations below</p>
-  <p class="space signup__subtitle">or login with a social account</p>
+  <p class="space__alert signup__subtitle">or login with a social account</p>
 </div>
 
+<p class="alert__subtitle">{{ help_text }}</p>
 <div class="center__form">
-  {{ help_text }}
   <form method="POST" action="">
     {% csrf_token %}
     <p class="top__text">USERNAME</p>
