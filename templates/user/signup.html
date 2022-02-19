@@ -12,33 +12,38 @@
   <p class="space signup__subtitle">or login with a social account</p>
 </div>
 
+<div class="center__form">
+  {{ help_text }}
+  <form method="POST" action="">
+    {% csrf_token %}
+    <p class="top__text">USERNAME</p>
+    <div class="form__all">
+      <div class="form-group">
+        <input class="form-field" name="username" type="text" placeholder="Username" required>
+      </div>
 
-{{ help_text }}
-<form method="POST" action="">
-  {% csrf_token %}
-  <p class="top__text">USERNAME</p>
-  <div class="form__all">
-    <div class="form-group">
-      <input class="form-field" name="username" type="text" placeholder="Username" required>
-    </div>
+      <p class="top__text">EMAIL</p>
+      <div class="form-group">
+        <input name="email" class="form-field" type="email" placeholder="Email" required>
+      </div>
 
-    <p class="top__text">EMAIL</p>
-    <div class="form-group">
-      <input class="form-field" type="email" placeholder="Email" required>
-    </div>
+      <p class="top__text">PASSWORD</p>
+      <div class="form-group">
+        <input class="form-field" name="password1" type="password" placeholder="Password" required>
+      </div>
 
-    <p class="top__text">PASSWORD</p>
-    <div class="form-group">
-      <input class="form-field" name="password1" type="password" placeholder="Password" required>
+      <p class="top__text">CONFIRM PASSWORD</p>
+      <div class="form-group">
+        <input class="form-field" name="password2" type="password" placeholder="confirm Password" required>
+      </div>
     </div>
+    <div class="bottom__btn">
+      <input class="signup__input btn btn-primary" type="submit" value="Sign Up">
+    </div>
+    
+  </form>
+</div>
 
-    <p class="top__text">CONFIRM PASSWORD</p>
-    <div class="form-group">
-      <input class="form-field" name="password2" type="password" placeholder="confirm Password" required>
-    </div>
-  </div>
-  <input class="signup__input" type="submit" class="btn btn-primary" value="Sign Up">
-</form>
 
 <!-- {{ help_text }}
 <form method="POST" action="">

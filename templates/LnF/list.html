@@ -4,33 +4,22 @@
 
 {% block head %}
 <script defer src="{% static 'js/LnF/filter.js' %}"></script>
-<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<h1>LNF List</h1>
     <!-- search -->
     <section>
-        <div class="container">
-            <form class="search" action="" method="get">
-                <div class="search__btn">
-                    <button type="submit" value="검색">
-                        <i class="ri-search-line ri-1x"></i>
-                    </button>
-                </div>
-                <div class="search__input w-100">
-                    <input id="query" type="text" name="query" value="{{query}}" placeholder="ex. 잠실">
-                </div>
-                <div class="search__btn">
-                    <button class="search__close" onclick="delInput()">
-                        <i class="ri-close-fill ri-1x"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
+        search:
+        <form action="" method="get">
+            <input id="query" type="text" name="query" value="{{query}}">
+            <input type="submit" value="검색">
+        </form>
+
     </section>
-    <div class="blank"></div>
-    <!-- btn sec -->
+
+
+    <!-- filter -->
     <section>
         <div class="container d-flex justify-content-between" style="width: 100%;">
             <div class="lnf__btn1 d-flex justify-content-center">
@@ -44,51 +33,41 @@
             </div>
         </div>
     </section>
-    <!-- write sec -->
+
+
     <section>
-        <div class="lnf__write" style="cursor: pointer; z-index: 2; right: 1rem; bottom: 1rem;">
-            <a href="{% url 'LnF:new' %}">
-                <div class="center" style="border-radius: 50%; width: 60px; height: 60px; background-color:#1F52FF;; color:white">
-                    <i class="ri-pencil-fill ri-2x"></i>
-                </div>
-            </a>
-        </div>
+        <a href="{% url 'LnF:new' %}">작성</a>
     </section>
-    <!-- post sec -->
-    <section id="postList">
-        <div class="container d-flex flex-column">
-            {% for post in posts %}
-            <div class="post shadow p-3">
-                <!-- post title -->
-                <div class="post__title">
-                    <span class="post__{{ post.tag }}">{{post.tag}}</span>
-                    <a href="{% url 'LnF:post_detail' post.id %}">{{post.booth.name}}</a>
+    <br>
+    <serction id="postList">
+        {% for post in posts %}
+            <div>
+                <a href="{% url 'LnF:post_detail' post.id %}">부스명: {{post.booth.name}}</a>
+                <div>
+                    태그: {{post.tag}}
                 </div>
-                <div style="height: .5rem;"></div>
-                <!-- post content -->
-                <div class="post_content">
-                    {{post.content}} <br>
+                <div>
+                    내용: {{post.content}}
+                </div>
+                <div>
+                    작성자: {{post.user.username}}<br>
+                </div>
+                <div>
+                    {% if post.timeString == False %}
+                    작성시간: {{post.time|date:'m월 d일'}}
+                    {% else %}
+                    작성시간: {{post.timeString}}
+                    {% endif %}
+                </div>
+                <div>
                     {% if post.img %}
                         <img src="{{ post.img.url }}" alt="" width="300"> 
                     {% endif %}
                 </div>
-                <div style="height: .5rem;"></div>
-                <!-- post footer -->
-                <div class="post__footer">
-                    <div>
-                        {{post.user.username}}<br>
-                    </div>
-                    <div>
-                        {% if post.timeString == False %}
-                        {{post.time|date:'m월 d일'}}
-                        {% else %}
-                        {{post.timeString}}
-                        {% endif %}
-                    </div>
-                </div>                
+
+
+                <br> <br>
             </div>
         {% endfor %}
-        </div>
     </section>
-</div>
 {% endblock %}

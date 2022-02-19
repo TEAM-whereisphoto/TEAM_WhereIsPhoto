@@ -10,6 +10,7 @@ h3 {
     font-family: SUIT-Bold;
     font-size: 16pt;
     color: black;
+    margin-bottom: 0.5rem;
     /* color : #424258; */
 }
 
@@ -67,6 +68,7 @@ h4 {
 .log__out {
     font-family: SUIT-Bold;
     color: red;
+    padding-bottom: 0.5rem;
 }
 
 .edit {
@@ -87,7 +89,10 @@ h4 {
     color: #858598 !important;
 }
 
-/* --------------------------------------- login --------------------------------------- */
-#login__form * { box-sizing:border-box; }
+.no__liked {
+    color: #858598 !important;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+}
 
 
