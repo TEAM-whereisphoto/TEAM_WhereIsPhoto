@@ -2,6 +2,16 @@ body{
     font-family: ROKAFSansMedium !important;
     background-color : #DEDEE6;
 }
+input{
+appearance: none;
+-webkit-appearance: none;
+-webkit-border-radius: 0;
+}
+select{
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
 
 .review{
     padding : 1rem;

@@ -18,10 +18,24 @@
               <div>
               <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' pk %}"> 취소 </a></button>
               <button type="submit" class="save btn btn-secondary">전송</button>
-            </div>
+              </div>
               <div class ='title'>
                 <label>{{boothname}}</label>
               </div>
+              <!-- 오류표시 Start -->
+              <div class="error">
+              {% if form.errors %}
+                  <div class="alert alert-danger" role="alert">
+                  {% for field in form %}
+                      {% if field.errors %}
+                      <strong>{{ field.label }}</strong>
+                      {{ field.errors }}
+                      {% endif %}
+                  {% endfor %}
+                  </div>
+              {% endif %}
+              </div>
+                <!--오류표시 end-->
             <div class = "content">
               <table class = "star">
               <tbody>
@@ -62,13 +76,13 @@
                       </div>
                   {% endfor %}
                   -->
-                  <select class="form-select" aria-label="Default select example" style="width: 100%" multiple>
+                  <select class="form-select" aria-label="Default select example" name= "tag" style="width: 100%">
                     <option selected>태그를 선택해주세요</option>
-                    <option value="clean">시설이 깨끗해요</option>
-                    <option value="prop">소품이 다양해요</option>
-                    <option value="booth">부스가 많아요</option>
-                    <option value="iron">고데기가 있어요</option>
-                    <option value="street">로드점이에요</option>
+                    <option value="시설이 깨끗해요">✨ 시설이 깨끗해요</option>
+                    <option value="소품이 다양해요">🎉 소품이 다양해요</option>
+                    <option value="부스가 많아요">📸 부스가 많아요</option>
+                    <option value="고데기가 있어요">💇🏻‍ ‍고데기가 있어요</option>
+                    <option value="로드점이에요">🛣️ 로드점이에요</option>
                   </select>
               </div>
 
@@ -76,31 +90,23 @@
                 <label>배경색</label>
                 <!-- {{form.color}} -->
 
-                <select class="form-select" aria-label="Default select example" style="width: 100%">
+                <select class="form-select" aria-label="Default select example" name="color" style="width: 100%">
                   <option selected>배경색을 선택해주세요</option>
-                    <option class = "blue"value="blue"> 🟦</option>
-                    <option class = "yellow"value="yellow"> 🟨 </option>
-                    <option class = "purple"value="purple">🟪</option>
-                    <option class = "red" value="red"> 🟥 </option>
-                                    {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
-                                    {% elif color == '하늘'%}<div><button type="button" class="colorbtn colorskyblue">■</button></div>
-                                    {% elif color == '노랑'%}<div><button type="button" class="colorbtn coloryellow">■</button></div>
-                                    {% elif color == '회색'%}<div><button type="button" class="colorbtn colorgray">■</button></div>
-                                    {% elif color == '남색'%}<div><button type="button" class="colorbtn colorindigo">■</button></div>
-                                    {% elif color == '연두'%}<div><button type="button" class="colorbtn colorgreen">■</button></div>
-                                    {% elif color == '보라'%}<div><button type="button" class="colorbtn colorpurple">■</button></div>
-                                    {% elif color == '빨강'%}<div><button type="button" class="colorbtn colorred">■</button></div>
-                                    {% elif color == '주황'%}<div><button type="button" class="colorbtn colororange">■</button></div>
-                                    {% elif color == '기타'%}<div><button type="button" class="colorbtn colorrainbow">■</button></div>
-                                    {% endif %}
-
-
-
+                  <option value="핑크">핑크</option>
+                  <option value="하늘">하늘</option>
+                  <option value="노랑">노랑</option>
+                  <option value="회색">회색</option>
+                  <option value="남색">남색</option>
+                  <option value="연두">연두</option>
+                  <option value="보라">보라</option>
+                  <option value="빨강">빨강</option>
+                  <option value="주황">주황</option>
+                  <option value="기타">기타</option>
                   </select>
               </div>
 
               <div class = "textcontent">
-                <textarea class="content-input" placeholder="add comment here!">{% if review.content %}{{review.content}}{% endif %}</textarea>
+                <textarea class="content-input" placeholder="add comment here!" name="content">{% if review.content %}{{review.content}}{% endif %}</textarea>
               </div>
 
               <div>
@@ -113,8 +119,6 @@
               </div>
             </div>
             </div>
-
-          <br>
         </form>
       {% else %}
       <script type="text/javascript">
