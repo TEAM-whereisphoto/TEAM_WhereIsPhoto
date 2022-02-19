@@ -1,5 +1,11 @@
-
 // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
+let headerheight = document.querySelector("body > nav").offsetHeight
+// First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+let vh = (window.innerHeight - headerheight) * 0.01;
+
+// Then we set the value in the --vh custom property to the root of the document
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 var container = document.getElementById('map');
 var defaultLoc = new kakao.maps.LatLng(37.55888333399497, 126.92658303847873)
 var options = {

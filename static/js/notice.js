@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-    url = 'http://127.0.0.1:8000/'
+    url = 'http://1b61-110-15-88-106.ngrok.io/'
     fetch(url+'user/nav_notice/')
     .then(response => {
         return response.json()
@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function(){
             circleDiv.setAttribute('class', "position-absolute top-0 translate-middle-y badge rounded-pill bg-danger")
             if (notice_num >= 10) {
                 circleDiv.innerHTML = "10+"
-                circleDiv.setAttribute('style', 'font-size: .5rem; left: 75% !important; padding: .35em .5em !important;');
+                circleDiv.setAttribute('style', 'font-family: SUIT-medium; font-size: .5rem; left: 75% !important; padding: .35em .5em !important;');
             }
             else {
                 circleDiv.innerHTML = notice_num
-                circleDiv.setAttribute('style', 'font-size: .5rem; left: 75% !important;');
+                circleDiv.setAttribute('style', 'font-family: SUIT-medium; font-size: .5rem; left: 75% !important;');
             }
             mypageBtn.children[0].append(circleDiv)
         }

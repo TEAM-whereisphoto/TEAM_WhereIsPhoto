@@ -114,6 +114,10 @@ body {
     background-color: transparent !important;
 }
 
+#offcanvasBottom {
+    height: 27vh;
+}
+
 /* filter 관련 */
 .card {
     background-color: transparent !important;
