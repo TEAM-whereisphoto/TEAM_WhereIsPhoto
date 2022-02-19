@@ -109,13 +109,13 @@ def signup(request):
             help_text = '이미 존재하는 아이디입니다.'
         elif request.POST['password1'] != request.POST['password2']:
             help_text = '비밀번호가 일치하지 않습니다'
-        elif User.objects.filter(email = request.POST['email']).exists():
+        elif User.objects.filter(email = request.POST.get('email')).exists():
             help_text = '이미 존재하는 이메일입니다.'
         else :
             user = User.objects.create_user(
                 username = request.POST['username'],
                 password = request.POST['password1'],
-                email = request.POST['email'],
+                email = request.POST.get('email'),
             )
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             #login(request, user) #바로 로그인 -> 소셜 로그인 구현으로 인한 백엔드 오류 방지
@@ -159,12 +159,13 @@ def change_password(request):
 
 def modify(request):
     if request.method == "POST":
-        #id = request.user.id
-        #user = User.objects.get(pk=id)
         user = request.user
         user.username = request.POST["username"]
-        user.email = request.POST["email"]
+        user.email = request.POST.get("email")
+        print(user.username)
+        print(user.email)
         user.save()
+        
         return redirect('user:main')
     return render(request, 'user/modify.html')
 
@@ -183,30 +184,6 @@ def delete(request):
         else:
             messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
     return render(request, 'user/delete.html')
-
-# 장고 기본 로그인(조건 까다로움)
-# from django.contrib import messages
-# from django.contrib.auth import update_session_auth_hash
-# from django.contrib.auth.forms import PasswordChangeForm
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
-# @login_required
-# def change_password(request):
-#     if request.method == 'POST':
-#         form = PasswordChangeForm(request.user, request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             update_session_auth_hash(request, user)  # Important!
-#             messages.success(request, 'Your password was successfully updated!')
-#             return redirect('index')
-#         else:
-#             messages.error(request, 'Please correct the error below.')
-#     else:
-#         form = PasswordChangeForm(request.user)
-#     return render(request, 'user/change_password.html', {
-#         'form': form
-#     })
 
 def notice(request):
     comments = getNew(request.user)

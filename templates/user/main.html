@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/style.css' %}">
+{% endblock %}
 {% block content %}
 
 <div>
@@ -12,7 +16,7 @@
         <div class="part">
             <p class="sub__title">liked</p>
             {% if user_liked_num == 0 %}
-            <p> 좋아요 한 매장이 없습니다. </p>
+            <p class="no__liked"> 아직 좋아요를 한번도 안해보셨어요🥺 </p>
             {% else %}
             <div class="liked_container ">    
                 {% for booth_brand in liked_booth_brand %}
