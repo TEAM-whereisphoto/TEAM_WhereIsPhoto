@@ -165,7 +165,7 @@ def tag(request):
         else:
             img = ""
 
-        resList.append({'booth_name': post.booth.name, 'booth_id': post.booth.id ,'user': post.user.username, 'timeString': post.timeString, 'time': post.time.strftime('%m월 %d일'), 'content': post.content, 'img': img, 'tag': post.tag})
+        resList.append({'id': post.id, 'booth_name': post.booth.name, 'booth_id': post.booth.id ,'user': post.user.username, 'timeString': post.timeString, 'time': post.time.strftime('%m월 %d일'), 'content': post.content, 'img': img, 'tag': post.tag})
     return JsonResponse({'resList': resList})
 
  
