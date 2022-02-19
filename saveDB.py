@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', "config.settings.dev")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', "config.settings.base")
 import django
 django.setup()
 
@@ -15,40 +15,40 @@ def brand():
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/static/icons/brand/인생네컷.png",
-            "liked_img": "/static/icons/liked/life_four_liked.png",
+            "img": "/.static_root/icons/brand/인생네컷.png",
+            "liked_img": "/.static_root/icons/liked/life_four_liked.png",
         },
         "셀픽스":{
             "retake": "YES",
             "remote": "YES",
             "QR": "YES",
             "time": 20,
-            "img": "/static/icons/brand/셀픽스.png",
-            "liked_img": "/static/icons/liked/selpix_liked.png",
+            "img": "/.static_root/icons/brand/셀픽스.png",
+            "liked_img": "/.static_root/icons/liked/selpix_liked.png",
         },
         "포토시그니처": {
             "retake": "YES",
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/static/icons/brand/포토시그니쳐.png",
-            "liked_img": "/static/icons/liked/signature_liked.png",
+            "img": "/.static_root/icons/brand/포토시그니쳐.png",
+            "liked_img": "/.static_root/icons/liked/signature_liked.png",
         },
         "하루필름": {
             "retake": "NO",
             "remote": "YES",
             "QR": "YES",
             "time": 15,
-            "img": "/static/icons/brand/하루필름.png",
-            "liked_img": "/static/icons/liked/haru_liked.png",
+            "img": "/.static_root/icons/brand/하루필름.png",
+            "liked_img": "/.static_root/icons/liked/haru_liked.png",
         },
         "포토이즘박스": {
             "retake": "NO",
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/static/icons/brand/포토이즘.png",
-            "liked_img": "/static/icons/photoism_liked.png",
+            "img": "/.static_root/icons/brand/포토이즘.png",
+            "liked_img": "/.static_root/icons/photoism_liked.png",
         },
     }
 
