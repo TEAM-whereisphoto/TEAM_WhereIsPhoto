@@ -3,7 +3,7 @@
 
 {% block head %}
 
-    <link rel="stylesheet" href="{% static 'css/map/reviewcreate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/map/reviewcreate.css' %}">
 
 {% endblock %}
 
@@ -16,7 +16,7 @@
           <div class = "form-container">
             <div class ="form">
               <div>
-              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' pk %}"> 취소 </a></button>
+              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' id %}"> 취소 </a></button>
               <button type="submit" class="save btn btn-secondary">전송</button>
               </div>
               <div class ='title'>
@@ -35,7 +35,7 @@
                   </div>
               {% endif %}
               </div>
-                <!--오류표시 end-->
+               <!-- 오류표시 end-->
             <div class = "content">
               <table class = "star">
               <tbody>
@@ -62,21 +62,7 @@
 
                 <div class="tag">
                   <label>태그</label>
-
-                  <!-- {{form.tag}} -->
-<!--
-                      {% for field in form %}
-                      <div class="col-md-12 dropdown">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ field.label_tag }}
-                              <span class="caret"></span>
-                          </button>
-                          <div class="dropdown-menu">
-                              <div><a href="#">{{ field }}</a></div>
-                          </div>
-                      </div>
-                  {% endfor %}
-                  -->
-                  <select class="form-select" aria-label="Default select example" name= "tag" style="width: 100%" multiple="multiple">
+                  <select class="form-select" aria-label="Default select example" style="width: 100%" multiple="multiple">
                     <option value="시설이 깨끗해요">✨ 시설이 깨끗해요</option>
                     <option value="소품이 다양해요">🎉 소품이 다양해요</option>
                     <option value="부스가 많아요">📸 부스가 많아요</option>
@@ -87,8 +73,6 @@
 
               <div class="color">
                 <label>배경색</label>
-                <!-- {{form.color}} -->
-
                 <select class="form-select" aria-label="Default select example" name="color" multiple="multiple" style="width: 100%">
                   <option value="핑크">핑크</option>
                   <option value="하늘">하늘</option>
@@ -109,10 +93,9 @@
 
               <div>
 
-                <label class="img-btn" for="img-input">
-                  사진 추가
-                </label>
-                <input id="img-input" type="file" maxlength="255" value="{% if review.img %}{{review.img.url}}{% endif %}">
+                <label class="img-btn" for="img-input"> 사진 추가 </label>
+                <input id="img-input" type="file" maxlength="255" name="img" value="{% if review.img %}{{review.img.url}}{% endif %}">
+
               </div>
               </div>
             </div>

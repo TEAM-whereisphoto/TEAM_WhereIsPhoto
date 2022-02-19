@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/map/list.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'css/map/list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -11,7 +10,7 @@
     <div class="container">
 
     <div class = 'backbtn item col-2'>
-        <button type="button" class=" goback btn"><a href = "{% url 'map:booth_detail' booth.id%}"> 〈 </a></button>
+        <button type="button" class=" goback btn"><a href = "{% url 'map:booth_detail' pk %}"> 〈 </a></button>
     </div>
 
     <div class ='title item col-10'>
