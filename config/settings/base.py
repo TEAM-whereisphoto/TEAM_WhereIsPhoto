@@ -23,8 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # .config_secret 폴더 및 하위 파일 경로
-ROOT_DIR = BASE_DIR
-CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
+CONFIG_SECRET_DIR = os.path.join(BASE_DIR, '.config_secret')
 CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
 CONFIG_SECRET_DEV_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_dev.json')
 CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.json')
@@ -143,8 +142,12 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATIC_URL = 'static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '.static_root')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
