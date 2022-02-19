@@ -15,10 +15,11 @@ from brand.models import Brand, Frame
 
 # 드라이버 세팅
 def set_chrome_driver():
+    print("set")
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage') 
+    #chrome_options.add_argument('--no-sandbox')
+    #chrome_options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     return driver
 
@@ -106,6 +107,7 @@ def main():
     logic_crawling = "globals()['{}_dict'.format(eng)] = crawling(brand)"
 
     for brand, eng in brand_dict.items():
+        print("1")
         exec(logic_search)
         exec(logic_crawling)
 
@@ -131,40 +133,40 @@ def brand():
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/media/brand/인생네컷.png",
-            "liked_img": "/media/user/life_four_liked.png",
+            "img": "/static/icons/brand/인생네컷.png",
+            "liked_img": "/static/icons/liked/life_four_liked.png",
         },
         "셀픽스":{
             "retake": "YES",
             "remote": "YES",
             "QR": "YES",
             "time": 20,
-            "img": "/media/brand/셀픽스.png",
-            "liked_img": "/media/user/selpix_liked.png",
+            "img": "/static/icons/brand/셀픽스.png",
+            "liked_img": "/static/icons/liked/selpix_liked.png",
         },
         "포토시그니처": {
             "retake": "YES",
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/media/brand/포토시그니쳐.png",
-            "liked_img": "/media/user/signature_liked.png",
+            "img": "/static/icons/brand/포토시그니쳐.png",
+            "liked_img": "/static/icons/liked/signature_liked.png",
         },
         "하루필름": {
             "retake": "NO",
             "remote": "YES",
             "QR": "YES",
             "time": 15,
-            "img": "/media/brand/하루필름.png",
-            "liked_img": "/media/user/haru_liked.png",
+            "img": "/static/icons/brand/하루필름.png",
+            "liked_img": "/static/icons/liked/haru_liked.png",
         },
         "포토이즘박스": {
             "retake": "NO",
             "remote": "YES",
             "QR": "YES",
             "time": 10,
-            "img": "/media/brand/포토이즘.png",
-            "liked_img": "/media/user/photoism_liked.png",
+            "img": "/static/icons/brand/포토이즘.png",
+            "liked_img": "/static/icons/photoism_liked.png",
         },
     }
 
@@ -285,8 +287,11 @@ def getXY(address):
 driver = set_chrome_driver()
 driver.implicitly_wait(3)
 
+print("brand")
 brand()
+print("frame")
 frame()
+print("main")
 main()
 
 driver.close()
