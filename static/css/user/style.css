@@ -68,6 +68,7 @@ h4 {
 .log__out {
     font-family: SUIT-Bold;
     color: red;
+    padding-bottom: 0.5rem;
 }
 
 .edit {

@@ -42,13 +42,14 @@
 
 .no__post {
     font-family: 'SUIT-Medium';
-    color: #424258;
+    color: #424258 !important;
     display: flex!important;
     justify-content: space-between;
     align-items: center;
     color: #A3A3B5;
     margin-bottom: 1rem;
-
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
 
 .sub__title {
@@ -58,4 +59,5 @@
     color: #AEAECA;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    padding-top: 3rem !important;
 }

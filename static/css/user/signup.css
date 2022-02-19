@@ -137,14 +137,25 @@
   }
 
 .signup__input {
-    font-size:18px;
-    color:white;
-    padding:10px 10px 10px 10px;
-    display:flex;
-    width: 70%;
-    border:none;
-    border-radius: 5px;
-    background: #275EFE;
-    align-content: center;
+  font-size:18px;
+  color:white;
+  padding:10px 10px 10px 10px;
+  display:flex;
+  width: 20rem;
+  border:none;
+  border-radius: 5px;
+  background: #275EFE;
+  align-content: center;
+  justify-content: center;
+}
+  
+  .bottom__btn {
+    padding-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .center__form {
+    display: flex;
     justify-content: center;
   }

@@ -61,7 +61,6 @@
   
   .form-field {
     display: block;
-    width: 100%;
     padding: 8px 16px;
     line-height: 25px;
     font-size: 14px;
@@ -154,10 +153,28 @@
     color:white;
     padding:10px 10px 10px 10px;
     display:flex;
-    width: 70%;
+    width: 20rem;
     border:none;
     border-radius: 5px;
     background: #275EFE;
     align-content: center;
+    justify-content: center;
+  }
+
+  .bottom__btn {
+    display: flex;
+    justify-content: center;
+  }
+
+  .center__form {
+    display: flex;
+    justify-content: center;
+  }
+
+  .bottom__text {
+    font-family: SUIT-Medium;
+    font-size: 13pt !important;
+    color: #858598;
+    display: flex;
     justify-content: center;
   }

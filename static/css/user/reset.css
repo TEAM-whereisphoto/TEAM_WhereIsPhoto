@@ -40,7 +40,7 @@
     margin-bottom: -2px;
 }
 
-.login__form label {
+.reset__form label {
     font-family: SUIT-Heavy;
     margin-bottom: 0;
     top:-20px;
@@ -48,7 +48,7 @@
     color:#1F52FF;
 }
 
-.login__form input {
+.reset__form  input {
     display: block;
     width: 100%;
     padding: 8px 16px;
@@ -156,7 +156,7 @@
     margin-bottom: 32px;
   }
 
-.login__form button {
+.reset__form button {
     font-size:18px;
     color:white;
     padding:10px 10px 10px 10px;
@@ -167,17 +167,4 @@
     background: #275EFE;
     align-content: center;
     justify-content: center;
-}
-
-.login__form button {
-  font-size:18px;
-  color:white;
-  padding:10px 10px 10px 10px;
-  display:flex;
-  width: 20rem;
-  border:none;
-  border-radius: 5px;
-  background: #275EFE;
-  align-content: center;
-  justify-content: center;
 }
