@@ -77,7 +77,7 @@ def booth_detail(request,pk):
 
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
-    reviews = Review.objects.filter(booth = booth.pk)
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
     ctx = {'reviews': reviews,'pk': pk, 'booth':booth, 'boothname': booth.name, }
     return render(request, template_name='map/review_list.html', context=ctx)
 
@@ -112,7 +112,8 @@ def booth_review_create(request, pk):
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
     boothname = review.booth
-    id = review.boothid
+    boothid = review.boothid
+
     if request.user == review.user:
         if request.method == 'POST': #post방식 요청
             rate = request.POST.get('rating')
@@ -122,13 +123,11 @@ def review_update(request, pk):
                 review = form.save(commit=False) #데이터 가져오기
                 review.save() #저장
                 save_booth_rate_avg(review.booth)
-                return redirect('map:booth_review_list', review.id)
+                return redirect('map:booth_review_list', boothid)
 
         else:
-            form = ReviewForm(instance=review)
-            tag= review.tag
-            ctx = {'form': form,'id':id, 'boothname' : boothname}
-            return render(request, template_name='map/review_create.html', context=ctx)
+            ctx = {'review': review,'id':boothid, 'boothname' : boothname}
+        return render(request, template_name='map/review_create.html', context=ctx)
 
 @login_required
 def review_delete(request, pk):

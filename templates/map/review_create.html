@@ -16,7 +16,7 @@
           <div class = "form-container">
             <div class ="form">
               <div>
-              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_detail' id %}"> 취소 </a></button>
+              <button type = "button" class="btn btn-default"> <a href = "{% url 'map:booth_review_list' id %}"> 취소 </a></button>
               <button type="submit" class="save btn btn-secondary">전송</button>
               </div>
               <div class ='title'>
@@ -52,8 +52,8 @@
                       <label for="3-stars" class="star">★</label>
                       <input type="radio" id="2-stars" name="rating" value="2"/>
                       <label for="2-stars" class="star">★</label>
-                      <input type="radio" id="1-star" name="rating" value="1"/>
-                      <label for="1-star" class="star">★</label>
+                      <input type="radio" id="1-stars" name="rating" value="1"/>
+                      <label for="1-starS" class="star">★</label>
                     </div>
                   </td>
                 </tr>
@@ -62,7 +62,7 @@
 
                 <div class="tag">
                   <label>태그</label>
-                  <select class="form-select" aria-label="Default select example" style="width: 100%" multiple="multiple">
+                  <select class="form-select" aria-label="Default select example" name="tag" style="width: 100%" multiple="multiple">
                     <option value="시설이 깨끗해요">✨ 시설이 깨끗해요</option>
                     <option value="소품이 다양해요">🎉 소품이 다양해요</option>
                     <option value="부스가 많아요">📸 부스가 많아요</option>
@@ -101,6 +101,46 @@
             </div>
             </div>
         </form>
+
+        {% if review.rate %} <!-- update 인 경우 -->
+
+        <div id="original_data" class="d-none">
+          <div id="original_rate">{{review.rate}}</div>
+          <div id="original_tag">
+            {% for tag in review.tag %}
+              <div id="tag-{{forloop.counter0}}">{{tag}}</div>
+            {% endfor %}
+          </div>
+          <div id="original_color">
+            {% for color in review.color %}
+              <div id="color-{{forloop.counter0}}">{{color}}</div>
+            {% endfor %}
+          </div>
+        </div>
+        
+        
+        <script type="text/javascript">
+    
+            const oristar = document.getElementById("original_rate").innerHTML
+            document.getElementById(`${oristar}-stars`).checked = true
+            
+            const oritags = document.getElementById("original_tag")
+            for (let tag of oritags.children) {
+              tag = tag.innerHTML
+              let findtag = document.querySelector(`option[value="${tag}"]`)
+              findtag.selected = true
+            }
+            
+            const oricolors = document.getElementById("original_color")
+            for (let color of oricolors.children) {
+              color = color.innerHTML
+              let findcolor = document.querySelector(`option[value="${color}"]`)
+              findcolor.selected = true
+            }          
+          
+          </script>
+        {% endif %}
+        
       {% else %}
       <script type="text/javascript">
         alert('로그인을 먼저 해주세요.!')
