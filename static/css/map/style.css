@@ -73,7 +73,10 @@ body {
     padding: 0 0 0 0.5rem;
 }
 #search-placeholder2 {
-    padding: 0;
+
+    border: none !important;
+    outline: none !important;
+    padding: 0 0 0 0.5rem;
 }
 
 /* placeholder color */
