@@ -44,5 +44,5 @@ urlpatterns = [
 
 ]
 #set image urls
-urlpatterns += static(settings.MEDIA_URL, document_root=config.settings.base.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=config.settings.base.STATIC_ROOT)
+urlpatterns += static(settings.base.MEDIA_URL, document_root=config.settings.base.MEDIA_ROOT)
+urlpatterns += static(settings.base.STATIC_URL, document_root=config.settings.base.STATIC_ROOT)
