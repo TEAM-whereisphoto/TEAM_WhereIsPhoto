@@ -5,7 +5,7 @@ from LnF.models import LnF_Post
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
+from config.settings.base import *
 
 # Create your views here.
 def mainpage(request):
@@ -13,7 +13,8 @@ def mainpage(request):
 
 def mymap(request):
     booths = Booth.objects.all() 
-    ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
+    API_KEY = config_secret_common['kakao']['app_key']
+    ctx = {'booths': booths, 'API_KEY': API_KEY} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
     return render(request, 'map/mymap.html', context=ctx)
 
 # 부스 평균 별점 계산 후 booth.rate_average 저장
