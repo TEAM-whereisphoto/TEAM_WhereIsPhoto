@@ -161,3 +161,53 @@ background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; 
 .colorrainbow{
     -webkit-text-fill-color: saddlebrown;
 }
+
+.img{
+    cursor: pointer;
+}
+
+  .modal {
+    display: none; /* 모달창 숨겨 놓기 */
+    position: fixed;
+    z-index: 1; /* 모달창을 제일 앞에 두기 */
+    padding-top: 100px;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto; /* 스크롤 허용 auto */
+    cursor: pointer; /* 마우스 손가락모양 */
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+.modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 2; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+        }
+        /* Modal Content/Box */
+        .modal-content {
+            background-color:rgba(255,255,255);
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 5px;
+            border: none;
+            width: 70%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
