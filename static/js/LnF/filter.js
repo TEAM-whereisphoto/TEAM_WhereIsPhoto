@@ -2,7 +2,7 @@ const requestTag = new XMLHttpRequest();
 
 const checkboxes = document.querySelectorAll("input[type=checkbox][name=tag]")
 const checkDict = {'분실': true, '보관': true}
-console.log(checkboxes)
+
 checkboxes.forEach(function(checkbox){
     checkbox.addEventListener("change", function(){
         const url = "tag/"

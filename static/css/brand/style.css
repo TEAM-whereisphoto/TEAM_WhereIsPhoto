@@ -1,6 +1,5 @@
 .brand {
     padding: 2rem;
-    padding-bottom: 6rem;
 }
 
 .brand__frame {
@@ -49,4 +48,9 @@
 /* 포토이즘 photoism */
 .brand__5 {
     background-color: #BABABA;
+}
+
+.main__logo {
+    text-align: center;
+    margin-top: 2rem;
 }
