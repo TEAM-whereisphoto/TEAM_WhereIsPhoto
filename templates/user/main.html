@@ -17,7 +17,7 @@
         <div class="part">
             <p class="sub__title">liked</p>
             {% if user_liked_num == 0 %}
-            <p class="no__liked"> 아직 좋아요를 한번도 안 누르셨어요🥺 </p>
+            <p class="no__liked"> 좋아요 기록이 없어요🥺 </p>
             {% else %}
             <div class="liked_container ">    
                 {% for booth_brand in liked_booth_brand %}
@@ -33,9 +33,15 @@
         <div class="part">
             <p class="sub__title">Dashboard</p>
             <div>
-                <div class="line"><img src="{% static 'icons/LnF.svg' %}">Lost and Found<a class="arrow" href="{% url 'user:my_lnf' %}">></a></div>      
-                <div class="line"><img src="{% static 'icons/review.svg' %}">Reviews<a class="arrow" href="{% url 'user:my_review' %}">></a></div>
-                <div class="line"><img src="{% static 'icons/notice.svg' %}">notice<a class="arrow" href="{% url 'user:notice' %}">></a></div>
+                <div class="line"><img src="{% static 'icons/LnF.svg' %}">Lost and Found<span class="space__1"></span><a class="arrow" href="{% url 'user:my_lnf' %}">><span class="space"></span></a></div>      
+                <div class="line"><img src="{% static 'icons/review.svg' %}">Reviews<span class="space__2"></span><a class="arrow" href="{% url 'user:my_review' %}">><span class="space"></span></a></div>
+                <div class="line"><img src="{% static 'icons/notice.svg' %}">
+                {% if len != 0 %}
+                    Notice<span class="space__notice"></span><a class="arrow" href="{% url 'user:notice' %}"><span class="notice">{{ len }} New ><span></a>
+                {% else %}
+                    Notice<span class="space__3"></span><a class="arrow" href="{% url 'user:notice' %}">><span class="space"></span></a>
+                {% endif %}
+                </div>
             </div>
         </div>
         <div class="part">
@@ -44,10 +50,6 @@
             <div class="edit"><a href="{% url 'user:modify' %}">Edit profile</a></div>
         </div>
     </div>
-
-    {% if len != 0 %}
-    <a href="{% url 'user:notice' %}">{{ len }}</a>
-    {% endif %}
     
     {% else %}
     <a href="{% url 'user:login' %}">로그인</a>
