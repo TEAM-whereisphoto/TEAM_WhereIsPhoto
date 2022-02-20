@@ -17,7 +17,7 @@
         <div class="part">
             <p class="sub__title">liked</p>
             {% if user_liked_num == 0 %}
-            <p class="no__liked"> 좋아요 기록이 없어요🥺 </p>
+            <p class="no__liked">계정의 첫 좋아요를 남겨보세요🥳 </p>
             {% else %}
             <div class="liked_container ">    
                 {% for booth_brand in liked_booth_brand %}
@@ -33,13 +33,13 @@
         <div class="part">
             <p class="sub__title">Dashboard</p>
             <div>
-                <div class="line"><img src="{% static 'icons/LnF.svg' %}">Lost and Found<span class="space__1"></span><a class="arrow" href="{% url 'user:my_lnf' %}">><span class="space"></span></a></div>      
-                <div class="line"><img src="{% static 'icons/review.svg' %}">Reviews<span class="space__2"></span><a class="arrow" href="{% url 'user:my_review' %}">><span class="space"></span></a></div>
+                <div class="line"><img src="{% static 'icons/LnF.svg' %}"><a href="{% url 'user:my_lnf' %}">Lost and Found</a><span class="space__1"></span><a class="arrow" href="{% url 'user:my_lnf' %}">><span class="space"></span></a></div>      
+                <div class="line"><img src="{% static 'icons/review.svg' %}"><a href="{% url 'user:my_review' %}">Reviews</a><span class="space__2"></span><a class="arrow" href="{% url 'user:my_review' %}">><span class="space"></span></a></div></a>
                 <div class="line"><img src="{% static 'icons/notice.svg' %}">
                 {% if len != 0 %}
-                    Notice<span class="space__notice"></span><a class="arrow" href="{% url 'user:notice' %}"><span class="notice">{{ len }} New ><span></a>
+                    <a href="{% url 'user:notice' %}">Notice</a><span class="space__notice"></span><a class="arrow" href="{% url 'user:notice' %}"><span class="notice">{{ len }} New ><span></a>
                 {% else %}
-                    Notice<span class="space__3"></span><a class="arrow" href="{% url 'user:notice' %}">><span class="space"></span></a>
+                    <a href="{% url 'user:notice' %}">Notice</a><span class="space__3"></span><a class="arrow" href="{% url 'user:notice' %}">><span class="space"></span></a>
                 {% endif %}
                 </div>
             </div>
