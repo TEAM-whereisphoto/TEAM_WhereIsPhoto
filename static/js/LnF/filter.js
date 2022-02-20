@@ -56,13 +56,12 @@ const filterByTag = () =>{
                 <div style="height: .5rem;"></div>
                 <div class="post_content">
                     ${post.content} <br>
-                    <img src="${ post.img.url }" alt="" width="100%"> 
+                    ${imgif}
                 </div>
                 <div style="height: .5rem;"></div>
                 <div class="post__footer">
                     <div>
                         ${post.user}<br>
-                        ${imgif}
                     </div>
                     <div>
                         ${timetext}
