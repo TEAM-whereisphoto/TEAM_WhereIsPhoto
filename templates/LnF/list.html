@@ -33,12 +33,12 @@
     <section>
         <div class="container d-flex justify-content-between" style="width: 100%;">
             <div class="lnf__btn1 d-flex justify-content-center">
-                <input type="checkbox" checked name="tag" value="분실" class="btn-check" id="btn-check" autocomplete="off">
+                <input type="checkbox" checked name="tag" value="분실" class="btn__check" id="btn-check" autocomplete="off">
                 <label class="btn" for="btn-check" style="color: white;"> 잃어버렸어요 :( </label>
             </div>
     
             <div class="lnf__btn2 d-flex justify-content-center">
-                <input type="checkbox" checked name="tag" value="보관" class="btn-check" id="btn-check2" autocomplete="off">
+                <input type="checkbox" checked name="tag" value="보관" class="btn__check" id="btn-check2" autocomplete="off">
                 <label class="btn" for="btn-check2" style="color: white;"> 발견했어요 :) </label>
             </div>
         </div>
@@ -53,8 +53,8 @@
             </a>
         </div>
     </section>
-    <!-- post sec -->
     <div class="blank"></div>
+    <!-- post sec -->
     <section id="postList">
         <div class="container d-flex flex-column">
             {% for post in posts %}
