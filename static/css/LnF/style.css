@@ -37,7 +37,7 @@ input::placeholder {
 
 .btn__check {
     position: absolute;
-    left: 3rem;
+    left: 10px;
     top: 20px;
 }
 
