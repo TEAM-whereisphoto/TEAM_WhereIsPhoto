@@ -59,6 +59,9 @@ body{
     padding : 0.5rem;
 
 }
+.fileInput{
+    margin-top : 0.3rem;
+}
 #fileName{
     font-size: 10pt;
     text-align: center;
