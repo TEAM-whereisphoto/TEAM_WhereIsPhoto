@@ -28,6 +28,7 @@ var gps_use = null; //gps의 사용가능 여부
 var gps_lat = null; // 위도
 var gps_lng = null; // 경도
 var gps_position; // gps 위치 객체
+var currentmarker = new kakao.maps.Marker()
 
 gps_check();
 // gps가 이용가능한지 체크하는 함수이며, 이용가능하다면 show location 함수를 불러온다.
@@ -69,14 +70,14 @@ function errorHandler(error) {
 function pinCurrent(currentPosition) {
     map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
 
-    var marker = new kakao.maps.Marker({  
+    currentmarker = new kakao.maps.Marker({  
         map: map, 
         position: currentPosition, 
         image: new kakao.maps.MarkerImage('../../static/icons/mypin.svg', new kakao.maps.Size(24, 24))
         // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
     }); 
 
-    marker.setMap(map); // 내 위치 pin 박기
+    currentmarker.setMap(map); // 내 위치 pin 박기
     map.setLevel(4);
 }
 // 현재 위치 찍기 끝 -----------------------------------------------------------------------------
@@ -454,6 +455,8 @@ function main(boothList){
     // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
 
     refresh.addEventListener('click', function() {
+        currentmarker.setMap(null)
+        console.log("지웠닝?")
         gps_check();
     });
 
