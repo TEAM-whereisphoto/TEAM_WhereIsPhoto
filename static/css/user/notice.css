@@ -77,3 +77,9 @@ hr {
     color: #d3d3d3;
     height: 0.2rem !important;
 }
+
+.writer {
+    font-family: SUIT-Bold;
+    font-size: 12pt;
+    color: black;
+}

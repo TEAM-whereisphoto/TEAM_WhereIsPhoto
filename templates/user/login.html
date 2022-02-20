@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class="title__all">
-    <h2 class="signup__title">Welcome<span class="signup__title__bold">Here!</span></h2>
+    <h2 class="signup__title">Welcome<span class="signup__title__bold">Back!</span></h2>
   
     <p class="signup__subtitle">Enter your informations below</p>
     <p class="space signup__subtitle">or login with a social account</p>
@@ -28,13 +28,21 @@
 <div class="signup__btn">
     <a class="signup" href="{% url 'user:signup' %}">Sign up</a>
 </div>
-<div class="hr-sect">or</div>
+<div class="hr-sect">OR</div>
 
 <div class="social__btn">
-    <a class="social" href="{% provider_login_url "google" %}">Login with Google</a>
+    <div class="social__flex social">
+        <img class="icon__social" src="{% static 'icons/google_logo.png' %}">
+        <a class="social__text" href="{% provider_login_url "google" %}">Login with Google</a>
+    </div>
 </div>
 <div class="social__btn">
-    <a class="social" href="{% provider_login_url "naver" %}">Login with Naver</a>
+    <div class="social__flex social">
+        <img class="icon__social" src="{% static 'icons/naver_logo.png' %}">
+        <a class="social__Text" href="{% provider_login_url "naver" %}">Login with Naver</a>
+    </div>
+
+    
 </div>
 
 <a class="password" href="{% url 'password_reset' %}">Forgot password?</a>

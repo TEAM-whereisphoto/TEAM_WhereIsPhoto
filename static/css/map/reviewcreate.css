@@ -44,9 +44,10 @@ body{
     margin : auto
 }
 
-#img-input{
-
-    display : none;
+#chooseFile{
+    visibility: hidden;
+    position: relative;
+    display: none;
 }
 
 .tag, .color, .textcontent{
@@ -58,6 +59,10 @@ body{
     padding : 0.5rem;
 
 }
-.pink{
-    color : hotpink;
+.fileInput{
+    margin-top : 0.3rem;
+}
+#fileName{
+    font-size: 10pt;
+    text-align: center;
 }

@@ -21,7 +21,7 @@
     {% for comment in comments %}
         <div class="comment__block">
             <div class="title">{{ comment.post }}</div>
-            <div>{{ comment.user }}</div>
+            <div class="writer">{{ comment.user }}</div>
             <div class="comment">{{ comment.content }}</div>
             <div class="check__comment">
                 <a class="check" href="{% url 'user:read_notice' comment.id %}">댓글 확인하기 ></a>

@@ -146,17 +146,18 @@
   }
 
 .signup__input {
-    font-size:18px;
-    color:white;
-    padding:10px 10px 10px 10px;
-    display:flex;
-    width: 20rem;
-    border:none;
-    border-radius: 5px;
-    background: #275EFE;
-    align-content: center;
-    justify-content: center;
-  }
+  font-family: SUIT-Medium;
+  font-size:18px;
+  color:white;
+  padding:10px 10px 10px 10px;
+  display:flex;
+  width: 20rem;
+  border:none;
+  border-radius: 5px;
+  background: #275EFE;
+  align-content: center;
+  justify-content: center;
+}
 
   .bottom__btn {
     display: flex;
@@ -177,6 +178,7 @@
   }
 
   .password {
+    font-family: SUIT-Medium;
     font-size:18px;
     color:white !important;
     padding:10px 10px 10px 10px;
@@ -191,4 +193,9 @@
 
 .space {
   padding-top: 1rem;
+}
+
+.out {
+  color:#CBD1DC !important;
+  font-size: 10pt !important;
 }

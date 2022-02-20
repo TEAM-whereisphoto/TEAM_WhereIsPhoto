@@ -1,0 +1,5 @@
+*{margin: 0;padding: 0;box-sizing: border-box}
+body{background-color: #f7f7f7;}
+ul>li{list-style: none}
+a{text-decoration: none;}
+.clearfix::after{content: "";display: block;clear: both;}
