@@ -54,7 +54,7 @@ def tag_count(pk):
 
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)
-    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')[:3]
     lnfs = LnF_Post.objects.filter(booth= booth.pk).order_by('-time')
     lnf_num = len(lnfs)
     lnfs = lnfs[:3]
