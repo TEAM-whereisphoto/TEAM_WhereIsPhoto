@@ -40,6 +40,10 @@ class LnF_Post(models.Model):
             return str(now.days) + '일 전'
         else:
             return False
+    @property
+    def get_fileName(self):
+        filename = self.img.url.split('/')[3]
+        return filename
 
 
 

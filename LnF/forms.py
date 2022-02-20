@@ -8,16 +8,4 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = LnF_Post
-        fields = ('tag', 'content', 'img')
-
-        widgets = {
-          'content': forms.Textarea(attrs={
-              'rows':10, 'cols':20
-              }),
-        }
-
-        # labels = {
-        #     'tag' : '',
-        #     'content': '',
-        #     'img' : '',
-        # }
+        fields = ('content', 'img')

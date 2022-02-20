@@ -9,10 +9,6 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="content">
-    <div class="center">
-        <h1 class="header__text">New Post</h1>
-    </div>
-
     <form method="POST"  enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-container">
@@ -23,10 +19,35 @@
             </div>
 
             <div class="content">
-                <table>
-                    <label for="id_booth">Booth: {{ booth }}</label>
-                    {{form.as_table}}
-                </table>
+                <div class="form__booth">
+                    {{ booth }}
+                </div>
+
+                <div class="textcontent">
+                    {{form.tag}}
+                </div>
+
+                <!-- {{form.content}} -->
+                <div class="textcontent">
+                    <textarea class="content-input" placeholder="add comment here!" name="content"></textarea>
+                </div>
+
+                <!-- {{form.img}} -->
+                <div class="lnf__img">
+                    <div class="container">
+                        <div class="image-upload" id="image-upload">
+                
+                            <label class="img-btn" for="chooseFile"> 사진 추가 </label>
+                            <input type="file" id="chooseFile" name="img" value="" accept="image/*" onchange="loadFile(this)">
+                
+                            <div class="fileContainer">
+                                <div class="fileInput">
+                                    <p id="fileName"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
