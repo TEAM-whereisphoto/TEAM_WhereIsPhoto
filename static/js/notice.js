@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
-    url = 'http://1b61-110-15-88-106.ngrok.io/'
-    fetch(url+'user/nav_notice/')
+    url = window.location.host
+    fetch('https://'+url+'/user/nav_notice/')
     .then(response => {
         return response.json()
     })

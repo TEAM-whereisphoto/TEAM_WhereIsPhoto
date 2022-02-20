@@ -48,7 +48,7 @@ def brand():
             "QR": "YES",
             "time": 10,
             "img": "/static/icons/brand/포토이즘.png",
-            "liked_img": "/static/icons/photoism_liked.png",
+            "liked_img": "/static/icons/liked/photoism_liked.png",
         },
     }
 
@@ -160,14 +160,14 @@ def setBooth():
             brand = Brand.objects.get(name = booth_detail['brand'])
     
             if type(booth_detail['operationHour']) != float:
-                new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], operationHour = booth_detail['operationHour'], brand = brand, x = booth_detail['x'], y = booth_detail['y'])
+                new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], operationHour = booth_detail['operationHour'], brand = brand, x = booth_detail['y'], y = booth_detail['x'])
                 new_booth.save()
             else:
-                new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], brand = brand, x = booth_detail['x'], y = booth_detail['y'])
+                new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], brand = brand, x = booth_detail['y'], y = booth_detail['x'])
                 new_booth.save()
     print("DB 세팅 완료")
 
 
-# brand()
-# frame()
+brand()
+frame()
 setBooth()

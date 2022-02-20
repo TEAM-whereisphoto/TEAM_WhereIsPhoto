@@ -22,7 +22,7 @@
             <div class="liked_container ">    
                 {% for booth_brand in liked_booth_brand %}
                 <div class="liked__content">
-                    <img class="liked__img" src="{{booth_brand.1.liked_img.url}}" alt="">
+                    <img class="liked__img" src="{{booth_brand.1.liked_img}}" alt="">
                     <p class="liked__title">{{booth_brand.0.name}}</p>
                 </div>
                 {% endfor %}

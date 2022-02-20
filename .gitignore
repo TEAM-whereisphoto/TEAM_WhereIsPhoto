@@ -1,4 +1,5 @@
 
+
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,venv,visualstudiocode,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,venv,visualstudiocode,macos,windows
 
@@ -329,3 +330,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,venv,visualstudiocode,macos,windows
+
+.env
+.static_root
