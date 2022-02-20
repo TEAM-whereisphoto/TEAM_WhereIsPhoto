@@ -5,15 +5,15 @@ from LnF.models import LnF_Post
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
+from django.conf import settings
 
 # Create your views here.
 def mainpage(request):
     return render(request, 'base.html')
 
 def mymap(request):
-    booths = Booth.objects.all() 
-    ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
+    booths = Booth.objects.all()
+    ctx = {'booths': booths, 'API_KEY': settings.KAKAO_APP_KEY} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
     return render(request, 'map/mymap.html', context=ctx)
 
 # 부스 평균 별점 계산 후 booth.rate_average 저장
@@ -110,7 +110,8 @@ def booth_review_create(request, pk):
 
     ctx = {'form': form, 'id': id, 'boothname':boothname}
     return render(request, template_name='map/review_create.html', context=ctx)
-   
+
+@login_required
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
     boothname = review.booth
