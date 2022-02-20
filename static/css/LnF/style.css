@@ -195,3 +195,15 @@ input::placeholder {
     text-align: center;
     background-color: #A3A3B5;
 }
+
+#id_tag_0:checked + #id_tag > div:nth-child(1) {
+    width: 49%;
+    text-align: center;
+    background-color: #C979D0
+}
+
+#id_tag_1:checked + #id_tag > div:nth-child(2) {
+    width: 49%;
+    text-align: center;
+    background-color: #69C3D7
+}
