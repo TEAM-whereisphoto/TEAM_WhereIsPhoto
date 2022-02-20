@@ -1,22 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/delete.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="title__all">
+    <h2 class="signup__title">Bye,<span class="signup__title__light">{{ user }}👋</span></h2>
+  
+    <p class="signup__subtitle">정말로 떠나실껀가요?🥺</p>
+    <p class="space__alert signup__subtitle">ㅇㄱㅅㅈ에서 기록한 모든 것이 사라집니다</p>
+</div>
 {% if messages %}
-    {% for message in messages %}
-        <div class="row" style="margin:20px auto;">
-        <div class="col-sm-12">
-            <div class="alert alert-danger">
+{% for message in messages %}
+<div class="row" style="margin:20px auto;">
+    <div class="col-sm-12">
+        <div class="alert alert-danger">
             <strong>{{ message.tags }}!</strong> {{ message.message }}
-            </div>
         </div>
-        </div>
-    {% endfor %}
+    </div>
+</div>
+{% endfor %}
 {% endif %}
-<h1>회원삭제</h1>
+<div class="center__form">
     <form action="{% url 'user:delete' %}" method="POST">
         {% csrf_token %}
-        비밀번호: <input type="text" name="pw_del">
-        <input type="submit" value="회원탈퇴">
+        <p class="top__text">CONFIRM PASSWORD</p>
+        <div class="form__all">
+            <div class="form-group">
+                <input class="form-field" type="text" name="pw_del" placeholder="confirm Password" required>
+            </div>
+        </div>
+        <div class="bottom__btn">
+            <input class="signup__input btn btn-primary" type="submit" value="회원탈퇴">
+        </div>
     </form>
+</div>
 
 {% endblock %}

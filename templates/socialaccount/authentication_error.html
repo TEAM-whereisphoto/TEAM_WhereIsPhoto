@@ -1,0 +1,19 @@
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>여기사진</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social_reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
+</head>
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+{% block content %}
+<p class="title">{% trans "Social Network Login Failure" %}</p>
+
+<p class="sub__title">{% trans "An error occurred while attempting to login via your social network account." %}</p>
+{% endblock %}
