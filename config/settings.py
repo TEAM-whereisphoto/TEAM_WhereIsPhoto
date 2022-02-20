@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from django.core.exceptions import ImproperlyConfigured
 import os
 import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +36,7 @@ KAKAO_SECRET_KEY = env('KAKAO_SECRET_KEY')
 KAKAO_APP_KEY = env('KAKAO_APP_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 

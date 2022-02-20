@@ -207,7 +207,6 @@ def read_notice(request, pk):
 
 
 def nav_notice(request):
-    
     if request.user.is_authenticated:
         comments = getNew(request.user)
         notice_num = len(comments)
