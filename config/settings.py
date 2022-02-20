@@ -36,7 +36,7 @@ KAKAO_SECRET_KEY = env('KAKAO_SECRET_KEY')
 KAKAO_APP_KEY = env('KAKAO_APP_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
