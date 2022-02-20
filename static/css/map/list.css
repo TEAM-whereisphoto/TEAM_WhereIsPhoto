@@ -66,11 +66,14 @@ background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; 
 .tag{
     margin : 0.5rem 0;
     display: flex;
-    justify-wrap: wrap;
+    flex-wrap: wrap;
 }
 .tagbtn{
+    width : 30%;
+    text-align: center;
     padding : 0.3rem;
     margin-right : 0.5rem;
+    margin-bottom : 0.5rem;
     font-size : 7pt;
     box-shadow: 2px 2px 2px lightgray;
     background-color: #E3E3ED;
