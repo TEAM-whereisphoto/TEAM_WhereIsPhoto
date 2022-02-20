@@ -3,8 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.static import serve
-from django.conf import urls
+
+
 # 비번 초기화
 from django.contrib.auth import views as auth_views
 from django.urls import path, re_path, include, reverse_lazy
@@ -40,14 +40,9 @@ urlpatterns = [
         'password_reset_complete/',
         auth_views.PasswordResetCompleteView.as_view(template_name='user/reset_password_sucess.html'),
         name='password_reset_complete'
-    ),
-    # re_path(r'^static/(?P<path>.*)', serve, kwargs={'insecure': True}),
-    # re_path(r'^media/(?P<path>.*)', serve, kwargs={'insecure': True})
-    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
-    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
-
+    )
 
 ]
 #set image urls
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

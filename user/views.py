@@ -205,6 +205,7 @@ def read_notice(request, pk):
 
     return redirect('LnF:post_detail', comment.post.id)
 
+
 def nav_notice(request):
     
     if request.user.is_authenticated:
