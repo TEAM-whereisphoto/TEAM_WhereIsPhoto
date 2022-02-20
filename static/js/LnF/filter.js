@@ -45,7 +45,11 @@ const filterByTag = () =>{
             if (post.img == "") {
                 var imgif = post.img
             }
-            else { var imgif = '<img src="' + post.img + '" alt="" width="100%"></img>' }
+            else { var imgif = `<img src="${ post.img }" class="img" alt="" width="100%"> 
+            <div class="modal">
+                <span class="close"></span>
+                <img src= "${ post.img }" class="modal-content">
+            </div>` }
 
             container.innerHTML=`
             <div class="post shadow p-3">

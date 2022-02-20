@@ -456,7 +456,6 @@ function main(boothList){
 
     refresh.addEventListener('click', function() {
         currentmarker.setMap(null)
-        console.log("지웠닝?")
         gps_check();
     });
 

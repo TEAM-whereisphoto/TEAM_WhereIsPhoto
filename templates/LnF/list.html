@@ -3,6 +3,7 @@
 
 {% block head %}
 <script defer src="{% static 'js/LnF/filter.js' %}"></script>
+<script defer src="{% static 'js/map/imgmodal.js' %}"></script>
 <link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
 {% endblock %}
 
@@ -69,7 +70,11 @@
                 <div class="post_content">
                     {{post.content}} <br>
                     {% if post.img %}
-                        <img src="{{ post.img.url }}" alt="" width="100%"> 
+                        <img src="{{ post.img.url }}" class="img" alt="" width="100%">
+                        <!-- <div class="modal">
+                            <span class="close"></span>
+                            <img src= "{{ post.img.url }}" class="modal-content">
+                        </div>  -->
                     {% endif %}
                 </div>
                 <div style="height: .5rem;"></div>
