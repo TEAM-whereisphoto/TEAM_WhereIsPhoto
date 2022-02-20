@@ -110,7 +110,8 @@ def booth_review_create(request, pk):
 
     ctx = {'form': form, 'id': id, 'boothname':boothname}
     return render(request, template_name='map/review_create.html', context=ctx)
-   
+
+@login_required
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
     boothname = review.booth
