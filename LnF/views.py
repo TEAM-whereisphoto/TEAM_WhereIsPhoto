@@ -31,10 +31,12 @@ def new(request):
 
     if request.method == "POST":
         booth_name = request.POST.get('booth')
+        tag = request.POST.get('tag')
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.user = user
+            new_post.tag = tag
             new_post.booth = get_object_or_404(Booth, name=booth_name)
             new_post.save()
             return redirect('LnF:list')
@@ -89,19 +91,21 @@ def post_update(request, pk):
     if request.user == post.user:
         if request.method == 'POST':
             booth_name = request.POST.get('booth')
+            tag = request.POST.get('tag')
             form = PostForm(request.POST, request.FILES, instance=post)
 
             if form.is_valid():
                 post.booth = get_object_or_404(Booth, name=booth_name)
+                post.tag = tag
                 post = form.save(commit=False)
                 post.save()
             return redirect('LnF:post_detail', pk)
 
         else:
             booth = post.booth
-            print(booth)
+            tag=post.tag
             form = PostForm(instance=post)
-            ctx = {'form': form, 'booths':booths, 'booth':booth}
+            ctx = {'form': form, 'booths':booths, 'booth':booth, 'tag': tag, 'post':post}
             return render(request, 'LnF/new.html', context=ctx)
 
 @login_required
