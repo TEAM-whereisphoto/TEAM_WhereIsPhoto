@@ -163,7 +163,7 @@ def setBooth():
                 new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], operationHour = booth_detail['operationHour'], brand = brand, x = booth_detail['x'], y = booth_detail['y'])
                 new_booth.save()
             else:
-                new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], brand = brand, x = booth_detail['x'], y = booth_detail['y'])
+                new_booth = Booth(name = booth_detail['name'], location = booth_detail['location'], brand = brand, x = booth_detail['y'], y = booth_detail['x'])
                 new_booth.save()
     print("DB 세팅 완료")
 

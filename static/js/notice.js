@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', function(){
     url = window.location.host
-    fetch('http://'+url+'/user/nav_notice/')
+    fetch('https://'+url+'/user/nav_notice/')
     .then(response => {
         return response.json()
     })
     .then(data => {
-        console.log(data)
         const notice = data['notice']
         const notice_num = data['notice_num']
         if (notice == true){

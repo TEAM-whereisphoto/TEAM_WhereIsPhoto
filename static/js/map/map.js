@@ -212,7 +212,6 @@ function main(boothList){
         // console.log(marker);
         marker.setMap(map);
         marker.normalImage = img;
-        
         allMarker.push(marker)
         eval(brand_dict[brandname]+"Markers.push(marker);")
         // brand별로 marker 배열에 marker push
