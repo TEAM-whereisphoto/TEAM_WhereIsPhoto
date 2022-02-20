@@ -203,7 +203,11 @@ def getNew(userss):
     return comments
 
 def read_notice(request, pk):
-    comment = Comment.objects.get(pk=pk)
+    try:
+        comment = get_object_or_404(Comment, pk=pk)
+    except:
+        return render(request, 'account/login.html')
+
     comment.read = 1
     comment.save()
 

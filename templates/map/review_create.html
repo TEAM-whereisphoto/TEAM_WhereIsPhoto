@@ -101,20 +101,19 @@
                   <textarea class="content-input" placeholder="add comment here!" name="content">{% if review.content %}{{review.content}}{% endif %}</textarea>
                 </div>
 
-              <div class="container">
-        <div class="image-upload" id="image-upload">
+                <div class="container">
+                  <div class="image-upload" id="image-upload">
 
                     <label class="img-btn" for="chooseFile"> 사진 추가 </label>
-                <input type="file" id="chooseFile" name="img"  value = "{% if review.img %}{{review.img.url}}{% endif %}" accept="image/*" onchange="loadFile(this)">
+                    <input type="file" id="chooseFile" name="img" value = "{% if review.img %}{{review.img.url}}{% endif %}" accept="image/*" onchange="loadFile(this)">
 
-            <div class="fileContainer">
-                <div class="fileInput">
-                    <p id="fileName"></p>
+                    <div class="fileContainer">
+                        <div class="fileInput">
+                            <p id="fileName"></p>
+                        </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
-              </div>
-              </div>
               </div>
             </div>
         </form>
@@ -133,6 +132,7 @@
               <div id="color-{{forloop.counter0}}">{{color}}</div>
             {% endfor %}
           </div>
+          <div id="original_image">{{review.img}}</div>
         </div>
         
         
@@ -154,6 +154,11 @@
               let findcolor = document.querySelector(`option[value="${color}"]`)
               findcolor.selected = true
             }          
+
+            const oriimg = document.getElementById("original_image").innerHTML
+            const filename = oriimg.split('/')[1]
+            let findimg = document.getElementById("fileName")
+            findimg.innerHTML = filename
           
           </script>
         {% endif %}
