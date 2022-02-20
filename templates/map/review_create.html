@@ -13,7 +13,7 @@
 {% block content %}
     {% if user.is_authenticated %}
 <div class="content">
-        <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class = "form-container">
             <div class ="form">
@@ -117,7 +117,6 @@
               </div>
               </div>
             </div>
-          </div>
         </form>
 
         {% if review.rate %} <!-- update 인 경우 -->
