@@ -30,7 +30,14 @@ button{
     width: 100%;
 }
 
+.btn__check {
+    position: absolute;
+    left: 3rem;
+    top: 20px;
+}
+
 .lnf__btn1 {
+    position: relative;
     width: 49%;
     padding: .5rem;
     background-color : #C979D0;
@@ -39,6 +46,7 @@ button{
 }
 
 .lnf__btn2 {
+    position: relative;
     width: 49%;
     padding: .5rem;
     background-color : #69C3D7;
