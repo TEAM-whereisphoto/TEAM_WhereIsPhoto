@@ -1,0 +1,160 @@
+body{
+    font-family: ROKAFSansMedium !important;
+    background-color : #DEDEE6;
+}
+input{
+appearance: none;
+-webkit-appearance: none;
+-webkit-border-radius: 0;
+}
+select{
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
+
+.review{
+    padding : 1rem;
+}
+
+button{
+background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+}
+.container {
+    display : flex;
+    padding : 0;
+    margin : 0;
+}
+
+.reviewblock{
+    padding: 0.8rem;
+    background-color : #FFFFFF;
+    border-radius: 1rem;
+    margin-bottom : 1rem;
+    box-shadow: 4px 4px 3px lightgray;
+}
+
+.dropdown-toggle{
+    font-size: 15px;
+    font-weight: bolder;
+}
+.container-drop{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.content{
+    margin : auto;
+}
+.img{
+    padding :0 1rem;
+}
+
+.color{
+    display: flex;
+    justify-wrap: wrap;
+    margin : 0.5rem 0;
+}
+.colortext{
+    font-size:8pt;
+    margin-top : 0.2rem;
+    margin-right: 0.3rem;
+}
+.colorbtn{
+    margin-right: 0.4rem;
+}
+.tag{
+    margin : 0.5rem 0;
+    display: flex;
+    justify-wrap: wrap;
+}
+.tagbtn{
+    padding : 0.3rem;
+    margin-right : 0.5rem;
+    font-size : 7pt;
+    box-shadow: 2px 2px 2px lightgray;
+    background-color: #E3E3ED;
+    border-radius: 0.3rem;
+}
+.dropdown-item{
+    font-size: 10pt;
+}
+
+.container_review {
+    font-family: ROKAFSansMedium !important;
+    display : flex;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    padding : 0;
+    margin : 0.2rem 0;
+}
+
+.backbtn{
+    margin : auto;
+    margin-left: 0.3rem;
+    opacity: 100%;
+}
+.goback{
+    border-radius: 2rem;
+}
+.title{
+    margin-bottom: 1rem;
+    font-size: 20pt;
+    padding-top: 1rem;
+    padding-left: 0.3rem;
+}
+
+.write{
+    margin-top: 2rem;
+    border-radius: 2rem;
+    float :right;
+    margin-bottom: 3rem;
+}
+.foot{
+    font-size: 7pt;
+    color : #A3A3B5;
+    float : left;
+    margin-top: 0.3rem;
+}
+
+.color, .tag{
+    font-size: 12pt;
+}
+
+.colorpink{
+    -webkit-text-fill-color: #f7b5c0;
+}
+
+.coloryellow{
+    -webkit-text-fill-color: #f7e572;
+}
+
+.colorred{
+    -webkit-text-fill-color: #e36262;
+}
+
+.colorpurple{
+    -webkit-text-fill-color: #d1b5f7;
+}
+
+.colorindigo{
+    -webkit-text-fill-color: #4e557b;
+}
+
+.colororange{
+    -webkit-text-fill-color: #f7a35e;
+}
+
+.colorskyblue{
+    -webkit-text-fill-color: #b5e0f7;
+}
+
+.colorgray{
+    -webkit-text-fill-color: #e7e7e7;
+}
+.colorgreen{
+    -webkit-text-fill-color: #d1eba7;
+}
+.colorrainbow{
+    -webkit-text-fill-color: saddlebrown;
+}
