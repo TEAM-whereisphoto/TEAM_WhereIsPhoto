@@ -27,9 +27,10 @@
                 </div>
             <div class="container-drop">
                     <div class="dropdown">
+                        {% if review.user == request.user %}
                   <a class="btn btn-sm btn-outline-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">⋮</a>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      {% if review.user == request.user %}
+
                     <li><a class="dropdown-item" href="{% url 'map:review_update' review.id %}">수정</a></li>
                     <li><a class="dropdown-item" onclick="post_del({{post.id}})">삭제</a></li>
                       {% endif %}
