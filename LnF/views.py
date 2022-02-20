@@ -24,7 +24,7 @@ def list(request):
         
         return render(request, 'LnF/list.html', context=ctx)
 
-
+# 얘는 html에서 자체 예외처리 함?
 def new(request):
     user = request.user
     booths = Booth.objects.all()

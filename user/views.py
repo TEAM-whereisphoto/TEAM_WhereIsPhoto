@@ -30,7 +30,6 @@ def main(request):
 
     user_liked_num = len(liked_booth_brand)
     comments = getNew(users)
-    
     ctx = {'len': len(comments), 'liked_booth_brand':liked_booth_brand, 'user_liked_num': user_liked_num}
     return render(request, 'user/main.html', context=ctx)
     
@@ -207,7 +206,6 @@ def read_notice(request, pk):
 
 
 def nav_notice(request):
-    
     if request.user.is_authenticated:
         comments = getNew(request.user)
         notice_num = len(comments)

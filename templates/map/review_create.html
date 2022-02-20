@@ -4,6 +4,8 @@
 {% block head %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/map/reviewcreate.css' %}">
+    <script defer src="{% static 'js/map/image.js' %}"></script>
+
 
 {% endblock %}
 
@@ -82,16 +84,16 @@
                 <div class="color">
                   <label>배경색</label>
                   <select class="form-select" aria-label="Default select example" name="color" multiple="multiple" style="width: 100%; overflow: auto;">
-                    <option value="핑크" class="colorbtn colorpink">■</option>
-                    <option value="하늘" class="colorbtn colorskyblue">■</option>
-                    <option value="노랑" class="colorbtn coloryellow">■</option>
-                    <option value="회색" class="colorbtn colorgray">■</option>
-                    <option value="남색" class="colorbtn colorindigo">■</option>
-                    <option value="연두" class="colorbtn colorgreen">■</option>
-                    <option value="보라" class="colorbtn colorpurple">■</option>
-                    <option value="빨강" class="colorbtn colorred">■</option>
-                    <option value="주황" class="colorbtn colororange">■</option>
-                    <option value="기타">■</option>
+                    <option value="핑크">핑크</option>
+                  <option value="하늘">하늘</option>
+                  <option value="노랑">노랑</option>
+                  <option value="회색">회색</option>
+                  <option value="남색">남색</option>
+                  <option value="연두">연두</option>
+                  <option value="보라">보라</option>
+                  <option value="빨강">빨강</option>
+                  <option value="주황">주황</option>
+                    <option value="기타">기타</option>
                     </select>
                 </div>
 
@@ -99,12 +101,20 @@
                   <textarea class="content-input" placeholder="add comment here!" name="content">{% if review.content %}{{review.content}}{% endif %}</textarea>
                 </div>
 
-                <div>
+              <div class="container">
+        <div class="image-upload" id="image-upload">
 
-                  <label class="img-btn" for="img-input"> 사진 추가 </label>
-                  <input id="img-input" type="file" maxlength="255" name="img" value="{% if review.img %}{{review.img.url}}{% endif %}">
+                    <label class="img-btn" for="chooseFile"> 사진 추가 </label>
+                <input type="file" id="chooseFile" name="img"  value = "{% if review.img %}{{review.img.url}}{% endif %}" accept="image/*" onchange="loadFile(this)">
 
+            <div class="fileContainer">
+                <div class="fileInput">
+                    <p id="fileName"></p>
                 </div>
+            </div>
+        </div>
+              </div>
+              </div>
               </div>
             </div>
           </div>

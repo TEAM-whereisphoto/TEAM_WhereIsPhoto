@@ -17,7 +17,7 @@ var map = new kakao.maps.Map(container, options); // 지도 생성
 // var zoomControl = new kakao.maps.ZoomControl();
 // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-container.children[container.childElementCount-2].remove()
+// container.children[container.childElementCount-2].remove()
 
 // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ function pinCurrent(currentPosition) {
     var marker = new kakao.maps.Marker({  
         map: map, 
         position: currentPosition, 
-        image: new kakao.maps.MarkerImage('/.static_root/icons/mypin.svg', new kakao.maps.Size(24, 24))
+        image: new kakao.maps.MarkerImage('../../static/icons/mypin.svg', new kakao.maps.Size(24, 24))
         // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
     }); 
 
@@ -91,7 +91,7 @@ const brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoi
 
 // 브랜드별 색깔 바꿀 때 이 부분 src 수정, 혹은 실제 pin 박을 때 수정도 가능
 // 참고 -> 이 api에서는 href 링크나 실제 이미지로만 pin 이미지 설정 가능. <i> rexicon꺼 </i> 등 형태 불가. 
-const imageSrc = '/.static_root/icons/pin_blue.png'
+const imageSrc = '../../static/icons/pin_blue.png'
 const imageSize = new kakao.maps.Size(28, 28);
 const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 기본 파란 핀
 
@@ -102,7 +102,7 @@ for (let value in brand_dict){
     var key = brand_dict[value]
     
     // 브랜드별 icon 위치 src입니다.
-    eval("var "+key+"Src"+"= '/.static_root/icons/"+key+".svg'") 
+    eval("var "+key+"Src"+"= '../../static/icons/"+key+".svg'") 
     
     // 지도에 표시된 마커 객체를 가지고 있을 배열입니다.
     // 브랜드 별로 따로 생성해주었습니다.
@@ -163,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function(){
 })
 
 function main(boothList){ 
-
     // 4. 초기 부스 정보 다루기 ----------------------------------------------------------------------------
 
     const total = boothList.length; // count booths    
@@ -189,7 +188,7 @@ function main(boothList){
         const brandname = booth["brand__name"]
         
         // 각자 브랜드에 맞는 pin icon 할당
-        brandpin = eval(brand_dict[brandname]+"pin;")
+        brandpin = eval(brand_dict[brandname]+"pin;")   
 
         const mapLat = booth["x"]
         const mapLng = booth["y"]
@@ -213,7 +212,6 @@ function main(boothList){
         // console.log(marker);
         marker.setMap(map);
         marker.normalImage = img;
-        
         allMarker.push(marker)
         eval(brand_dict[brandname]+"Markers.push(marker);")
         // brand별로 marker 배열에 marker push
