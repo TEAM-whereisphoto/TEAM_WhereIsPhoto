@@ -185,29 +185,26 @@ input::placeholder {
     width: 100%;
 }
 
-#id_tag {
-    display: flex;
-    justify-content: space-evenly;
+#lost_tag, #store_tag{
+    display: none;
 }
-
-#id_tag > div {
+.tag_btn {
     width: 49%;
     text-align: center;
     background-color: #A3A3B5;
+    border-radius: 5px;
 }
-
-#id_tag_0:checked + #id_tag > div:nth-child(1) {
+#lost_tag:checked ~ #lost_tag_btn {
     width: 49%;
     text-align: center;
     background-color: #C979D0
 }
 
-#id_tag_1:checked + #id_tag > div:nth-child(2) {
+#store_tag:checked ~ #store_tag_btn {
     width: 49%;
     text-align: center;
     background-color: #69C3D7
 }
-
 /* 이미지 모달 띄우기  */
 
 .img{

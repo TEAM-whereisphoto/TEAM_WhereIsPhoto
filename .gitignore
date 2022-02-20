@@ -333,3 +333,7 @@ $RECYCLE.BIN/
 
 .env
 .static_root
+
+**/**/migrations/**
+!**/**/migrations
+!**/**/migrations/__init__.py
