@@ -51,7 +51,8 @@
         gps_lat = position.coords.latitude;
         gps_lng = position.coords.longitude;
 
-        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성      
+        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
+        map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
         pinCurrent(currentPosition)
     }
 
@@ -68,7 +69,6 @@
     }
 
     function pinCurrent(currentPosition) {
-        map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
 
         currentmarker = new kakao.maps.Marker({  
             map: map, 
