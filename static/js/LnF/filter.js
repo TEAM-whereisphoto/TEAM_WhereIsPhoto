@@ -22,7 +22,7 @@ checkboxes.forEach(function(checkbox){
 const filterByTag = () =>{
     if (requestTag.status < 400){
         const {resList} = JSON.parse(requestTag.response)
-
+        // console.log(resList)
         const postList = document.querySelectorAll('#postList > div > div');
         for (const div of postList){
             div.remove();
@@ -42,6 +42,11 @@ const filterByTag = () =>{
                 var timetext = post.timeString
             }
 
+            if (post.img == "") {
+                var imgif = post.img
+            }
+            else { var imgif = '<img src="' + post.img + '" alt="" width="100%"></img>' }
+
             container.innerHTML=`
             <div class="post shadow p-3">
                 <div class="post__title">
@@ -51,11 +56,13 @@ const filterByTag = () =>{
                 <div style="height: .5rem;"></div>
                 <div class="post_content">
                     ${post.content} <br>
+                    <img src="${ post.img.url }" alt="" width="100%"> 
                 </div>
                 <div style="height: .5rem;"></div>
                 <div class="post__footer">
                     <div>
                         ${post.user}<br>
+                        ${imgif}
                     </div>
                     <div>
                         ${timetext}

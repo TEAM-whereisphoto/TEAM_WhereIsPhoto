@@ -5,15 +5,15 @@ from LnF.models import LnF_Post
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-
+from django.conf import settings
 
 # Create your views here.
 def mainpage(request):
     return render(request, 'base.html')
 
 def mymap(request):
-    booths = Booth.objects.all() 
-    ctx = {'booths': booths} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
+    booths = Booth.objects.all()
+    ctx = {'booths': booths, 'API_KEY': settings.KAKAO_APP_KEY} # 너무 많으면 여기서 booths[:10] 로 몇개만 뽑아도 됨!
     return render(request, 'map/mymap.html', context=ctx)
 
 # 부스 평균 별점 계산 후 booth.rate_average 저장
@@ -54,7 +54,7 @@ def tag_count(pk):
 
 def booth_detail(request,pk):
     booth = Booth.objects.get(id=pk)
-    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')[:3]
     lnfs = LnF_Post.objects.filter(booth= booth.pk).order_by('-time')
     lnf_num = len(lnfs)
     lnfs = lnfs[:3]
@@ -77,7 +77,7 @@ def booth_detail(request,pk):
 
 def booth_review_list(request,pk):
     booth = Booth.objects.get(id=pk)
-    reviews = Review.objects.filter(booth = booth.pk)
+    reviews = Review.objects.filter(booth = booth.pk).order_by('-time')
     ctx = {'reviews': reviews,'pk': pk, 'booth':booth, 'boothname': booth.name, }
     return render(request, template_name='map/review_list.html', context=ctx)
 
@@ -89,9 +89,11 @@ def booth_review_create(request, pk):
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES)
-        rate = request.POST.get('rating')
-
+        form.checkstar(request.POST)
+        
         if form.is_valid():
+            rate = request.POST.get('rating')
+
             post = form.save(commit=False)
             post.booth = booth
             post.user = request.user
@@ -108,27 +110,30 @@ def booth_review_create(request, pk):
 
     ctx = {'form': form, 'id': id, 'boothname':boothname}
     return render(request, template_name='map/review_create.html', context=ctx)
-   
+
+@login_required
 def review_update(request, pk):
     review = get_object_or_404(Review, id=pk)
     boothname = review.booth
-    id = review.boothid
+    boothid = review.boothid
+
     if request.user == review.user:
         if request.method == 'POST': #post방식 요청
-            rate = request.POST.get('rating')
             form = ReviewForm(request.POST, request.FILES, instance=review)
             if form.is_valid(): #폼 유효하면
-                review.rate = rate
+                form.checkstar(request.POST)
+                rate = request.POST.get('rating')
+
                 review = form.save(commit=False) #데이터 가져오기
+                review.rate = rate
                 review.save() #저장
                 save_booth_rate_avg(review.booth)
-                return redirect('map:booth_review_list', review.id)
-
+                return redirect('map:booth_review_list', boothid)
+            
         else:
             form = ReviewForm(instance=review)
-            tag= review.tag
-            ctx = {'form': form,'id':id, 'boothname' : boothname}
-            return render(request, template_name='map/review_create.html', context=ctx)
+        ctx = {'review': review,'id':boothid, 'boothname' : boothname, 'form':form}
+        return render(request, template_name='map/review_create.html', context=ctx)
 
 @login_required
 def review_delete(request, pk):

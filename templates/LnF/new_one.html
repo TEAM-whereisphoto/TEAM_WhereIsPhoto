@@ -1,21 +1,40 @@
- {% extends 'base.html' %}
-<!-- main block -->
-{% block content %}
+{% extends 'base.html' %}
+{% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
+<link rel="stylesheet" href="{% static 'css/map/reviewcreate.css' %}">
+{% endblock %}
+
+{% block content %}
 {% if user.is_authenticated %}
-        <h1>New POST</h1>
-        <form method="POST"  enctype="multipart/form-data">
-            {% csrf_token %}
-            <table>
-                <label for="id_booth">Booth: {{ booth }}</label>
-                {{form.as_table}}
-            </table>
-            <button type = 'submit'>Submit</button>
-        </form>
-    {% else %}
-        <script type="text/javascript">
-            alert('로그인을 먼저 해주세요.!')
-            window.location.href = '{% url "user:login" %}'
-        </script>
-    {% endif %}
+<div class="content">
+    <div class="center">
+        <h1 class="header__text">New Post</h1>
+    </div>
+
+    <form method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-container">
+            <div class ="form">
+                <div>
+                <button type = "button" class="btn btn-dgitefault"> <a href = "{% url 'LnF:list' %}"> 취소 </a></button>
+                <button type="submit" class="save btn btn-secondary">전송</button>
+            </div>
+
+            <div class="content">
+                <table>
+                    <label for="id_booth">Booth: {{ booth }}</label>
+                    {{form.as_table}}
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+{% else %}
+    <script type="text/javascript">
+        alert('로그인을 먼저 해주세요.!')
+        window.location.href = '{% url "user:login" %}'
+    </script>
+{% endif %}
 {% endblock %}

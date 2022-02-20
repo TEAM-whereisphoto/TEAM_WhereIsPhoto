@@ -3,6 +3,8 @@
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/map/list.css' %}">
+    <script defer src="{% static 'js/map/imgmodal.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -25,9 +27,10 @@
                 </div>
             <div class="container-drop">
                     <div class="dropdown">
+                        {% if review.user == request.user %}
                   <a class="btn btn-sm btn-outline-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">⋮</a>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      {% if review.user == request.user %}
+
                     <li><a class="dropdown-item" href="{% url 'map:review_update' review.id %}">수정</a></li>
                     <li><a class="dropdown-item" onclick="post_del({{post.id}})">삭제</a></li>
                       {% endif %}
@@ -40,9 +43,9 @@
                 <div class="content col-7">
                     <div class="text">
                                     {{review.content}}
-                                </div>
+                    </div>
                     <div class="color">
-                                        <div class ="colortext">배경색 : </div>
+                                        <div class ="colortext" style="width:40px">배경색 : </div>
                                         {% for color in review.color %}
 
                                         {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
@@ -59,8 +62,13 @@
                                         {% endfor %}
                                 </div>
                 </div>
-                <div class="img col-5">
-                    <img src="{{ review.img.url }}" alt="" width="100%" height="100%">
+
+                <div class="imgcontent col-5">
+                    <img src="{{ review.img.url }}" class="img" width="100%">
+                    <div class="modal">
+                      <span class="close"></span>
+                      <img src= "{{ review.img.url }}" class="modal-content">
+                    </div>
                 </div>
                 {% else %}
                 <div>
@@ -68,7 +76,7 @@
                                 {{review.content}}
                             </div>
                     <div class="color">
-                                    <div class ="colortext">배경색 : </div>
+                                    <div class ="colortext" style ="width: 40px">배경색 : </div>
                                     {% for color in review.color %}
 
                                     {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
@@ -102,15 +110,14 @@
             </div>
             <div class = "tag">
                         {% for tag in review.tag %}
-                        {% if tag == '시설이 깨끗해요'%}<button type="button" class="tagbtn">✨ 시설이 깨끗해요</button>
-                        {% elif tag == '소품이 다양해요'%}<button type="button"  class="tagbtn">🎉  소품이 다양해요</button>
-                        {% elif tag == '부스가 많아요'%}<button type="button"  class="tagbtn">📸 부스가 많아요</button>
-                        {% elif tag == '고데기가 있어요'%}<button type="button" class="tagbtn">💇🏻‍ 고데기가 있어요</button>
-                        {% elif tag == '로드점이에요'%}<button type="button"  class="tagbtn">🛣️ 로드점이에요</button>
+                        {% if tag == '시설이 깨끗해요'%}<div class="tagbtn">✨ 시설이 깨끗해요</div>
+                        {% elif tag == '소품이 다양해요'%}<div class="tagbtn">🎉  소품이 다양해요</div>
+                        {% elif tag == '부스가 많아요'%}<div  class="tagbtn">📸 부스가 많아요</div>
+                        {% elif tag == '고데기가 있어요'%}<div class="tagbtn">💇🏻‍ 고데기가 있어요</div>
+                        {% elif tag == '로드점이에요'%}<div class="tagbtn">🛣️ 로드점이에요</div>
                         {% endif %}
                         {% endfor %}
             </div>
-
         </div>
 
     <script>
