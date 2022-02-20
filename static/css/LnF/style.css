@@ -39,9 +39,18 @@ input::placeholder {
     position: absolute;
     left: 10px;
     top: 20px;
+    display: none;
+}
+.lnf__btn1 {
+    position: relative;
+    width: 49%;
+    padding: .5rem;
+    background-color : #B5B5CD;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
 }
 
-.lnf__btn1 {
+#btn-check:checked + .lnf__btn1 {
     position: relative;
     width: 49%;
     padding: .5rem;
@@ -51,6 +60,15 @@ input::placeholder {
 }
 
 .lnf__btn2 {
+    position: relative;
+    width: 49%;
+    padding: .5rem;
+    background-color : #B5B5CD;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+#btn-check2:checked + .lnf__btn2 {
     position: relative;
     width: 49%;
     padding: .5rem;
@@ -156,6 +174,38 @@ input::placeholder {
 
 .btn:hover {
     box-shadow: none !important;
+}
+
+/* form css */
+.form__booth {
+    margin: 0.5rem;
+}
+
+.form__booth > input {
+    width: 100%;
+}
+
+#id_tag {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#id_tag > div {
+    width: 49%;
+    text-align: center;
+    background-color: #A3A3B5;
+}
+
+#id_tag_0:checked + #id_tag > div:nth-child(1) {
+    width: 49%;
+    text-align: center;
+    background-color: #C979D0
+}
+
+#id_tag_1:checked + #id_tag > div:nth-child(2) {
+    width: 49%;
+    text-align: center;
+    background-color: #69C3D7
 }
 
 /* 이미지 모달 띄우기  */

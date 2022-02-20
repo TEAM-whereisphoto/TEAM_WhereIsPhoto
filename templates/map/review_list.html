@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/map/list.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/map/list.css' %}?after">
     <script defer src="{% static 'js/map/imgmodal.js' %}"></script>
 
 {% endblock %}
@@ -79,7 +79,7 @@
                                     <div class ="colortext" style ="width: 40px">배경색 : </div>
                                     {% for color in review.color %}
 
-                                    {% if color == '핑크'%}<div><button type="button" class="colorbtn colorpink">■</button></div>
+                                    {% if color == '핑크'%}<div><button type="button" class="colorpink">■</button></div>
                                     {% elif color == '하늘'%}<div><button type="button" class="colorbtn colorskyblue">■</button></div>
                                     {% elif color == '노랑'%}<div><button type="button" class="colorbtn coloryellow">■</button></div>
                                     {% elif color == '회색'%}<div><button type="button" class="colorbtn colorgray">■</button></div>

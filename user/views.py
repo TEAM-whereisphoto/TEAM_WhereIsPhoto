@@ -32,7 +32,8 @@ def main(request):
     comments = getNew(users)
     ctx = {'len': len(comments), 'liked_booth_brand':liked_booth_brand, 'user_liked_num': user_liked_num}
     return render(request, 'user/main.html', context=ctx)
-    
+
+@login_required
 def my_review(request):
     users = request.user
 
@@ -54,6 +55,7 @@ def read_my_review(request, pk):
 
     return redirect('map:review_detail', my_review.id)
 
+@login_required
 def my_lnf(request):
     users = request.user
 
@@ -130,6 +132,7 @@ def signup(request):
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages, auth
 
+@login_required
 def change_password(request):
   if request.method == "POST":
     user = request.user
@@ -156,6 +159,7 @@ def change_password(request):
   else:
     return render(request, 'user/change_password.html')
 
+@login_required
 def modify(request):
     if request.method == "POST":
         user = request.user
@@ -168,6 +172,7 @@ def modify(request):
         return redirect('user:main')
     return render(request, 'user/modify.html')
 
+@login_required
 def delete(request):
     if request.method == "POST":
         user = request.user
