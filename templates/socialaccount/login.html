@@ -1,0 +1,62 @@
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>여기사진 비밀번호 변경</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social_reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
+</head>
+{% load i18n %}
+
+{% block content %}
+{% if process == "connect" %}
+<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+
+<p class="title">{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+
+{% else %}
+<p class="title">{% blocktrans with provider.name as provider %}{{ provider }} 로그인{% endblocktrans %}</p>
+<p class="sub__title little__space">{% blocktrans with provider.name as provider %}{{ provider }}{% endblocktrans %} 소셜 로그인을 진행합니다.</p>
+<p class="sub__title">하단 "계속" 버튼을 누르면 이 약관에</p>
+<p class="sub__title space"> 동의하는 것으로 간주됩니다.</p>
+
+<form action="" id="joinForm">
+  <ul class="join_box">
+    <li class="checkBox check02">
+      <ul class="clearfix">
+        <li>여기사진 이용약관 동의(필수)</li>
+      </ul>
+      <textarea name="" id="">본 약관은 여기사진(이하 "사이트")가 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 사이트의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.</textarea>
+    </li>
+    <li class="checkBox check03">
+      <ul class="clearfix">
+        <li>개인정보 수집 및 이용에 대한 안내(필수)</li>
+      </ul>
+
+      <textarea readonly="readonly" name="" id="">
+        1. 개인정보 수집 및 이용 목적
+        - 이용자가 제공한 모든 정보는 다음의 목적을 위해 활용하며, 하기 목적 이외의 용도로는 사용되지 않습니다.
+
+        ① 개인정보 수집 항목 및 수집·이용 목적
+        가) 수집 항목
+        - 회원 가입 시에 ‘아이디, 비밀번호, 이메일’을 필수항목으로 수집합니다
+        나) 수집 및 이용 목적
+        - 회원 가입 의사의 확인, 이용자 식별, 회원탈퇴 의사의 확인 등 회원관리를 위하여 개인정보를 이용합니다.
+
+        ② 개인정보 보유 및 이용기간
+        - 수집·이용 동의일로부터 개인정보의 수집·이용목적을 달성할 때까지
+        
+        ③ 동의거부관리
+        -이용자는 개인정보의 수집 및 이용 동의를 거부할 권리가 있습니다. 회원가입 시 수집하는 최소한의 개인정보, 즉, 필수 항목에 대한 수집 및 이용 동의를 거부하실 경우, 회원가입이 어려울 수 있습니다.
+      </textarea>
+</form>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="bottom__btn">
+    <button type="submit">{% trans "Continue" %}</button>
+  </div>
+</form>
+{% endblock %}
