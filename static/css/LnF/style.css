@@ -30,6 +30,11 @@ button{
     width: 100%;
 }
 
+input::placeholder {
+    font-family: 'ROKAFSansMedium';
+    color: #A3A3B5;
+}
+
 .btn__check {
     position: absolute;
     left: 3rem;
