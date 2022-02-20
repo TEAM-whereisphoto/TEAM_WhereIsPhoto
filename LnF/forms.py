@@ -8,4 +8,4 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = LnF_Post
-        fields = ('tag', 'content', 'img')
+        fields = ('content', 'img')

@@ -4,6 +4,8 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
 <link rel="stylesheet" href="{% static 'css/map/reviewcreate.css' %}">
+<script defer src="{% static 'js/map/image.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -28,15 +30,20 @@
                     </datalist>
                 </div>
 
-                <div class="textcontent">
-                    {{form.tag}}
+                <div class="textcontent d-flex justify-content-between">
+                    <input type="radio" name="tag" value="분실" id="lost_tag">
+                    <div class="tag_btn d-flex justify-content-center" id = "lost_tag_btn">
+                        <label class="btn" for="lost_tag" style="color: white;"> 분실 </label>
+                    </div>
+                    <input type="radio" name="tag" value="보관" id="store_tag">
+                    <div class="tag_btn d-flex justify-content-center" id = "store_tag_btn">
+                        <label class="btn" for="store_tag" style="color: white;"> 보관 </label>
+                    </div>
                 </div>
 
                 <!-- {{form.content}} -->
                 <div class="textcontent">
-                    <textarea class="content-input" placeholder="add comment here!" name="content">
-                        {% if post.content %}{{post.content}}{% endif %}
-                    </textarea>
+                    <textarea class="content-input" placeholder="add comment here!" value="{{post.content}}" name="content">{% if post.content %}{{post.content}}{% endif %}</textarea>
                 </div>
                 <!-- {{form.img}} -->
                 <div class="lnf__img">
@@ -48,7 +55,11 @@
                 
                             <div class="fileContainer">
                                 <div class="fileInput">
-                                    <p id="fileName"></p>
+                                    <p id="fileName">
+                                        {% if post.img %}
+                                            {{post.get_fileName}}
+                                        {% endif%}
+                                    </p>
                                 </div>
                             </div>
                         </div>
