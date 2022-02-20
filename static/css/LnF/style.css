@@ -175,3 +175,23 @@ input::placeholder {
 .btn:hover {
     box-shadow: none !important;
 }
+
+/* form css */
+.form__booth {
+    margin: 0.5rem;
+}
+
+.form__booth > input {
+    width: 100%;
+}
+
+#id_tag {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#id_tag > div {
+    width: 49%;
+    text-align: center;
+    background-color: #A3A3B5;
+}
