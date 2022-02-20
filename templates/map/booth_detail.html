@@ -48,8 +48,8 @@
                     </div>
                 {% else %}
                 <div style="font-family: ROKAFSansMedium; font-size: 16px; color: #C2C2C2 !important; opacity: 0.5;" class="text-primary d-flex justify-content-evenly">
-                    <a onclick = "onClickAlert()" href="{% url 'map:booth_review_create' booth.id %}">리뷰 작성✍🏻</a>
-                    <a href="{% url 'LnF:new' %}">분실물 작성✍🏻</a>
+                    <a onclick = "onClickAlert()">리뷰 작성✍🏻</a>
+                    <a onclick = "onClickAlert()">분실물 작성✍🏻</a>
                 </div>
                 <div class="detail__noheart" onclick="onClickAlert()" >♥ 여기 매장 좋아요!</div>
                 {% endif %}
@@ -104,7 +104,7 @@
                     <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
                 </div>
                 <!-- <h6>Reviews({{booth.review_number}})</h6> -->
-                {% if booth.review_number > 3 %}
+                {% if booth.review_number != 0 %}
                 <a href="{% url 'map:booth_review_list' booth.id %}" class="fw-bold ">View All ></a>
                 {% endif %}
             </div>
@@ -154,7 +154,7 @@
                     <h4 class="fw-bold me-1">Lost and Found<h4>
                     <div style="color: #C6C6C6">({{lnf_num}})</div>
                 </div>
-                {% if lnf_num > 3 %}
+                {% if lnf_num != 0 %}
                 <a href="{% url 'LnF:booth_detail' booth.id %}" class="fw-bold ">View All ></a>
                 {% endif %}
             </div>
