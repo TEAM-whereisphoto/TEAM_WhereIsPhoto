@@ -62,7 +62,7 @@ background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; 
 }
 .colorbtn{
     margin-right: 0.4rem;
-    width : 10%;
+    width : 100%;
 }
 .tag{
     margin : 0.5rem 0;
