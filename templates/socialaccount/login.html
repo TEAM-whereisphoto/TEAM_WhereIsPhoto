@@ -11,15 +11,13 @@
 
 {% block content %}
 {% if process == "connect" %}
-<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
-
-<p class="title">{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+<p class="sub__title">로그인에 성공했습니다.</p>
 
 {% else %}
 <p class="title">{% blocktrans with provider.name as provider %}{{ provider }} 로그인{% endblocktrans %}</p>
 <p class="sub__title little__space">{% blocktrans with provider.name as provider %}{{ provider }}{% endblocktrans %} 소셜 로그인을 진행합니다.</p>
-<p class="sub__title">하단 "계속" 버튼을 누르면 이 약관에</p>
-<p class="sub__title space"> 동의하는 것으로 간주됩니다.</p>
+<p class="sub__title important">하단 "계속" 버튼을 누르면 이 약관에</p>
+<p class="sub__title space important"> 동의하는 것으로 간주됩니다.</p>
 
 <form action="" id="joinForm">
   <ul class="join_box">

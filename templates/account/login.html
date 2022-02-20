@@ -7,15 +7,21 @@
   <link rel="stylesheet" href="{% static 'css/user/social.css' %}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
 </head>
-{% load i18n %}
 
-{% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
+{% load i18n %}
+{% load account socialaccount %}
 
 {% block content %}
 
-<p class="sub__title">로그인을 취소하셨습니다.</p>
+{% get_providers as socialaccount_providers %}
 
-{% url 'account_login' as login_url %}
-<p class="sub__title">존재하는 계정으로 로그인을 취소하셨습니다.</p>
+{% if socialaccount_providers %}
+<p class="title" style="color:rgb(214, 55, 27)">⚠️ERROR⚠️</p>
 
+{% else %}
+<p class="sub__title">잘못된 접근입니다.</p>
+<a class="sub__title" href="/">돌아가기</a>
+{% endif %}
+<p class="sub__title">잘못된 접근입니다.</p>
+<a class="sub__title" href="/">돌아가기</a>
 {% endblock %}

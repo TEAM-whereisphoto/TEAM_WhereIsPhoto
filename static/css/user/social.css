@@ -23,17 +23,28 @@ ul.join_box{
 }
 .checkBox textarea{
     font-family: SUIT-Medium;
-    width: 95%;
+    width: 96%;
     height: 90px; 
     margin: 0 2%;
     background-color: #f7f7f7;
     color: #888; 
     border: none;
+    resize: none;
 }
 .footBtwrap{margin-top: 15px;}
-.footBtwrap>li{float: left;width: 50%;height: 60px;}
+
+.footBtwrap>li{
+    float: left;
+    width: 50%;
+    height: 60px;
+}
 .footBtwrap>li>button{
-    display: block; width: 100%;height: 100%; font-size: 20px;text-align: center;line-height: 60px;
+    display: block; 
+    width: 100%;
+    height: 100%; 
+    font-size: 20px;
+    text-align: center;
+    line-height: 60px;
 }
 .fpmgBt1{background-color: #fff;color:#888}
 .fpmgBt2{background-color: lightsalmon;color: #fff}
@@ -77,9 +88,13 @@ button {
 }
 
 .space {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .little__space {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.important {
+    color: #275EFE;
 }
