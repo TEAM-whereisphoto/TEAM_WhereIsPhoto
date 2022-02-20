@@ -614,6 +614,9 @@
                 if (!filterGroup.children[i-1].checked) { // 필터가 체크되어있지 않다면
                     filterGroup2.children[i-1].checked = false;
                 }
+                else {
+                    filterGroup2.children[i-1].checked = true;
+                }
             }
 
             setList();
