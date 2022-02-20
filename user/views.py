@@ -30,7 +30,6 @@ def main(request):
 
     user_liked_num = len(liked_booth_brand)
     comments = getNew(users)
-    
     ctx = {'len': len(comments), 'liked_booth_brand':liked_booth_brand, 'user_liked_num': user_liked_num}
     return render(request, 'user/main.html', context=ctx)
     
