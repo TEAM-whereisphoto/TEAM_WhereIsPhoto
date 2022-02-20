@@ -332,3 +332,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/python,django,venv,visualstudiocode,macos,windows
 
 .env
+.static_root

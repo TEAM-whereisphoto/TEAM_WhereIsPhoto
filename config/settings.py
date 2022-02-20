@@ -37,7 +37,7 @@ KAKAO_SECRET_KEY = env('KAKAO_SECRET_KEY')
 KAKAO_APP_KEY = env('KAKAO_APP_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 
@@ -157,8 +157,11 @@ USE_TZ = False
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, '.static_root'),)
+STATIC_ROOT = os.path.join(BASE_DIR, '.static_root')
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, '.static_root'),)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -184,11 +187,3 @@ EMAIL_USE_TLS = True
 # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # 사이트와 관련한 자동응답을 받을 이메일 주소,'webmaster@localhost'
-
-
-def get_KAKAO_KEY(req):
-    if req == 'KAKAO_SECRET_KEY':
-        return env('KAKAO_SECRET_KEY')
-    elif req == 'KAKAO_APP_KEY':
-        return env('KAKAO_APP_KEY')
-
