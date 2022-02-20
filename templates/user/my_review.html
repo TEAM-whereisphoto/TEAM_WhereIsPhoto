@@ -16,26 +16,26 @@
     {% for review in reviews_posts %}
     <div class = "review">
         <div class="reviewblock">
-            <a href = "{% url 'map:booth_detail' review.boothid %}" >
+            <a href = "{% url 'map:booth_detail' review.boothid %}">
                 <div class="head">
-                    <div class ='title'>
+                    <div class ='title' onclick="location.href='{% url 'map:booth_detail' review.boothid %}'">
                     {{review.booth}}
                     </div>
                     <div class="container-drop">
-                            <div class="dropdown">
-                                  <a class="btn btn-sm btn-outline-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">⋮</a>
-                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                      {% if review.user == request.user %}
-                                    <li><a class="dropdown-item" href="{% url 'map:review_update' review.id %}">수정</a></li>
-                                    <li><a class="dropdown-item" onclick="post_del({{post.id}})">삭제</a></li>
-                                      {% endif %}
-                                  </ul>
-                            </div>
+                        <div class="dropdown">
+                            <a class="btn btn-sm btn-outline-none dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">⋮</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                {% if review.user == request.user %}
+                            <li><a class="dropdown-item" href="{% url 'map:review_update' review.id %}">수정</a></li>
+                            <li><a class="dropdown-item" onclick="post_del({{post.id}})">삭제</a></li>
+                                {% endif %}
+                            </ul>
                         </div>
+                    </div>
                 </div>
                 <div class="container">
                     {% if review.img %}
-                    <div class="content col-7">
+                    <div class="content col-7" onclick="location.href='{% url 'map:booth_detail' review.boothid %}'">
                         <div class="text">
                             {{review.content}}
                         </div>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <div>
+                    <div  onclick="location.href='{% url 'map:booth_detail' review.boothid %}'">
                         <div class="text">
                             {{review.content}}
                         </div>
@@ -87,7 +87,7 @@
                     </div>
                     {% endif %}
                 </div>
-                <div class="container_review">
+                <div class="container_review" onclick="location.href='{% url 'map:booth_detail' review.boothid %}'">
                         <div class="star-rating">
                             <div class="star-rating-fill" style= "width: {{review.getWidth}}%;">
                                 <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                 </div>
-                <div class = "tag">
+                <div class = "tag" onclick="location.href='{% url 'map:booth_detail' review.boothid %}'">
                     {% for tag in review.tag %}
                         {% if tag == '시설이 깨끗해요'%}<div class="tagbtn">✨ 시설이 깨끗해요</div>
                         {% elif tag == '소품이 다양해요'%}<div class="tagbtn">🎉  소품이 다양해요</div>
@@ -107,7 +107,7 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <div class="time">
+                <div class="time" onclick="location.href='{% url 'map:booth_detail' review.boothid %}'">
                     <div class="foot">
                         {{review.user}} | {{review.time|date:'m월 d일'}}
                     </div>
