@@ -1,15 +1,21 @@
-{% extends "socialaccount/base.html" %}
-
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>여기사진</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social_reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
+</head>
 {% load i18n %}
 
 {% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
 
 {% block content %}
 
-<h1>{% trans "Login Cancelled" %}</h1>
+<p class="sub__title">로그인을 취소하셨습니다.</p>
 
 {% url 'account_login' as login_url %}
-
-<p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
+<p class="sub__title">존재하는 계정으로 로그인을 취소하셨습니다.</p>
 
 {% endblock %}

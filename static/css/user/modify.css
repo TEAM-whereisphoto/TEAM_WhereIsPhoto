@@ -194,3 +194,8 @@
 .space {
   padding-top: 1rem;
 }
+
+.out {
+  color:#CBD1DC !important;
+  font-size: 10pt !important;
+}
