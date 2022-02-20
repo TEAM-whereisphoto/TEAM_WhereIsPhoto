@@ -168,6 +168,6 @@ def setBooth():
     print("DB 세팅 완료")
 
 
-# brand()
-# frame()
+brand()
+frame()
 setBooth()
