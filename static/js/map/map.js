@@ -151,7 +151,10 @@
     const refresh = document.getElementById('refresh')
 
     const listcanvas = document.getElementById('offcanvasRight')
-
+    const smallcanvas = document.getElementById('offcanvasBottom')
+    smallcanvas.addEventListener('hidden.bs.offcanvas', function () {
+        selectedMarker.setImage(selectedMarker.normalImage);
+    })
     // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
 
