@@ -110,9 +110,9 @@ body {
     transform: none !important;
 }
 
-.offcanvas-backdrop {
+/* .offcanvas-backdrop {
     background-color: transparent !important;
-}
+} */
 
 #offcanvasBottom {
     height: 30vh;
