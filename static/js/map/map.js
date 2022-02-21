@@ -27,7 +27,7 @@
     var gps_use = null; //gps의 사용가능 여부
     var gps_lat = null; // 위도
     var gps_lng = null; // 경도
-    var gps_position; // gps 위치 객체
+    var currentPosition = null; // gps 위치 객체
     var currentmarker = new kakao.maps.Marker()
 
     gps_check();
@@ -40,8 +40,11 @@
             var options = {timeout:60000};
             navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
         } else {
-            alert("GPS_추적이 불가합니다.");
+            alert("GPS_추적이 불가합니다.\n기본 위치로 이동합니다.");
             gps_use = false;
+            currentPosition = defaultLoc
+            map.setCenter(currentPosition)
+            pinCurrent(currentPosition)
         }
     }
 
@@ -51,7 +54,7 @@
         gps_lat = position.coords.latitude;
         gps_lng = position.coords.longitude;
 
-        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
+        currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
         map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
         pinCurrent(currentPosition)
     }
@@ -61,10 +64,12 @@
     function errorHandler(error) {
         if(error.code == 1) {
             alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
-            pinCurrent(defaultLoc)
-        } else if( err.code == 2) {
-            alert("위치를 반환할 수 없습니다.");
+        } else if( error.code == 2) {
+            alert("위치를 반환할 수 없습니다.\n기본 위치로 이동합니다.");
         }
+        currentPosition = defaultLoc
+        map.setCenter(currentPosition)
+        pinCurrent(currentPosition)
         gps_use = false;
     }
 
@@ -171,8 +176,8 @@
         handleData();
         
         function handleData() {
-            for (let i=0; i<total; i++) {
-                setbooth(i);
+            for (let booth of boothList) {
+                setbooth(booth);
             }
             // 클러스터에 브랜드별 marker 배열 넣기
             for (let value in brand_dict){
@@ -182,9 +187,7 @@
             };       
         } 
         
-        function setbooth(i) {
-            let booth = boothList[i] // 특정 booth 정보 담은 객체
-            // let booth = boothparent.firstElementChild.dataset
+        function setbooth(booth) {
             const name = booth["name"]
             const brandname = booth["brand__name"]
             
@@ -194,7 +197,7 @@
             const mapLat = booth["x"]
             const mapLng = booth["y"]
             var coords = new kakao.maps.LatLng(mapLat, mapLng)
-        
+            
             addPin(coords, brandpin, brandname, booth);
             // 초기 607개 pin 배열 생성
             
@@ -204,6 +207,15 @@
 
         }
 
+        function calcDist(booth, pos) {
+            var polyline = new kakao.maps.Polyline({
+                map: map,
+                path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), pos ],
+                strokeWeight: 0,
+            });
+
+            booth['len'] = polyline.getLength();
+        }
 
         function addPin(pos, img, brandname, booth) {
             var marker = new kakao.maps.Marker({
@@ -243,15 +255,7 @@
                 boothSmall.innerHTML='';
         
                 // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
-                // console.log(booth["name"])
-                var polylineA = new kakao.maps.Polyline({
-                    map: map,
-                    path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), map.getCenter() ],
-                    strokeWeight: 0,
-                });
-
-                booth['len']=polylineA.getLength();
-
+                calcDist(booth, currentPosition)
                 printList(booth, boothSmall, 1)
                 
                 boothSmallBtn.click() // 아래 small detail 열기
@@ -577,30 +581,8 @@
 
         const sorting = function sortDist(a, b) { // 거리순 정렬 함수
 
-            const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
-            const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
-            
-
-            var polylineA = new kakao.maps.Polyline({
-                map: map,
-                path: [ coordA, curCenter ],
-                strokeWeight: 0,
-            });
-            
-            var polylineB = new kakao.maps.Polyline({
-                map: map,
-                path: [ coordB, curCenter ],
-                strokeWeight: 0,
-            });
-            
-            const lenA = polylineA.getLength();
-            const lenB = polylineB.getLength();
-
-            a['len'] = lenA
-            b['len'] = lenB
-
-            if (lenA < lenB) { return -1; }
-            if (lenA > lenB) { return 1; }
+            if (a['len'] < b['len']) { return -1; }
+            if (a['len'] > b['len']) { return 1; }
             return 0; // 이름이 같을 경우
         }
 
@@ -632,7 +614,7 @@
                 return 0;
             }
 
-            curCenter = map.getCenter()
+            for (let booth of mapboundbooth) { calcDist(booth, currentPosition); }
             mapboundbooth.sort(sorting) // 거리순 정렬
             for (let booth of mapboundbooth){ 
                 printList(booth, boothListDom, 0); 
