@@ -52,10 +52,12 @@ def new_one(request, pk):
     booth = get_object_or_404(Booth, pk=pk)
 
     if request.method == "POST":
+        tag = request.POST.get('tag')
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.user = user
+            new_post.tag = tag
             new_post.booth = booth
             new_post.save()
             return redirect('LnF:list')
@@ -64,7 +66,7 @@ def new_one(request, pk):
         form = PostForm()
     
     ctx = {'form': form, 'booth': booth }
-    return render(request, 'LnF/new_one.html', ctx)
+    return render(request, 'LnF/new.html', ctx)
 
 def tag(request):
     req = json.loads(request.body)
