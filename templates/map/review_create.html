@@ -132,7 +132,9 @@
               <div id="color-{{forloop.counter0}}">{{color}}</div>
             {% endfor %}
           </div>
+          {% if review.img %}
           <div id="original_image">{{review.img}}</div>
+          {% endif %}
         </div>
         
         
@@ -156,10 +158,12 @@
             }          
 
             const oriimg = document.getElementById("original_image").innerHTML
-            const filename = oriimg.split('/')[1]
-            let findimg = document.getElementById("fileName")
-            findimg.innerHTML = filename
-          
+            if (oriimg != "") {
+              const filename = oriimg.split('/')[1]
+              let findimg = document.getElementById("fileName")
+              findimg.innerHTML = filename
+            }
+              
           </script>
         {% endif %}
         

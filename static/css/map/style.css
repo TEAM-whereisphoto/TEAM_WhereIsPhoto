@@ -115,7 +115,7 @@ body {
 }
 
 #offcanvasBottom {
-    height: calc(var(--vh) * 30);
+    height: 30vh;
 }
 
 /* filter 관련 */
