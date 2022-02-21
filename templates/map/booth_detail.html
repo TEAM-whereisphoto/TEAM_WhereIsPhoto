@@ -30,7 +30,7 @@
     <div id="boothdetail__body"> <!-- div:nthchild (1)-->
 
         <div id="body__name"> <!-- div:nthchild (0)-->
-            <h3 class="text-center mb-3 mx-3" style="font-family: ROKAFSansMedium; font-size: 25px">{{ booth.name }}</h3>
+            <h3 class="text-center mb-3 mx-3" style="font-family: ROKAFSansMedium; font-size: 22px">{{ booth.name }}</h3>
             <h6 class="text-center mx-4 mb-3" style="color: #B0B0B0; font-size: 20px;">{{ booth.location }}</h6>
             <div class="text-center">
                 {% if request.user.is_authenticated %}
@@ -67,7 +67,7 @@
                         
                 <div id="boothdetail__taglist" class="mx-3">
                     {% if booth.review_number == 0 %}
-                    <div class="boothdetail__noreviews text-center fs-5">
+                    <div class="boothdetail__noreviews text-center fs-6">
                         아직 작성된 리뷰가 없어요 :(
                     </div>
 
@@ -103,12 +103,14 @@
                     <h4 class="fw-bold me-1">Reviews<h4>
                     <div style="color: #C6C6C6"> ({{ booth.review_number }})</div>
                 </div>
-                <!-- <h6>Reviews({{booth.review_number}})</h6> -->
                 {% if booth.review_number != 0 %}
                 <a href="{% url 'map:booth_review_list' booth.id %}" class="fw-bold ">View All ></a>
                 {% endif %}
             </div>
-            <div id="star__container" class="d-flex justify-content-center" style="font-size: 45px;">
+            <div id="star__container" class="d-flex justify-content-center" style="font-size: 45px; align-items:center;">
+                {% if booth.rate_average != 0 %}
+                <div style="margin-right: 5px;font-size: 30px;color: gold;">{{ booth.rate_average }}</div>
+                {% endif %}
                 <div class="star-rating">
                     <div class="star-rating-fill" style= "width: {{ width }}%;">
                         <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
@@ -120,7 +122,7 @@
             </div>
                 
             {% if booth.review_number == 0 %}
-                <div class="boothdetail__noreviews text-center fs-5">
+                <div class="boothdetail__noreviews text-center fs-6">
                     아직 작성된 리뷰가 없어요 :(
                 </div>
             {% else %}
@@ -159,7 +161,7 @@
                 {% endif %}
             </div>
             {% if lnf_num == 0 %}
-                    <div class="boothdetail__noreviews text-center fs-5">
+                    <div class="boothdetail__noreviews text-center fs-6">
                         아직 작성된 게시글이 없어요 :(
                     </div>
             {% else %}

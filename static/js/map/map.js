@@ -7,7 +7,7 @@
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 
     var container = document.getElementById('map');
-    var defaultLoc = new kakao.maps.LatLng(37.55888333399497, 126.92658303847873)
+    var defaultLoc = new kakao.maps.LatLng(37.55908333399497, 126.92658303847873)
     var options = {
         center: defaultLoc, // 임의의 중심 좌표
         level: 4 // 확대 축소 정도
@@ -525,7 +525,7 @@
                                 </div>
                             </div>
                             | 
-                            <div class = "col" style="color: #484848">${ reviewnum } review(s)</div>  
+                            <div class = "col" style="color: #484848">${ reviewnum } reviews</div>  
                         </div>
                     </button>
             
@@ -542,14 +542,14 @@
                         <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                         
                         <div style="margin: 0.5rem 0 0 0; display: inline-flex;">
-                            <div class="star-rating pe-1">
+                            <div class="star-rating me-1">
                                 <div class="star-rating-fill" style= "width: ${width}%;">                
                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                 </div>
                                 <div class="star-rating-base">
                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                 </div>
-                            </div> | ${ reviewnum } review(s)
+                            </div> | ${ reviewnum } reviews
                         </div>
                         
                     </div>
