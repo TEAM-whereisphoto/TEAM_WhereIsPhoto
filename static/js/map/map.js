@@ -17,7 +17,7 @@
     // var zoomControl = new kakao.maps.ZoomControl();
     // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-    // container.children[container.childElementCount-2].remove()
+    container.children[container.childElementCount-2].remove()
 
     // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
@@ -569,6 +569,7 @@
                     boothSmall.innerHTML = ''
                     printList(boothElement, boothSmall, 1)
                     map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
+                    map.setLevel(4)
                     
                     kakao.maps.event.trigger(allMarker[boothId-1], 'click')
                 });
