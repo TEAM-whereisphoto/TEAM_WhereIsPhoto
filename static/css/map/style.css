@@ -70,13 +70,14 @@ body {
 #search-placeholder {
     border: none !important;
     outline: none !important;
-    padding: 0 0 0 0.5rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 14px;
 }
-#search-placeholder2 {
 
+#search-placeholder2 {
     border: none !important;
     outline: none !important;
-    padding: 0 0 0 0.5rem;
+    padding: 0.2rem 0.5rem;
 }
 
 /* placeholder color */

@@ -263,12 +263,6 @@
                 
                 boothSmallBtn.click() // 아래 small detail 열기
 
-                // 디테일 페이지로 이동하는 event
-                boothSmall.addEventListener('click', function() {
-                    let getId = boothSmall.children[0].children[0].dataset.id
-                    window.location.href = "/find/booth/detail/"+getId
-                })
-
             })
         };
 
@@ -287,9 +281,8 @@
         
             bounds = map.getBounds(); // 화면 변경되었으니 범위 다시 가져오고
         
-            for (let i=0; i<total; i++) { // 모든 booth들 다시 탐색...
+            for (let booth of boothList) { // 모든 booth들 다시 탐색...
             
-                let booth = boothList[i]
                 let lat = booth["x"]
                 let lng = booth["y"]
                 let boothcoord = new kakao.maps.LatLng(lat, lng)
@@ -403,17 +396,17 @@
 
                     var searchbounds = new kakao.maps.LatLngBounds();
 
-                    for (var i=0; i<5; i++) {
+                    for (var i=0; i<3; i++) {
                         searchbounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                     }       
 
                     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                     map.setBounds(searchbounds); //2
                     setList();
-                    input.value='';
                 }
                 else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                     alert("입력된 장소가 없습니다. 다시 입력해주세요!")
+                    input.value='';
                 } 
         
                 else if (status === kakao.maps.services.Status.ERROR) {
@@ -511,7 +504,7 @@
             if (small) { // 작은 detail 표시하는 경우
                 newdiv.innerHTML =
                 `<a id="list-${ boothId }" data-id="${ boothId }" href="/find/booth/detail/${ boothId }">
-                    <div class="fs-4">
+                    <div style="font-size: 20px">
                         <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
                     </div>
 
