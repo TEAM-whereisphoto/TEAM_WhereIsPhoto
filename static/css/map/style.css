@@ -32,11 +32,43 @@ body {
     border-color: #B5B5CD !important;
 }
 
-.btn-check:checked+.btn-outline-primary {
+.btn-check:checked+.btn-outline-life {
     color: #fff !important;
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+    background-color: #FF8DA5 !important;
+    border-color: #FF8DA5 !important;
 }
+.btn-check:checked+.btn-outline-selpix {
+    color: #fff !important;
+    background-color: #FFD107 !important;
+    border-color: #FFD107 !important;
+}
+.btn-check:checked+.btn-outline-signature {
+    color: #fff !important;
+    background-color: #3FBEA7 !important;
+    border-color: #3FBEA7 !important;
+}
+.btn-check:checked+.btn-outline-haru {
+    color: #fff !important;
+    background-color: #5F66B2 !important;
+    border-color: #5F66B2 !important;
+}
+.btn-check:checked+.btn-outline-photoism {
+    color: #fff !important;
+    background-color: #5B5B5B !important;
+    border-color: #5B5B5B !important;
+}
+
+.btn-outline-life,
+.btn-outline-selpix,
+.btn-outline-signature,
+.btn-outline-haru,
+.btn-outline-photoism {
+    color: #fff !important;
+    background-color: #B5B5CD !important;
+    border-color: #B5B5CD !important;
+}
+
+
 
 .btn-outline-ratingNlike {
     color: #D6D6F1 !important;
