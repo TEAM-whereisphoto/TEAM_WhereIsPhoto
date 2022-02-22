@@ -18,7 +18,19 @@
                 <button type = "button" class="btn btn-dgitefault"> <a href = "{% url 'LnF:list' %}"> 취소 </a></button>
                 <button type="submit" class="save btn btn-secondary">전송</button>
             </div>
-
+            {% if form.errors %}
+                <div class="error pt-1">
+                    <div class="alert alert-danger" role="alert">
+                    {% for field in form %}
+                        {% if field.errors %}
+                        <strong>{{ field.label }}</strong>
+                        {{ field.errors }}
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                 <!-- 오류표시 end-->
             <div class="content">
                 <div class="form__booth">
                     <input type="text" name="booth" value="{{booth}}" list="boothList" placeholder="매장 이름을 입력하세요.">
@@ -70,7 +82,7 @@
 </div>
 {% else %}
     <script type="text/javascript">
-        alert('로그인을 먼저 해주세요.!')
+        alert('로그인을 먼저 해주세요!')
         window.location.href = '{% url "user:login" %}'
     </script>
 {% endif %}

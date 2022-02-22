@@ -35,12 +35,12 @@
 
             <input type="checkbox" checked name="tag" value="분실" class="btn__check" id="btn-check" autocomplete="off">
             <div class="lnf__btn1 d-flex justify-content-center">
-                <label class="btn" for="btn-check" style="color: white;"> 잃어버렸어요 :( </label>
+                <label class="btn text-nowrap" for="btn-check" style="color: white;"> 잃어버렸어요 :( </label>
             </div>
     
             <input type="checkbox" checked name="tag" value="보관" class="btn__check" id="btn-check2" autocomplete="off">
             <div class="lnf__btn2 d-flex justify-content-center">
-                <label class="btn" for="btn-check2" style="color: white;"> 발견했어요 :) </label>
+                <label class="btn text-nowrap" for="btn-check2" style="color: white;"> 발견했어요 :) </label>
             </div>
             
         </div>
@@ -82,15 +82,16 @@
                 <!-- post footer -->
                 <div class="post__footer">
                     <div>
-                        {{post.user.username}}<br>
-                    </div>
-                    <div>
+                        {{post.user.username}} | 
                         {% if post.timeString == False %}
                         {{post.time|date:'m월 d일'}}
                         {% else %}
                         {{post.timeString}}
                         {% endif %}
                     </div>
+                    <a href="{% url 'LnF:post_detail' post.id %}" style="color: #A3A3B5 !important;">
+                        댓글 {{post.comment_set.all|length}}
+                    </a>
                 </div>                
             </div>
             <div class="blank"></div>

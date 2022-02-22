@@ -87,7 +87,10 @@ const addComment = () => {
 
             
         element.append(new_comment)
-            
+        
+        const comment_count = document.getElementById("comment-count")
+        const changed = parseInt(comment_count.innerHTML.split(" ")[1]) + 1
+        comment_count.innerHTML = `댓글 ${changed}`
         }
 }
 
@@ -97,7 +100,10 @@ const delComment = () => {
         
         const element = document.querySelector(`#comment-${id}`)
         element.remove();
-        
+        const comment_count = document.getElementById("comment-count")
+        const changed = parseInt(comment_count.innerHTML.split(" ")[1]) - 1
+        comment_count.innerHTML = `댓글 ${changed}`
+
     }
 }
 

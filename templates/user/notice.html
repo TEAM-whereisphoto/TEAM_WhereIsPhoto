@@ -7,23 +7,24 @@
 
 {% block content %}
 
-{% if len == 0 %}
-<p class="sub__title">My notice</p>
-<div class="no__alarm">새로운 댓글 알림이 없습니다.</div>
-
-{% else %}
 <div class="top__shadow p-2">
     <p class="sub__title">My notice</p>
+    {% if len == 0 %}
+    <div class="no__alarm">새로운 댓글 알림이 없습니다.</div>
+</div>
+{% else %}
     <div class="alarm">{{len}}개의 새로운 댓글이 있습니다.</div>
 </div>
-<div class="p-2 bg"></div>
+
+<div id = "divide" class="p-2 bg"></div>
 <!-- <hr class="top__line"/> -->
     {% for comment in comments %}
-        <div class="comment__block">
+        <div class="comment__block" id="comment-{{comment.id}}">
             <div class="title">{{ comment.post }}</div>
             <div class="writer">{{ comment.user }}</div>
             <div class="comment">{{ comment.content }}</div>
             <div class="check__comment">
+                <a class="delete d-inline" onclick="click_delete({{comment.id}})">알림 삭제</a>
                 <a class="check" href="{% url 'user:read_notice' comment.id %}">댓글 확인하기 ></a>
             </div>
         </div>
@@ -34,4 +35,50 @@
 
 {% endif %}
 
+        <script>
+            const requestDelete = new XMLHttpRequest();
+
+            const click_delete = (id) => {
+            const url = "deletenotice/";
+            requestDelete.open("POST", url, true);
+            requestDelete.setRequestHeader(
+                "Content-Type", "application/x-www-form-urlencoded"
+                );
+                requestDelete.send(JSON.stringify({id: id}))
+            }
+
+            const delComment = () => {
+                if (requestDelete.status < 400){
+                    const {deleted_id, remain} = JSON.parse(requestDelete.response)
+                    console.log(deleted_id, remain)
+                    const element = document.getElementById(`comment-${deleted_id}`)
+                    element.nextElementSibling.remove() // <hr>제거
+                    element.remove();
+
+                    const header = document.querySelector('.alarm')
+                    const badge = document.getElementById("notice__badge")
+                    header.innerHTML = `${remain}개의 새로운 댓글이 있습니다.` 
+                    
+                    if (remain < 10) {   
+                        if (remain == 0) {
+                            header.setAttribute("class", "no__alarm")
+                            header.innerHTML = '새로운 댓글 알림이 없습니다.'
+                            badge.remove();
+                            const divider = document.getElementById('divide')
+                            divider.remove();
+
+                        }
+                        else {
+                            badge.innerHTML = `${remain}`
+                        }
+                    }                    
+                }
+            }
+
+            requestDelete.onreadystatechange = () => {
+                if(requestDelete.readyState === XMLHttpRequest.DONE){
+                    delComment();
+                }
+            }
+        </script>
 {% endblock %}

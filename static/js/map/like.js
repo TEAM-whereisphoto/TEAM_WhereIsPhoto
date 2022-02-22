@@ -23,7 +23,7 @@ const onClickDislike = (booth_id) => {
 }
 
 const onClickAlert = () =>{
-    alert('로그인을 먼저 해주세요.!')
+    alert('로그인을 먼저 해주세요!')
     window.location.href ='/user/login'
 }
 

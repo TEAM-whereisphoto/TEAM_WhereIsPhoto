@@ -62,7 +62,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    justify-content: flex-end;
     padding-right: 0.5rem;
 }
 
@@ -71,6 +70,13 @@
     font-family: SUIT-Medium;
     font-size: 12pt;
     color: #0d6efd !important;
+}
+
+.delete {
+    padding-top: 0.5rem;
+    font-family: SUIT-Medium;
+    font-size: 12pt;
+    color: red !important;
 }
 
 hr {

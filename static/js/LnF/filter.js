@@ -64,11 +64,11 @@ const filterByTag = () =>{
                 <div style="height: .5rem;"></div>
                 <div class="post__footer">
                     <div>
-                        ${post.user}<br>
+                        ${post.user} | ${timetext}
                     </div>
-                    <div>
-                        ${timetext}
-                    </div>
+                    <a href="/LnF/${post.id}/post_detail/" style="color: #A3A3B5 !important;">
+                        댓글 ${post.cntcmt}
+                    </a>
                 </div>          
             </div>`
             

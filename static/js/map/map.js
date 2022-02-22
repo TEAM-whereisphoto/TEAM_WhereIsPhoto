@@ -7,7 +7,7 @@
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 
     var container = document.getElementById('map');
-    var defaultLoc = new kakao.maps.LatLng(37.55888333399497, 126.92658303847873)
+    var defaultLoc = new kakao.maps.LatLng(37.55908333399497, 126.92658303847873)
     var options = {
         center: defaultLoc, // 임의의 중심 좌표
         level: 4 // 확대 축소 정도
@@ -17,7 +17,7 @@
     // var zoomControl = new kakao.maps.ZoomControl();
     // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-    // container.children[container.childElementCount-2].remove()
+    container.children[container.childElementCount-2].remove()
 
     // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@
     var gps_use = null; //gps의 사용가능 여부
     var gps_lat = null; // 위도
     var gps_lng = null; // 경도
-    var gps_position; // gps 위치 객체
+    var currentPosition = null; // gps 위치 객체
     var currentmarker = new kakao.maps.Marker()
 
     gps_check();
@@ -40,8 +40,11 @@
             var options = {timeout:60000};
             navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
         } else {
-            alert("GPS_추적이 불가합니다.");
+            alert("GPS_추적이 불가합니다.\n기본 위치로 이동합니다.");
             gps_use = false;
+            currentPosition = defaultLoc
+            map.setCenter(currentPosition)
+            pinCurrent(currentPosition)
         }
     }
 
@@ -51,7 +54,7 @@
         gps_lat = position.coords.latitude;
         gps_lng = position.coords.longitude;
 
-        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
+        currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
         map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
         pinCurrent(currentPosition)
     }
@@ -61,10 +64,12 @@
     function errorHandler(error) {
         if(error.code == 1) {
             alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
-            pinCurrent(defaultLoc)
-        } else if( err.code == 2) {
-            alert("위치를 반환할 수 없습니다.");
+        } else if( error.code == 2) {
+            alert("위치를 반환할 수 없습니다.\n기본 위치로 이동합니다.");
         }
+        currentPosition = defaultLoc
+        map.setCenter(currentPosition)
+        pinCurrent(currentPosition)
         gps_use = false;
     }
 
@@ -146,7 +151,10 @@
     const refresh = document.getElementById('refresh')
 
     const listcanvas = document.getElementById('offcanvasRight')
-
+    const smallcanvas = document.getElementById('offcanvasBottom')
+    smallcanvas.addEventListener('hidden.bs.offcanvas', function () {
+        selectedMarker.setImage(selectedMarker.normalImage);
+    })
     // 전역 변수 생성 끝 -----------------------------------------------------------------------------
 
 
@@ -171,8 +179,8 @@
         handleData();
         
         function handleData() {
-            for (let i=0; i<total; i++) {
-                setbooth(i);
+            for (let booth of boothList) {
+                setbooth(booth);
             }
             // 클러스터에 브랜드별 marker 배열 넣기
             for (let value in brand_dict){
@@ -182,9 +190,7 @@
             };       
         } 
         
-        function setbooth(i) {
-            let booth = boothList[i] // 특정 booth 정보 담은 객체
-            // let booth = boothparent.firstElementChild.dataset
+        function setbooth(booth) {
             const name = booth["name"]
             const brandname = booth["brand__name"]
             
@@ -194,7 +200,7 @@
             const mapLat = booth["x"]
             const mapLng = booth["y"]
             var coords = new kakao.maps.LatLng(mapLat, mapLng)
-        
+            
             addPin(coords, brandpin, brandname, booth);
             // 초기 607개 pin 배열 생성
             
@@ -204,6 +210,15 @@
 
         }
 
+        function calcDist(booth, pos) {
+            var polyline = new kakao.maps.Polyline({
+                map: map,
+                path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), pos ],
+                strokeWeight: 0,
+            });
+
+            booth['len'] = polyline.getLength();
+        }
 
         function addPin(pos, img, brandname, booth) {
             var marker = new kakao.maps.Marker({
@@ -242,23 +257,10 @@
                 boothSmall.innerHTML='';
         
                 // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
-                var polylineA = new kakao.maps.Polyline({
-                    map: map,
-                    path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), map.getCenter() ],
-                    strokeWeight: 0,
-                });
-
-                booth['len']=polylineA.getLength();
-
+                calcDist(booth, currentPosition)
                 printList(booth, boothSmall, 1)
                 
                 boothSmallBtn.click() // 아래 small detail 열기
-
-                // 디테일 페이지로 이동하는 event
-                boothSmall.addEventListener('click', function() {
-                    let getId = boothSmall.children[0].children[0].dataset.id
-                    window.location.href = "/find/booth/detail/"+getId
-                })
 
             })
         };
@@ -278,9 +280,8 @@
         
             bounds = map.getBounds(); // 화면 변경되었으니 범위 다시 가져오고
         
-            for (let i=0; i<total; i++) { // 모든 booth들 다시 탐색...
+            for (let booth of boothList) { // 모든 booth들 다시 탐색...
             
-                let booth = boothList[i]
                 let lat = booth["x"]
                 let lng = booth["y"]
                 let boothcoord = new kakao.maps.LatLng(lat, lng)
@@ -393,17 +394,17 @@
 
                     var searchbounds = new kakao.maps.LatLngBounds();
 
-                    for (var i=0; i<5; i++) {
+                    for (var i=0; i<3; i++) {
                         searchbounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                     }       
 
                     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                     map.setBounds(searchbounds); //2
                     setList();
-                    input.value='';
                 }
                 else if (status === kakao.maps.services.Status.ZERO_RESULT) {
                     alert("입력된 장소가 없습니다. 다시 입력해주세요!")
+                    input.value='';
                 } 
         
                 else if (status === kakao.maps.services.Status.ERROR) {
@@ -501,7 +502,7 @@
             if (small) { // 작은 detail 표시하는 경우
                 newdiv.innerHTML =
                 `<a id="list-${ boothId }" data-id="${ boothId }" href="/find/booth/detail/${ boothId }">
-                    <div class="fs-4">
+                    <div style="font-size: 20px">
                         <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
                     </div>
 
@@ -522,7 +523,7 @@
                                 </div>
                             </div>
                             | 
-                            <div class = "col" style="color: #484848">${ reviewnum } review(s)</div>  
+                            <div class = "col" style="color: #484848">${ reviewnum } reviews</div>  
                         </div>
                     </button>
             
@@ -539,14 +540,14 @@
                         <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
                         
                         <div style="margin: 0.5rem 0 0 0; display: inline-flex;">
-                            <div class="star-rating pe-1">
+                            <div class="star-rating me-1">
                                 <div class="star-rating-fill" style= "width: ${width}%;">                
                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                 </div>
                                 <div class="star-rating-base">
                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                 </div>
-                            </div> | ${ reviewnum } review(s)
+                            </div> | ${ reviewnum } reviews
                         </div>
                         
                     </div>
@@ -562,6 +563,7 @@
                     boothSmall.innerHTML = ''
                     printList(boothElement, boothSmall, 1)
                     map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
+                    map.setLevel(4)
                     
                     kakao.maps.event.trigger(allMarker[boothId-1], 'click')
                 });
@@ -574,30 +576,8 @@
 
         const sorting = function sortDist(a, b) { // 거리순 정렬 함수
 
-            const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
-            const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
-            
-
-            var polylineA = new kakao.maps.Polyline({
-                map: map,
-                path: [ coordA, curCenter ],
-                strokeWeight: 0,
-            });
-            
-            var polylineB = new kakao.maps.Polyline({
-                map: map,
-                path: [ coordB, curCenter ],
-                strokeWeight: 0,
-            });
-            
-            const lenA = polylineA.getLength();
-            const lenB = polylineB.getLength();
-
-            a['len'] = lenA
-            b['len'] = lenB
-
-            if (lenA < lenB) { return -1; }
-            if (lenA > lenB) { return 1; }
+            if (a['len'] < b['len']) { return -1; }
+            if (a['len'] > b['len']) { return 1; }
             return 0; // 이름이 같을 경우
         }
 
@@ -629,7 +609,7 @@
                 return 0;
             }
 
-            curCenter = map.getCenter()
+            for (let booth of mapboundbooth) { calcDist(booth, currentPosition); }
             mapboundbooth.sort(sorting) // 거리순 정렬
             for (let booth of mapboundbooth){ 
                 printList(booth, boothListDom, 0); 
