@@ -24,7 +24,7 @@
             <div class="writer">{{ comment.user }}</div>
             <div class="comment">{{ comment.content }}</div>
             <div class="check__comment">
-                <a class="delete d-inline" onclick="click_delete({{comment.id}})">삭제</a>
+                <a class="delete d-inline" onclick="click_delete({{comment.id}})">알림 삭제</a>
                 <a class="check" href="{% url 'user:read_notice' comment.id %}">댓글 확인하기 ></a>
             </div>
         </div>
