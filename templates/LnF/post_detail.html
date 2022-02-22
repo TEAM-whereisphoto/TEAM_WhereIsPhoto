@@ -59,9 +59,7 @@
                     {{post.timeString}}
                     {% endif %}
                 </div>
-                <a href="{% url 'LnF:post_detail' post.id %}" style="color: #A3A3B5 !important;">
-                    댓글 {{post.comment_set.all|length}}
-                </a>
+                <a id="comment-count" href="{% url 'LnF:post_detail' post.id %}" style="color: #A3A3B5 !important;">댓글 {{post.comment_set.all|length}}</a>
             </div>
         </div>
     </section>
