@@ -42,11 +42,19 @@
                 </div>
 
                 <div class="textcontent d-flex justify-content-between">
+                    {% if post.tag == "분실" %}
+                    <input type="radio" name="tag" value="분실" id="lost_tag" checked>
+                    {% else %}
                     <input type="radio" name="tag" value="분실" id="lost_tag">
+                    {% endif %}
                     <div class="tag_btn d-flex justify-content-center" id = "lost_tag_btn">
                         <label class="btn" for="lost_tag" style="color: white;"> 분실 </label>
                     </div>
+                    {% if post.tag == "보관" %}
+                    <input type="radio" name="tag" value="보관" id="store_tag" checked>
+                    {% else %}
                     <input type="radio" name="tag" value="보관" id="store_tag">
+                    {% endif %}
                     <div class="tag_btn d-flex justify-content-center" id = "store_tag_btn">
                         <label class="btn" for="store_tag" style="color: white;"> 보관 </label>
                     </div>

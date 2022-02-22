@@ -89,6 +89,7 @@ def post_detail(request,pk):
 def post_update(request, pk):
     post = get_object_or_404(LnF_Post, id=pk)
     booths = Booth.objects.all()
+    booth = post.booth
 
     if request.user == post.user:
         if request.method == 'POST':
@@ -101,14 +102,13 @@ def post_update(request, pk):
                 post.tag = tag
                 post = form.save(commit=False)
                 post.save()
-            return redirect('LnF:post_detail', pk)
+                return redirect('LnF:post_detail', pk)
 
         else:
-            booth = post.booth
-            tag=post.tag
+            # tag=post.tag
             form = PostForm(instance=post)
-            ctx = {'form': form, 'booths':booths, 'booth':booth, 'tag': tag, 'post':post}
-            return render(request, 'LnF/new.html', context=ctx)
+        ctx = {'form': form, 'booths':booths, 'booth':booth, 'post':post}
+        return render(request, 'LnF/new.html', context=ctx)
 
 @login_required
 def post_delete(request, pk):
