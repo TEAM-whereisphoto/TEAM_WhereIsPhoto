@@ -51,7 +51,8 @@
         gps_lat = position.coords.latitude;
         gps_lng = position.coords.longitude;
 
-        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성      
+        var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
+        map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
         pinCurrent(currentPosition)
     }
 
@@ -68,7 +69,6 @@
     }
 
     function pinCurrent(currentPosition) {
-        map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
 
         currentmarker = new kakao.maps.Marker({  
             map: map, 
@@ -200,7 +200,7 @@
             
             bounds = map.getBounds();
             // booth의 좌표가 현재 지도 boundary 안에 있는거면 배열에 push
-            if (bounds.contain( coords )) { mapboundbooth.push(booth); }// console.log("위치 안")
+            if (bounds.contain( coords )) { mapboundbooth.push(booth); }
 
         }
 
@@ -211,7 +211,6 @@
                 position: pos,
                 image: img,
             });
-            // console.log(marker);
             marker.setMap(map);
             marker.normalImage = img;
             allMarker.push(marker)
@@ -243,7 +242,6 @@
                 boothSmall.innerHTML='';
         
                 // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
-                // console.log(booth["name"])
                 var polylineA = new kakao.maps.Polyline({
                     map: map,
                     path: [ new kakao.maps.LatLng(booth["x"], booth["y"]), map.getCenter() ],
@@ -384,7 +382,6 @@
             if (!keyword.replace(/^\s+|\s+$/g, '')) {
                 alert('검색할 장소를 입력해주세요!');
                 return false;
-                console.log("이거 뜨면 안된다")
             }
 
             // 키워드로 장소를 검색합니다
@@ -613,6 +610,9 @@
         
                 if (!filterGroup.children[i-1].checked) { // 필터가 체크되어있지 않다면
                     filterGroup2.children[i-1].checked = false;
+                }
+                else {
+                    filterGroup2.children[i-1].checked = true;
                 }
             }
 

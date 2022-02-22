@@ -22,7 +22,6 @@ checkboxes.forEach(function(checkbox){
 const filterByTag = () =>{
     if (requestTag.status < 400){
         const {resList} = JSON.parse(requestTag.response)
-        // console.log(resList)
         const postList = document.querySelectorAll('#postList > div > div');
         for (const div of postList){
             div.remove();

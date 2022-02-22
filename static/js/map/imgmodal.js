@@ -11,7 +11,6 @@ function Modal(num) {
     // 해당 클래스의 내용을 클릭하면 Modal을 띄웁니다.
     btns[num].onclick =  function() {
         modals[num].style.display = "block";
-        console.log(num);
     };
  
     // <span> 태그(X 버튼)를 클릭하면 Modal이 닫습니다.

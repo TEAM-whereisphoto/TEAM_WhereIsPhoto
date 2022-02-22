@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function(event){
     const tagfills = this.getElementsByClassName("tag__fill")
     for (let eachtag of tagfills) {
         let width = eachtag.dataset.num / eachtag.dataset.reviews * 100
-        console.log(width)
         eachtag.setAttribute("style", `width: ${width}%`)
     }
     
