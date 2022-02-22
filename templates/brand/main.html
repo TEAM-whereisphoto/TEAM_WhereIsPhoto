@@ -40,42 +40,6 @@
 
   <!-- main brand sec -->
   <section>
-    <div class="brand bg-dark">
-      {% for brand in brand_list %}
-        <div class="brand__frame d-flex bg-light">
-          <!--브랜드 이미지-->
-          <div class="brand__img center">
-            <!-- 브랜드 이미지 모델 수정되면 링크 널 예정 -->
-            <img src="{{ brand.5 }}" alt="" class="" width="50%">
-          </div>
-          <!-- brand_list = [brand_id, brand_name, retake, remote, time, img, [frame]] -->
-          <!-- frame = [price, 프레임 컷 수, 총 촬영 수] -->
-          <!--브랜드 설명-->
-          <div class="brand__info brand__{{ brand.0 }} d-flex">
-            <div class="">
-              Retake<br>
-              Remote<br>
-              Time<br>
-              <br>
-              Price
-            </div>
-  
-            <div class="text-right">           
-              {{ brand.2 }} <br>
-              {{ brand.3 }} <br>
-              {{ brand.4 }}sec <br>
-              <br>
-              {% for frame in brand.6 %}
-                  {{frame.0}} <br>
-                  <span style="font-size: 8pt;">{{ frame.1 }} out of {{ frame.2 }}</span> <br>
-              {% endfor %}<br>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-      <div class="main__logo">
-        <img src="/static/icons/logo.png" class="img-fluid" alt="" width="30px">
-      </div>
-    </div>
+    <img src="/static/icons/main_menu.jpg" style="max-width: 100%;" alt="main_menu">
   </section>
 {% endblock %}

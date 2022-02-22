@@ -9,21 +9,11 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-<<<<<<< HEAD
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('user', '0001_initial'),
         ('map', '0001_initial'),
-<<<<<<< HEAD
-        ('user', '0001_initial'),
-=======
         ('brand', '0001_initial'),
->>>>>>> user
-=======
-        ('brand', '0001_initial'),
-        ('user', '0001_initial'),
-        ('map', '0001_initial'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
->>>>>>> LnF
+
     ]
 
     operations = [
