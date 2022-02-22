@@ -11,10 +11,10 @@
 
 {% block content %}
 <div class="title__all">
-    <h2 class="signup__title">Welcome<span class="signup__title__bold">Back!</span></h2>
+    <h2 class="signup__title">Welcome<span class="signup__title__bold">ㅇㄱㅅㅈ</span></h2>
   
-    <p class="signup__subtitle">Enter your informations below</p>
-    <p class="space signup__subtitle">or login with a social account</p>
+    <p class="signup__subtitle">아이디와 비밀번호를 입력하여</p>
+    <p class="space signup__subtitle">여기사진에 로그인 할 수 있습니다.</p>
 </div>
 <div class="login__form center__form ">
     <form method="POST" action="">
@@ -31,18 +31,12 @@
 <div class="hr-sect">OR</div>
 
 <div class="social__btn">
-    <div class="social__flex social">
-        <img class="icon__social" src="{% static 'icons/google_logo.png' %}">
-        <a class="social__text" href="{% provider_login_url "google" %}">Login with Google</a>
-    </div>
+    <a href="{% provider_login_url "google" %}"><img class="icon__social" src="{% static 'icons/btn_google_signin_light_normal_web@2x.png' %}"></a>
 </div>
-<div class="social__btn">
-    <div class="social__flex social">
-        <img class="icon__social" src="{% static 'icons/naver_logo.png' %}">
-        <a class="social__Text" href="{% provider_login_url "naver" %}">Login with Naver</a>
-    </div>
-
-    
+<div class="social__btn">  
+    <a href="{% provider_login_url "naver" %}"><img class="icon__social" src="{% static 'icons/naver_login.svg' %}"></a>
+</div>
+ 
 </div>
 
 <a class="password" href="{% url 'password_reset' %}">Forgot password?</a>
