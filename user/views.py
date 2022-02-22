@@ -16,6 +16,9 @@ from LnF.models import *
 from map.models import *
 
 from django.contrib.auth.decorators import login_required
+
+import json
+
 # AnonymousUser 예외처리
 @login_required
 def main(request):
@@ -202,6 +205,7 @@ def getNew(userss):
         comments = comments | post.comment_set.filter(read=0)
     return comments
 
+@login_required
 def read_notice(request, pk):
     try:
         comment = get_object_or_404(Comment, pk=pk)
@@ -212,6 +216,23 @@ def read_notice(request, pk):
     comment.save()
 
     return redirect('LnF:post_detail', comment.post.id)
+
+@login_required
+@csrf_exempt
+def delete_notice(request):
+    req = json.loads(request.body)
+    notice_id = req['id']
+    try:
+        comment = get_object_or_404(Comment, pk=notice_id)
+    except:
+        return render(request, 'account/login.html')
+
+    comment.read = 1
+    comment.save()
+
+    remain = len(getNew(request.user))
+    print("\n\n", notice_id, remain)
+    return JsonResponse({'deleted_id': notice_id, 'remain': remain})
 
 
 def nav_notice(request):
