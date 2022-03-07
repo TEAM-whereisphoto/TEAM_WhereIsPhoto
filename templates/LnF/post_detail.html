@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head%}
+<script defer src="{% static 'js/LnF/comment.js' %}"></script>
+<script defer src="{% static 'js/map/imgmodal.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 게시물 -->
+    <section>
+        <!-- 게시물 내용 -->
+        <div class="post p-3">
+            <!-- post title -->
+            <div class="between">
+                <div class="post__title">
+                    <span class="post__{{ post.tag }}">{{post.tag}}</span>
+                    <a href="{% url 'LnF:post_detail' post.id %}">{{post.booth.name}}</a>
+                    <span style="font-size: 0.5rem; color:#1F52FF;">
+                        <a href="{% url 'LnF:booth_detail' booth.id %}">See all +</a>
+                    </span>
+                </div>
+
+                <!-- 작성한 유저일 경우 수정/삭제 가능-->
+                {% if post.user == request.user %}
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target=".post__chg" aria-expanded="false" aria-controls="collapseExample">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                </button>
+                {% endif %}  
+            </div>
+            <div class="post__chg collapse">
+                <div style="background-color: white;">
+                    <a href="{% url 'LnF:post_update' post.id %}">수정하기✏️</a>
+                    <button class="button" onclick="post_del({{post.id}})">삭제하기❌</button>    
+                </div>
+            </div>
+            <div style="height: .5rem;"></div>
+            <!-- post content -->
+            <div class="post_content">
+                {{post.content}} <br>
+                {% if post.img %}
+                    <img src="{{ post.img.url }}" class="img" alt="" width="100%"> 
+                    <div class="modal">
+                        <span class="close"></span>
+                        <img src= "{{ post.img.url }}" class="modal-content">
+                    </div>
+                {% endif %}
+            </div>
+            <div style="height: .5rem;"></div>
+            <!-- post footer -->
+            <div class="post__footer">
+                <div>
+                    {{post.user.username}} |  
+                    {% if post.timeString == False %}
+                    {{post.time|date:'m월 d일'}}
+                    {% else %}
+                    {{post.timeString}}
+                    {% endif %}
+                </div>
+                <a id="comment-count" href="{% url 'LnF:post_detail' post.id %}" style="color: #A3A3B5 !important;">댓글 {{post.comment_set.all|length}}</a>
+            </div>
+        </div>
+    </section>
+    <!-- 댓글 -->
+    <section>
+        <div class="container">
+            <div class="comment__add">
+                {% if user.is_authenticated %}
+                <input id="comment_input-{{post.id}}" placeholder="댓글 달아주세요!" type="text"/>
+                <button onclick="onClickComment({{post.id}}, 'add')">Reply</button>
+                {% else %}
+                <input id="comment_input-{{post.id}}" placeholder="로그인 먼저해주세요!" type="text" disabled/>
+                <button>Reply</button>
+                {% endif %}
+            </div>
+            <br>
+            <div id="comment-table-{{post.id}}" class="comments">
+                {% for comment in post.comment_set.all %}
+                <div id="comment-{{comment.id}}" class="comment">
+                    <div class="between">
+                        <p style="margin:0; font-size:1rem">{{comment.content}}</p>
+                        {% if comment.user == request.user %}
+                        <button class="del-btn" onclick="onClickDel({{comment.id}})">❌</button>
+                        {% endif %}
+                    </div>
+                    <div class="post__footer">
+                        <div>
+                            {{comment.user}}
+                        </div>
+                        <div>
+                            {% if comment.timeString == False %}
+                            {{comment.time|date:'m월 d일'}}
+                            {% else %}
+                            {{comment.timeString}}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    const post_del = (id) => {
+        var res = confirm('정말로 삭제하시겠습니까?');
+        if (res){
+            window.location.href = "{% url 'LnF:post_delete' post.id %}"
+            alert('성공적으로 삭제되었습니다.')
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load socialaccount %}
+
+{% providers_media_js %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="title__all">
+    <h2 class="signup__title">Welcome<span class="signup__title__bold">ㅇㄱㅅㅈ</span></h2>
+  
+    <p class="signup__subtitle">아이디와 비밀번호를 입력하여</p>
+    <p class="space signup__subtitle">여기사진에 로그인 할 수 있습니다.</p>
+</div>
+<div class="login__form center__form ">
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_table}}
+        <div class="bottom__btn">
+            <button>Login</button>
+        </div>
+    </form>
+</div>
+<div class="signup__btn">
+    <a class="signup" href="{% url 'user:signup' %}">Sign up</a>
+</div>
+<div class="hr-sect">OR</div>
+
+<div class="social__btn">
+    <a href="{% provider_login_url "google" %}"><img class="icon__social" src="{% static 'icons/btn_google_signin_light_normal_web@2x.png' %}"></a>
+</div>
+<div class="social__btn">  
+    <a href="{% provider_login_url "naver" %}"><img class="icon__social" src="{% static 'icons/naver_login.svg' %}"></a>
+</div>
+ 
+</div>
+
+<a class="password" href="{% url 'password_reset' %}">Forgot password?</a>
+
+
+{% endblock content %}
+
+
