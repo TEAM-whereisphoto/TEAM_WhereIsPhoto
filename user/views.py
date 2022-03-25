@@ -50,7 +50,7 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
-def read_my_review(request, pk):
+def read_my_review(pk):
     my_review = Review.objects.get(pk=pk)
 
     return redirect('map:review_detail', my_review.id)
@@ -108,6 +108,8 @@ def signup(request):
     if request.method == "POST":
         if User.objects.filter(username = request.POST['username']).exists():
             help_text = '이미 존재하는 아이디입니다.'
+        elif request.POST['username'].upper() == request.POST['username'].lower():
+            help_text = '아이디에 한글은 포함할 수 없습니다.'
         elif request.POST['password1'] != request.POST['password2']:
             help_text = '비밀번호가 일치하지 않습니다'
         elif User.objects.filter(email = request.POST['email']).exists():
@@ -138,7 +140,6 @@ def change_password(request):
     user = request.user
     # 아이디 변경
     edit_username = request.GET.get('edit_username', user.username)
-    # edit_username = request.POST["username"]
     print(edit_username)
     # 패스워드 조건 설정
     origin_password = request.POST["origin_password"]
@@ -165,8 +166,6 @@ def modify(request):
         user = request.user
         user.username = request.POST["username"]
         user.email = request.POST["email"]
-        print(user.username)
-        print(user.email)
         user.save()
         
         return redirect('user:main')
@@ -183,7 +182,6 @@ def delete(request):
             user.password = randint(1000000000, 10000000000)
             user.save()
             logout(request)
-            # user.delete()
             return redirect('/')
         else:
             messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
