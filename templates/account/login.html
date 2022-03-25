@@ -1,0 +1,27 @@
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>여기사진</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social_reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/social.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0, user-scalable=no">
+</head>
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block content %}
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+<p class="title" style="color:rgb(214, 55, 27)">⚠️ERROR⚠️</p>
+
+{% else %}
+<p class="sub__title">잘못된 접근입니다.</p>
+<a class="sub__title" href="/">메인으로</a>
+{% endif %}
+<p class="sub__title">잘못된 접근입니다.</p>
+<a class="sub__title" href="/">메인으로</a>
+{% endblock %}

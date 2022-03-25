@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/signup.css' %}">
+{% endblock %}
+{% block content %}
+<div class="title__all">
+  <h2 class="signup__title">Hello <span class="signup__title__bold">Stranger,</span></h2>
+
+  <p class="signup__subtitle">아래에 정보를 입력하여 ㅇㄱㅅㅈ에 가입하세요.</p>
+  <p class="space__alert signup__subtitle">혹은 뒤로가기를 통해 로그인해주세요.</p>
+</div>
+
+<p class="alert__subtitle">{{ help_text }}</p>
+<div class="center__form">
+  <form method="POST" action="">
+    {% csrf_token %}
+    <p class="top__text">USERNAME</p>
+    <div class="form__all">
+      <div class="form-group">
+        <input class="form-field" name="username" type="text" placeholder="Username" required>
+      </div>
+
+      <p class="top__text">EMAIL</p>
+      <div class="form-group">
+        <input name="email" class="form-field" type="email" placeholder="Email" required>
+      </div>
+
+      <p class="top__text">PASSWORD</p>
+      <div class="form-group">
+        <input class="form-field" name="password1" type="password" placeholder="Password" required>
+      </div>
+
+      <p class="top__text">CONFIRM PASSWORD</p>
+      <div class="form-group">
+        <input class="form-field" name="password2" type="password" placeholder="Confirm Password" required>
+      </div>
+    </div>
+    <div class="bottom__btn">
+      <input class="signup__input btn btn-primary" type="submit" value="Sign Up">
+    </div>
+    
+  </form>
+</div>
+
+
+<!-- {{ help_text }}
+<form method="POST" action="">
+    {% csrf_token %} -->
+        
+        <!-- 아이디: <br>
+        <input name="username" type="text" placeholder="your username">
+        <br>
+        이메일: <br>
+        <input name="email" type="email">
+        <br>
+        비밀번호: <br>
+        <input name="password1" type="password">
+        <br>
+        비밀번호 확인: <br>
+        <input name="password2" type="password">
+        <br>
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Sign Up"> -->
+<!-- 
+</form> -->
+
+{% endblock content %}

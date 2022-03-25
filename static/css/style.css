@@ -1,0 +1,146 @@
+/* hello */
+@font-face {
+    font-family: 'GmarketSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ROKAFSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ROKAFSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts2201-3@1.0/ROKAFSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUIT-Heavy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+a {
+    color: inherit!important;
+    text-decoration: none!important;
+}
+
+p {
+    font-family: SUIT-Medium;
+    font-size: 16pt;
+    color : #424258;
+}
+
+header {
+    background-color: white;
+}
+
+.center {
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__title {
+    color: #1F52FF;
+    font-family: 'ROKAFSansMedium', SUIT-Medium, sans-serif;
+    font-size: 1.5rem;
+    text-decoration: none;
+
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    white-space: nowrap;
+}
+
+.header__navbar {
+    display: block;
+    padding: 1rem 0;
+    color: black;
+    text-decoration: none;
+    font-family:'SUIT', sans-serif;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+/* main 영역 CSS */
+.main {
+    display: flex!important;
+    align-items: center;
+    height: 320pt;
+    position: relative;
+    padding: 50pt 10pt!important;
+    background-color: #1F52FF;
+}
+
+.main__title {
+    /* position: absolute;
+    z-index: 2; */
+    padding-left: 20pt;
+    color: white;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    z-index: 2;
+}
+
+.main__title > h3 {
+    font-size: calc(2rem + .6vw);
+    font-weight: normal;
+}
+
+.main__title > h5 {
+    font-weight:lighter;
+}
+
+.main__img {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 280px;
+    z-index: 1;
+}
+
+.main__btn {
+    color: white;
+    font-family: 'ROKAFSansMedium', 'SUIT', sans-serif;
+    font-size: 12pt;
+}
+
+.main__btn a:first-child {
+    width: 50%;
+    padding: .5rem;
+    background-color : #C979D0;
+    text-align: right;
+}
+
+.main__btn a:last-child {
+    width: 50%;
+    padding: .5rem;
+    background-color : #69C3D7;
+}

@@ -1,0 +1,56 @@
+.brand {
+    padding: 2rem;
+}
+
+.brand__frame {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.brand__frame > div {
+    width: 50%;
+}
+
+.brand__info > div {
+    width: 50%;
+    padding: 10pt;
+    font-family: 'ROKAFSansMedium';
+    font-size: 12pt;
+}
+
+.brand__info div:first-child {
+    color: #424258;
+    padding-right: 0;
+}
+
+.brand__info div:last-child {
+    color: white;
+    padding-left: 0;
+    text-align:right;
+}
+
+/* 인생네컷 life4 */
+.brand__1 {
+    background-color: #FF8EA2;
+}
+/* 셀픽스 selpix */
+.brand__2 {
+    background-color: #FFD000;
+}
+/* 시그니처 signiture */
+.brand__3 {
+    background-color: #4FE0C6;
+}
+/* 하루필름 harufilm */
+.brand__4 {
+    background-color: #8F96E0;
+}
+/* 포토이즘 photoism */
+.brand__5 {
+    background-color: #BABABA;
+}
+
+.main__logo {
+    text-align: center;
+    margin-top: 2rem;
+}
