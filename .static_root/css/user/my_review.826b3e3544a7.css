@@ -1,0 +1,267 @@
+/* 게시물 CSS */
+
+.post__분실 {
+    background-color: #C979D0;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .5rem;
+}
+
+.post__보관 {
+    background-color: #69C3D7;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .5rem;
+}
+
+.post__footer {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    color: #A3A3B5;
+    font-size: .8rem;
+}
+
+.no__post {
+    font-family: 'SUIT-Medium';
+    color: #424258 !important;
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    color: #A3A3B5;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.sub__title {
+    margin-bottom: 5px;
+    font-family: SUIT-Bold;
+    font-size: 10pt;
+    color: #AEAECA;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 3rem !important;
+}
+
+body{
+    font-family: ROKAFSansMedium !important;
+    background-color : #DEDEE6;
+}
+input{
+appearance: none;
+-webkit-appearance: none;
+-webkit-border-radius: 0;
+}
+select{
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
+.time{
+    margin-bottom: 1rem;
+}
+.review{
+    padding-bottom : 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+button{
+background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+}
+.container {
+    display : flex;
+    padding : 0;
+    margin : 0;
+}
+
+.reviewblock{
+    padding: 0.8rem;
+    background-color : #FFFFFF;
+    border-radius: 1rem;
+    margin-bottom : 1rem;
+    box-shadow: 4px 4px 3px lightgray;
+}
+.head{
+    display: flex;
+    justify-content: space-between;
+
+}
+.dropdown-toggle{
+    font-size: 15px;
+    font-weight: bolder;
+}
+.container-drop{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.content{
+    margin : auto;
+}
+.img{
+    padding :0 1rem;
+}
+
+.color{
+    display: flex;
+    flex-wrap: wrap;
+    margin : 0.5rem 0;
+}
+.colortext{
+    font-size:8pt;
+    margin-top : 0.2rem;
+    margin-right: 0.3rem;
+}
+.colorbtn{
+    margin-right: 0.4rem;
+    width : 10%;
+}
+.tag{
+    margin : 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.tagbtn{
+    width : 30%;
+    text-align: center;
+    padding : 0.3rem;
+    margin-right : 0.5rem;
+    margin-bottom : 0.5rem;
+    font-size : 7pt !important;
+    box-shadow: 2px 2px 2px lightgray;
+    background-color: #E3E3ED;
+    border-radius: 0.3rem;
+}
+.dropdown-item{
+    font-size: 10pt;
+}
+
+.container_review {
+    font-family: ROKAFSansMedium !important;
+    display : flex;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    padding : 0;
+    margin : 0.2rem 0;
+}
+
+.backbtn{
+    margin : auto;
+    margin-left: 0.3rem;
+    opacity: 100%;
+}
+.goback{
+    border-radius: 2rem;
+}
+.title{
+    font-size: 15pt;
+    text-align: center;
+}
+
+.write{
+    margin-top: 2rem;
+    border-radius: 2rem;
+    float :right;
+    margin-bottom: 3rem;
+}
+.foot{
+    font-size: 7pt;
+    color : #A3A3B5;
+    float : right;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+.colorpink{
+    -webkit-text-fill-color: #f7b5c0;
+}
+
+.coloryellow{
+    -webkit-text-fill-color: #f7e572;
+}
+
+.colorred{
+    -webkit-text-fill-color: #e36262;
+}
+
+.colorpurple{
+    -webkit-text-fill-color: #d1b5f7;
+}
+
+.colorindigo{
+    -webkit-text-fill-color: #4e557b;
+}
+
+.colororange{
+    -webkit-text-fill-color: #f7a35e;
+}
+
+.colorskyblue{
+    -webkit-text-fill-color: #b5e0f7;
+}
+
+.colorgray{
+    -webkit-text-fill-color: #e7e7e7;
+}
+.colorgreen{
+    -webkit-text-fill-color: #d1eba7;
+}
+.colorrainbow{
+    -webkit-text-fill-color: saddlebrown;
+}
+
+.img{
+    cursor: pointer;
+}
+.imgcontent{
+    margin : auto;
+
+}
+.modal {
+    display: none; /* 모달창 숨겨 놓기 */
+    position: fixed;
+    z-index: 1; /* 모달창을 제일 앞에 두기 */
+    padding-top: 100px;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto; /* 스크롤 허용 auto */
+    cursor: pointer; /* 마우스 손가락모양 */
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color:rgba(255,255,255);
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 5px;
+    border: none;
+    width: 70%; /* Could be more or less, depending on screen size */
+}
+ /* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
