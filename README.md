@@ -15,6 +15,10 @@
 ### :pushpin: Description
 다양한 셀프 포토 부스를 모아, 위치와 정보를 볼 수 있는 지도&검색 서비스
 
+인생네컷, 포토이즘과 같은 셀프 포토 스튜디오의 다양한 브랜드를 모아서, 하나의 지도로 검색하고, 볼 수 있습니다.
+세부적인 정보들을 사용자로부터 리뷰로 받아, 리뷰 정보를 바탕으로 각 매장의 정보(매장 크기, 소품 여부 등등)을 나타냅니다.
+각 매장에 분실물을 잃어버린 경우와, 습득한 경우에 글을 남겨서 쉽게 찾고, 보관할 수 있습니다.
+
 ### :pushpin: Development Environment & Language
 <img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=Django&logoColor=white"/></a>
@@ -24,8 +28,18 @@
 <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white"/></a>
 
 ### :pushpin: Feature
-
+- 매장 찾기
+   - 지역명 검색
+   - 각 브랜드 별 필터(인생네컷, 셀픽스, 포토시그니쳐 등등)
+   - 각 지점 세부 정보
+   - 각 지점 리뷰 작성
+- 분실물 찾기
+   - 보관/분실 필터
+   - 댓글 알림
+- 마이페이지
+  - 좋아요 한 매장
+  - 작성한 분실물, 작성한 리뷰, 알림
 
 
 ### :pushpin: URL
-https://whereisphoto.tk/
+https://whereisphoto.tk/ 
