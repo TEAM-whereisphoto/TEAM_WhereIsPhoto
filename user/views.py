@@ -1,37 +1,42 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from .forms import LoginForm, SignupForm
-
-#에러 메세지를 위해
-from django.contrib import messages
-
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 # 탈퇴시 랜덤숫자를 위해
 from random import randint
 
 # 리뷰 가져오기
-from map.models import Review
 from LnF.models import *
 
+#Liked 구현 
+from map.models import *
+
+from django.contrib.auth.decorators import login_required
+
+import json
+
+# AnonymousUser 예외처리
+@login_required
 def main(request):
     users = request.user
 
-    #리뷰
-    reviews_posts = Review.objects.filter(user = users)
+    # dolike가 true인 booth-brand pair 관련 list 만들기
+    liked_booth_brand = []
+    my_likes = Liked.objects.filter(user = users)
+    for my_like in my_likes:
+        if my_like.dolike:
+            liked_booth_brand.append([my_like.booth, my_like.booth.brand])
 
+    user_liked_num = len(liked_booth_brand)
     comments = getNew(users)
-
-    try:
-        my_review_exist = Review.objects.get(user = users)
-    except Review.DoesNotExist:
-        my_review_exist = 0
-    except Review.MultipleObjectsReturned:
-        my_review_exist = 1
-    
-    ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist, 'len': len(comments)}
+    ctx = {'len': len(comments), 'liked_booth_brand':liked_booth_brand, 'user_liked_num': user_liked_num}
     return render(request, 'user/main.html', context=ctx)
-    
+
+@login_required
 def my_review(request):
     users = request.user
 
@@ -48,6 +53,12 @@ def my_review(request):
     ctx = {'reviews_posts': reviews_posts,'my_review_exist': my_review_exist}
     return render(request, 'user/my_review.html', context=ctx)
 
+def read_my_review(request, pk):
+    my_review = Review.objects.get(pk=pk)
+
+    return redirect('map:review_detail', my_review.id)
+
+@login_required
 def my_lnf(request):
     users = request.user
 
@@ -64,7 +75,13 @@ def my_lnf(request):
     ctx = {'lnf_posts': lnf_posts, 'my_lnf_exist': my_lnf_exist}
     return render(request, 'user/my_lnf.html', context=ctx)
 
+def read_my_lnf(request, pk):
+    my_lnf = LnF_Post.objects.get(pk=pk)
+
+    return redirect('LnF:post_detail', my_lnf.id)
+
 class LoginView(View):
+    @method_decorator(csrf_exempt)
     def get(self, request):
         form = LoginForm()
         return render(request, "user/login.html", {"form": form})
@@ -118,6 +135,7 @@ def signup(request):
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages, auth
 
+@login_required
 def change_password(request):
   if request.method == "POST":
     user = request.user
@@ -137,14 +155,28 @@ def change_password(request):
         auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('user:main')
       else:
-        messages.error(request, 'Password not same')
+        messages.error(request, '비밀번호가 일치하지 않습니다.')
     else:
-      messages.error(request, 'Password not correct')
+      messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
     return render(request, 'user/change_password.html')
   else:
     return render(request, 'user/change_password.html')
 
-def member_del(request):
+@login_required
+def modify(request):
+    if request.method == "POST":
+        user = request.user
+        user.username = request.POST["username"]
+        user.email = request.POST["email"]
+        print(user.username)
+        print(user.email)
+        user.save()
+        
+        return redirect('user:main')
+    return render(request, 'user/modify.html')
+
+@login_required
+def delete(request):
     if request.method == "POST":
         user = request.user
         pw_del = request.POST["pw_del"]
@@ -156,41 +188,13 @@ def member_del(request):
             logout(request)
             # user.delete()
             return redirect('/')
-    return render(request, 'user/member_del.html')
-
-# 장고 기본 로그인(조건 까다로움)
-# from django.contrib import messages
-# from django.contrib.auth import update_session_auth_hash
-# from django.contrib.auth.forms import PasswordChangeForm
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
-# @login_required
-# def change_password(request):
-#     if request.method == 'POST':
-#         form = PasswordChangeForm(request.user, request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             update_session_auth_hash(request, user)  # Important!
-#             messages.success(request, 'Your password was successfully updated!')
-#             return redirect('index')
-#         else:
-#             messages.error(request, 'Please correct the error below.')
-#     else:
-#         form = PasswordChangeForm(request.user)
-#     return render(request, 'user/change_password.html', {
-#         'form': form
-#     })
+        else:
+            messages.error(request, '현재 비밀번호가 일치하지 않습니다.')
+    return render(request, 'user/delete.html')
 
 def notice(request):
     comments = getNew(request.user)
-    print(comments)
-    # print(type(comments))
     ctx={'comments':comments, 'len':len(comments)}
-
-    # for comment in comments:
-    #     comment.read = 1
-    #     comment.save()
 
     return render(request, template_name='user/notice.html', context=ctx)
 
@@ -201,9 +205,48 @@ def getNew(userss):
         comments = comments | post.comment_set.filter(read=0)
     return comments
 
+@login_required
 def read_notice(request, pk):
-    comment = Comment.objects.get(pk=pk)
+    try:
+        comment = get_object_or_404(Comment, pk=pk)
+    except:
+        return render(request, 'account/login.html')
+
     comment.read = 1
     comment.save()
 
-    return redirect('LnF:detail', comment.post.booth_id)
+    return redirect('LnF:post_detail', comment.post.id)
+
+@login_required
+@csrf_exempt
+def delete_notice(request):
+    req = json.loads(request.body)
+    notice_id = req['id']
+    try:
+        comment = get_object_or_404(Comment, pk=notice_id)
+    except:
+        return render(request, 'account/login.html')
+
+    comment.read = 1
+    comment.save()
+
+    remain = len(getNew(request.user))
+    print("\n\n", notice_id, remain)
+    return JsonResponse({'deleted_id': notice_id, 'remain': remain})
+
+
+def nav_notice(request):
+    if request.user.is_authenticated:
+        comments = getNew(request.user)
+        notice_num = len(comments)
+        if len(comments) > 0:
+            notice = True
+        else:
+            notice = False
+        
+    else:
+        notice =False
+        notice_num = 0
+        
+    ctx={'notice': notice, 'notice_num': notice_num}
+    return JsonResponse(ctx)

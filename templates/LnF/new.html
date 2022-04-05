@@ -1,20 +1,97 @@
 {% extends 'base.html' %}
-<!-- main block -->
-{% block content %}
+{% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
+<link rel="stylesheet" href="{% static 'css/map/reviewcreate.css' %}">
+<script defer src="{% static 'js/map/image.js' %}"></script>
+{% endblock %}
+
+{% block content %}
 {% if user.is_authenticated %}
-        <h1>New POST</h1>
-        <form method="POST"  enctype="multipart/form-data">
-            {% csrf_token %}
-            <table>
-                {{form.as_table}}
-            </table>
-            <button type = 'submit'>Submit</button>
-        </form>
-    {% else %}
-        <script type="text/javascript">
-            alert('로그인을 먼저 해주세요.!')
-            window.location.href = '{% url "user:login" %}'
-        </script>
-    {% endif %}
+<div class="content">
+    <form method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-container">
+            <div class ="form">
+                <div>
+                <button type = "button" class="btn btn-dgitefault"> <a href = "{% url 'LnF:list' %}"> 취소 </a></button>
+                <button type="submit" class="save btn btn-secondary">전송</button>
+            </div>
+            {% if form.errors %}
+                <div class="error pt-1">
+                    <div class="alert alert-danger" role="alert">
+                    {% for field in form %}
+                        {% if field.errors %}
+                        <strong>{{ field.label }}</strong>
+                        {{ field.errors }}
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                 <!-- 오류표시 end-->
+            <div class="content">
+                <div class="form__booth">
+                    <input type="text" name="booth" value="{{booth}}" list="boothList" placeholder="매장 이름을 입력하세요.">
+                    <datalist id = "boothList">
+                        {% for booth in booths %}
+                            <option value="{{booth.name}}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+
+                <div class="textcontent d-flex justify-content-between">
+                    {% if post.tag == "분실" %}
+                    <input type="radio" name="tag" value="분실" id="lost_tag" checked>
+                    {% else %}
+                    <input type="radio" name="tag" value="분실" id="lost_tag">
+                    {% endif %}
+                    <div class="tag_btn d-flex justify-content-center" id = "lost_tag_btn">
+                        <label class="btn" for="lost_tag" style="color: white;"> 분실 </label>
+                    </div>
+                    {% if post.tag == "보관" %}
+                    <input type="radio" name="tag" value="보관" id="store_tag" checked>
+                    {% else %}
+                    <input type="radio" name="tag" value="보관" id="store_tag">
+                    {% endif %}
+                    <div class="tag_btn d-flex justify-content-center" id = "store_tag_btn">
+                        <label class="btn" for="store_tag" style="color: white;"> 보관 </label>
+                    </div>
+                </div>
+
+                <!-- {{form.content}} -->
+                <div class="textcontent">
+                    <textarea class="content-input" placeholder="add comment here!" value="{{post.content}}" name="content">{% if post.content %}{{post.content}}{% endif %}</textarea>
+                </div>
+                <!-- {{form.img}} -->
+                <div class="lnf__img">
+                    <div class="container">
+                        <div class="image-upload" id="image-upload">
+                
+                            <label class="img-btn" for="chooseFile"> 사진 추가 </label>
+                            <input type="file" id="chooseFile" name="img" value="" accept="image/*" onchange="loadFile(this)">
+                
+                            <div class="fileContainer">
+                                <div class="fileInput">
+                                    <p id="fileName">
+                                        {% if post.img %}
+                                            {{post.get_fileName}}
+                                        {% endif%}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% else %}
+    <script type="text/javascript">
+        alert('로그인을 먼저 해주세요!')
+        window.location.href = '{% url "user:login" %}'
+    </script>
+{% endif %}
 {% endblock %}

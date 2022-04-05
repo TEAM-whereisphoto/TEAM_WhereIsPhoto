@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<script defer src="{% static 'js/map/imgmodal.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/LnF/style.css' %}"> 
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="center">
+        <h1 class="header__text">✨{{ booth.name }} 리스트 모아보기✨</h1>
+    </div>
+</section>
+
+<section id="postList">
+    <div class="container d-flex flex-column">
+        {% for post in posts %}
+        <div class="post shadow p-3">
+            <!-- post title -->
+            <div class="post__title">
+                <span class="post__{{ post.tag }}">{{post.tag}}</span>
+                <a href="{% url 'LnF:post_detail' post.id %}">{{post.booth.name}}</a>
+            </div>
+            <div style="height: .5rem;"></div>
+            <!-- post content -->
+            <div class="post_content">
+                {{post.content}} <br>
+                {% if post.img %}
+                    <img src="{{ post.img.url }}" class="img" alt="" width="100%"> 
+                    <div class="modal">
+                        <span class="close"></span>
+                        <img src= "{{ post.img.url }}" class="modal-content">
+                    </div>
+                {% endif %}
+            </div>
+            <div style="height: .5rem;"></div>
+            <!-- post footer -->
+            <div class="post__footer">
+                <div>
+                    {{post.user.username}} | 
+                    {% if post.timeString == False %}
+                    {{post.time|date:'m월 d일'}}
+                    {% else %}
+                    {{post.timeString}}
+                    {% endif %}
+                </div>
+                <a href="{% url 'LnF:post_detail' post.id %}" style="color: #A3A3B5 !important;">
+                    댓글 {{post.comment_set.all|length}}
+                </a>
+            </div>                
+        </div>
+        <div class="blank"></div>
+    {% endfor %}
+    </div>
+</section>
+{% endblock %}

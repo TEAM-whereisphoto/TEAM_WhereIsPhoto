@@ -1,0 +1,251 @@
+.blank {
+    margin-bottom: 0.8rem;
+}
+
+.between {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button{
+    border: none;
+    background-color: transparent;
+}
+
+/* search bar CSS */
+.search {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+
+    padding: 0.3rem;
+    border: solid #A3A3B5 1px;
+    border-radius: 0.5rem;
+}
+
+.search__input > input {
+    border: none;
+    width: 100%;
+}
+
+input::placeholder {
+    font-family: 'ROKAFSansMedium';
+    color: #A3A3B5;
+}
+
+.btn__check {
+    position: absolute;
+    left: 10px;
+    top: 20px;
+    display: none;
+}
+.lnf__btn1 {
+    position: relative;
+    width: 49%;
+    padding: .5rem;
+    background-color : #B5B5CD;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+#btn-check:checked + .lnf__btn1 {
+    position: relative;
+    width: 49%;
+    padding: .5rem;
+    background-color : #C979D0;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+.lnf__btn2 {
+    position: relative;
+    width: 49%;
+    padding: .5rem;
+    background-color : #B5B5CD;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+#btn-check2:checked + .lnf__btn2 {
+    position: relative;
+    width: 49%;
+    padding: .5rem;
+    background-color : #69C3D7;
+    border-radius: 10px;
+    font-family: 'ROKAFSansMedium';
+}
+
+.lnf__write {
+    position: fixed;
+}
+
+/* post CSS */
+.post {
+    font-family: 'SUIT-Medium';
+    color : #424258;
+    border-radius: 10pt;
+}
+
+.post__title {
+    display: flex!important;
+    align-items: center;
+}
+
+.post__title > a {
+    font-size: 1.2rem;
+    font-family: 'SUIT-Bold';
+    margin-right: 0.3rem;
+}
+
+.post__분실 {
+    white-space: nowrap;
+    background-color: #C979D0;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .3rem;
+}
+
+.post__보관 {
+    white-space: nowrap;
+    background-color: #69C3D7;
+    color: white;
+    border-radius: 1rem;
+    padding: .3rem;
+    margin-right: .3rem;
+}
+
+.post__footer {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #A3A3B5;
+    font-size: .8rem;
+}
+
+.post__chg {
+    display: flex;
+    justify-content: flex-end;
+    color: black;
+}
+
+.post__chg > a {
+    padding: 0 .3rem;
+}
+
+/*comment css*/
+.comment {
+    padding: .5rem;
+    border-left:2px solid #A3A3B5;;
+}
+
+.comment__add {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    vertical-align: middle;
+
+    padding: 0.3rem;
+    border: solid #A3A3B5 1px;
+}
+
+.comment__add > input {
+    border: none;
+    width: 100%;
+}
+
+.comment__add > button {
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+}
+
+.header__text {
+    color: black;
+    font-family: ROKAFSansBold;
+    font-size: .8rem;
+    margin: 1rem;
+}
+
+.btn:hover {
+    box-shadow: none !important;
+}
+
+/* form css */
+.form__booth {
+    margin: 0.5rem;
+}
+
+.form__booth > input {
+    width: 100%;
+}
+
+#lost_tag, #store_tag{
+    display: none;
+}
+.tag_btn {
+    width: 49%;
+    text-align: center;
+    background-color: #A3A3B5;
+    border-radius: 5px;
+}
+#lost_tag:checked ~ #lost_tag_btn {
+    width: 49%;
+    text-align: center;
+    background-color: #C979D0
+}
+
+#store_tag:checked ~ #store_tag_btn {
+    width: 49%;
+    text-align: center;
+    background-color: #69C3D7
+}
+/* 이미지 모달 띄우기  */
+
+.img{
+    padding :0 1rem;
+    height: 200px;
+    object-fit: cover;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    padding-top: 100px;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color:rgba(255,255,255);
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 5px;
+    border: none;
+    width: 70%; /* Could be more or less, depending on screen size */
+}
+
+ /* The Close Button */
+ .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

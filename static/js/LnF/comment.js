@@ -30,27 +30,67 @@ const addComment = () => {
         //  -> new_comment(tr, #comment-{comment.id})  
         //      -> comment_content(td)
         //      -> del-btn(button)
+
+        // <table id="comment-table-{{post.id}}">
+        //     {% for comment in post.comment_set.all %}
+        //     <tr id = "comment-{{comment.id}}">
+        //         <td>댓글내용: {{comment.content}}</td>
+        //         <td>댓글 작성자: {{comment.user}}</td>
+        //         <td>
+        //             {% if comment.timeString == False %}
+        //             작성시간: {{comment.time|date:'m월 d일'}}
+        //             {% else %}
+        //             작성시간: {{comment.timeString}}
+        //             {% endif %}
+        //         </td>
+        //         <td>
+        //             {% if comment.user == request.user %}
+        //             <button class="del-btn" onclick="onClickDel({{comment.id}})">❌</button>
+        //             {% endif %}                    
+        //         </td>
+        //     </tr>
+        //     {% endfor %}
+        // </table>
+
+        // <tr id = "comment-${comment_id}">
+        // <td>댓글내용: ${content}</td>
+        // <td>댓글 작성자: ${user}</td>
+        // <td>
+        //     작성시간: 방금 전
+        //     </td>
+        //     <td>
+        //     <button class="del-btn" onclick="onClickDel(${comment_id})">❌</button>
+        //     </td>
+        //     </tr>
         
         const element = document.querySelector(`#comment-table-${id}`)
-        const new_comment = document.createElement("tr")
+        const new_comment = document.createElement("div")
         
-        new_comment.innerHTML = `<tr id = "comment-${comment_id}">
-        <td>댓글내용: ${content}</td>
-        <td>댓글 작성자: ${user}</td>
-        <td>
-            작성시간: 방금 전
-            </td>
-            <td>
-            <button class="del-btn" onclick="onClickDel(${comment_id})">삭제</button>
-            </td>
-            </tr>`
+        new_comment.innerHTML = `
+        <div id="comment-${comment_id}" class="comment">
+            <div class="between">
+                <p style="margin:0; font-size:1rem">${content}</p>
+                <button class="del-btn" onclick="onClickDel(${comment_id})">❌</button>
+            </div>
+            <div class="post__footer">
+                <div>
+                    ${user}
+                </div>
+                <div> 방금 전
+                </div>
+            </div>
+        </div>
+        `
             
             //input 칸 리셋
         document.getElementById(`comment_input-${id}`).value = ''
 
             
         element.append(new_comment)
-            
+        
+        const comment_count = document.getElementById("comment-count")
+        const changed = parseInt(comment_count.innerHTML.split(" ")[1]) + 1
+        comment_count.innerHTML = `댓글 ${changed}`
         }
 }
 
@@ -60,7 +100,10 @@ const delComment = () => {
         
         const element = document.querySelector(`#comment-${id}`)
         element.remove();
-        
+        const comment_count = document.getElementById("comment-count")
+        const changed = parseInt(comment_count.innerHTML.split(" ")[1]) - 1
+        comment_count.innerHTML = `댓글 ${changed}`
+
     }
 }
 

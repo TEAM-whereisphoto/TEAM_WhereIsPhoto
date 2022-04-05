@@ -1,0 +1,109 @@
+body {
+    font-family: SUIT-Medium;
+    padding: 0;
+}
+
+
+#boothdetail__image {
+    overflow: hidden;
+}
+
+.boothdetail__profile {
+    height: 80%;
+    width: 100%;
+    object-fit: cover;
+}
+
+#body__name {
+    position: relative;
+    top: -50px;
+    background-color: white;
+    border-radius: 2rem;
+    padding-top: 2rem;
+    box-shadow: 0 0.25rem 0.25rem whitesmoke;
+}
+
+.detail__noheart {
+    margin: 1rem auto;
+    padding: .5rem;
+    border-radius: 2rem;
+    color: white;
+    background-color: #C2C2C2; 
+    width: 50%;
+    font-size: 20px;
+}
+
+.detail__heart {
+    margin: 1rem auto;
+    padding: .5rem;
+    border-radius: 2rem;
+    color: white;
+    background-color: #F37272; 
+    width: 50%;
+    font-size: 20px;
+}
+
+.tag__container {
+    background-color: #F3F4F6;
+    border-radius: .5rem;
+    font-weight: bold;
+}
+
+.tag__fill {
+    height: 100%;
+    border-radius: .5rem;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: #1F52FF;
+    opacity: 0.1;
+}
+
+
+/* #boothdetail__tags {
+
+} */
+
+/* lnf CSS */
+.post {
+    font-family: 'SUIT-Medium';
+    color : #424258;
+    border-radius: 10pt;
+    margin-bottom: 1rem;
+}
+
+.post__title {
+    display: flex!important;
+    align-items: center;
+}
+
+.post__title > a {
+    font-size: 1.2rem;
+    font-family: 'SUIT-Bold';
+}
+
+.post__분실 {
+    background-color: #C979D0;
+    color: white;
+    border-radius: 1rem;
+    padding: .1rem .3rem;
+    margin-right: .5rem;
+}
+
+.post__보관 {
+    background-color: #69C3D7;
+    color: white;
+    border-radius: 1rem;
+    padding: .1rem .3rem;
+    margin-right: .5rem;
+}
+
+.post__footer {
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    color: #A3A3B5;
+}

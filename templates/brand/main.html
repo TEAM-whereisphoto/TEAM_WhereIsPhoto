@@ -1,27 +1,81 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/brand/style.css' %}">
+{% endblock %}
+
+
 {% block content  %}
-    <section>
-        {% for brand in brand_list %}
-        
-            <div>
-                이름: {{ brand.0 }} <br>
-                
-                재촬영: {{ brand.1 }} <br>
-                리모컨: {{ brand.2 }} <br>
-                촬영시간: {{ brand.3 }}<br>
-                가격정보<br>
-                {% for frame in brand.4 %}
-                    가격: {{frame.0}}
-                    프레임 컷 수: {{frame.1}}
-                    총 촬영 수: {{frame.2}}
-                    <br>
-                {% endfor %}               
-                <br>
+  
+  <!-- main image sec -->
+  <section>
+    <div class="main">
+      <!-- 글씨영역 -->
+      <div class="main__title">
+        <h3>
+          당신이 <br>
+          원하는 <br>
+          포토부스 <br>
+        </h3>
+        <h5>
+          빠르게 가깝게 편하게 <br>
+          매장찾아 사진찍자! <br>
+        </h5>
+      </div>
+      <!-- 이미지영역 -->
+      <div class="main__img">
+        <img src="/static/icons/frame_all.png" alt="" width="100%">
+      </div>
+    </div>
+  </section>
+  <!-- main btn sec -->
+  <section>
+    <!-- 버튼 2개 구현 위치 -->
+    <div class="main__btn d-flex flex-row">
+      <a href="{% url 'LnF:list' %}" role="button" >Lost & Found<br>분실물 찾기</a>
+      <a href="{% url 'map:mymap' %}" role="button" >Search Booth<br>부스 찾기</a>
+    </div>
+  </section>
+
+  <!-- main brand sec -->
+  <section>
+    <div class="brand bg-dark">
+      {% for brand in brand_list %}
+        <div class="brand__frame d-flex bg-light">
+          <!--브랜드 이미지-->
+          <div class="brand__img center">
+            <!-- 브랜드 이미지 모델 수정되면 링크 널 예정 -->
+            <img src="{{ brand.5 }}" alt="" class="" width="50%">
+          </div>
+          <!-- brand_list = [brand_id, brand_name, retake, remote, time, img, [frame]] -->
+          <!-- frame = [price, 프레임 컷 수, 총 촬영 수] -->
+          <!--브랜드 설명-->
+          <div class="brand__info brand__{{ brand.0 }} d-flex">
+            <div class="">
+              Retake<br>
+              Remote<br>
+              Time<br>
+              <br>
+              Price
             </div>
-        {% endfor %}
-
-
-
-
-    </section>    
+  
+            <div class="text-right">           
+              {{ brand.2 }} <br>
+              {{ brand.3 }} <br>
+              {{ brand.4 }}sec <br>
+              <br>
+              {% for frame in brand.6 %}
+                  {{frame.0}} <br>
+                  <span style="font-size: 8pt;">{{ frame.1 }} out of {{ frame.2 }}</span> <br>
+              {% endfor %}<br>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="main__logo">
+        <img src="/static/icons/logo.png" class="img-fluid" alt="" width="30px">
+      </div>
+    </div>
+  </section>
 {% endblock %}

@@ -6,72 +6,83 @@ const checkDict = {'분실': true, '보관': true}
 checkboxes.forEach(function(checkbox){
     checkbox.addEventListener("change", function(){
         const url = "tag/"
-        const value = checkbox.value;
-        const checkedIdx = (checkbox.checked == true)
-        const query = document.getElementById('query').value
+        var value = checkbox.value;
+        var checkedIdx = (checkbox.checked == true)
         checkDict[value] = checkedIdx
+        
+        const query = document.getElementById('query').value
         requestTag.open("POST", url, true);
         requestTag.setRequestHeader(
             "Content-Type", "application/x-www-form-urlencoded"
         );
         requestTag.send(JSON.stringify({'분실': checkDict['분실'], '보관': checkDict['보관'], 'query': query }))
-        })
+    })
     
 })
 const filterByTag = () =>{
     if (requestTag.status < 400){
-        const {resList, query} = JSON.parse(requestTag.response)
-
-        const postList = document.querySelectorAll('#postList > div');
+        const {resList} = JSON.parse(requestTag.response)
+        // console.log(resList)
+        const postList = document.querySelectorAll('#postList > div > div');
         for (const div of postList){
             div.remove();
         }
+        // 목록 다 삭제
+
         const postListSection = document.querySelector('#postList');
         
         for (const post of resList){
             const container = document.createElement('div')
 
-            container.innerHTML=`<div>
-            <a href="/LnF/${post.booth_id}/detail/">부스명: ${post.booth_name}</a>
-            <div>
-                태그: ${post.tag}
-            </div>
-            <div>
-                내용: ${post.content}
-            </div>
-            <div>
-                작성자: ${post.user}<br>
-            </div>`
-            
-            const timeDiv = document.createElement('div')
-            const imgDiv = document.createElement('div')
-
             const timeString = post.timeString
             if (timeString == false){
-                timeDiv.innerHTML = '작성시간: '+ post.time
+                var timetext = post.time
             }
             else{
-                timeDiv.innerHTML = '작성시간: ' + post.timeString
+                var timetext = post.timeString
             }
 
-            if (post.img != ''){
-                const img = document.createElement('img')
-                img.setAttribute("src", post.img)
-                img.setAttribute("width", 300)
-                imgDiv.append(img)
+            if (post.img == "") {
+                var imgif = post.img
             }
+            else { var imgif = `<img src="${ post.img }" class="img" alt="" width="100%"> 
+            <div class="modal">
+                <span class="close"></span>
+                <img src= "${ post.img }" class="modal-content">
+            </div>` }
 
-
-            container.append(timeDiv)
-            container.append(imgDiv)
-
-            postListSection.append(container)
+            container.innerHTML=`
+            <div class="post shadow p-3">
+                <div class="post__title">
+                    <span class="post__${ post.tag }">${post.tag}</span>
+                    <a href="/LnF/${post.id}/post_detail/">${post.booth_name}</a>
+                </div>
+                <div style="height: .5rem;"></div>
+                <div class="post_content">
+                    ${post.content} <br>
+                    ${imgif}
+                </div>
+                <div style="height: .5rem;"></div>
+                <div class="post__footer">
+                    <div>
+                        ${post.user} | ${timetext}
+                    </div>
+                    <a href="/LnF/${post.id}/post_detail/" style="color: #A3A3B5 !important;">
+                        댓글 ${post.cntcmt}
+                    </a>
+                </div>          
+            </div>`
+            
+            postListSection.children[0].append(container)
         }
-}
+    }
 }
 requestTag.onreadystatechange = () => {
     if(requestTag.readyState === XMLHttpRequest.DONE){
         filterByTag();
-    
     }
+}
+
+function delInput() {
+    document.getElementById("query").value ='';
 }

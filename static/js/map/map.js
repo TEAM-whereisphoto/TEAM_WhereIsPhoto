@@ -1,113 +1,109 @@
+    // 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
+    let headerheight = document.querySelector("body > nav").offsetHeight
+    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+    let vh = (window.innerHeight - headerheight) * 0.01;
 
-// 1. 지도 자체 초기 설정 -----------------------------------------------------------------------------
-var container = document.getElementById('map');
-var defaultLoc = new kakao.maps.LatLng(37.557074, 126.929276)
-var options = {
-    center: defaultLoc, // 임의의 중심 좌표
-    level: 4 // 확대 축소 정도
-};
-var map = new kakao.maps.Map(container, options); // 지도 생성
-// 지도 확대 축소 컨트롤 생성
-var zoomControl = new kakao.maps.ZoomControl();
-map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-container.children[2].remove()
+    const container = document.getElementById('map');
+    let defaultLoc = new kakao.maps.LatLng(37.55908333399497, 126.92658303847873)
+    let options = {
+        center: defaultLoc, // 임의의 중심 좌표
+        level: 4 // 확대 축소 정도
+    };
+    let map = new kakao.maps.Map(container, options); // 지도 생성
+    // 지도 확대 축소 컨트롤 생성
+    // let zoomControl = new kakao.maps.ZoomControl();
+    // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-// 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
+    container.children[container.childElementCount-2].remove()
 
-// 2 현재 위치 찍기 -----------------------------------------------------------------------------
-    
-var gps_use = null; //gps의 사용가능 여부
-var gps_lat = null; // 위도
-var gps_lng = null; // 경도
-var gps_position; // gps 위치 객체
+    // 지도 자체 초기 설정 끝 -----------------------------------------------------------------------------
 
-gps_check();
-// gps가 이용가능한지 체크하는 함수이며, 이용가능하다면 show location 함수를 불러온다.
-// 만약 작동되지 않는다면 경고창을 띄우고, 에러가 있다면 errorHandler 함수를 불러온다.
-// timeout을 통해 시간제한을 둔다.
-function gps_check(){
 
-    if (navigator.geolocation) {
-        var options = {timeout:60000};
-        navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-    } else {
-        alert("GPS_추적이 불가합니다.");
+    // 2 현재 위치 찍기 -----------------------------------------------------------------------------
+        
+    let gps_use = null; //gps의 사용가능 여부
+    let gps_lat = null; // 위도
+    let gps_lng = null; // 경도
+    let currentPosition = null; // gps 위치 객체
+    let currentmarker = new kakao.maps.Marker()
+
+    gps_check();
+    // gps가 이용가능한지 체크하는 함수이며, 이용가능하다면 show location 함수를 불러온다.
+    // 만약 작동되지 않는다면 경고창을 띄우고, 에러가 있다면 errorHandler 함수를 불러온다.
+    // timeout을 통해 시간제한을 둔다.
+    function gps_check(){
+
+        if (navigator.geolocation) {
+            let options = {timeout:60000};
+            navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+        } else {
+            alert("GPS_추적이 불가합니다.\n기본 위치로 이동합니다.");
+            gps_use = false;
+            currentPosition = defaultLoc
+            map.setCenter(currentPosition)
+            pinCurrent(currentPosition)
+        }
+    }
+
+    // gps 이용 가능 시, 위도와 경도를 반환하는 showlocation함수.
+    function showLocation(position) {
+        gps_use = true;
+        gps_lat = position.coords.latitude;
+        gps_lng = position.coords.longitude;
+
+        currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성   
+        map.setCenter(currentPosition); // 내 위치를 중심 좌표로 이동
+        pinCurrent(currentPosition)
+    }
+
+
+    // error발생 시 에러의 종류를 알려주는 함수.
+    function errorHandler(error) {
+        if(error.code == 1) {
+            alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
+        } else if( error.code == 2) {
+            alert("위치를 반환할 수 없습니다.\n기본 위치로 이동합니다.");
+        }
+        currentPosition = defaultLoc
+        map.setCenter(currentPosition)
+        pinCurrent(currentPosition)
         gps_use = false;
     }
-}
 
-// gps 이용 가능 시, 위도와 경도를 반환하는 showlocation함수.
-function showLocation(position) {
-    gps_use = true;
-    gps_lat = position.coords.latitude;
-    gps_lng = position.coords.longitude;
+    function pinCurrent(currentPosition) {
 
-    var currentPosition  = new kakao.maps.LatLng(gps_lat,gps_lng); // 현재 위치정보로 위치객체 생성
-    map.panTo(currentPosition); // 내 위치를 중심 좌표로 이동
-            
-    var marker = new kakao.maps.Marker({  
-        map: map, 
-        position: currentPosition, 
-        image: new kakao.maps.MarkerImage('../../static/icons/pin_current.png', new kakao.maps.Size(24, 24))
-        // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
-    }); 
+        currentmarker = new kakao.maps.Marker({  
+            map: map, 
+            position: currentPosition, 
+            image: new kakao.maps.MarkerImage('../../static/icons/mypin.svg', new kakao.maps.Size(24, 24))
+            // 현재 위치는 빨간색 pin_current로 이미지 설정해둠
+        }); 
 
-    marker.setMap(map); // 내 위치 pin 박기
-    map.setLevel(7);
-    bounds = map.getBounds(); // 새로 bound 가져오기.
-    // console.log("현재", currentPosition.toString())
-}
-
-
-// error발생 시 에러의 종류를 알려주는 함수.
-function errorHandler(error) {
-    if(error.code == 1) {
-        alert("위치 엑세스가 거부되었습니다.\n기본 위치로 이동합니다.");
+        currentmarker.setMap(map); // 내 위치 pin 박기
         map.setLevel(4);
-        map.panTo(defaultLoc);
-    } else if( err.code == 2) {
-        alert("위치를 반환할 수 없습니다.");
     }
-    gps_use = false;
-    // 이 경우 bound는 처음에 설정한 값으로 유지됨 (변경 x)
-}
-
-// 현재 위치 찍기 끝 -----------------------------------------------------------------------------
-    
-document.addEventListener('DOMContentLoaded', function(){
-    fetch('load/')
-    .then( response => {
-        return response.json()
-    })
-    .then(data => {
-        main(data['boothList'])
-    })
-    .catch(error => {
-        console.log("err", error)
-    })
-})
-
-function main(boothList){ 
+    // 현재 위치 찍기 끝 -----------------------------------------------------------------------------
+        
 
     // 3. 전역 변수들 생성 -----------------------------------------------------------------------------
-    
+
     // 표시할 brand 이름. 나중에 brand model에서 가져오도록 수정해두면 더 좋긴 할듯.
     const filterSet = new Set(['인생네컷', '포토이즘박스', '포토시그니처', '셀픽스', '하루필름']);
     const brand_dict = {"인생네컷": "lifefourcut", "포토이즘박스": "photoism", "포토시그니처": "photosignature", "셀픽스": "selfix", "하루필름": "harufilm"}
-    
-    
+
+
     // 브랜드별 색깔 바꿀 때 이 부분 src 수정, 혹은 실제 pin 박을 때 수정도 가능
     // 참고 -> 이 api에서는 href 링크나 실제 이미지로만 pin 이미지 설정 가능. <i> rexicon꺼 </i> 등 형태 불가. 
     const imageSrc = '../../static/icons/pin_blue.png'
-    const imageSize = new kakao.maps.Size(28, 28);
-    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);  // 기본 파란 핀
-    
-    const clickSize = new kakao.maps.Size(36, 36);
-    var selectedMarker = null; // 클릭한 마커를 담을 변수
+    const imageSize = new kakao.maps.Size(28, 28); // 기본 크기
+    const clickSize = new kakao.maps.Size(40, 40); // 클릭 크기
+    let selectedMarker = null; // 클릭한 마커를 담을 변수
 
     for (let value in brand_dict){
-        var key = brand_dict[value]
+        let key = brand_dict[value]
         
         // 브랜드별 icon 위치 src입니다.
         eval("var "+key+"Src"+"= '../../static/icons/"+key+".svg'") 
@@ -117,6 +113,7 @@ function main(boothList){
         // ex) var selfixMarkers = [];
         eval("var "+key+"Markers"+" = []")
     }; 
+    let allMarker = [] // 전체 마커 담을 배열
 
 
     const lifefourcutpin = new kakao.maps.MarkerImage(lifefourcutSrc, imageSize)
@@ -124,506 +121,500 @@ function main(boothList){
     const photoismpin = new kakao.maps.MarkerImage(photoismSrc, imageSize)
     const harufilmpin = new kakao.maps.MarkerImage(harufilmSrc, imageSize)
     const photosignaturepin = new kakao.maps.MarkerImage(photosignatureSrc, imageSize)
-    var brandpin = null;
+    let brandpin = null;
 
     const lifefourcutClick = new kakao.maps.MarkerImage(lifefourcutSrc, clickSize)
     const selfixClick= new kakao.maps.MarkerImage(selfixSrc, clickSize)
     const photoismClick = new kakao.maps.MarkerImage(photoismSrc, clickSize)
     const harufilmClick = new kakao.maps.MarkerImage(harufilmSrc, clickSize)
     const photosignatureClick = new kakao.maps.MarkerImage(photosignatureSrc, clickSize)
-    
-    
-    
+
+
+
     // 클러스터링 객체 생성, minLevel 15로 절대 cluster 안되게
     const clu = new kakao.maps.MarkerClusterer({map: map, averageCenter: true, minLevel: 15});
-    
-    var bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
-    
-    let total = boothList.length; // count booths    
-    
-    // booth list하는 아코디언 dom
-    const accList = document.getElementById('accordionList')
-    
+
+    let bounds = map.getBounds(); // 지도 범위 가져오는 bounds 변수 초기값 생성
+
+    // booth list 표시해둘 dom
+    const boothListDom = document.getElementById('booth-list');
+    const returnmap = document.getElementById('return-map') // 지도 돌아가는 '지도' 버튼
+
+    // booth 작은 detail 표시해둘 dom
+    const boothSmall = document.getElementById('booth-small');
+    const boothSmallBtn = document.getElementById('booth-small-btn');
     // 범위 내의 booth list 저장해두는 array
     let mapboundbooth = []
-    
-    const sortAlpha = document.getElementById('sortAlpha');
-    const sortAlphaDesc = document.getElementById('sortAlphaDesc');
-    const sortDist = document.getElementById('sortDist');
 
     const refresh = document.getElementById('refresh')
-    
+
+    const listcanvas = document.getElementById('offcanvasRight')
+    const smallcanvas = document.getElementById('offcanvasBottom')
+    smallcanvas.addEventListener('hidden.bs.offcanvas', function () {
+        selectedMarker.setImage(selectedMarker.normalImage);
+    })
     // 전역 변수 생성 끝 -----------------------------------------------------------------------------
-    
-    
-    // 4 초기 부스 정보 다루기 -----------------------------------------------------------------------------
-    
-    // 초반에 이 변수들 다 생성
-    // 일단 render로 넘어온 모든 booth들 안보이게 boothList에 등록
-    // var boothList = document.getElementById('boothList');
-    // let total = boothList.childElementCount; // count booths    
-    
-    // // booth list하는 아코디언 dom
-    // var accList = document.getElementById('accordionList')
-    
-    // // 범위 내의 booth list 저장해두는 array
-    // let mapboundbooth = []
-    var curCenter = map.getCenter();
 
-    const sorting = function sortDist(a, b) {
 
-        const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
-        const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
+    document.addEventListener('DOMContentLoaded', function(){
+        fetch('load/')
+        .then( response => {
+            return response.json()
+        })
+        .then(data => {
+            main(data['boothList'])
+        })
+        .catch(error => {
+            console.log("err", error)
+        })
+    })
+
+    function main(boothList){ 
+        // 4. 초기 부스 정보 다루기 ----------------------------------------------------------------------------
+
+        handleData();
         
-
-        var polylineA = new kakao.maps.Polyline({
-            map: map,
-            path: [ coordA, curCenter ],
-            strokeWeight: 0,
-        });
+        function handleData() {
+            for (let booth of boothList) {
+                setbooth(booth); // booth는 object
+            }
+            // 클러스터에 브랜드별 marker 배열 넣기
+            for (let value in brand_dict){
+                // let engbrand = brand_dict[value]
+                clu.addMarkers(eval(brand_dict[value]+"Markers"))
+                // ex) harufilmClust.addMarkers(harumfilmMarkers)
+            };       
+        } 
         
-        var polylineB = new kakao.maps.Polyline({
-            map: map,
-            path: [ coordB, curCenter ],
-            strokeWeight: 0,
-        });
-        
-        const lenA = polylineA.getLength();
-        const lenB = polylineB.getLength();
+        function setbooth(booth) {
+            const name = booth.name
+            const brandname = booth.brand__name
+            
+            // 각자 브랜드에 맞는 pin icon 할당
+            brandpin = eval(brand_dict[brandname]+"pin;")   
 
-        a['len'] = lenA
-        b['len'] = lenB
+            const mapLat = booth.x
+            const mapLng = booth.y
+            let coords = new kakao.maps.LatLng(mapLat, mapLng)
+            
+            addPin(coords, brandpin, brandname, booth);
+            // 초기 607개 pin 배열 생성
+            
+            bounds = map.getBounds();
+            // booth의 좌표가 현재 지도 boundary 안에 있는거면 배열에 push
+            if (bounds.contain( coords )) { mapboundbooth.push(booth); }// console.log("위치 안")
 
-        if (lenA < lenB) { return -1; }
-        if (lenA > lenB) { return 1; }
-        return 0; // 이름이 같을 경우
-    }
-    
-    handleData();
-    
-    function handleData() {
-        for (let i=0; i<total; i++) {
-            setbooth(i);
         }
-        // 클러스터에 브랜드별 marker 배열 넣기
-        for (let value in brand_dict){
-            // let engbrand = brand_dict[value]
-            clu.addMarkers(eval(brand_dict[value]+"Markers"))
-            // ex) harufilmClust.addMarkers(harumfilmMarkers)
+
+        function calcDist(booth, pos) {
+            let polyline = new kakao.maps.Polyline({
+                map: map,
+                path: [ new kakao.maps.LatLng(booth.x, booth.y, pos) ],
+                strokeWeight: 0,
+            });
+
+            booth.len = polyline.getLength();
+        }
+
+        function addPin(pos, img, brandname, booth) {
+            let marker = new kakao.maps.Marker({
+                // map:map,
+                position: pos,
+                image: img,
+            });
+            // console.log(marker);
+            marker.setMap(map);
+            marker.normalImage = img;
+            allMarker.push(marker)
+            eval(brand_dict[brandname]+"Markers.push(marker);")
+            // brand별로 marker 배열에 marker push
+            
+            setClickEvents(marker, brandname, booth);
+        }
+        
+        function setClickEvents (marker, brandname, booth) {
+
+            kakao.maps.event.addListener(marker, 'click', function() {
+                // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+                // 마커의 이미지를 클릭 이미지로 변경합니다
+                if (!selectedMarker || selectedMarker !== marker) {
+
+                    // 클릭된 마커 객체가 null이 아니면
+                    // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+                    !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
+
+                    // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+                    marker.setImage( eval(brand_dict[brandname]+"Click") );
+                }
+
+                // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+                selectedMarker = marker;
+
+                // offcanvas 내용을 표시합니다.
+                boothSmall.innerHTML='';
+        
+                // 해당 부스가 클릭되면, 중심 좌표에서부터 부스까지 거리 구하기
+                calcDist(booth, currentPosition)
+                printList(booth, boothSmall, 1)
+                
+                boothSmallBtn.click() // 아래 small detail 열기
+
+            })
         };
 
-        curCenter = map.getCenter();
-        mapboundbooth.sort(sorting)
-
-        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기             
-    } 
-    
-    function setbooth(i) {
-        let booth = boothList[i] // 특정 booth 정보 담은 객체
-        // let booth = boothparent.firstElementChild.dataset
-        const name = booth["name"]
-        const brandname = booth["brand__name"]
+        // 4.초기 부스 정보 다루기 끝 -----------------------------------------------------------------------------
         
         
-        const mapLat = booth["x"]
-        const mapLng = booth["y"]
-        var coords = new kakao.maps.LatLng(mapLat, mapLng)
-    
-        // 각자 브랜드에 맞는 pin icon 할당
-        brandpin = eval(brand_dict[brandname]+"pin;")
-    
-        // 특정 pin's infowindow 설정
-        var content = '<div style="padding:2px;z-index:1;font-size:8px; text-align: center!important;">' + name + '</div>';
-        var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // 새 info object
-        infowindow.setContent(content); // infowindow 내용
-        infowindow.setPosition(coords); // 인포윈도우 달릴 위치 설정 (=해당 핀 좌표)
-      
-
-        addMarker(coords, brandpin, infowindow, brandname);
-        // 초기 607개 pin 배열 생성
-    
-        // booth의 좌표가 현재 지도 boundary 안에 있는거면 list up
-        if (bounds.contain( coords )) { mapboundbooth.push(booth); }// console.log("위치 안")
+        // 5. map 범위 달라졌을 때 -----------------------------------------------------------------------------
+        // 초기 세팅 이후, 화면 변경에 따라 list 표시 다르게
+        
+        kakao.maps.event.addListener(map, 'bounds_changed', findBoundBooth);
+        
+        // 바뀐 범위의 booth들 찾는 함수
+        function findBoundBooth() {
+            mapboundbooth = []
+            // 현재 범위 안의 booth들 담아놓는 객체 초기화
+        
+            bounds = map.getBounds(); // 화면 변경되었으니 범위 다시 가져오고
+        
+            for (let booth of boothList) { // 모든 booth들 다시 탐색...
+            
+                let lat = booth.x
+                let lng = booth.y
+                let boothcoord = new kakao.maps.LatLng(lat, lng)
+                
+                // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
+                if (bounds.contain( boothcoord )) { mapboundbooth.push(booth) }
+            }
 
         }
-
-    
-    function addMarker(pos, img, infowindow, brandname) {
-        var marker = new kakao.maps.Marker({
-            // map:map,
-            position: pos,
-            image: img,
+        
+        // 5. map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
+        
+        
+        // 6. 브랜드 필터 (map) -----------------------------------------------------------------------------
+        const filterGroup = document.getElementById('filterGroup');
+        
+        // 어떤 거든 필터 설정이 클릭되었을 때
+        filterGroup.addEventListener('click', function() {
+            
+            clu.clear()
+            // 일단 맵에서 모든 pin들 제거
+        
+            for (let i=1; i<this.childElementCount; i=i+2) {
+                brandname = this.children[i].innerHTML;
+        
+                if (this.children[i-1].checked) { // 필터가 체크되어있다면
+                    filterSet.add(brandname); // 필터 set에 해당 브랜드 등록. set이라 중복 x
+                    clu.addMarkers(eval(brand_dict[brandname]+"Markers"))
+                    // 클러스터에 해당 brand의 marker 객체들 다 등록!
+                    // ex) clu.addMarkers(harumlifmMarkers)
+                    // 그러면 하루필름 pin들이 다 map에 등록
+                }
+                else { // 필터가 체크되어있지 않다면
+                    filterSet.delete(brandname) // 필터 set에서 해당 브랜드 삭제.
+                    // 클러스터 등록 과정이 없어, 당연히 map에 pin이 박히지 않음. 처음에 다 삭제해줬기 때문.
+                }
+            } // filterSet은 listup할때 쓰일 예정!
+        
         });
-        // console.log(marker);
-        marker.setMap(map);
-        marker.normalImage = img;
+        
+        // 목록 필터 지도로 연동
+        returnmap.addEventListener('click', function() {
 
-        eval(brand_dict[brandname]+"Markers.push(marker);")
-        // brand별로 marker 배열에 marker push
+            for (let i=1; i<filterGroup2.childElementCount; i=i+2) {
         
-        setClickEvents(marker, infowindow, brandname);
-    }
-    
-    // 리스트에 매장 추가
-    function printList(boothElement) {
+                if (!filterGroup2.children[i-1].checked) { // 필터가 체크되어있지 않다면
+                    filterGroup.children[i-1].checked = false;
+                }
+                else {
+                    filterGroup.children[i-1].checked = true;
+                }
+            }
+            filterGroup.click()
+        });
+
+        // 6. 브랜드 필터 끝 -----------------------------------------------------------------------------
         
-        const brand = boothElement["brand__name"];
-    
-        if (!filterSet.has(brand)) {
-            return 0;
-        }
-    
-        // 지도 내에 있는 booth의 정보 가져오기
-        let name = boothElement["name"];
-        let address = boothElement["location"];
-        const boothId = boothElement["pk"];
-        const hour = boothElement["operationHour"];
+
+        // 7. 브랜드 필터 (list) -----------------------------------------------------------------------------
+        const filterGroup2 = document.getElementById('filterGroup2');
+        
+        filterGroup2.addEventListener('click', function() {
+            boothListDom.innerHTML = '';
+
+            for (let i=1; i<this.childElementCount; i=i+2) {
+
+                brandname = this.children[i].innerHTML;
+        
+                if (this.children[i-1].checked) { // 필터가 체크되어있다면
+                    filterSet.add(brandname); // 필터 set에 해당 브랜드 등록.
+                }
+                else { // 필터가 체크되어있지 않다면
+                    filterSet.delete(brandname) // 필터 set에서 해당 브랜드 삭제.
+                }
+
+            } // filterSet은 listup할때 쓰일 예정!
             
-        const rating = boothElement["rating"];
-        const reviewnum = boothElement["review_number"];
-        var distance = Math.round(boothElement["len"])
-        if ( distance < 1000 ) {
-            distance = String(distance)+"m"
-        }
-        else {
-            distance = Math.round(distance / 100) // ex) 5432 -> 54
-            distance = String(distance / 10)+"km"
-        }
-        
-        let hourContent = ''
-        if (hour) { hourContent = hour } // 시간 null 아닌 경우만 표시
-        var pinsrc = eval(brand_dict[brand]+"Src")
+            // mapboundbooth.sort(sorting);
+            for (let booth of mapboundbooth) {printList(booth, boothListDom, 0)}
+        });
 
-        const newdiv = document.createElement('div');
-        newdiv.setAttribute('class', 'accordion-item');
-        newdiv.innerHTML = 
-        `<div class="accordion-item">
-            <h2 class="accordion-header">
-                <button id="accordion-name" data-name="${ name }" class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${ boothId }" aria-expanded="true" aria-controls="collapse-${ boothId }">
-                    <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
-    
-                    <button class="btn btn-gray btn-sm ms-5 mb-3">${ brand }</button>
-                </button>
-            </h2>
-    
-            <div id="collapse-${ boothId }" class="accordion-collapse collapse" aria-labelledby="heading-${ boothId }" data-bs-parent="#accordionList">
-                <div class="accordion-body">
-                    <div id="mapdetail-${ boothId }" class="ps-4">
+
+        // 7. 목록 브랜드 필터 끝 -----------------------------------------------------------------------------
+
+        
+        // 8. 검색했을 때 해당 지역으로 지도 이동 -----------------------------------------------------------------------------
+        
+        // 장소 검색 객체를 생성합니다
+        let ps = new kakao.maps.services.Places(); 
+        
+        const searchBtnMap = document.getElementById('search-icon');
+        const searchInputMap = document.getElementById('search-placeholder');
+        const searchBtnList = document.getElementById('search-icon2')
+        const searchInputList = document.getElementById('search-placeholder2');
+
+        function searchLocation(input) {
+            let keyword = input.value
+
+            if (!keyword.replace(/^\s+|\s+$/g, '')) {
+                alert('검색할 장소를 입력해주세요!');
+                return false;
+            }
+
+            // 키워드로 장소를 검색합니다
+            ps.keywordSearch(keyword, placesSearchCB); 
+        
+            // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+            function placesSearchCB (data, status) {
+                if (status === kakao.maps.services.Status.OK) {
+
+                    let searchbounds = new kakao.maps.LatLngBounds();
+
+                    for (let i=0; i<3; i++) {
+                        searchbounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                    }       
+
+                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                    map.setBounds(searchbounds); //2
+                    setList();
+                }
+                else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+                    alert("입력된 장소가 없습니다. 다시 입력해주세요!")
+                    input.value='';
+                } 
+        
+                else if (status === kakao.maps.services.Status.ERROR) {
+                    alert("검색 중 오류가 발생했습니다.")
+                }
+            }
+        }
+
+        searchBtnMap.addEventListener('click', function() {
+            searchLocation(searchInput)
+        });
+        
+        searchBtnList.addEventListener('click', function() {
+            searchLocation(searchInput2);       
+        });
+
+
+        searchInputMap.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.key === 'Enter') {
+                event.preventDefault(); // 새로고침 방지
+                // Trigger the button element with a click
+                searchBtnMap.click();
+            }
+        });
+
+        searchInputList.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.key === 'Enter') {
+                event.preventDefault(); // 새로고침 방지
+                // Trigger the button element with a click
+
+                searchBtnList.click();
+            }
+        });
+
+        // x 버튼 (글자지우기)
+        const delSearchMap = document.getElementById("close-btn")
+        const delSearchList = document.getElementById("close-btn2")
+
+        delSearchMap.addEventListener('click', function() { searchInputMap.value = '' });
+        delSearchList.addEventListener('click', function() { searchInputList.value = '' });
+
+        // 8. 검색 끝 -----------------------------------------------------------------------------
+
+
+        // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
+
+        refresh.addEventListener('click', function() {
+            currentmarker.setMap(null)
+            gps_check();
+        });
+
+        // 9. 내 위치 새로고침 끝 -----------------------------------------------------------------------------
+
+
+        // 10. 목록 보여주는 부분 -----------------------------------------------------------------------------
+
+        // 목록 리스트에 매장 추가하는 함수 (small, 전체목록 둘 다)
+        function printList(boothElement, list, small) {
             
-                        
-                        <p style="margin: 16px 0 0 0">${distance} | ${ address }</p>
-    
-                        <p style="margin: 16px 0 0 0"></p>
-                        ${ hourContent }
-                        </p>
-    
-                        <button class="btn btn-outline-ratingNlike container" style="width: 75%;">
-                            <div class="row">
-    
-                                <div class = "col" style="color: #FFD107;">★ ${ rating }</div>
-                                | 
-                                <div class = "col" style="color: #484848"> ${ reviewnum } review(s) </div>
-                            </div>
-                        </button>
-    
-                        <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-    
-        accList.append(newdiv); // list추가
-    }
-    
-    function setClickEvents (marker, infowindow, brandname) { // 파라미터
-        // // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
-        // kakao.maps.event.addListener(marker, 'mouseover', function() {
-        //     infowindow.open(map, marker);
-        // });
-    
-        // // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
-        // kakao.maps.event.addListener(marker, 'mouseout', function() {
-        //     infowindow.close();
-        // });
+            const brand = boothElement.brand__name;
         
-        kakao.maps.event.addListener(marker, 'click', function() {
-            // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
-            // 마커의 이미지를 클릭 이미지로 변경합니다
-            if (!selectedMarker || selectedMarker !== marker) {
-
-                // 클릭된 마커 객체가 null이 아니면
-                // 클릭된 마커의 이미지를 기본 이미지로 변경하고
-                !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
-
-                // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
-                marker.setImage( eval(brand_dict[brandname]+"Click") );
+            if (!filterSet.has(brand)) {
+                return 0;
             }
-
-            // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
-            selectedMarker = marker;
-
-        })
         
-        // 이 아래는 list에 mouseover시 하려고 했던 것
-        // 추후 디자인 logic 따라 수정 예정
-    
-        // name_ele.onmouseover =  function () {
-        //     infowindow.open(map, marker);
-        // };
-    
-        // name_ele.onmouseout =  function () {
-        //     infowindow.close();
-        // };
-        // console.log("set hover func");
-    };
-    
-    
-    // 초기 부스 정보 다루기 끝 -----------------------------------------------------------------------------
-    
-    
-    // 5 map 범위 달라졌을 때 -----------------------------------------------------------------------------
-    // 초기 세팅 이후, 화면 변경에 따라 list 표시 다르게
-    
-    // kakao.maps.event.addListener(map, 'center_changed', findList); // 중심 좌표 움직였을 때
-    // kakao.maps.event.addListener(map, 'zoom_changed', findList); // 확대 축소 했을 때
-    kakao.maps.event.addListener(map, 'bounds_changed', findList);
-    
-    // 바뀐 범위의 booth들 찾는 함수
-    function findList() {
-        sortAlpha.checked = false;
-        sortAlphaDesc.checked = false;
-        sortDist.checked = false;
-    
-        accList.innerHTML = '';
-        // 이미 되어있던 acc 리스트 초기화
-        mapboundbooth = []
-        // 현재 범위 안의 booth들 담아놓는 객체도 초기화
-    
-        bounds = map.getBounds(); // 화면 변경되었으니 범위 다시 가져오고
-    
-        for (let i=0; i<total; i++) { // 모든 booth들 다시 탐색...
-        
-            let booth = boothList[i]
-            let lat = booth["x"]
-            let lng = booth["y"]
-            let boothcoord = new kakao.maps.LatLng(lat, lng)
-            
-            // booth의 좌표가 현재 지도 boundary 안에 있는거면 list
-            if (bounds.contain( boothcoord )) { mapboundbooth.push(booth) }
-        }
-
-        curCenter = map.getCenter();
-        mapboundbooth.sort(sorting)
-
-        for (let booth of mapboundbooth){ printList(booth); }// list에 표시하기           
-
-    }
-    
-    // map 범위 변경 다루기 끝 -----------------------------------------------------------------------------
-    
-    
-    // 6. 정렬 필터 -----------------------------------------------------------------------------
-    // 가나다순은 빼기로 했고, 거리순은 디폴트
-    // alphabet
-    // var sortAlpha = document.getElementById('sortAlpha');
-    // var sortAlphaDesc = document.getElementById('sortAlphaDesc');
-    // var sortDist = document.getElementById('sortDist');
-    
-    sortAlpha.addEventListener('click', function() {
-        
-        if (this.checked) {
-            // console.log("checked!")
-    
-            mapboundbooth.sort(function(a, b) {
-                var nameA = a["name"]; // ignore upper and lowercase
-                var nameB = b["name"]; // ignore upper and lowercase
-                if (nameA < nameB) { return -1; }
-                if (nameA > nameB) { return 1; }
-                return 0; // 이름이 같을 경우
-            });
-    
-            accList.innerHTML = '';
-    
-            for (var index of mapboundbooth) {
-                printList(index);
-            }
-        }
-    });
-    
-    sortAlphaDesc.addEventListener('click', function() {
-        
-        if (this.checked) {
-            // console.log("desc checked!")
-    
-            mapboundbooth.sort(function(a, b) {
-                var nameA = a["name"]; // ignore upper and lowercase
-                var nameB = b["name"]; // ignore upper and lowercase
-                if (nameA > nameB) { return -1; }
-                if (nameA < nameB) { return 1; }
-                return 0; // 이름이 같을 경우
-            });
-    
-            accList.innerHTML = '';
-    
-            for (var index of mapboundbooth) {
-                printList(index);
-            }
-        }
-    });
-    
-    sortDist.addEventListener('click', function() {
-    
-        
-        if (this.checked) {
-            accList.innerHTML = '';
-            console.log("dist checked!")
-
-            var curCenter = map.getCenter();
-    
-            mapboundbooth.sort(function(a, b) {
-    
-                const coordA = new kakao.maps.LatLng(a["x"], a["y"]);
-                const coordB = new kakao.maps.LatLng(b["x"], b["y"]);
+            // 지도 내에 있는 booth의 정보 가져오기
+            let name = boothElement.name;
+            let address = boothElement.location;
+            const boothId = boothElement.pk;
+            const hour = boothElement.operationHour;
                 
-    
-                var polylineA = new kakao.maps.Polyline({
-                    map: map,
-                    path: [ coordA, curCenter ],
-                    strokeWeight: 0,
-                });
-                
-                var polylineB = new kakao.maps.Polyline({
-                    map: map,
-                    path: [ coordB, curCenter ],
-                    strokeWeight: 0,
-                });
-                
-                const lenA = polylineA.getLength();
-                const lenB = polylineB.getLength();
+            const rating = boothElement.rate_average;
+            const width = rating*20
+            const reviewnum = boothElement.review_number;
+            let distance = Math.round(boothElement.len)
 
-                a['len'] = lenA
-                b['len'] = lenB
-
-                if (lenA < lenB) { return -1; }
-                if (lenA > lenB) { return 1; }
-                return 0; // 같을 경우
-            });
-    
-            for (var index of mapboundbooth) {
-                printList(index);
+            if ( distance < 1000 ) {
+                distance = String(distance)+"m"
             }
-        }
-    });
-    
-    // 정렬 필터 끝 -----------------------------------------------------------------------------
-    
-    
-    // 7. 브랜드 필터 -----------------------------------------------------------------------------
-    const filterGroup = document.getElementById('filterGroup');
-    
-    // 어떤 거든 필터 설정이 클릭되었을 때
-    filterGroup.addEventListener('click', function() {
-        
-        clu.clear()
-        // 일단 맵에서 모든 pin들 제거
-        accList.innerHTML = '';
-        // 리스트도 초기화.
-    
-        for (let i=1; i<this.childElementCount; i=i+2) {
-            brandname = this.children[i].innerHTML;
-    
-            if (this.children[i-1].checked) { // 필터가 체크되어있다면
-                filterSet.add(brandname); // 필터 set에 해당 브랜드 등록. set이라 중복 x
-                clu.addMarkers(eval(brand_dict[brandname]+"Markers"))
-                // 클러스터에 해당 brand의 marker 객체들 다 등록!
-                // ex) clu.addMarkers(harumlifmMarkers)
-                // 그러면 하루필름 pin들이 다 map에 등록
-            }
-            else { // 필터가 체크되어있지 않다면
-                filterSet.delete(brandname) // 필터 set에서 해당 브랜드 삭제.
-                // 클러스터 등록 과정이 없어, 당연히 map에 pin이 박히지 않음. 처음에 다 삭제해줬기 때문.
-            }
-        } // filterSet은 listup할때 쓰일 예정!
-    
-        // 이 부분에서 style 바꾸는 건 그 클러스터 동그라미만 해당이 되는거라
-        // pin들을 삭제하기 위해서는 marker 배열들을 cluster에 delete랑 add하면서 구현할수밖에 없었음.
-    
-        // 방식은 지금같은 전체 pin 삭제 -> 체크된 브랜드들만 pin 추가하는거 말고,
-        // 전체가 다 박혀있는 상황에서 check 안된 브랜드들만 제거하는 방법도 있긴 함.
-        // 삭제까지는 괜찮음.
-        // 문제는 filter을 해제했다 다시 체크하면 check가 된 브랜드 pin들을 다시 cluster에 추가해줘야 하자나?
-        // 근데 이때 맨 처음에 해제를 하나만 하니까 그러면 나머지 4개는 check된 상태인데
-        // 그러면 원래 전체 pin들 + check된 4개 브랜드들 pin이 cluster에 추가될거고, 두번 pin들이 들어갈 거란 말이지? 
-        // cluster가 set 형식으로 지원하는거면 모르겠는데 아닌 것 같아서...
-        // 아니 글로 설명할라니까 못하겠어
-        // 혹시 필요하면 회의 끝나고 설명해줄게....... 
-    
-        // 아래는 list 관련
-        for (var booth of mapboundbooth) {
-            // 이 printList할때 filterSet의 브랜드들 걸러서 listup 해줌!
-            printList(booth);    
-        }
-        
-    });
-    
-    // 브랜드 필터 끝 -----------------------------------------------------------------------------
-    
-    
-    // 8. 검색했을 때 해당 지역으로 지도 이동 -----------------------------------------------------------------------------
-    
-    // 장소 검색 객체를 생성합니다
-    var ps = new kakao.maps.services.Places(); 
-    
-    const searchBtn = document.getElementById('searchBtn');
-    const searchInput = document.getElementById('searchInput');
-    
-    searchBtn.addEventListener('click', function() {
-        var keyword = searchInput.value
-    
-        // 키워드로 장소를 검색합니다
-        ps.keywordSearch(keyword, placesSearchCB); 
-    
-        // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-        function placesSearchCB (data, status) {
-            if (status === kakao.maps.services.Status.OK) {
-    
-                var newcenter = new kakao.maps.LatLng(data[0].y, data[0].x);
-    
-                // 검색된 장소들 중 첫번째꺼의 위치를 기준으로 지도 중심을 재설정합니다
-                map.setCenter(newcenter);
-                map.setLevel(6);
-            }
-            else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-                alert("입력된 장소가 없습니다. 다시 입력해주세요!")
-            } 
-    
             else {
-                alert("검색 api에서 오류가 발생했습니다. 다시 검색해주세요!")
+                distance = (distance/1000).toFixed(2) // ex) 5432 -> 54
+                distance = String(distance)+"km"
             }
+            
+            let hourContent = ''
+            if (hour) { hourContent = `<p style="margin: 1rem 0 0 2rem; font-family: ROKAFSansMedium;" class="fs-6">
+            ${ hour }
+            </p>` } // 시간 null 아닌 경우만 표시
+            let pinsrc = eval(brand_dict[brand]+"Src")
+
+            const newdiv = document.createElement('div');
+            
+            if (small) { // 작은 detail 표시하는 경우
+                newdiv.innerHTML =
+                `<a id="list-${ boothId }" data-id="${ boothId }" href="/find/booth/detail/${ boothId }">
+                    <div style="font-size: 20px">
+                        <img style="width: 24px; margin-right: 5px" src=${ pinsrc }></img>${ name }
+                    </div>
+
+                    <p style="margin: 1rem 0 0 2rem; font-family: ROKAFSansMedium;" class="fs-6">${distance} | ${ address }</p>
+
+                    ${ hourContent }
+
+                    <button class="btn btn-outline-ratingNlike container" style="width: 75%; margin: 1rem 0 0 2rem;">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <div class="star-rating">
+                                    <div class="star-rating-fill" style= "width: ${width}%;">                
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="star-rating-base">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                </div>
+                            </div>
+                            | 
+                            <div class = "col" style="color: #484848">${ reviewnum } reviews</div>  
+                        </div>
+                    </button>
+            
+                </a>`;
+                    // <a style="display: block;" class="mt-3" href="/find/booth/detail/${ boothId }">디테일페이지</a>
+            }
+            else { // 전체 목록 list print하는 경우
+                newdiv.innerHTML = 
+                `<div id="wholelist-${ boothId }" data-id="${ boothId }">
+                    <div style="font-size: 20px; color: #000;"><img style="width: 30px; margin-right: 5px" src=${ pinsrc }></img>${ name }</div>
+
+                    <div style="margin: 0 0 0 2rem;">
+
+                        <div style="margin: 0.5rem 0 0 0;">${distance} <div style="display:inline-block; color: #6D6D79"> | ${ address }</div> </div>
+                        
+                        <div style="margin: 0.5rem 0 0 0; display: inline-flex;">
+                            <div class="star-rating me-1">
+                                <div class="star-rating-fill" style= "width: ${width}%;">                
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <div class="star-rating-base">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                            </div> | ${ reviewnum } reviews
+                        </div>
+                        
+                    </div>
+                    <hr />
+                </div>`;
+                
+                // 이 div에 event Listener 추가
+                // boothListDom.children[i].children[0]
+                newdiv.addEventListener('click', function() {
+                    returnmap.click() // 전체 목록 닫기 ㄴㄴ, 리스트 필터 지도로 연동 ㅇㅇ
+                    listcanvas.setAttribute("style","visibility: hidden;")
+
+                    boothSmall.innerHTML = ''
+                    printList(boothElement, boothSmall, 1)
+                    map.setCenter(new kakao.maps.LatLng(boothElement['x'],boothElement['y']))
+                    map.setLevel(4)
+                    
+                    kakao.maps.event.trigger(allMarker[boothId-1], 'click')
+                });
+            }
+            list.append(newdiv); // list추가
+
         }
-        searchInput.value = ''
-    });
 
-    searchInput.addEventListener("keyup", function(event) {
-        // Number 13 is the "Enter" key on the keyboard
-        if (event.key === 'Enter') {
-            event.preventDefault(); // 새로고침 방지
-            // Trigger the button element with a click
-            searchBtn.click();
+        const sorting = function sortDist(a, b) { // 거리순 정렬 함수
+
+            if (a.len < b.len) { return -1; }
+            if (a.len > b.len) { return 1; }
+            return 0; // 이름이 같을 경우
         }
-    });
 
-    // 검색 끝 -----------------------------------------------------------------------------
+        // 전체 목록 리스트
+        const listBtn = document.getElementById('list-btn');
+        listBtn.addEventListener('click', function() {
 
-    // 9. 내 위치 새로고침 -----------------------------------------------------------------------------
+            // 지도에서 설정한 필터 동일하게 가져오기
+            for (let i=1; i<filterGroup.childElementCount; i=i+2) {
+        
+                if (!filterGroup.children[i-1].checked) { // 필터가 체크되어있지 않다면
+                    filterGroup2.children[i-1].checked = false;
+                }
+                else {
+                    filterGroup2.children[i-1].checked = true;
+                }
+            }
 
-    refresh.addEventListener('click', function() {
-        gps_check();
-    });
+            setList();
+            
+        }); 
+
+        function setList() {
+            if(mapboundbooth.length) {
+                boothListDom.innerHTML='' // 이전에 만들어져있던게 있다면 초기화
+            }
+            else {
+                boothListDom.innerHTML='근처에 부스가 없어요! 지도를 옮겨보세요'
+                return 0;
+            }
+
+            for (let booth of mapboundbooth) { calcDist(booth, currentPosition); }
+            mapboundbooth.sort(sorting) // 거리순 정렬
+            for (let booth of mapboundbooth){ 
+                printList(booth, boothListDom, 0); 
+            } // list에 표시하기
+            
+
+        }
+
+        // 10. 목록 끝 -----------------------------------------------------------------------------
 
 
-    // -----------------------------------------------------------------------------
-
-
-}
+    } // main 끝
 

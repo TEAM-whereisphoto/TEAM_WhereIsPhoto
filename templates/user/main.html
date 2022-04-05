@@ -1,23 +1,55 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/user/style.css' %}">
+{% endblock %}
+
 {% block content %}
 <div>
-    <div> TEST </div>
     {% if user.is_authenticated %}
-    <div>
-        <h3>{{ user }}</h3>
-        <div>
-            <p>{{ user }}님! 여기사진과 함께 다양한 부스를 방문해보세요😉   </p>
+    <div class="all">
+        <div class="profile">
+            <h3>{{ user }}</h3>
+            <h4>{{ user }}님! 여기사진과 함께</h4>
+            <h4>다양한 부스를 방문해보세요😉</h4>
         </div>
-        <p>Dashboard</p>
-        <p>Lost and Found       <a href="{% url 'user:my_lnf' %}">></a></p>
-        <p>Reviews         <a href="{% url 'user:my_review' %}">></a></p>
-        <p>Privacy</p>
+        <div class="part">
+            <p class="sub__title">liked</p>
+            {% if user_liked_num == 0 %}
+            <p class="no__liked">계정의 첫 좋아요를 남겨보세요🥳 </p>
+            {% else %}
+            <div class="liked_container ">    
+                {% for booth_brand in liked_booth_brand %}
+                <div class="liked__content">
+                    <img class="liked__img" src="{{booth_brand.1.liked_img}}" alt="">
+                    <p class="liked__title">{{booth_brand.0.name}}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+        </div>
+        <div class="part">
+            <p class="sub__title">Dashboard</p>
+            <div>
+                <div class="line"><img src="{% static 'icons/LnF.svg' %}"><a href="{% url 'user:my_lnf' %}">Lost and Found</a><span class="space__1"></span><a class="arrow" href="{% url 'user:my_lnf' %}">><span class="space"></span></a></div>      
+                <div class="line"><img src="{% static 'icons/review.svg' %}"><a href="{% url 'user:my_review' %}">Reviews</a><span class="space__2"></span><a class="arrow" href="{% url 'user:my_review' %}">><span class="space"></span></a></div></a>
+                <div class="line"><img src="{% static 'icons/notice.svg' %}">
+                {% if len != 0 %}
+                    <a href="{% url 'user:notice' %}">Notice</a><span class="space__notice"></span><a class="arrow" href="{% url 'user:notice' %}"><span class="notice">{{ len }} New ><span></a>
+                {% else %}
+                    <a href="{% url 'user:notice' %}">Notice</a><span class="space__3"></span><a class="arrow" href="{% url 'user:notice' %}">><span class="space"></span></a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="part">
+            <p class="sub__title">My account</p>
+            <div class="log__out"><a href="{% url 'user:log_out' %}">log out</a></div>
+            <div class="edit"><a href="{% url 'user:modify' %}">Edit profile</a></div>
+        </div>
     </div>
-    <a href="{% url 'user:change_password' %}">비밀번호 변경</a>
-    <a href="{% url 'user:log_out' %}">로그아웃</a>
-    {% if len != 0 %}
-    <a href="{% url 'user:notice' %}">새로운 알림 {{ len }}개</a>
-    {% endif %}
     
     {% else %}
     <a href="{% url 'user:login' %}">로그인</a>
