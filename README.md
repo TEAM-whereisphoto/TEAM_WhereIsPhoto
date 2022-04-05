@@ -5,11 +5,11 @@
 2차 디벨롭 : 2022년 3월 11일 ~ 진행중
 
 ### :pushpin: Contributors
-- <p> [최혜영](https://github.com/hyoung01) : PM, 기획, (백엔드) 부스 디테일, 리뷰 / (프론트엔드) 리뷰</p>
-- <p> [김규리](https://github.com/bnfkim) : 디자인, (프론트엔드) 분실물</p>
-- <p> [김용빈](https://github.com/yongbin97) : (백엔드) 크롤링, 분실물, aws / (프론트엔드) 분실물, 알림</p>
-- <p> [김유빈](https://github.com/yubin21) : 디자인, (백엔드 + 프론트엔드) 로그인&회원가입, 마이페이지 </p>
-- <p> [안다솜](https://github.com/donttell) : (백엔드) 지도&검색 / (프론트엔드) 지도, 부스 디테일 </p>
+- [최혜영](https://github.com/hyoung01) : PM, 기획, (백엔드) 부스 디테일, 리뷰 / (프론트엔드) 리뷰
+- [김규리](https://github.com/bnfkim) : 디자인, (프론트엔드) 분실물
+- [김용빈](https://github.com/yongbin97) : (백엔드) 크롤링, 분실물, aws / (프론트엔드) 분실물, 알림
+- [김유빈](https://github.com/yubin21) : 디자인, (백엔드 + 프론트엔드) 로그인&회원가입, 마이페이지
+- [안다솜](https://github.com/donttell) : (백엔드) 지도&검색 / (프론트엔드) 지도, 부스 디테일
 
 
 ### :pushpin: Description
