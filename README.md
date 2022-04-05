@@ -1,7 +1,7 @@
 # TEAM_WhereIsPhoto
 
 ### :pushpin: Project Duration
-1차 디벨롭 : 2022년 1월 30일 ~ 2022년 2월 22일
+1차 디벨롭 : 2022년 1월 30일 ~ 2022년 2월 22일  
 2차 디벨롭 : 2022년 3월 11일 ~ 진행중
 
 ### :pushpin: Contributors
